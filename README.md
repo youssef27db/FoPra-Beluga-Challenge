@@ -14,4 +14,4 @@ Wir kombinieren:
 - **Simulierte Umgebung** zur Trainingsdatengenerierung
 
 ## 📁 Projektstruktur
-
+![ee2f2c20-7f57-40f5-b05b-41aa6e4a145a](https://github.com/user-attachments/assets/dd347bfc-e323-4237-9fa8-8aa7a6c823fa)
