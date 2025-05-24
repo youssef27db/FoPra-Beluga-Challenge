@@ -78,10 +78,12 @@ class ProblemState:
         count = 1
         for rack in self.racks:
             out += "\t" + str(count) + ": " + str(rack) + "\n"
+            count += 1
         out += "production_lines:\n"
         count = 1
         for production_line in self.production_lines:
             out += "\t" + str(count) + ": " + str(production_line) + "\n"
+            count += 1
         out += "hangars: " + str(self.hangars)
         return out
 
@@ -118,7 +120,6 @@ def main():
 
     jigs: list[Jig] = []
     for jig_n, jig in jig_data.items():
-        print(jig)
         jigs.append(Jig(get_type(jig["type"]), jig["empty"]))
 
     beluga_data = dictionary["flights"]
