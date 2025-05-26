@@ -51,7 +51,7 @@ class ProductionLine:
 
 class ProblemState:
 
-    def __init__(self, jigs : list[Jig], belugas: list[Beluga], trailers_beluga: list[JigType | None], trailers_factory: list[JigType | None], racks: list[Rack], production_lines: list[ProductionLine], hangars: list[JigType | None]):
+    def __init__(self, jigs : list[Jig], belugas: list[Beluga], trailers_beluga: list[Jig | None], trailers_factory: list[Jig | None], racks: list[Rack], production_lines: list[ProductionLine], hangars: list[JigType | None]):
         self.jigs = jigs
         self.belugas = belugas
         self.trailers_beluga = trailers_beluga
@@ -150,8 +150,8 @@ def main():
         racks.append(Rack(rack["size"], storage))
 
     hangars: list[JigType | None] = [None] * len(dictionary["hangars"])
-    trailers_beluga: list[JigType | None] = [None] * len(dictionary["trailers_beluga"])
-    trailers_factory: list[JigType | None] = [None] * len(dictionary["trailers_factory"])
+    trailers_beluga: list[Jig | None] = [None] * len(dictionary["trailers_beluga"])
+    trailers_factory: list[Jig | None] = [None] * len(dictionary["trailers_factory"])
 
     print(ProblemState(jigs, belugas, trailers_beluga, trailers_factory, racks, production_lines, hangars))
 
