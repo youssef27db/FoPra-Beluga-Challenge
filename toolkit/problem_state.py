@@ -24,12 +24,13 @@ class Jig:
 
 
 class Beluga:
-    def __init__(self, current_jigs: list[int], outgoing: list[JigType]):
+    def __init__(self, current_jigs: list[int], outgoing: list[JigType], processed: bool):
         self.current_jigs = current_jigs
         self.outgoing = outgoing
+        self.processed = processed
 
     def __str__(self):
-        return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing)
+        return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing) + "| processed = " + str(self.processed)
 
 
 class Rack:
@@ -39,6 +40,15 @@ class Rack:
 
     def __str__(self):
         return "size = " + str(self.size) + " | current_jigs = " + str(self.current_jigs)
+    
+    def get_free_space(self, all_jigs: list[Jig]) -> int:
+        total_used_space = 0
+        for jig_id in self.current_jigs:
+            jig = all_jigs[jig_id - 1]
+            total_used_space += jig.jig_type.size_loaded
+        
+        remaining_space = self.size - total_used_space
+        return remaining_space
 
 
 class ProductionLine:
@@ -106,7 +116,7 @@ def extract_id(name: str) -> int:
 
 def main():
 
-    data = open("out/problem.json", "r")
+    data = open("toolkit\out\problem.json", "r")
     dictionary = json.loads(data.read())
     data.close()
 
