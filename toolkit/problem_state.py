@@ -24,12 +24,13 @@ class Jig:
 
 
 class Beluga:
-    def __init__(self, current_jigs: list[int], outgoing: list[JigType]):
+    def __init__(self, current_jigs: list[int], outgoing: list[JigType], processed: bool):
         self.current_jigs = current_jigs
         self.outgoing = outgoing
+        self.processed = processed
 
     def __str__(self):
-        return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing)
+        return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing) + "| processed = " + str(self.processed)
 
 
 class Rack:
@@ -106,7 +107,7 @@ def extract_id(name: str) -> int:
 
 def main():
 
-    data = open("out/problem.json", "r")
+    data = open("toolkit\out\problem.json", "r")
     dictionary = json.loads(data.read())
     data.close()
 
