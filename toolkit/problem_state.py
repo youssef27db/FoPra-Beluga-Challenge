@@ -24,13 +24,12 @@ class Jig:
 
 
 class Beluga:
-    def __init__(self, current_jigs: list[int], outgoing: list[JigType], processed: bool):
+    def __init__(self, current_jigs: list[int], outgoing: list[JigType]):
         self.current_jigs = current_jigs
         self.outgoing = outgoing
-        self.processed = processed
 
     def __str__(self):
-        return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing) + "| processed = " + str(self.processed)
+        return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing)
 
 
 class Rack:
@@ -61,7 +60,7 @@ class ProductionLine:
 
 class ProblemState:
 
-    def __init__(self, jigs : list[Jig], belugas: list[Beluga], trailers_beluga: list[Jig | None], trailers_factory: list[Jig | None], racks: list[Rack], production_lines: list[ProductionLine], hangars: list[Jig | None]):
+    def __init__(self, jigs : list[Jig], belugas: list[Beluga], trailers_beluga: list[int | None], trailers_factory: list[int | None], racks: list[Rack], production_lines: list[ProductionLine], hangars: list[int | None]):
         self.jigs = jigs
         self.belugas = belugas
         self.trailers_beluga = trailers_beluga
@@ -72,25 +71,25 @@ class ProblemState:
 
 
     def __str__(self):
-        count = 1
+        count = 0
         out = "jigs:\n"
         for jig in self.jigs:
             out += "\t" + str(count) + ": " + str(jig) + "\n"
             count += 1
         out += "belugas:\n"
-        count = 1
+        count = 0
         for beluga in self.belugas:
             out += "\t" + str(count) + ": " + str(beluga) + "\n"
             count += 1
         out += "trailers_beluga: " + str(self.trailers_beluga) + "\n"
         out += "trailers_factory: " + str(self.trailers_factory) + "\n"
         out += "racks:\n"
-        count = 1
+        count = 0
         for rack in self.racks:
             out += "\t" + str(count) + ": " + str(rack) + "\n"
             count += 1
         out += "production_lines:\n"
-        count = 1
+        count = 0
         for production_line in self.production_lines:
             out += "\t" + str(count) + ": " + str(production_line) + "\n"
             count += 1
@@ -112,7 +111,7 @@ def get_type(name: str) -> JigType | None:
 
 def extract_id(name: str) -> int:
     name = name.replace("jig", "")
-    return int(name)
+    return int(name) - 1
 
 def main():
 
