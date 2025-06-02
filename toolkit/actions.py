@@ -1,16 +1,18 @@
 from problem_state import *
 
-def load_beluga(state: ProblemState, jig: Jig, jig_type: JigType, beluga: Beluga, trailer_beluga: int):
+def load_beluga(state: ProblemState, trailer_beluga: int):
+    jig_id = state.trailers_beluga[trailer_beluga]
+    beluga  = state.belugas[0]
+
     #Preconditions
-    if state.trailers_beluga[trailer_beluga] == None:
+    # Trailer darf nicht leer sein
+    if jig_id == None:
         return False
-    if jig.empty == False:
+    # Jig muss leer sein
+    if state.jigs[jig_id].empty == False:
         return False
-    if jig.jig_type != jig_type:
-        return False
-    if beluga.processed == False:
-        return False 
-    if jig.jig_type != beluga.outgoing[0]:
+    # JigType muss mit der Outgoing-Liste des Belugas übereinstimmen
+    if state.jigs[jig_id].jig_type != beluga.outgoing[0]:
         return False
 
     #Effekte
@@ -19,232 +21,167 @@ def load_beluga(state: ProblemState, jig: Jig, jig_type: JigType, beluga: Beluga
     return True
     
 
-def unload_beluga(state: ProblemState, jig: Jig, beluga: Beluga, trailer_beluga: int):
+def unload_beluga(state: ProblemState):
+    # Leeren Trailer-Beluga finden
+    trailer_beluga = 0
+    for trailer in state.trailers_beluga:
+        if trailer is None:
+            break
+        trailer_beluga += 1
+
+    beluga = state.belugas[0]
+
     # Preconditions
-    if state.trailers_beluga[trailer_beluga] != None:
+    # Beihnaltet Beluga Jigs
+    if not beluga.current_jigs[-1]:
         return False
-    if jig.empty == True:
-        return False
-    if beluga.processed == False:
-        return False
-    if not beluga.current_jigs:
-        return False
-    if extract_id(jig) != beluga.current_jigs[-1]:
+    # Kein leerer Trailer-Beluga gefunden
+    if trailer_beluga >= len(state.trailers_beluga):
         return False
 
     # Effekte
+    state.trailers_beluga[trailer_beluga] = beluga.current_jigs[-1]
     beluga.current_jigs.pop(-1)
-    state.trailers_beluga[trailer_beluga] = extract_id(jig)
     return True
 
 
-def get_from_hangar(state: ProblemState, jig: Jig, hangar: int, trailer_factory: int):
+def get_from_hangar(state: ProblemState, hangar: int, trailer_factory: int):
     # Preconditions
+    # Hangar muss belegt sein
     if state.hangars[hangar] == None:
         return False
-    if jig.empty == False:
+    # Jig im Hangar muss leer sein
+    if state.jigs[state.hangars[hangar]].empty == False:
         return False
+    # Trailer-Fabrik darf nicht belegt sein
     if state.trailers_factory[trailer_factory] != None:
         return False
-    if extract_id(jig) != state.hangars[hangar]:
-        return False
 
     # Effekte
+    state.trailers_factory[trailer_factory] = state.hangars[hangar]
     state.hangars[hangar] = None
-    state.trailers_factory[trailer_factory] = extract_id(jig)
     return True
 
 
-def deliver_to_hangar(state: ProblemState, jig: Jig, hangar: int, trailer_factory: int, size: int, empty_size: int, production_line: int):
+def deliver_to_hangar(state: ProblemState, hangar: int, trailer_factory: int):
     # Preconditions
+    # Hangar darf nicht belegt sein
     if state.hangars[hangar] != None:
         return False
-    if jig.empty == True:
-        return False
+    # Trailer-Fabrik muss belegt sein
     if state.trailers_factory[trailer_factory] == None:
         return False
-    if extract_id(jig) != state.trailers_factory[trailer_factory]:
+
+    jig_id = state.trailers_factory[trailer_factory]
+    #Jig darf nicht leer sein
+    if state.jigs[jig_id].empty == True:
         return False
-    if jig.jig_type.size != size:
-        return False
-    if jig.jig_type.empty_size != empty_size:
-        return False
-    if extract_id(jig) != state.production_lines[production_line].scheduled_jigs[0]:  
+    
+    # Suche nach dem Jig in der Produktionslinie
+    production_line = 0
+    for production_line in state.production_lines:
+        if jig_id == production_line.scheduled_jigs[0]:
+            break
+        production_line += 1
+    
+    # falls Jig nicht in der Produktionslinie gefunden wurde
+    if production_line >= len(state.production_lines):
         return False
 
     # Effekte
-    state.hangars[hangar] = jig
-    state.trailers_factory[trailer_factory] = None
     state.production_lines[production_line].scheduled_jigs.pop(0)
-    jig.empty = True
+    state.hangars[hangar] = jig_id
+    state.jigs[jig_id].empty = True
+    state.trailers_factory[trailer_factory] = None
+
+    # Wenn die Produktionslinie keine Jigs mehr hat, entfernen wir sie
+    if state.production_lines[production_line].scheduled_jigs == []:
+        state.production_lines.pop(production_line)
+
     return True
 
 
-def put_down_rack(state: ProblemState, jig: Jig, rack: int, trailer_id: int, side: int):
+def stack_rack(state: ProblemState, rack: int, trailer_id: int, side: int):
+    # Preconditions
+    jig_id = None
+    current_jig_size = 0
 
     if side == 0:
-        trailer = state.trailers_beluga[trailer_id]
+        jig_id = state.trailers_beluga[trailer_id]
     elif side == 1:
-        trailer = state.trailers_factory[trailer_id]
+        jig_id = state.trailers_factory[trailer_id]
 
-    if jig.empty: 
-        current_jig_size = jig.jig_type.empty_size
+    # Trailer darf nicht leer sein
+    if jig_id == None:
+        return False
+
+    if state.jigs[jig_id].empty: 
+        current_jig_size = state.jigs[jig_id].jig_type.size_empty
     else:
-        current_jig_size = jig.jig_type.size
+        current_jig_size = state.jigs[jig_id].jig_type.size_loaded
 
-    # Preconditions
-    if trailer == None:
-        return False
-    if trailer != jig:
-        return False
-    if state.racks[rack].current_jigs != []:
-        return False
-    if current_jig_size > state.racks[rack].size:
-        return False
+    # Rack muss genug Platz haben
     if state.racks[rack].get_free_space(state.jigs) < current_jig_size:
         return False
 
     # Effekte
     if side == 0:
         state.trailers_beluga[trailer_id] = None
-        state.racks[rack].current_jigs.insert(0, extract_id(jig))
+        state.racks[rack].current_jigs.insert(0, jig_id)
     elif side == 1:
         state.trailers_factory[trailer_id] = None
-        state.racks[rack].current_jigs.append(extract_id(jig))
+        state.racks[rack].current_jigs.append(jig_id)
     return True
 
 
-def stack_rack(state: ProblemState, jig: Jig, next_jig: Jig, rack: int, trailer_id: int, side: int):
-    # Trailer abrufen
-    if side == 0:
-        trailer = state.trailers_beluga[trailer_id]
-    elif side == 1:
-        trailer = state.trailers_factory[trailer_id]
-    else:
-        return False
-
-    # Jig-Größe berechnen
-    if jig.empty:
-        current_jig_size = jig.jig_type.empty_size
-    else:
-        current_jig_size = jig.jig_type.size
-
-    rack_obj = state.racks[rack]
-
+def unstack_rack(state: ProblemState, rack: int, trailer_id: int, side: int):
     # Preconditions
-    if trailer != jig:
+    jig_id = None
+
+    if side == 0:
+        jig_id = state.trailers_beluga[trailer_id]
+    elif side == 1:
+        jig_id = state.trailers_factory[trailer_id]
+
+    # Trailer muss leer sein
+    if jig_id != None:
+        return False    
+
+    # Rack darf nicht leer sein
+    if state.racks[rack].current_jigs != []:
         return False
-    if extract_id(next_jig) not in rack_obj.current_jigs:
-        return False
-    if side == 0 and extract_id(next_jig) != rack_obj.current_jigs[0]:
-        return False
-    if side == 1 and extract_id(next_jig) != rack_obj.current_jigs[-1]:
-        return False
-    if current_jig_size > rack_obj.size:
-        return False
-    if rack_obj.get_free_space(state.jigs) < current_jig_size:
-        return False
+
 
     # Effekte
     if side == 0:
-        state.trailers_beluga[trailer_id] = None
-        rack_obj.current_jigs.insert(0, extract_id(jig))
+        state.trailers_beluga[trailer_id] = jig_id
     elif side == 1:
-        state.trailers_factory[trailer_id] = None
-        rack_obj.current_jigs.append(extract_id(jig))
+        state.trailers_factory[trailer_id] = jig_id
+    state.racks[rack].current_jigs.remove(jig_id)
     return True
 
-
-def pick_up_rack(state: ProblemState, jig: Jig, rack: int, trailer_id: int, side: int):
-
-    if side == 0:
-        trailer = state.trailers_beluga[trailer_id]
-    elif side == 1:
-        trailer = state.trailers_factory[trailer_id]
-    else:
-        return False
-
-    if jig.empty: 
-        current_jig_size = jig.jig_type.empty_size
-    else:
-        current_jig_size = jig.jig_type.size
+def beluga_complete(state: ProblemState):
+    current_beluga = state.belugas[0]
 
     # Preconditions
-    if trailer != None:
-        return False
-    if extract_id(jig) not in state.racks[rack].current_jigs:
-        return False
-    if extract_id(jig) != state.racks[rack].current_jigs[0] and extract_id(jig) != state.racks[rack].current_jigs[-1]:
-        return False
-    if state.racks[rack].get_free_space(state.jigs) + current_jig_size > state.racks[rack].size:
-        return False
-
-    # Effekte
-    state.racks[rack].current_jigs.remove(extract_id(jig))
-    if side == 0:
-        state.trailers_beluga[trailer_id] = extract_id(jig)
-    elif side == 1:
-        state.trailers_factory[trailer_id] = extract_id(jig)
-
-    return True
-
-
-def unstack_rack(state: ProblemState, jig: Jig, next_jig: Jig, rack: int, trailer_id: int, side: int):
-    # Trailer abrufen
-    if side == 0:
-        trailer = state.trailers_beluga[trailer_id]
-    elif side == 1:
-        trailer = state.trailers_factory[trailer_id]
-    else:
-        return False
-
-    # Jig-Größe berechnen
-    if jig.empty:
-        current_jig_size = jig.jig_type.empty_size
-    else:
-        current_jig_size = jig.jig_type.size
-
-    rack_obj = state.racks[rack]
-
-    # Preconditions
-    if trailer != None:
-        return False
-    if extract_id(jig) not in rack_obj.current_jigs:
-        return False
-    if extract_id(next_jig) not in rack_obj.current_jigs:
-        return False
-    if side == 0 and extract_id(jig) != rack_obj.current_jigs[0]:
-        return False
-    if side == 1 and extract_id(jig) != rack_obj.current_jigs[-1]:
-        return False
-    if side == 0 and extract_id(next_jig) != rack_obj.current_jigs[1]:
-        return False
-    if side == 1 and extract_id(next_jig) != rack_obj.current_jigs[-2]:
-        return False
-    if rack_obj.get_free_space(state.jigs) + current_jig_size > rack_obj.size:
-        return False
-
-    # Effekte
-    rack_obj.current_jigs.remove(extract_id(jig))
-    if side == 0:
-        state.trailers_beluga[trailer_id] = extract_id(jig)
-    elif side == 1:
-        state.trailers_factory[trailer_id] = extract_id(jig)
-    return True
-
-def beluga_complete(state: ProblemState, current_beluga_index: int, next_beluga_index: int):
-    current_beluga = state.belugas[current_beluga_index]
-    next_beluga = state.belugas[next_beluga_index]
-
-    # Preconditions
-    if current_beluga.processed == False:
-        return False
+    # Beluga Outgoing-Types muss leer sein
     if current_beluga.outgoing != []:
         return False
+    # Beluga muss keine Jigs haben
     if current_beluga.current_jigs != []:
         return False
 
     # Effekte
-    current_beluga.processed = False
-    next_beluga.processed = True
+    state.belugas.remove(current_beluga)
+    return True
+
+def goal(state: ProblemState):
+    # Beluga liste muss leer sein
+    if state.belugas != []:
+        return False
+    
+    # produktion_lines muss leer sein
+    if state.production_lines != []:
+        return False
+
     return True
