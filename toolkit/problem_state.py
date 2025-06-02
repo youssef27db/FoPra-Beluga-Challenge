@@ -1,5 +1,5 @@
 import json
-
+import copy
 
 class JigType:
     def __init__(self, name: str, size_empty: int, size_loaded: int):
@@ -12,6 +12,12 @@ class JigType:
 
     def __repr__(self):
         return self.name
+
+    def __ne__(self, other):
+        return self.name != other.name
+    
+    def __eq__(self, other):
+        return self.name == other.name
 
 
 class Jig:
@@ -70,6 +76,18 @@ class ProblemState:
         self.hangars = hangars
 
 
+    def deep_copy(self):
+        return ProblemState(
+            jigs=copy.deepcopy(self.jigs),
+            belugas=copy.deepcopy(self.belugas),
+            trailers_beluga=copy.deepcopy(self.trailers_beluga),
+            trailers_factory=copy.deepcopy(self.trailers_factory),
+            racks=copy.deepcopy(self.racks),
+            production_lines=copy.deepcopy(self.production_lines),
+            hangars=copy.deepcopy(self.hangars)
+        )
+
+
     def __str__(self):
         count = 0
         out = "jigs:\n"
@@ -96,6 +114,15 @@ class ProblemState:
         out += "hangars: " + str(self.hangars)
         return out
 
+    def __repr__(self):
+        return self.__str__()
+    
+    def __hash__(self):
+        return hash(str(self)) 
+
+    def __eq__(self, other):    
+        return str(self) == str(other)
+
 def get_type(name: str) -> JigType | None:
     if name == "typeA":
         return JigType("typeA", 4, 4)
@@ -113,9 +140,9 @@ def extract_id(name: str) -> int:
     name = name.replace("jig", "")
     return int(name) - 1
 
-def main():
+def load_from_json(path) -> ProblemState:
 
-    data = open("toolkit\out\problem.json", "r")
+    data = open(path, "r")
     dictionary = json.loads(data.read())
     data.close()
 
@@ -162,8 +189,5 @@ def main():
     trailers_beluga: list[Jig | None] = [None] * len(dictionary["trailers_beluga"])
     trailers_factory: list[Jig | None] = [None] * len(dictionary["trailers_factory"])
 
-    print(ProblemState(jigs, belugas, trailers_beluga, trailers_factory, racks, production_lines, hangars))
-
-
-if __name__ == '__main__':
-    main()
+    
+    return ProblemState(jigs, belugas, trailers_beluga, trailers_factory, racks, production_lines, hangars)
