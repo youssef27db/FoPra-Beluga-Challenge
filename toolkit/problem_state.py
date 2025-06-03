@@ -1,5 +1,6 @@
 import json
 import copy
+from json import JSONEncoder
 
 class JigType:
     def __init__(self, name: str, size_empty: int, size_loaded: int):
@@ -140,17 +141,14 @@ def extract_id(name: str) -> int:
     name = name.replace("jig", "")
     return int(name) - 1
 
+def get_name_from_id(id: int) -> str:
+    return "jig" + "0" * (4-len(str(id))) + str(id)
+
 def load_from_json(path) -> ProblemState:
 
     data = open(path, "r")
     dictionary = json.loads(data.read())
     data.close()
-
-    type_a = JigType("typeA", 4, 4)
-    type_b = JigType("typeB", 8, 11)
-    type_c = JigType("typeC", 9, 18)
-    type_d = JigType("typeD", 18, 25)
-    type_e = JigType("typeE", 32, 32)
 
     jig_data = dictionary["jigs"]
 
@@ -191,3 +189,133 @@ def load_from_json(path) -> ProblemState:
 
     
     return ProblemState(jigs, belugas, trailers_beluga, trailers_factory, racks, production_lines, hangars)
+
+class StateEncoder(JSONEncoder):
+    def default(self, o):
+        return o.__dict__
+
+
+def save_to_json(path: str, problem: ProblemState) -> None:
+    file = open(path, "w")
+    data : dict = {}
+
+
+    #Trailers Beluga
+    count = 1
+    trailers_beluga = []
+    for trailer in problem.trailers_beluga:
+        dummy = {"name": "beluga_trailer_" + str(count), "slot": get_name_from_id(trailer)}
+        trailers_beluga.append(dummy)
+        count += 1
+
+    data["trailers_beluga"] = trailers_beluga
+
+    #Trailer Factory
+    count = 1
+    trailers_factory = []
+    for trailer in problem.trailers_factory:
+        dummy = {"name": "factory_trailer_" + str(count), "slot": get_name_from_id(trailer)}
+        trailers_factory.append(dummy)
+        count += 1
+
+    data["trailers_factory"] = trailers_factory
+
+    #Hangar
+    count = 1
+    hangars = []
+    for hangar in problem.hangars:
+        hangars.append("hangar" + str(count))
+        count += 1
+
+    data["hangars"] = hangars
+
+    #Jig Types
+    jig_types = {
+        "typeA": {
+            "name": "typeA",
+            "size_empty": 4,
+            "size_loaded": 4
+        },
+        "typeB": {
+            "name": "typeB",
+            "size_empty": 8,
+            "size_loaded": 11
+        },
+        "typeC": {
+            "name": "typeC",
+            "size_empty": 9,
+            "size_loaded": 18
+        },
+        "typeD": {
+            "name": "typeD",
+            "size_empty": 18,
+            "size_loaded": 25
+        },
+        "typeE": {
+            "name": "typeE",
+            "size_empty": 32,
+            "size_loaded": 32
+        }
+    }
+
+    data["jig_types"] = jig_types
+
+    #Racks
+    count = 0
+    racks = []
+    for rack in problem.racks:
+        dummy = {}
+        dummy["name"] = "rack" + "0" * (2-len(str(count))) + str(count)
+        dummy["size"] = rack.size
+        jigs = []
+        for jid in rack.current_jigs:
+            jigs.append(get_name_from_id(jid))
+
+        dummy["jigs"] = jigs
+        racks.append(dummy)
+        count += 1
+
+    data["racks"] = racks
+
+    #Jigs
+    count = 1
+    jigs = {}
+    for jig in problem.jigs:
+        dummy = {"name": get_name_from_id(count), "type": str(jig.jig_type.name), "empty": jig.empty}
+        jigs[get_name_from_id(count)] = dummy
+        count += 1
+
+    data["jigs"] = jigs
+
+    #Productionlines
+    count = 0
+    production_lines = []
+    for production_line in problem.production_lines:
+        dummy = {}
+        dummy["name"] = "pl" + str(count)
+        schedule = []
+        for jid in production_line.scheduled_jigs:
+            schedule.append(get_name_from_id(jid))
+        dummy["schedule"] = schedule
+        production_lines.append(dummy)
+        count += 1
+
+    data["production_lines"] = production_lines
+
+    #Flights
+    count = 1
+    flights = []
+    for beluga in problem.belugas:
+        dummy = {}
+        dummy["name"] = "beluga" + str(count)
+        incoming = []
+        for jid in beluga.current_jigs:
+            incoming.append(get_name_from_id(jid))
+        dummy["incoming"] = incoming
+        dummy["outgoing"] = beluga.outgoing
+        flights.append(dummy)
+        count += 1
+
+    data["flights"] = flights
+
+    file.write(json.dumps(data, indent=4, cls=StateEncoder))
