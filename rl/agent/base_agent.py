@@ -14,15 +14,3 @@ class BaseAgent(ABC):
         Update den Agenten mit einem Batch von Daten.
         """
         pass
-
-    def save(self, filepath):
-        """
-        Optional: Speichere Modellparameter.
-        """
-        pass
-
-    def load(self, filepath):
-        """
-        Optional: Lade Modellparameter.
-        """
-        pass

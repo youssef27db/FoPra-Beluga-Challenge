@@ -8,8 +8,8 @@ class Step:
         self.action = action
         self.reward = reward
         self.next_state = next_state
-        self.old_prob = old_prob
-        self.done = done
+        self.old_prob = old_prob #ppo
+        self.done = done 
 
 
 class StepDataset(Dataset):
