@@ -101,13 +101,13 @@ def breadth_first_search(start_state: ProblemState) -> Optional[list[ProblemStat
     return None
 
 def main():
-    problem_state = load_from_json(r"out/problem2.json")
+    problem_state = load_from_json(r"toolkit\out\problem.json")
     print(problem_state)
 
-    #print(breadth_first_search(problem_state))
+    print(breadth_first_search(problem_state))
 
-    next_state = generate_following_states(problem_state)[0]
-    print(next_state)
-    save_to_json(r"out/problem2step1.json", next_state)
+    # next_state = generate_following_states(problem_state)[0]
+    # print(next_state)
+    # save_to_json(r"out/problem2step1.json", next_state)
 
 main()
