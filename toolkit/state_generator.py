@@ -8,20 +8,15 @@ def generate_following_states(state: ProblemState) -> list[ProblemState]:
   
     following_states : list[ProblemState] = []
 
-    # # Beluga Complete
-    # copy = state.deep_copy()
-    # if beluga_complete(copy):
-    #     following_states.append(copy)
-
     # Unload Beluga
     copy = state.deep_copy()
-    if unload_beluga(copy):
+    if unload_beluga(copy)[0]:
         following_states.append(copy) 
 
     # Load Beluga
     for trailer_id in range(len(copy.trailers_beluga)):
         copy = state.deep_copy()
-        if load_beluga(copy, trailer_id):
+        if load_beluga(copy, trailer_id)[0]:
             following_states.append(copy)
 
     # Stack-Rack
@@ -30,12 +25,12 @@ def generate_following_states(state: ProblemState) -> list[ProblemState]:
             if side == 0: 
                 for trailer_id in range(len(state.trailers_beluga)):
                     copy = state.deep_copy()
-                    if stack_rack(copy, rack, trailer_id, side):
+                    if stack_rack(copy, rack, trailer_id, side)[0]:
                         following_states.append(copy)
             else:
                 for trailer_id in range(len(state.trailers_factory)):
                     copy = state.deep_copy()
-                    if stack_rack(copy, rack, trailer_id, side):
+                    if stack_rack(copy, rack, trailer_id, side)[0]:
                         following_states.append(copy)
     
     # Unstack-Rack
@@ -44,26 +39,26 @@ def generate_following_states(state: ProblemState) -> list[ProblemState]:
             if side == 0: 
                 for trailer_id in range(len(state.trailers_beluga)):
                     copy = state.deep_copy()
-                    if unstack_rack(copy, rack, trailer_id, side):
+                    if unstack_rack(copy, rack, trailer_id, side)[0]:
                         following_states.append(copy)
             else:
                 for trailer_id in range(len(state.trailers_factory)):
                     copy = state.deep_copy()
-                    if unstack_rack(copy, rack, trailer_id, side):
+                    if unstack_rack(copy, rack, trailer_id, side)[0]:
                         following_states.append(copy)
         
     # deliver to Hangar
     for hangar in range(len(state.hangars)):
         for trailer_id in range(len(state.trailers_factory)):
             copy = state.deep_copy()
-            if deliver_to_hangar(copy, hangar, trailer_id):
+            if deliver_to_hangar(copy, hangar, trailer_id)[0]:
                 following_states.append(copy)
     
     # get from Hangar
     for hangar in range(len(state.hangars)):
         for trailer_id in range(len(state.trailers_factory)):
             copy = state.deep_copy()
-            if get_from_hangar(copy, hangar, trailer_id):
+            if get_from_hangar(copy, hangar, trailer_id)[0]:
                 following_states.append(copy)
 
     return following_states
@@ -83,7 +78,7 @@ def breadth_first_search(start_state: ProblemState) -> Optional[list[ProblemStat
         current_state, path = queue.popleft()
 
         # Zieltest
-        if goal(current_state):
+        if goal(current_state)[0]:
             return path
 
         # Zustand als besucht markieren
@@ -101,13 +96,13 @@ def breadth_first_search(start_state: ProblemState) -> Optional[list[ProblemStat
     return None
 
 def main():
-    problem_state = load_from_json(r"out/problem2.json")
+    problem_state = load_from_json(r"toolkit\out\problem.json")
     print(problem_state)
 
-    #print(breadth_first_search(problem_state))
+    print(breadth_first_search(problem_state))
 
-    next_state = generate_following_states(problem_state)[0]
-    print(next_state)
-    save_to_json(r"out/problem2step1.json", next_state)
+    # next_state = generate_following_states(problem_state)[0]
+    # print(next_state)
+    # save_to_json(r"out/problem2step1.json", next_state)
 
 main()
