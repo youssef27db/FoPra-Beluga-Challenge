@@ -40,6 +40,21 @@ class Env:
 
         action_func = self.action_map[action_name]
 
+        # test ob beluga fertig ist, dann neuen laden
+
+        # subgoal_variablen müssen inkrementiert werden, falls sie korrekt sind
+        self.state.belugas_unloaded += int(not self.state.belugas[0].current_jigs)
+        self.state.belugas_finished += int(not self.state.belugas[0].outgoing and not self.state.belugas[0].current_jigs)
+        self.state.production_lines_finished = self.total_lines - len(self.production_lines)
+        self.state.racks_with_empty_jigs = sum(
+                                                1 for rack in self.state.racks
+                                                if rack.current_jigs and all(self.state.jigs[jig_id].empty for jig_id in rack.current_jigs)
+                                            )
+        self.state.racks_with_loaded_jigs = sum(
+                                                1 for rack in self.state.racks
+                                                if rack.current_jigs and all(not self.state.jigs[jig_id].empty for jig_id in rack.current_jigs)
+                                                )
+        self.state.beluga_complete()
         # If params is None or empty, call the function without arguments besides state
         # Otherwise, pass state + whatever we have in params
         if not params:
@@ -55,6 +70,7 @@ class Env:
         or any other method of your choice.
         """
         self.state = load_from_json("data/problem.json")
+
 
     def get_observation_high_level(self):
         # Return the current state of the environment for a high-level agent

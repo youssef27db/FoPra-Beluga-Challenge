@@ -1,3 +1,6 @@
+'TODO: add docstrings to all classes and methods'
+'TODO: viel zu viel code, vorschlag: trennung in base-classes, mcts-api, utility-functions, etc.'
+
 import json
 import copy
 
@@ -74,6 +77,16 @@ class ProblemState:
         self.production_lines = production_lines
         self.hangars = hangars
 
+        # Subgoals
+        # for reward (High-Level) and evaluation (Low-Level-MCTS) 
+        self.belugas_unloaded = 0 #counter
+        self.belugas_finished = 0 #counter
+        self.production_lines_finished = 0 #counter
+        self.racks_with_empty_jigs = 0 # only current racks
+        self.racks_with_loaded_jigs = 0 # only current racks
+        self.total_lines = len(self.production_lines) # total production lines, for evaluation
+        
+
 
     def copy(self):
         return ProblemState(
@@ -86,11 +99,52 @@ class ProblemState:
             hangars=copy.deepcopy(self.hangars)
         )
     
+    '''
+    ab hier API für MCTS:
+    actions:
+    -  clone() -> ProblemState, copies the current state
+    -  is_terminal() -> bool, checks if the state is terminal e.g. goal state
+    -  evaluate() -> float, evaluates the current state (e.g., score)
+        - get_subgoals() Hilfsfunktion für evaluate(), gibt die Zwischenziele zurück
+    -  def get_possible_parameter_actions(self, action: HighLevelAction) -> List[ParameterAction]
+    '''
 
-
-
+    def clone(self):
+        return self.copy()
+    
     def is_terminal(self):
-        return False  # oder nach einer Tiefe / Zielbedingung
+        # beluga list empty and production lines empty
+        #TODO: Fall: keine aktionen mehr möglich muss hier eventuell noch rein.
+        if not self.belugas and not any(pl.scheduled_jigs for pl in self.production_lines):
+            return True
+        else:
+            return False
+
+    def evaluate(self, depth: int, mu = 0.05) -> float:
+            score = 0.0
+            subgoals = self.get_subgoals()
+            score += sum(subgoals.values())
+            # Abwertung je Tiefe des Pfades
+            score -= mu * depth
+            return score
+    
+
+    def get_subgoals(self) -> dict[str, float]:
+        '''
+        Subgoal_1: n =  #(Belugas entladen) -> n*15 Punkte
+        Subgoal_2: n =  #(Belugas beladen und abgeflogen) -> n*60 Punkte
+        Subgoal_3: n =  #(Racks nur mit leeren Jigs) -> n*15 Punkte
+        Subgoal_4: n =  #(Racks nur mit beladenen Jigs) -> n*15 Punkte
+        Subgoal_5: n =  #(Fertige Produktionslinien) -> n*100 Punkte
+        '''
+        return {
+            "subgoal_1": self.belugas_unloaded * 15,
+            "subgoal_2": self.belugas_finished * 60,
+            "subgoal_3": self.racks_with_empty_jigs * 15,
+            "subgoal_4": self.racks_with_loaded_jigs * 15,
+            "subgoal_5": self.production_lines_finished * 100
+        }
+        
 
     def apply_action(self, action_name, params):
       if action_name == "left_stack_rack":
@@ -210,8 +264,19 @@ class ProblemState:
       return actions
 
 
-    def get_score(self):
-        return 1 
+    def beluga_complete(self) -> bool:
+        """Mark beluga as complete."""
+        if not self.belugas:
+            return False
+            
+        beluga = self.belugas[0]
+        if beluga.outgoing or beluga.current_jigs:
+            return False
+        
+        # Effekte
+        self.belugas.pop(0)
+        return True 
+
 
 
     def __str__(self):
