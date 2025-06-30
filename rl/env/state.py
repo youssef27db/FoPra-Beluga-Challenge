@@ -3,6 +3,10 @@
 
 import json
 import copy
+from .action import (
+    left_stack_rack, right_stack_rack, left_unstack_rack, right_unstack_rack,
+    load_beluga, unload_beluga, get_from_hangar, deliver_to_hangar
+)
 
 class JigType:
     def __init__(self, name: str, size_empty: int, size_loaded: int):
@@ -146,61 +150,58 @@ class ProblemState:
         }
         
 
-    def apply_action(self, action_name, params):
-      if action_name == "left_stack_rack":
-          return self.left_stack_rack(*params)
-      elif action_name == "right_stack_rack":
-          return self.right_stack_rack(*params)
-      elif action_name == "left_unstack_rack":
-          return self.left_unstack_rack(*params)
-      elif action_name == "right_unstack_rack":
-          return self.right_unstack_rack(*params)
-      elif action_name == "load_beluga":
-          return self._load_beluga(*params)
-      elif action_name == "unload_beluga":
-          return self._unload_beluga()
-      elif action_name == "get_from_hangar":
-          return self._get_from_hangar(*params)
-      elif action_name == "deliver_to_hangar":
-          return self._deliver_to_hangar(*params)
-      else:
-          raise NotImplementedError(f"Aktionsname nicht bekannt: {action_name}")
+    def apply_action(self, candidate):
+        action_name, params = candidate
+        if action_name == "left_stack_rack":
+            left_stack_rack(self, *params)
+        elif action_name == "right_stack_rack":
+            right_stack_rack(self, *params)
+        elif action_name == "left_unstack_rack":
+            left_unstack_rack(self, *params)
+        elif action_name == "right_unstack_rack":
+            right_unstack_rack(self, *params)
+        elif action_name == "load_beluga":
+            load_beluga(self, *params)
+        elif action_name == "unload_beluga":
+            unload_beluga(self)
+        elif action_name == "get_from_hangar":
+            get_from_hangar(self, *params)
+        elif action_name == "deliver_to_hangar":
+            deliver_to_hangar(self, *params)
+        else:
+            raise NotImplementedError(f"Aktionsname nicht bekannt: {action_name}")
+      
 
 
     def enumerate_valid_params(self, action_type):
       params = []
       if action_type == "left_stack_rack":
-          for rack_id, rack in enumerate(self.racks):
-              for trailer_id, jig_id in enumerate(self.trailers_beluga):
-                  if jig_id is None:
-                      continue
-                  jig = self.jigs[jig_id]
-                  jig_size = jig.jig_type.size_empty if jig.empty else jig.jig_type.size_loaded
-                  if rack.get_free_space(self.jigs) >= jig_size:
-                      params.append((rack_id, trailer_id))
+          params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_beluga))]
+          for rack_id, trailer_id in params:
+              bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
+              if bool_value:
+                  params.append((rack_id, trailer_id))
+
       elif action_type == "right_stack_rack":
-          for rack_id, rack in enumerate(self.racks):
-              for trailer_id, jig_id in enumerate(self.trailers_factory):
-                  if jig_id is None:
-                      continue
-                  jig = self.jigs[jig_id]
-                  jig_size = jig.jig_type.size_empty if jig.empty else jig.jig_type.size_loaded
-                  if rack.get_free_space(self.jigs) >= jig_size:
-                      params.append((rack_id, trailer_id))
+            params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_factory))]
+            for rack_id, trailer_id in params:
+                bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
+                if bool_value:
+                    params.append((rack_id, trailer_id))
+
       elif action_type == "left_unstack_rack":
-          for rack_id, rack in enumerate(self.racks):
-              if not rack.current_jigs:
-                  continue
-              for trailer_id, trailer in enumerate(self.trailers_beluga):
-                  if trailer is None:
-                      params.append((rack_id, trailer_id))
+            params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_beluga))]
+            for rack_id, trailer_id in params:
+                bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
+                if bool_value:
+                    params.append((rack_id, trailer_id))
+
       elif action_type == "right_unstack_rack":
-          for rack_id, rack in enumerate(self.racks):
-              if not rack.current_jigs:
-                  continue
-              for trailer_id, trailer in enumerate(self.trailers_factory):
-                  if trailer is None:
-                      params.append((rack_id, trailer_id))
+              params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_factory))]
+              for rack_id, trailer_id in params:
+                  bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
+                  if bool_value:
+                        params.append((rack_id, trailer_id))             
       return params
 
 
@@ -211,6 +212,8 @@ class ProblemState:
       except:
           return False
     
+
+    # TODO: kann mit enumerate_valid_params zusammengelegt werden
     def enumerate_param_candidates(self, action_name):
       if action_name == "unload_beluga":
           return [()]
