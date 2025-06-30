@@ -1,12 +1,12 @@
 import numpy as np
+from rl.agents.low_level.heuristics import decide_parameters  # Low-Level-Heuristik
 from collections import deque
 from mcts import MCTS  # Wenn wir dann MCTS implementiert haben
 
 class Trainer:
-    def __init__(self, env, ppo_agent, heuristics, mcts_params=None):
+    def __init__(self, env, ppo_agent, mcts_params=None):
         self.env = env
         self.ppo_agent = ppo_agent  # High-Level-Agent
-        self.heuristics = heuristics  # Low-Level-Heuristik
         self.mcts = None
         
         # Tracking-Metriken
@@ -17,6 +17,7 @@ class Trainer:
     def train(self, n_episodes=1000, save_interval=100):
         for episode in range(n_episodes):
             state = self.env.reset()
+            obs = self.env.get_observation(state)
             done = False
             total_reward = 0
             steps = 0
@@ -28,7 +29,7 @@ class Trainer:
                 # Low-Level- oder MCTS-Ausführung
                 if high_level_action == "HEURISTIC":
                     # Heuristik entscheidet Low-Level-Aktionen
-                    action_name, params = self.heuristics.decide_action()
+                    action_name, params = decide_parameters(obs, high_level_action)
                 elif high_level_action == "MCTS":
                     # MCTS sucht nach der besten Aktion
                     action_name, params = self.mcts.search(state)
@@ -58,6 +59,10 @@ class Trainer:
                 self.ppo_agent.save_models()
 
     def evaluate(self, n_episodes=10):
+        state = self.env.reset()
+        obs = self.env.get_observation(state)
+        high_level_action, _, _ = self.ppo_agent.choose_action(state)
+
         for episode in range(n_episodes):
             state = self.env.reset()
             done = False
@@ -65,7 +70,7 @@ class Trainer:
 
             while not done:
                 if np.random.rand() < 0.6:  # 60% Heuristik, 40% MCTS 
-                    action_name, params = self.heuristics.decide_action()
+                    action_name, params = decide_parameters(obs, high_level_action)
                 else:
                     action_name, params = self.mcts.search(state)
                 
