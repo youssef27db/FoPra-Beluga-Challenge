@@ -175,12 +175,14 @@ class ProblemState:
 
     def enumerate_valid_params(self, action_type):
       params = []
+      state_copy = self.copy()
       if action_type == "left_stack_rack":
-          params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_beluga))]
-          for rack_id, trailer_id in params:
-              bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
+          # kreuzprodukt von racks und trailers_beluga
+          all_param = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_beluga))]
+          for t in all_param:
+              bool_value = left_stack_rack(state_copy, *t)
               if bool_value:
-                  params.append((rack_id, trailer_id))
+                    params.append(t)
 
       elif action_type == "right_stack_rack":
             params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_factory))]
