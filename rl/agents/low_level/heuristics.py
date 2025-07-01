@@ -56,23 +56,23 @@ def decide_parameters(obs, high_level_action) -> Tuple[str, Optional[dict]]:
 
         # Falls left_stack_rack, dann wird Rack-Index und Trailer-ID zurückgegeben
         # Sollte eigentlich MCTS entscheiden
-        case "left_stack_rack":
-            for trailer_idx in range(3):
-                if obs[1 + trailer_idx] == 1:
-                    for rack_idx in range(n_racks):
-                        slot = 10 + rack_idx * 2
-                        if obs[slot] == 0 and obs[slot + 1] == 0:
-                            return "left_stack_rack", {"rack": rack_idx, "trailer_beluga_id": trailer_idx}
+        # case "left_stack_rack":
+        #     for trailer_idx in range(3):
+        #         if obs[1 + trailer_idx] == 1:
+        #             for rack_idx in range(n_racks):
+        #                 slot = 10 + rack_idx * 2
+        #                 if obs[slot] == 0 and obs[slot + 1] == 0:
+        #                     return "left_stack_rack", {"rack": rack_idx, "trailer_beluga_id": trailer_idx}
         
         # Falls right_stack_rack, dann wird Rack-Index und Trailer-ID zurückgegeben
         # Sollte eigentlich MCTS entscheiden
-        case "right_stack_rack":
-            for trailer_idx in range(3):
-                if obs[1 + trailer_idx] == 0:
-                    for rack_idx in range(n_racks):
-                        slot = 10 + rack_idx * 2
-                        if obs[slot + 1] == 0 and obs[slot] == 0:
-                            return "right_stack_rack", {"rack": rack_idx, "trailer_factory_id": trailer_idx}
+        # case "right_stack_rack":
+        #     for trailer_idx in range(3):
+        #         if obs[1 + trailer_idx] == 0:
+        #             for rack_idx in range(n_racks):
+        #                 slot = 10 + rack_idx * 2
+        #                 if obs[slot + 1] == 0 and obs[slot] == 0:
+        #                     return "right_stack_rack", {"rack": rack_idx, "trailer_factory_id": trailer_idx}
 
         # Keine Aktion
         case _:

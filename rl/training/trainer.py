@@ -17,37 +17,39 @@ class Trainer:
     def train(self, n_episodes=1000, save_interval=100):
         for episode in range(n_episodes):
             state = self.env.reset()
-            obs = self.env.get_observation(state)
+            obs = self.env.get_observation_high_level()
             done = False
             total_reward = 0
             steps = 0
 
-            while not done:
+            while not isTerminal:
                 # High-Level-Entscheidung (PPO)
-                high_level_action, _, _ = self.ppo_agent.choose_action(state)
+                high_level_action, probs, val = self.ppo_agent.choose_action(obs)
                 
                 # Low-Level- oder MCTS-Ausführung
-                if high_level_action == "HEURISTIC":
-                    # Heuristik entscheidet Low-Level-Aktionen
-                    action_name, params = decide_parameters(obs, high_level_action)
-                elif high_level_action == "MCTS":
-                    # MCTS sucht nach der besten Aktion
-                    action_name, params = self.mcts.search(state)
+                action_name, params = decide_parameters(obs, high_level_action)
+                
+                if action_name is None:
+                    #TODO: MCTS-Entscheidung hier einfügen wenn keine Heuristik gefunden wird
+                    pass
 
                 # Führe Aktion aus
-                next_state, reward, done, _ = self.env.step(action_name, params)
+                next_state, reward, isTerminal, done = self.env.step(action_name, params)
                 
                 # Speichere Erfahrung für PPO
-                self.ppo_agent.remember(state, high_level_action, _, _, reward, done)
+                self.ppo_agent.remember(state, high_level_action, probs, val, reward, done)
                 
-                state = next_state
+                # TODO: Hier MCTS remeber und lernen
+
+            
+                obs = self.env.get_observation_high_level()
                 total_reward += reward
                 steps += 1
 
-            # PPO-Lernschritt am Ende der Episode
-            self.ppo_agent.learn()
-            
-            # Metriken speichern
+                # PPO-Lernschritt am Ende der Episode
+                self.ppo_agent.learn()
+                
+                # Metriken speichern
             self.episode_rewards.append(total_reward)
             avg_reward = np.mean(self.episode_rewards[-100:])
             self.avg_rewards.append(avg_reward)
