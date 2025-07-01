@@ -38,7 +38,8 @@ class MCTSNode:
         
 
     def get_untried_param_candidates(self):
-        all_legal_params = self.state.enumerate_valid_params(self.action[0])
+        # Übergebe das komplette Tupel statt nur action[0]
+        all_legal_params = self.state.enumerate_valid_params(self.action)
         print(f"DEBUG - All legal params for {self.action}: {all_legal_params}")
         tried_params = [child.action[1] for child in self.children if child.action is not None]
         return [p for p in all_legal_params if p not in tried_params]
@@ -163,25 +164,50 @@ class MCTS:
         state = node.state.copy()
         depth = node.depth  # Start from the node's current depth
         
+        print(f"DEBUG - Starting rollout from depth {depth}")
+        rollout_actions = []
+        
         while not state.is_terminal() and depth < self.depth:
-            # Get possible actions
             possible_actions = state.get_possible_actions()
             if not possible_actions:
+                print(f"DEBUG - No possible actions at depth {depth}")
                 break
-                
-            # Choose random action
+
             action_name = random.choice(possible_actions)
+            # Prüfe, ob die Aktion Parameter braucht
+            # und hole ggf. gültige Parameter
+            valid_params = state.enumerate_valid_params((action_name, None))
             
-            # Check if it's a complex action
-            if action_name in complex_actions:
-                params = state.enumerate_valid_params((action_name, None))
-                if params:
-                    param = random.choice(params)
-                    state.apply_action((action_name, param))
+            if valid_params:  
+                # Wenn Parameter existieren, wähle zufällig daraus
+                param = random.choice(valid_params)
+                rollout_actions.append(f"({action_name}, {param})")
+                state.apply_action((action_name, param))
             else:
-                state.apply_action((action_name, None))
-            
+                # Wenn keine Parameter nötig, führ Aktion ohne Parameter aus
+                # (z.B. unload_beluga)
+                # oder überspringe sie, falls doch Parameter nötig wären
+                needs_params = action_name in [
+                    "left_stack_rack",
+                    "right_stack_rack",
+                    "left_unstack_rack",
+                    "right_unstack_rack",
+                    "get_from_hangar",
+                    "deliver_to_hangar",
+                    "load_beluga"
+                ]
+                if needs_params:
+                    # Überspringen, um keinen Fehler zu werfen
+                    rollout_actions.append(f"Skipping {action_name} (no valid params)")
+                    continue
+                else:
+                    rollout_actions.append(f"({action_name}, None)")
+                    state.apply_action((action_name, None))
+        
             depth += 1
         
+        print(f"DEBUG - Rollout actions: {rollout_actions}")
         # Calculate reward based on the final state
+        print("evaluating state...", state.evaluate(depth))
+        print("anzahl unloaded:",state.belugas_unloaded)
         return state.evaluate(depth)

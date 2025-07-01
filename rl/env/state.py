@@ -93,7 +93,7 @@ class ProblemState:
 
 
     def copy(self):
-        return ProblemState(
+        new_state = ProblemState(
             jigs=copy.deepcopy(self.jigs),
             belugas=copy.deepcopy(self.belugas),
             trailers_beluga=copy.deepcopy(self.trailers_beluga),
@@ -102,6 +102,13 @@ class ProblemState:
             production_lines=copy.deepcopy(self.production_lines),
             hangars=copy.deepcopy(self.hangars)
         )
+        # Kopiere alle Subgoal-Counter
+        new_state.belugas_unloaded = self.belugas_unloaded
+        new_state.belugas_finished = self.belugas_finished
+        new_state.production_lines_finished = self.production_lines_finished
+        new_state.racks_with_empty_jigs = self.racks_with_empty_jigs
+        new_state.racks_with_loaded_jigs = self.racks_with_loaded_jigs
+        return new_state
     
     '''
     ab hier API für MCTS:
@@ -150,6 +157,19 @@ class ProblemState:
         }
         
 
+    def upddate_subgoals(self):
+        self.belugas_unloaded += int(not self.belugas[0].current_jigs)
+        self.belugas_finished += int(not self.belugas[0].outgoing and not self.belugas[0].current_jigs)
+        self.production_lines_finished = self.total_lines - len(self.production_lines)
+        self.racks_with_empty_jigs = sum(
+                                                1 for rack in self.racks
+                                                if rack.current_jigs and all(self.jigs[jig_id].empty for jig_id in rack.current_jigs)
+                                            )
+        self.racks_with_loaded_jigs = sum(
+                                                1 for rack in self.racks
+                                                if rack.current_jigs and all(not self.jigs[jig_id].empty for jig_id in rack.current_jigs)
+                                                ) 
+
     def apply_action(self, candidate):
         action_name, params = candidate
         if action_name == "left_stack_rack":
@@ -172,101 +192,131 @@ class ProblemState:
             raise NotImplementedError(f"Aktionsname nicht bekannt: {action_name}")
       
 
+    def check_action_valid(self, action_name: str, params=None) -> bool:
+        """
+        Prüft, ob eine Aktion mit den angegebenen Parametern gültig ist,
+        ohne den aktuellen State zu verändern.
+        """
+        state_copy = self.copy()
+        
+        try:
+            if action_name == "left_stack_rack":
+                return left_stack_rack(state_copy, *params)
+            elif action_name == "right_stack_rack":
+                return right_stack_rack(state_copy, *params)
+            elif action_name == "left_unstack_rack":
+                return left_unstack_rack(state_copy, *params)
+            elif action_name == "right_unstack_rack":
+                return right_unstack_rack(state_copy, *params)
+            elif action_name == "load_beluga":
+                return load_beluga(state_copy, *params)
+            elif action_name == "unload_beluga":
+                return unload_beluga(state_copy)
+            elif action_name == "get_from_hangar":
+                return get_from_hangar(state_copy, *params)
+            elif action_name == "deliver_to_hangar":
+                return deliver_to_hangar(state_copy, *params)
+            else:
+                return False
+        except Exception as e:
+            print(f"Fehler bei Aktion {action_name} mit Params {params}: {e}")
+            return False
 
-    def enumerate_valid_params(self, action_type):
-      params = []
-      state_copy = self.copy()
-      if action_type == "left_stack_rack":
-          # kreuzprodukt von racks und trailers_beluga
-          all_param = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_beluga))]
-          for t in all_param:
-              bool_value = left_stack_rack(state_copy, *t)
-              if bool_value:
+    def enumerate_valid_params(self, action):
+        action_name, _ = action
+        params = []
+        
+        if action_name == "left_stack_rack":
+            all_param = [(rack_id, trailer_id) 
+                        for rack_id in range(len(self.racks)) 
+                        for trailer_id in range(len(self.trailers_beluga))]
+                        
+            for t in all_param:
+                if self.check_action_valid(action_name, t):
+                    params.append(t)
+        
+        elif action_name == "right_stack_rack":
+            all_param = [(rack_id, trailer_id) 
+                        for rack_id in range(len(self.racks)) 
+                        for trailer_id in range(len(self.trailers_factory))]
+                        
+            for t in all_param:
+                if self.check_action_valid(action_name, t):
                     params.append(t)
 
-      elif action_type == "right_stack_rack":
-            params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_factory))]
-            for rack_id, trailer_id in params:
-                bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
-                if bool_value:
-                    params.append((rack_id, trailer_id))
+        elif action_name == "left_unstack_rack":
+            all_param = [(rack_id, trailer_id) 
+                        for rack_id in range(len(self.racks)) 
+                        for trailer_id in range(len(self.trailers_beluga))]
+                        
+            for t in all_param:
+                if self.check_action_valid(action_name, t):
+                    params.append(t)
 
-      elif action_type == "left_unstack_rack":
-            params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_beluga))]
-            for rack_id, trailer_id in params:
-                bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
-                if bool_value:
-                    params.append((rack_id, trailer_id))
+        elif action_name == "right_unstack_rack":
+            all_param = [(rack_id, trailer_id) 
+                        for rack_id in range(len(self.racks)) 
+                        for trailer_id in range(len(self.trailers_factory))]
+                        
+            for t in all_param:
+                if self.check_action_valid(action_name, t):
+                    params.append(t)
+        
+        return params
 
-      elif action_type == "right_unstack_rack":
-              params = [(rack_id, trailer_id) for rack_id in range(len(self.racks)) for trailer_id in range(len(self.trailers_factory))]
-              for rack_id, trailer_id in params:
-                  bool_value = self._is_action_legal(action_type, (rack_id, trailer_id))
-                  if bool_value:
-                        params.append((rack_id, trailer_id))             
-      return params
-
-
-    def _is_action_legal(self, action_name: str, params: tuple) -> bool:
-      state_copy = self.copy()
-      try:
-          return state_copy.apply_action(action_name, params)
-      except:
-          return False
-    
-
-    # TODO: kann mit enumerate_valid_params zusammengelegt werden
-    def enumerate_param_candidates(self, action_name):
-      if action_name == "unload_beluga":
-          return [()]
-
-      elif action_name == "load_beluga":
-          return [(i,) for i in range(len(self.trailers_beluga))]
-
-      elif action_name in ["left_stack_rack", "left_unstack_rack"]:
-          return [
-              (rack_id, trailer_id)
-              for rack_id in range(len(self.racks))
-              for trailer_id in range(len(self.trailers_beluga))
-          ]
-
-      elif action_name in ["right_stack_rack", "right_unstack_rack"]:
-          return [
-              (rack_id, trailer_id)
-              for rack_id in range(len(self.racks))
-              for trailer_id in range(len(self.trailers_factory))
-          ]
-
-      elif action_name in ["get_from_hangar", "deliver_to_hangar"]:
-          return [
-              (hangar_id, trailer_id)
-              for hangar_id in range(len(self.hangars))
-              for trailer_id in range(len(self.trailers_factory))
-          ]
-
-      else:
-          return []
 
 
     def get_possible_actions(self):
-      all_actions = [
-          "unload_beluga",
-          "load_beluga",
-          "get_from_hangar",
-          "deliver_to_hangar",
-          "left_stack_rack",
-          "right_stack_rack",
-          "left_unstack_rack",
-          "right_unstack_rack"
-      ]
-
-      actions = []
-      for action_name in all_actions:
-          param_candidates = self.enumerate_param_candidates(action_name)
-          for params in param_candidates:
-              if self._is_action_legal(action_name, params):
-                  actions.append((action_name, params))
-      return actions
+        """
+        Gibt eine Liste aller möglichen Aktionen zurück.
+        Eine Aktion gilt als möglich, wenn mindestens eine gültige Parameterkombination existiert.
+        """
+        possible_actions = []
+        
+        # Prüfe unload_beluga (keine Parameter)
+        if self.check_action_valid("unload_beluga"):
+            possible_actions.append("unload_beluga")
+        
+        # Prüfe Aktionen mit Parametern
+        param_actions = [
+            "left_stack_rack",
+            "right_stack_rack",
+            "left_unstack_rack",
+            "right_unstack_rack"
+        ]
+        
+        for action in param_actions:
+            # Wenn mindestens ein gültiger Parameter existiert
+            if self.enumerate_valid_params((action, None)):
+                possible_actions.append(action)
+        
+        # Prüfe load_beluga (hat Parameter)
+        for i in range(len(self.trailers_beluga)):
+            if self.check_action_valid("load_beluga", (i,)):
+                possible_actions.append("load_beluga")
+                break
+        
+        # Prüfe get_from_hangar (hat Parameter)
+        for h in range(len(self.hangars)):
+            for t in range(len(self.trailers_factory)):
+                if self.check_action_valid("get_from_hangar", (h, t)):
+                    possible_actions.append("get_from_hangar")
+                    break
+            else:
+                continue
+            break
+        
+        # Prüfe deliver_to_hangar (hat Parameter)
+        for h in range(len(self.hangars)):
+            for t in range(len(self.trailers_factory)):
+                if self.check_action_valid("deliver_to_hangar", (h, t)):
+                    possible_actions.append("deliver_to_hangar")
+                    break
+            else:
+                continue
+            break
+        
+        return possible_actions
 
 
     def beluga_complete(self) -> bool:

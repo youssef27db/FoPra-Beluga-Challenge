@@ -44,8 +44,10 @@ class Env:
 
         # subgoal_variablen müssen inkrementiert werden, falls sie korrekt sind
         self.state.belugas_unloaded += int(not self.state.belugas[0].current_jigs)
+        print(f"DEBUG - Belugas unloaded: {self.state.belugas_unloaded}")
+        print(f"Condition: {int(not self.state.belugas[0].current_jigs)}")
         self.state.belugas_finished += int(not self.state.belugas[0].outgoing and not self.state.belugas[0].current_jigs)
-        self.state.production_lines_finished = self.total_lines - len(self.production_lines)
+        self.state.production_lines_finished = self.state.total_lines - len(self.state.production_lines)
         self.state.racks_with_empty_jigs = sum(
                                                 1 for rack in self.state.racks
                                                 if rack.current_jigs and all(self.state.jigs[jig_id].empty for jig_id in rack.current_jigs)
@@ -54,7 +56,7 @@ class Env:
                                                 1 for rack in self.state.racks
                                                 if rack.current_jigs and all(not self.state.jigs[jig_id].empty for jig_id in rack.current_jigs)
                                                 )
-        self.state.beluga_complete()
+        #self.state.beluga_complete()
         # If params is None or empty, call the function without arguments besides state
         # Otherwise, pass state + whatever we have in params
         if not params:
@@ -69,7 +71,7 @@ class Env:
         Resets the environment’s state from a JSON file,
         or any other method of your choice.
         """
-        self.state = load_from_json("data/problem.json")
+        self.state = load_from_json("rl/mcts/problem.json")
 
 
     def get_observation_high_level(self):
