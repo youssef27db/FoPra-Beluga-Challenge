@@ -337,7 +337,7 @@ class ProblemState:
             needed_in_production_lines.append(pl.scheduled_jigs[0])
 
         # First slot 0 beluga
-        if len(self.state.belugas) > 0:
+        if len(self.belugas) > 0:
             out[0] = max(0, min(len(self.belugas[0].current_jigs), 1))
             needed_outgoing_types = self.belugas[0].outgoing
         else:

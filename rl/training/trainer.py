@@ -48,18 +48,22 @@ class Trainer:
                 
                 # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden
                 if action_name is None:
-                    #TODO: MCTS-Entscheidung hier einfügen wenn keine Heuristik gefunden wird
-                    pass
+                    root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
+
+                    # MCTS mit diesem Root-Node starten
+                    mcts = MCTS(root, depth=10, n_simulations=10)
+                    best_node = mcts.search()
+
+                    if best_node:
+                        params = best_node.action[1]
+                        print(f"Beste Parameter für {high_level_action_str}: {params}")
 
                 # Führe Aktion aus
                 obs_ , reward, isTerminal = self.env.step(action_name, params)
                 
                 # Speichere Erfahrung für PPO
                 self.ppo_agent.remember(obs, high_level_action, prob, val, reward, isTerminal)
-                
-                # TODO: Hier MCTS remeber und lernen
 
-            
                 obs = obs_
                 total_reward += reward
                 steps += 1
