@@ -80,7 +80,7 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
             available = list(set(all_jig_keys) - used_jigs)
             if not available:
                 break
-            if random.random() < 0.4:  # niedrigere Wahrscheinlichkeit als Beluga
+            if random.random() < 0.2:  # niedrigere Wahrscheinlichkeit als Beluga
                 jig = random.choice(available)
                 new_rack["jigs"].append(jig)
                 used_jigs.add(jig)
@@ -153,9 +153,9 @@ if __name__ == "__main__":
 
     filter_problem(
         input_file = input_path,
-        output_file = "problemset1/problem1.json",
+        output_file = "problemset1/problem20.json",
         max_jigs = 20,
-        max_belugas = 5,
-        max_prod_lines = 5,
+        max_belugas = 6,
+        max_prod_lines = 6,
         max_racks = 10
     )

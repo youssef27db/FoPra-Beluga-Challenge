@@ -10,11 +10,13 @@ from .action import (
     right_unstack_rack
 )
 import numpy as np
+from numpy.random import randint
 
 class Env:
-    def __init__(self):
+    def __init__(self, path: str):
         # Initialize environment variables here
         self.state : ProblemState = None  # Not initialized yet, will be set in reset()
+        self.path = path 
 
         # Map action names to action functions
         self.action_map = {
@@ -82,7 +84,10 @@ class Env:
         Resets the environment’s state from a JSON file,
         or any other method of your choice.
         """
-        self.state = load_from_json("rl/mcts/problem.json")
+        # Wähle random datei aus problemset
+        number = randint(1, 21)
+
+        self.state = load_from_json(self.path + f"problem_{number}.json")
 
     def get_reward(self, could_execute: bool, action_name: str, production_line_n_old, obs):
         """

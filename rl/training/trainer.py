@@ -68,6 +68,9 @@ class Trainer:
                 if steps % N == 0:
                     self.ppo_agent.learn()
                     self.learn_iters += 1
+
+                if steps > 2000:
+                    isTerminal = True  # Abbruchbedingung, um zu lange Episoden zu vermeiden
     
             # Metriken speichern
             self.episode_rewards.append(total_reward)
@@ -77,8 +80,10 @@ class Trainer:
 
             # Fortschritt anzeigen
             if avg_reward > self.best_score:
-                print(f"Episode {episode + 1}, Avg Reward: {avg_reward:.2f}, Steps: {steps}")
                 self.ppo_agent.save_models()
+
+            print('episode', episode, 'score %.1f' % total_reward, 'avg score %.1f' % avg_reward,
+              'time_steps', steps, 'learn_iters', self.learn_iters)
 
     # def evaluate(self, n_episodes=10):
     #     state = self.env.reset()
