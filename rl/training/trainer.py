@@ -1,7 +1,6 @@
 import numpy as np
-from rl.agents.low_level.heuristics import decide_parameters  # Low-Level-Heuristik
-from collections import deque
-from mcts import MCTS  # Wenn wir dann MCTS implementiert haben
+from agents.low_level.heuristics import decide_parameters  # Low-Level-Heuristik
+from mcts import *  # Wenn wir dann MCTS implementiert haben
 
 class Trainer:
     def __init__(self, env, ppo_agent, mcts_params=None):
@@ -60,24 +59,24 @@ class Trainer:
                 print(f"Episode {episode + 1}, Avg Reward: {avg_reward:.2f}, Steps: {steps}")
                 self.ppo_agent.save_models()
 
-    def evaluate(self, n_episodes=10):
-        state = self.env.reset()
-        obs = self.env.get_observation(state)
-        high_level_action, _, _ = self.ppo_agent.choose_action(state)
+    # def evaluate(self, n_episodes=10):
+    #     state = self.env.reset()
+    #     obs = self.env.get_observation(state)
+    #     high_level_action, _, _ = self.ppo_agent.choose_action(state)
 
-        for episode in range(n_episodes):
-            state = self.env.reset()
-            done = False
-            total_reward = 0
+    #     for episode in range(n_episodes):
+    #         state = self.env.reset()
+    #         done = False
+    #         total_reward = 0
 
-            while not done:
-                if np.random.rand() < 0.6:  # 60% Heuristik, 40% MCTS 
-                    action_name, params = decide_parameters(obs, high_level_action)
-                else:
-                    action_name, params = self.mcts.search(state)
+    #         while not done:
+    #             if np.random.rand() < 0.6:  # 60% Heuristik, 40% MCTS 
+    #                 action_name, params = decide_parameters(obs, high_level_action)
+    #             else:
+    #                 action_name, params = self.mcts.search(state)
                 
-                next_state, reward, done, _ = self.env.step(action_name, params)
-                total_reward += reward
-                state = next_state
+    #             next_state, reward, done, _ = self.env.step(action_name, params)
+    #             total_reward += reward
+    #             state = next_state
 
-            print(f"Evaluation Episode {episode + 1}, Reward: {total_reward:.2f}")
+    #         print(f"Evaluation Episode {episode + 1}, Reward: {total_reward:.2f}")
