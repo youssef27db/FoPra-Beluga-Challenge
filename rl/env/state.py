@@ -300,8 +300,10 @@ class ProblemState:
         ]
         obs = self.get_observation_high_level()
         for action in no_param_actions:
-            _, param_dict = decide_parameters(obs, action)
-            possible_actions.append((action, list(param_dict.values())))
+            result = decide_parameters(obs, action)
+            if result is not None and result[0] is not None:
+                action_name, param_dict = result
+                possible_actions.append((action_name, list(param_dict.values())))
             
         return possible_actions
 
