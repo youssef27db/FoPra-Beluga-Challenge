@@ -23,7 +23,7 @@ Functions:
 """
 
 # 0
-def load_beluga(state, trailer_beluga: int) -> bool:
+def load_beluga(state, trailer_beluga: int, none) -> bool:
     """Load beluga from specific trailer."""
     jig_id = state.trailers_beluga[trailer_beluga]
 
@@ -42,7 +42,7 @@ def load_beluga(state, trailer_beluga: int) -> bool:
     if not beluga.outgoing:  # Beluga muss outgoing types haben
         return False
 
-    if len(beluga.incoming) != 0: # Beluga darf keine incoming jigs haben
+    if len(beluga.current_jigs) != 0: # Beluga darf keine incoming jigs haben
         return False
     
     if state.jigs[jig_id].jig_type != beluga.outgoing[0]:
@@ -137,6 +137,7 @@ def deliver_to_hangar(state, hangar: int, trailer_factory: int) -> bool:
 # 4
 def left_stack_rack(state, rack: int, trailer_id: int) -> bool:
     """Stack jig on rack from the left trailer (Beluga)."""
+    rack = int(rack)
     if rack >= len(state.racks):
         return False
 
@@ -161,6 +162,7 @@ def left_stack_rack(state, rack: int, trailer_id: int) -> bool:
 # 5
 def right_stack_rack(state, rack: int, trailer_id: int) -> bool:
     """Stack jig on rack from the right trailer (Factory)."""
+    rack = int(rack)
     if rack >= len(state.racks):
         return False
 
@@ -185,6 +187,7 @@ def right_stack_rack(state, rack: int, trailer_id: int) -> bool:
 # 6
 def left_unstack_rack(state, rack: int, trailer_id: int) -> bool:
     """Unstack jig from rack to the left trailer (Beluga)."""
+    rack = int(rack)
     if rack >= len(state.racks):
         return False
 
@@ -200,6 +203,7 @@ def left_unstack_rack(state, rack: int, trailer_id: int) -> bool:
 # 7
 def right_unstack_rack(state, rack: int, trailer_id: int) -> bool:
     """Unstack jig from rack to the right trailer (Factory)."""
+    rack = int(rack)
     if rack >= len(state.racks):
         return False
 

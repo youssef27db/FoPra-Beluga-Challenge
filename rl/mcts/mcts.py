@@ -1,4 +1,6 @@
 from .mcts_node import MCTSNode
+from rl.env.state import *
+from rl.env import *
 import random
 
 class MCTS:
@@ -57,10 +59,10 @@ class MCTS:
 
     def rollout(self, node):
         """Simulate random actions from the node until we reach a terminal state or max depth."""
-        state = node.state.copy()
+        state: ProblemState = node.state.copy()
         depth = node.depth  # Start from the node's current depth
         
-        print(f"DEBUG - Starting rollout from depth {depth}")
+        #print(f"DEBUG - Starting rollout from depth {depth}")
         rollout_actions = []
         
         while not state.is_terminal() and depth < self.depth:
@@ -72,15 +74,14 @@ class MCTS:
                 break
             
             # Choose a random action
-            action_tuple = random.choice(possible_actions)
-            action_name, params = action_tuple
+            action_name, params = random.choice(possible_actions)
             
             # Apply the action and update state
-            print(f"DEBUG - Rollout action: {action_name} with params {params}")
-            rollout_actions.append(action_tuple)
+            #print(f"DEBUG - Rollout action: {action_name} with params {params}")
+            rollout_actions.append((action_name, params))
             
             # Apply action to state
-            state.apply_action((action_name, params))
+            state.apply_action(action_name, params)
             # Update subgoals after each action
             state.upddate_subgoals()
             

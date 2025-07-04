@@ -35,7 +35,7 @@ class MCTSNode:
         if self.is_root() and self.action is not None and self.action[1] is None:
             # Nur Parameter für diese spezifische Aktion zurückgeben
             action_name = self.action[0]
-            all_params = self.state.enumerate_valid_params((action_name, None))
+            all_params = self.state.enumerate_valid_params(action_name)
             tried_params = [child.action[1] for child in self.children]
             # Nur noch nicht probierte Parameter zurückgeben
             return [(action_name, param) for param in all_params if param not in tried_params]
@@ -48,7 +48,7 @@ class MCTSNode:
 
     def expand(self, candidate: tuple):
         new_state = self.state.copy()  # Kopie erstellen
-        new_state.apply_action(candidate)  # Aktion auf Kopie anwenden
+        new_state.apply_action(candidate[0], candidate[1])  # Aktion auf Kopie anwenden
         new_state.upddate_subgoals()  # Subgoals aktualisieren
         
         child_node = MCTSNode(state=new_state, parent=self, action=candidate, depth=self.depth + 1)

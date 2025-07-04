@@ -47,19 +47,27 @@ class Trainer:
                 action_name, params = decide_parameters(obs, high_level_action_str)
                 print(f"High-Level-Action: {high_level_action_str}, Heuristic Action: {action_name}, Params: {params}")
                 # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden
-                if action_name is None:
+                if action_name is "None":
                     root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
 
                     # MCTS mit diesem Root-Node starten
                     mcts = MCTS(root, depth=10, n_simulations=10)
                     best_node = mcts.search()
-
+                    
                     if best_node:
                         params = best_node.action[1]
+                        print("-" *20)
+                        print(params)
+                        print("-" *20)
                         print(f"Beste Parameter für {high_level_action_str}: {params}")
+                
+                
+                print("-" *20)
+                print(params)
+                print("-" *20)
 
                 # Führe Aktion aus
-                obs_ , reward, isTerminal = self.env.step(action_name, params)
+                obs_ , reward, isTerminal = self.env.step(high_level_action_str, params)
                 
                 # Speichere Erfahrung für PPO
                 self.ppo_agent.remember(obs, high_level_action, prob, val, reward, isTerminal)

@@ -172,27 +172,28 @@ class ProblemState:
                                                 if rack.current_jigs and all(not self.jigs[jig_id].empty for jig_id in rack.current_jigs)
                                                 ) 
 
-    def apply_action(self, candidate):
-        action_name, params = candidate
+    def apply_action(self, action_name, params):
+        params = list(params.values()) if isinstance(params, dict) else list(params)  # ensure params is a list
+        #action_name, params = candidate
         if action_name == "left_stack_rack":
-            left_stack_rack(self, *params)
+            return left_stack_rack(self, *params)
         elif action_name == "right_stack_rack":
-            right_stack_rack(self, *params)
+            return right_stack_rack(self, *params)
         elif action_name == "left_unstack_rack":
-            left_unstack_rack(self, *params)
+            return left_unstack_rack(self, *params)
         elif action_name == "right_unstack_rack":
-            right_unstack_rack(self, *params)
+            return right_unstack_rack(self, *params)
         elif action_name == "load_beluga":
-            load_beluga(self, *params)
+            return load_beluga(self, *params)
         elif action_name == "unload_beluga":
-            unload_beluga(self)
+            return unload_beluga(self)
         elif action_name == "get_from_hangar":
-            get_from_hangar(self, *params)
+            return get_from_hangar(self, *params)
         elif action_name == "deliver_to_hangar":
-            deliver_to_hangar(self, *params)
+            return deliver_to_hangar(self, *params)
         else:
             raise NotImplementedError(f"Aktionsname nicht bekannt: {action_name}")
-        self.upddate_subgoals()
+        #self.upddate_subgoals()
       
 
     def check_action_valid(self, action_name: str, params=None) -> bool:
@@ -265,6 +266,30 @@ class ProblemState:
                 if self.check_action_valid(action_name, t):
                     params.append(t)
         
+        elif action_name == "load_beluga":
+            all_param = [trailer_id for trailer_id in range(len(self.trailers_beluga))]
+            for t in all_param:
+                if self.check_action_valid(action_name, (t, None)):
+                    params.append((t, None))
+
+        elif action_name == "deliver_to_hangar":
+            all_param = [(hangar_id, trailer_id) 
+                        for hangar_id in range(len(self.hangars)) 
+                        for trailer_id in range(len(self.trailers_factory))]
+                        
+            for t in all_param:
+                if self.check_action_valid(action_name, t):
+                    params.append(t)
+        
+        elif action_name == "get_from_hangar":
+            all_param = [(hangar_id, trailer_id) 
+                        for hangar_id in range(len(self.hangars)) 
+                        for trailer_id in range(len(self.trailers_factory))]
+                        
+            for t in all_param:
+                if self.check_action_valid(action_name, t):
+                    params.append(t)
+        
         return params
 
 
@@ -279,31 +304,34 @@ class ProblemState:
         
         # Prüfe unload_beluga (keine Parameter)
         if self.check_action_valid("unload_beluga"):
-            possible_actions.append(("unload_beluga", None))
+            possible_actions.append(("unload_beluga", {}))
         
         # Prüfe Aktionen mit Parametern
         param_actions = [
             "left_stack_rack",
             "right_stack_rack",
             "left_unstack_rack",
-            "right_unstack_rack"
+            "right_unstack_rack",
+            "load_beluga",
+            "get_from_hangar",
+            "deliver_to_hangar"
         ]
         for action in param_actions:
             # all actions with parameters, if there are no params, no legal actions
             params = self.enumerate_valid_params(action)
             possible_actions.extend([(action, param) for param in params])
         
-        no_param_actions = [
-            "load_beluga",
-            "get_from_hangar",
-            "deliver_to_hangar"
-        ]
-        obs = self.get_observation_high_level()
-        for action in no_param_actions:
-            result = decide_parameters(obs, action)
-            if result is not None and result[0] is not None:
-                action_name, param_dict = result
-                possible_actions.append((action_name, list(param_dict.values())))
+        # no_param_actions = [
+        #     "load_beluga",
+        #     "get_from_hangar",
+        #     "deliver_to_hangar"
+        # ]
+        # obs = self.get_observation_high_level()
+        # for action in no_param_actions:
+        #     result = decide_parameters(obs, action)
+        #     if result is not None and result[0] is not None:
+        #         action_name, param_dict = result
+        #         possible_actions.append((action_name, list(param_dict.values())))
             
         return possible_actions
 

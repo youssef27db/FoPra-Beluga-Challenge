@@ -58,19 +58,21 @@ class Env:
                                                 1 for rack in self.state.racks
                                                 if rack.current_jigs and all(not self.state.jigs[jig_id].empty for jig_id in rack.current_jigs)
                                                 )
-        #self.state.beluga_complete()
         # If params is None or empty, call the function without arguments besides state
         # Otherwise, pass state + whatever we have in params
         
         n_production_lines = len(self.state.production_lines)
         could_execute = False
 
-        if not params:
-            could_execute = action_func(self.state)
+        if not params and action_name == "unload_beluga":
+            could_execute = self.state.apply_action(action_name, {})
         else:
             # Unpack params as needed. This example assumes params is a dictionary
             # containing the arguments to be passed (besides state).
-            could_execute = action_func(self.state, **params)
+            if params is not None:
+                could_execute = self.state.apply_action(action_name, params)
+            else:
+                could_execute = False
 
         obs = self.get_observation_high_level()  # Get the current observation before executing the action
         reward = self.get_reward(could_execute, action_name, n_production_lines, obs)
