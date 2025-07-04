@@ -45,7 +45,7 @@ class Trainer:
                 # Low-Level-Agent: 
                 # Heuristik
                 action_name, params = decide_parameters(obs, high_level_action_str)
-                
+                print(f"High-Level-Action: {high_level_action_str}, Heuristic Action: {action_name}, Params: {params}")
                 # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden
                 if action_name is None:
                     root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))

@@ -1,7 +1,7 @@
 from typing import Tuple, Optional
 
 
-def decide_parameters(obs, high_level_action) -> Tuple[str, Optional[dict]]:
+def decide_parameters(obs, high_level_action):
     """
     Entscheidet die nächste Aktion basierend auf dem High-Level-Plan.
     Gibt zurück: (action_name, params) oder (None, None) falls keine Aktion möglich.

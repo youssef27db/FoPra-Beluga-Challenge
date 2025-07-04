@@ -1,6 +1,6 @@
-from env.environment import * # Environment 
-from agents.high_level.ppo_agent import * # High-Level-Agent
-from training.trainer import * # Trainer
+from rl.env.environment import * # Environment 
+from rl.agents.high_level.ppo_agent import * # High-Level-Agent
+from rl.training.trainer import * # Trainer
 
 if __name__ == '__main__':
     # Initialize environment

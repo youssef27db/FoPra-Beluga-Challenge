@@ -53,7 +53,7 @@ class ActorNetwork(nn.Module):
         super(ActorNetwork, self).__init__()
 
         self.checkpoint_file = os.path.join(chkpt_dir, 'actor_torch_ppo')
-        self.actor = nn.Sequential(nn.Linear(*input_dims, fc1dims), nn.ReLU(),
+        self.actor = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                    nn.Linear(fc1dims, fc2dims), nn.ReLU(),
                                    nn.Linear(fc2dims, n_actions), nn.Softmax(dim=-1))
 
@@ -82,7 +82,7 @@ class CriticNetwork(nn.Module):
         super(CriticNetwork, self).__init__()
 
         self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_ppo')
-        self.critic = nn.Sequential(nn.Linear(*input_dims, fc1dims), nn.ReLU(),
+        self.critic = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                     nn.Linear(fc1dims, fc2dims), nn.ReLU(),
                                     nn.Linear(fc2dims, 1))
 
@@ -135,8 +135,8 @@ class PPOAgent:
 
 
     def choose_action(self, observation):
-        obs = np.array(observation)
-        state = T.tensor(obs, dtype=T.float).to(self.actor.device)
+        #obs = np.array(observation)
+        state = T.tensor(observation, dtype=T.float).to(self.actor.device)
 
         dist = self.actor(state)
         value = self.critic(state)

@@ -89,6 +89,8 @@ class Env:
 
         self.state = load_from_json(self.path + f"problem_{number}.json")
 
+        return self.get_observation_high_level()
+
     def get_reward(self, could_execute: bool, action_name: str, production_line_n_old, obs):
         """
         Returns the current reward of the environment.
