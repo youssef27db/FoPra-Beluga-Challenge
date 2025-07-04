@@ -31,11 +31,13 @@ class Trainer:
         }
 
     def train(self, n_episodes=100, N=5):
+        #self.ppo_agent.load_models()  # Lade die Modelle des PPO-Agenten
         for episode in range(n_episodes):
             obs = self.env.reset()
             isTerminal = False
             total_reward = 0
             steps = 0
+            heuristic_reward = 0
 
             while not isTerminal:
                 # High-Level-Entscheidung (PPO)
@@ -59,13 +61,16 @@ class Trainer:
                     
                     if best_node:
                         params = best_node.action[1]
-                        
+                else:
+                    heuristic_reward += 5.0
+
                 print("-" *20)
                 print(params)
                 print("-" *20)
         
                 # Führe Aktion aus
                 obs_ , reward, isTerminal = self.env.step(high_level_action_str, params)
+                reward += heuristic_reward  # Füge Heuristik-Belohnung hinzu
                 
                 # Speichere Erfahrung für PPO
                 self.ppo_agent.remember(obs, high_level_action, prob, val, reward, isTerminal)
@@ -85,7 +90,7 @@ class Trainer:
     
             # Metriken speichern
             self.episode_rewards.append(total_reward)
-            avg_reward = np.mean(self.episode_rewards[-100:])
+            avg_reward = np.mean(self.episode_rewards[-10:])
             self.avg_rewards.append(avg_reward)
             self.steps_per_episode.append(steps)
 
@@ -94,7 +99,7 @@ class Trainer:
                 self.ppo_agent.save_models()
                 self.best_score = avg_reward
 
-            print('episode', episode, 'score %.1f' % total_reward, 'avg score %.1f' % avg_reward,
+            print('episode', episode, 'score %.1f' % total_reward, 'avg score %.1f' % avg_reward, 'Best avg score %.1f' % self.best_score,
               'time_steps', steps, 'learn_iters', self.learn_iters)
 
     # def evaluate(self, n_episodes=10):

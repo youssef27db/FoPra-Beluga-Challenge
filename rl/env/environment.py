@@ -46,8 +46,8 @@ class Env:
 
         # subgoal_variablen müssen inkrementiert werden, falls sie korrekt sind
         self.state.belugas_unloaded += int(not self.state.belugas[0].current_jigs)
-        print(f"DEBUG - Belugas unloaded: {self.state.belugas_unloaded}")
-        print(f"Condition: {int(not self.state.belugas[0].current_jigs)}")
+        #print(f"DEBUG - Belugas unloaded: {self.state.belugas_unloaded}")
+        #print(f"Condition: {int(not self.state.belugas[0].current_jigs)}")
         self.state.belugas_finished += int(not self.state.belugas[0].outgoing and not self.state.belugas[0].current_jigs)
         self.state.production_lines_finished = self.state.total_lines - len(self.state.production_lines)
         self.state.racks_with_empty_jigs = sum(
@@ -102,10 +102,13 @@ class Env:
             return -2000.0
         
         if action_name == "unload_beluga":
-            return -1.0
+            # Belohen wenn beluga komplett entladen
+            if len(self.state.belugas[0].current_jigs) == 1:
+                return 100.0
+            return 5.0
         
         if action_name == "load_beluga":
-            if obs[0] == 1:
+            if len(self.state.belugas[0].outgoing) == 1:
                 return 100.0
             return 5.0
 
@@ -119,7 +122,7 @@ class Env:
         
         if action_name == "get_from_hangar":
             return 5.0
-        
+
         return 0
 
     def get_observation_high_level(self):
