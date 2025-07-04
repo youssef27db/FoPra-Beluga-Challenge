@@ -8,28 +8,34 @@ class MCTS:
         self.root = root
         self.depth = depth
         self.n_simulations = n_simulations
+        self.debug = False
 
     def search(self):
         for i in range(self.n_simulations):
-            print(f"\nIteration {i+1}/{self.n_simulations}")
+            if self.debug:
+                print(f"\nIteration {i+1}/{self.n_simulations}")
             
             # 1. Selection
             node = self.select(self.root)
-            print(f"Selected node: depth={node.depth}, action={node.action}")
+            if self.debug:
+                print(f"Selected node: depth={node.depth}, action={node.action}")
             
             # 2. Expansion
             if not node.is_terminal():
                 untried_actions = node.get_untried_action()
                 if untried_actions:
                     action = random.choice(untried_actions)
-                    print(f"Expanding node with action: {action}")
+                    if self.debug:
+                        print(f"Expanding node with action: {action}")
                     node = node.expand(action)
                 else:
-                    print("No untried actions available, skipping expansion.")
+                    if self.debug:
+                        print("No untried actions available, skipping expansion.")
             
             # 3. Simulation
             reward = self.rollout(node)
-            print(f"Rollout reward: {reward}")
+            if self.debug:
+                print(f"Rollout reward: {reward}")
             
             # 4. Backpropagation
             node.backpropagate(reward)
@@ -87,12 +93,13 @@ class MCTS:
             
             depth += 1
         
-        print(f"DEBUG - Rollout completed with {len(rollout_actions)} actions")
-        print(f"DEBUG - Final rollout actions: {rollout_actions[:5]}{'...' if len(rollout_actions) > 5 else ''}")
+        if self.debug:
+            print(f"DEBUG - Rollout completed with {len(rollout_actions)} actions")
+            print(f"DEBUG - Final rollout actions: {rollout_actions[:5]}{'...' if len(rollout_actions) > 5 else ''}")
         
         # Calculate reward based on final state
         reward = state.evaluate(depth)
-        print(f"DEBUG - Evaluation result: {reward}")
+        #print(f"DEBUG - Evaluation result: {reward}")
         
         return reward
 

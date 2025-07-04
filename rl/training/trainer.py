@@ -14,7 +14,7 @@ class Trainer:
         self.episode_rewards = []
         self.avg_rewards = []
         self.steps_per_episode = []
-        self.best_score = 1
+        self.best_score = -30000
         self.score_history = []
         self.learn_iters = 0
 
@@ -30,7 +30,7 @@ class Trainer:
             7 : "right_unstack_rack"
         }
 
-    def train(self, n_episodes=1000, N=20):
+    def train(self, n_episodes=100, N=5):
         for episode in range(n_episodes):
             obs = self.env.reset()
             isTerminal = False
@@ -42,12 +42,15 @@ class Trainer:
                 high_level_action, prob, val = self.ppo_agent.choose_action(obs)
                 high_level_action_str = self.action_mapping[high_level_action]  # Mapping der Aktion
 
+
+                print("-" *20)
+                print(high_level_action_str)
+                print("-" *20)
                 # Low-Level-Agent: 
                 # Heuristik
                 action_name, params = decide_parameters(obs, high_level_action_str)
-                print(f"High-Level-Action: {high_level_action_str}, Heuristic Action: {action_name}, Params: {params}")
                 # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden
-                if action_name is "None":
+                if action_name == "None":
                     root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
 
                     # MCTS mit diesem Root-Node starten
@@ -56,16 +59,11 @@ class Trainer:
                     
                     if best_node:
                         params = best_node.action[1]
-                        print("-" *20)
-                        print(params)
-                        print("-" *20)
-                        print(f"Beste Parameter für {high_level_action_str}: {params}")
-                
-                
+                        
                 print("-" *20)
                 print(params)
                 print("-" *20)
-
+        
                 # Führe Aktion aus
                 obs_ , reward, isTerminal = self.env.step(high_level_action_str, params)
                 
@@ -81,7 +79,8 @@ class Trainer:
                     self.ppo_agent.learn()
                     self.learn_iters += 1
 
-                if steps > 2000:
+                print(steps)
+                if steps > 50 or total_reward < -20000:
                     isTerminal = True  # Abbruchbedingung, um zu lange Episoden zu vermeiden
     
             # Metriken speichern
@@ -93,6 +92,7 @@ class Trainer:
             # Fortschritt anzeigen
             if avg_reward > self.best_score:
                 self.ppo_agent.save_models()
+                self.best_score = avg_reward
 
             print('episode', episode, 'score %.1f' % total_reward, 'avg score %.1f' % avg_reward,
               'time_steps', steps, 'learn_iters', self.learn_iters)

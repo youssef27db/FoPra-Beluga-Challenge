@@ -18,4 +18,4 @@ if __name__ == '__main__':
     trainer = Trainer(env=env, ppo_agent=ppo_agent)
 
     # Start training
-    trainer.train(n_episodes=1000, N=20)
+    trainer.train(n_episodes=1000, N=5)

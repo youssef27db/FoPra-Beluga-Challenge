@@ -64,12 +64,12 @@ class Env:
         n_production_lines = len(self.state.production_lines)
         could_execute = False
 
-        if not params and action_name == "unload_beluga":
+        if params == [] and action_name == "unload_beluga":
             could_execute = self.state.apply_action(action_name, {})
         else:
             # Unpack params as needed. This example assumes params is a dictionary
             # containing the arguments to be passed (besides state).
-            if params is not None:
+            if params != []:
                 could_execute = self.state.apply_action(action_name, params)
             else:
                 could_execute = False
@@ -99,7 +99,7 @@ class Env:
         """
         # Strafe, wenn Aktion fehlschlägt
         if not could_execute: 
-            return -1000.0
+            return -2000.0
         
         if action_name == "unload_beluga":
             return -1.0
