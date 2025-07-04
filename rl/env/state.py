@@ -226,7 +226,7 @@ class ProblemState:
             return False
 
     def enumerate_valid_params(self, action):
-        action_name, _ = action
+        action_name = action
         params = []
         
         if action_name == "left_stack_rack":

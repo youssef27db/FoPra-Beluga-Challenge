@@ -17,7 +17,7 @@ specific_action = "left_stack_rack"
 root = MCTSNode(state=initial_state, action=(specific_action, None))
 
 # MCTS mit diesem Root-Node starten
-mcts = MCTS(root, depth=10, n_simulations=100)
+mcts = MCTS(root, depth=10, n_simulations=10)
 best_node = mcts.search()
 
 if best_node:

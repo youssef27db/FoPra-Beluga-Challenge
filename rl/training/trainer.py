@@ -1,8 +1,8 @@
 import numpy as np
-from env.environment import * # Environment 
-from agents.high_level.ppo_agent import *  # High-Level-Agent
-from agents.low_level.heuristics import *  # Low-Level-Heuristik
-from mcts import *  # MCTS-Algorithmus
+from rl.env.environment import * # Environment 
+from rl.agents.high_level.ppo_agent import *  # High-Level-Agent
+from rl.agents.low_level.heuristics import *  # Low-Level-Heuristik
+from rl.mcts import *  # MCTS-Algorithmus
 
 class Trainer:
     def __init__(self, env: Env, ppo_agent: PPOAgent, mcts_params=None):
