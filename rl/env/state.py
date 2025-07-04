@@ -7,6 +7,8 @@ from .action import (
     left_stack_rack, right_stack_rack, left_unstack_rack, right_unstack_rack,
     load_beluga, unload_beluga, get_from_hangar, deliver_to_hangar
 )
+import numpy as np
+from rl.agents.low_level.heuristics import decide_parameters
 
 class JigType:
     def __init__(self, name: str, size_empty: int, size_loaded: int):
@@ -102,12 +104,12 @@ class ProblemState:
             production_lines=copy.deepcopy(self.production_lines),
             hangars=copy.deepcopy(self.hangars)
         )
-        # Kopiere alle Subgoal-Counter
         new_state.belugas_unloaded = self.belugas_unloaded
         new_state.belugas_finished = self.belugas_finished
         new_state.production_lines_finished = self.production_lines_finished
         new_state.racks_with_empty_jigs = self.racks_with_empty_jigs
         new_state.racks_with_loaded_jigs = self.racks_with_loaded_jigs
+        new_state.total_lines = self.total_lines  # <--- ergänzen!
         return new_state
     
     '''
@@ -190,6 +192,7 @@ class ProblemState:
             deliver_to_hangar(self, *params)
         else:
             raise NotImplementedError(f"Aktionsname nicht bekannt: {action_name}")
+        self.upddate_subgoals()
       
 
     def check_action_valid(self, action_name: str, params=None) -> bool:
@@ -271,11 +274,12 @@ class ProblemState:
         Gibt eine Liste aller möglichen Aktionen zurück.
         Eine Aktion gilt als möglich, wenn mindestens eine gültige Parameterkombination existiert.
         """
+        # action = ("action_name", "params")
         possible_actions = []
         
         # Prüfe unload_beluga (keine Parameter)
         if self.check_action_valid("unload_beluga"):
-            possible_actions.append("unload_beluga")
+            possible_actions.append(("unload_beluga", None))
         
         # Prüfe Aktionen mit Parametern
         param_actions = [
@@ -284,38 +288,21 @@ class ProblemState:
             "left_unstack_rack",
             "right_unstack_rack"
         ]
-        
         for action in param_actions:
-            # Wenn mindestens ein gültiger Parameter existiert
-            if self.enumerate_valid_params((action, None)):
-                possible_actions.append(action)
+            # all actions with parameters, if there are no params, no legal actions
+            params = self.enumerate_valid_params(action)
+            possible_actions.extend([(action, param) for param in params])
         
-        # Prüfe load_beluga (hat Parameter)
-        for i in range(len(self.trailers_beluga)):
-            if self.check_action_valid("load_beluga", (i,)):
-                possible_actions.append("load_beluga")
-                break
-        
-        # Prüfe get_from_hangar (hat Parameter)
-        for h in range(len(self.hangars)):
-            for t in range(len(self.trailers_factory)):
-                if self.check_action_valid("get_from_hangar", (h, t)):
-                    possible_actions.append("get_from_hangar")
-                    break
-            else:
-                continue
-            break
-        
-        # Prüfe deliver_to_hangar (hat Parameter)
-        for h in range(len(self.hangars)):
-            for t in range(len(self.trailers_factory)):
-                if self.check_action_valid("deliver_to_hangar", (h, t)):
-                    possible_actions.append("deliver_to_hangar")
-                    break
-            else:
-                continue
-            break
-        
+        no_param_actions = [
+            "load_beluga",
+            "get_from_hangar",
+            "deliver_to_hangar"
+        ]
+        obs = self.get_observation_high_level()
+        for action in no_param_actions:
+            _, param_dict = decide_parameters(obs, action)
+            possible_actions.append((action, list(param_dict.values())))
+            
         return possible_actions
 
 
@@ -331,6 +318,102 @@ class ProblemState:
         # Effekte
         self.belugas.pop(0)
         return True 
+    
+
+
+    def get_observation_high_level(self):
+        # Return the current state of the environment for a high-level agent as array
+        # High-Level-Agents converts array into tensor
+
+        ### CURRENTLY MAX 10 RACKS
+        n_racks = 10
+
+        out = np.zeros(10 + 2*n_racks)
+
+        needed_outgoing_types = []
+        needed_in_production_lines = []
+
+        for pl in self.production_lines:
+            needed_in_production_lines.append(pl.scheduled_jigs[0])
+
+        # First slot 0 beluga
+        if len(self.state.belugas) > 0:
+            out[0] = max(0, min(len(self.belugas[0].current_jigs), 1))
+            needed_outgoing_types = self.belugas[0].outgoing
+        else:
+            out[0] = -1
+
+        # Slot 1-3 Beluga Trailer
+        slot = 1
+        for i in range(3):
+            if i < len(self.trailers_beluga):
+                if self.trailers_beluga[i] is None:
+                    out[slot + i] = 0.5
+                else:
+                    if self.jigs[self.trailers_beluga[i]].empty and out[0] == 0:
+                        if needed_outgoing_types.__contains__(
+                                self.jigs[self.trailers_beluga[i]].jig_type):
+                            out[slot + i] = 0
+                        else:
+                            out[slot + i] = 0.25
+                    else:
+                        out[slot + i] = 1
+            else:
+                out[slot + i] = -1
+
+        # Slot 4-6 Factory Trailer
+        slot = 4
+        for i in range(3):
+            if i < len(self.trailers_factory):
+                if self.trailers_factory[i] is None:
+                    out[slot + i] = 0.5
+                else:
+                    if not self.jigs[self.trailers_factory[i]].empty:
+                        if needed_in_production_lines.__contains__(self.trailers_factory[i]):
+                            out[slot + i] = 1
+                        else:
+                            out[slot + i] = 0.75
+                    else:
+                        out[slot + i] = 0
+            else:
+                out[slot + i] = -1
+
+        # Slot 7-9 Hangars
+        slot = 7
+        for i in range(3):
+            if i < len(self.hangars):
+                if self.hangars[i] is None:
+                    out[slot + i] = 0
+                else:
+                    out[slot + i] = 1
+            else:
+                out[slot + i] = -1
+
+        # Slot 10-29 Racks
+        slot = 10
+        for i in range(n_racks):
+            if i < len(self.racks):
+                rack = self.racks[i]
+                items = len(rack.current_jigs)
+                if items == 0:
+                    out[slot + i * 2] = 0
+                    out[slot + i * 2 + 1] = 0
+
+                else:
+                    out[slot + i * 2] = -1
+                    out[slot + i * 2 + 1] = -1
+                    for k in range(items):
+                        jig = self.jigs[rack.current_jigs[k]]
+                        if jig.empty and needed_outgoing_types.__contains__(jig.jig_type):
+                            out[slot + i * 2] = (items - k) / items
+                            continue
+                    for k in range(items):
+                        if needed_in_production_lines.__contains__(rack.current_jigs[k]):
+                            out[slot + i * 2 + 1] = (k + 1) / items
+                            continue
+
+
+        return out
 
 
 
