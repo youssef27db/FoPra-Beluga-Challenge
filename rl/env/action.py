@@ -39,9 +39,12 @@ def load_beluga(state, trailer_beluga: int) -> bool:
     if not state.jigs[jig_id].empty:  # Jig must be empty
         return False
 
-    if not beluga.outgoing:  # Beluga has no outgoing types
+    if not beluga.outgoing:  # Beluga muss outgoing types haben
         return False
 
+    if len(beluga.incoming) != 0: # Beluga darf keine incoming jigs haben
+        return False
+    
     if state.jigs[jig_id].jig_type != beluga.outgoing[0]:
         return False
 

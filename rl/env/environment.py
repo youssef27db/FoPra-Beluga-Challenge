@@ -59,12 +59,23 @@ class Env:
         #self.state.beluga_complete()
         # If params is None or empty, call the function without arguments besides state
         # Otherwise, pass state + whatever we have in params
+        
+        n_production_lines = len(self.state.production_lines)
+        could_execute = False
+
         if not params:
-            return action_func(self.state)
+            could_execute = action_func(self.state)
         else:
             # Unpack params as needed. This example assumes params is a dictionary
             # containing the arguments to be passed (besides state).
-            return action_func(self.state, **params)
+            could_execute = action_func(self.state, **params)
+
+        obs = self.get_observation_high_level()  # Get the current observation before executing the action
+        reward = self.get_reward(could_execute, action_name, n_production_lines, obs)
+        
+        return obs, reward, self.state.is_terminal()
+
+
 
     def reset(self):
         """
@@ -73,6 +84,34 @@ class Env:
         """
         self.state = load_from_json("rl/mcts/problem.json")
 
+    def get_reward(self, could_execute: bool, action_name: str, production_line_n_old, obs):
+        """
+        Returns the current reward of the environment.
+        """
+        # Strafe, wenn Aktion fehlschlägt
+        if not could_execute: 
+            return -1000.0
+        
+        if action_name == "unload_beluga":
+            return -1.0
+        
+        if action_name == "load_beluga":
+            if obs[0] == 1:
+                return 100.0
+            return 5.0
+
+        if action_name in ["right_stack_rack", "left_stack_rack", "right_unstack_rack", "left_unstack_rack"]:
+            return -5.0
+        
+        if action_name == "deliver_to_hangar":
+            if production_line_n_old > len(self.state.production_lines):
+                return 100.0
+            return 10.0
+        
+        if action_name == "get_from_hangar":
+            return 5.0
+        
+        return 0
 
     def get_observation_high_level(self):
         # Return the current state of the environment for a high-level agent as array

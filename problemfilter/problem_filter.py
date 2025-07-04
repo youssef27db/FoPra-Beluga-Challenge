@@ -153,9 +153,9 @@ if __name__ == "__main__":
 
     filter_problem(
         input_file = input_path,
-        output_file = "problemfilter/FilteredProblems/problems20j/filtered_problem1.json",
+        output_file = "problemset1/problem1.json",
         max_jigs = 20,
         max_belugas = 5,
         max_prod_lines = 5,
-        max_racks = 5
+        max_racks = 10
     )
