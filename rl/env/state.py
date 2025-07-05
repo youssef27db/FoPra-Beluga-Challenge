@@ -36,6 +36,9 @@ class Jig:
 
     def __str__(self):
         return str(self.jig_type) + " | " + str(self.empty)
+    
+    def copy(self):
+        return Jig(self.jig_type, self.empty)
 
 
 class Beluga:
@@ -45,6 +48,10 @@ class Beluga:
 
     def __str__(self):
         return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing)
+    
+    def copy(self):
+        # current_jigs und outgoing sind Listen von ints/Objekten → flache Kopie reicht
+        return Beluga(self.current_jigs[:], self.outgoing[:])
 
 
 class Rack:
@@ -64,6 +71,8 @@ class Rack:
         remaining_space = self.size - total_used_space
         return remaining_space
 
+    def copy(self):
+        return Rack(self.size, self.current_jigs[:])
 
 class ProductionLine:
     def __init__(self, scheduled_jigs: list[int]):
@@ -71,6 +80,9 @@ class ProductionLine:
 
     def __str__(self):
         return "scheduled_jigs = " + str(self.scheduled_jigs)
+    
+    def copy(self):
+        return ProductionLine(self.scheduled_jigs[:])
 
 
 class ProblemState:
@@ -96,20 +108,20 @@ class ProblemState:
 
     def copy(self):
         new_state = ProblemState(
-            jigs=copy.deepcopy(self.jigs),
-            belugas=copy.deepcopy(self.belugas),
-            trailers_beluga=copy.deepcopy(self.trailers_beluga),
-            trailers_factory=copy.deepcopy(self.trailers_factory),
-            racks=copy.deepcopy(self.racks),
-            production_lines=copy.deepcopy(self.production_lines),
-            hangars=copy.deepcopy(self.hangars)
+            jigs=[jig.copy() for jig in self.jigs],
+            belugas=[beluga.copy() for beluga in self.belugas],
+            trailers_beluga=self.trailers_beluga[:],
+            trailers_factory=self.trailers_factory[:],
+            racks=[rack.copy() for rack in self.racks],
+            production_lines=[pl.copy() for pl in self.production_lines],
+            hangars=self.hangars[:]  # Liste aus ints oder None
         )
         new_state.belugas_unloaded = self.belugas_unloaded
         new_state.belugas_finished = self.belugas_finished
         new_state.production_lines_finished = self.production_lines_finished
         new_state.racks_with_empty_jigs = self.racks_with_empty_jigs
         new_state.racks_with_loaded_jigs = self.racks_with_loaded_jigs
-        new_state.total_lines = self.total_lines  # <--- ergänzen!
+        new_state.total_lines = self.total_lines
         return new_state
     
     '''
