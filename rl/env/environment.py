@@ -86,7 +86,7 @@ class Env:
         """
         # Strafe, wenn Aktion fehlschlägt
         if not could_execute: 
-            return -2000.0
+            return -20000.0
         
         if action_name == "unload_beluga":
             # Belohen wenn beluga komplett entladen

@@ -3,6 +3,7 @@ from rl.env.environment import * # Environment
 from rl.agents.high_level.ppo_agent import *  # High-Level-Agent
 from rl.agents.low_level.heuristics import *  # Low-Level-Heuristik
 from rl.mcts import *  # MCTS-Algorithmus
+from rl.utils.utils import debuglog
 
 class Trainer:
     def __init__(self, env: Env, ppo_agent: PPOAgent, mcts_params=None):
@@ -30,24 +31,28 @@ class Trainer:
             7 : "right_unstack_rack"
         }
 
-    def train(self, n_episodes=100, N=5):
-        #self.ppo_agent.load_models()  # Lade die Modelle des PPO-Agenten
+    def train(self, n_episodes=2000, N=5, max_steps_per_episode = 200, train_on_old_models = False):
+        if train_on_old_models:
+            self.ppo_agent.load_models()  # Lade die Modelle des PPO-Agenten
+        total_steps = 0
+
         for episode in range(n_episodes):
             obs = self.env.reset()
             isTerminal = False
             total_reward = 0
             steps = 0
-            heuristic_reward = 0
 
             while not isTerminal:
+
+                reward = 0
                 # High-Level-Entscheidung (PPO)
                 high_level_action, prob, val = self.ppo_agent.choose_action(obs)
                 high_level_action_str = self.action_mapping[high_level_action]  # Mapping der Aktion
 
 
-                print("-" *20)
-                print(high_level_action_str)
-                print("-" *20)
+                debuglog("-" *20)
+                debuglog(high_level_action_str)
+                debuglog("-" *20)
                 # Low-Level-Agent: 
                 # Heuristik
                 action_name, params = decide_parameters(obs, high_level_action_str)
@@ -62,15 +67,15 @@ class Trainer:
                     if best_node:
                         params = best_node.action[1]
                 else:
-                    heuristic_reward += 5.0
+                    reward += 5.0 # Füge Heuristik-Belohnung hinzu
 
-                print("-" *20)
-                print(params)
-                print("-" *20)
+                debuglog("-" *20)
+                debuglog(params)
+                debuglog("-" *20)
         
                 # Führe Aktion aus
                 obs_ , reward, isTerminal = self.env.step(high_level_action_str, params)
-                reward += heuristic_reward  # Füge Heuristik-Belohnung hinzu
+                
                 
                 # Speichere Erfahrung für PPO
                 self.ppo_agent.remember(obs, high_level_action, prob, val, reward, isTerminal)
@@ -78,14 +83,15 @@ class Trainer:
                 obs = obs_
                 total_reward += reward
                 steps += 1
+                total_steps += 1
 
                 # PPO-Lernschritt am Ende der Episode
-                if steps % N == 0:
+                if total_steps % N == 0:
                     self.ppo_agent.learn()
                     self.learn_iters += 1
 
-                print(steps)
-                if steps > 50 or total_reward < -20000:
+                debuglog(steps)
+                if steps >= max_steps_per_episode or total_reward <= -20000:
                     isTerminal = True  # Abbruchbedingung, um zu lange Episoden zu vermeiden
     
             # Metriken speichern

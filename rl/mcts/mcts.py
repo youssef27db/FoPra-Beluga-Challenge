@@ -1,6 +1,7 @@
 from .mcts_node import MCTSNode
 from rl.env.state import *
 from rl.env import *
+from rl.utils.utils import debuglog
 import random
 
 class MCTS:
@@ -48,7 +49,7 @@ class MCTS:
                         if self.debug:
                             print(f"Keine weiteren Aktionen möglich bei Tiefe {node.depth}. Breche MCTS ab.")
                         # Final selection wie am Ende der Methode
-                        print("\nFinal selection (early):")
+                        debuglog("\nFinal selection (early):")
                         best_child = self.root.best_child(exploration_weight=0)
                         return best_child
                     else:
@@ -64,15 +65,15 @@ class MCTS:
             node.backpropagate(reward)
     
         # Final selection - immer gleich, egal wie wir hierher gekommen sind
-        print("\nFinal selection:")
+        debuglog("\nFinal selection:")
         best_child = self.root.best_child(exploration_weight=0)
         if best_child is None:
-            print("WARNING: Root has no children!")
+            debuglog("WARNING: Root has no children!")
             return None
         else:
-            print(f"Best child: action={best_child.action}, visits={best_child.visits}, reward={best_child.total_reward/best_child.visits if best_child.visits > 0 else 0}")
+            debuglog(f"Best child: action={best_child.action}, visits={best_child.visits}, reward={best_child.total_reward/best_child.visits if best_child.visits > 0 else 0}")
             if terminal_node_found:
-                print("Hinweis: Ein Terminal-Zustand wurde gefunden!")
+                debuglog("Hinweis: Ein Terminal-Zustand wurde gefunden!")
             return best_child
 
 
@@ -100,7 +101,7 @@ class MCTS:
             possible_actions = state.get_possible_actions()
             
             if not possible_actions:
-                print(f"DEBUG - No possible actions at depth {depth}")
+                debuglog(f"DEBUG - No possible actions at depth {depth}")
                 break
             
             # Choose a random action
