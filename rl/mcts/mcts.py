@@ -8,7 +8,7 @@ class MCTS:
         self.root = root
         self.depth = depth
         self.n_simulations = n_simulations
-        self.debug = False
+        self.debug = True
 
     def search(self):
         for i in range(self.n_simulations):
@@ -29,8 +29,15 @@ class MCTS:
                         print(f"Expanding node with action: {action}")
                     node = node.expand(action)
                 else:
-                    if self.debug:
-                        print("No untried actions available, skipping expansion.")
+                    if node == self.root:
+                        # Nur abbrechen, wenn der Root keine Kinder hat
+                        if self.debug:
+                            print("Root has no untried actions, aborting MCTS search.")
+                        return None
+                    else:
+                        # Bei tieferen Knoten: Einfach mit Rollout fortfahren
+                        if self.debug:
+                            print("No untried actions available, skipping expansion.")
             
             # 3. Simulation
             reward = self.rollout(node)
