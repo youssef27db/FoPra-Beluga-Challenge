@@ -100,9 +100,9 @@ class ProblemState:
         self.belugas_unloaded = 0 #counter
         self.belugas_finished = 0 #counter
         self.production_lines_finished = 0 #counter
-        self.racks_with_empty_jigs = 0 # only current racks
-        self.racks_with_loaded_jigs = 0 # only current racks
         self.total_lines = len(self.production_lines) # total production lines, for evaluation
+        self.total_belugas = len(self.belugas) # total belugas, for evaluation
+        self.problem_solved = False
         
 
 
@@ -119,9 +119,9 @@ class ProblemState:
         new_state.belugas_unloaded = self.belugas_unloaded
         new_state.belugas_finished = self.belugas_finished
         new_state.production_lines_finished = self.production_lines_finished
-        new_state.racks_with_empty_jigs = self.racks_with_empty_jigs
-        new_state.racks_with_loaded_jigs = self.racks_with_loaded_jigs
         new_state.total_lines = self.total_lines
+        new_state.total_belugas = self.total_belugas  # Hinzugefügt!
+        new_state.problem_solved = self.problem_solved
         return new_state
     
     '''
@@ -138,12 +138,7 @@ class ProblemState:
         return self.copy()
     
     def is_terminal(self):
-        # beluga list empty and production lines empty
-        #TODO: Fall: keine aktionen mehr möglich muss hier eventuell noch rein.
-        if not self.belugas and not any(pl.scheduled_jigs for pl in self.production_lines):
-            return True
-        else:
-            return False
+        return len(self.belugas) == 0 and len(self.production_lines) == 0
 
     def evaluate(self, depth: int, mu = 0.05) -> float:
             score = 0.0
@@ -155,35 +150,19 @@ class ProblemState:
     
 
     def get_subgoals(self) -> dict[str, float]:
-        '''
-        Subgoal_1: n =  #(Belugas entladen) -> n*15 Punkte
-        Subgoal_2: n =  #(Belugas beladen und abgeflogen) -> n*60 Punkte
-        Subgoal_3: n =  #(Racks nur mit leeren Jigs) -> n*15 Punkte
-        Subgoal_4: n =  #(Racks nur mit beladenen Jigs) -> n*15 Punkte
-        Subgoal_5: n =  #(Fertige Produktionslinien) -> n*100 Punkte
-        '''
+        self.belugas_finished = self.total_belugas - len(self.belugas)
+        self.production_lines_finished = self.total_lines - len(self.production_lines)
+
+        
+        if len(self.belugas) == 0 and len(self.production_lines) == 0:
+            self.problem_solved = True
         return {
             "subgoal_1": self.belugas_unloaded * 15,
             "subgoal_2": self.belugas_finished * 60,
-            "subgoal_3": self.racks_with_empty_jigs * 15,
-            "subgoal_4": self.racks_with_loaded_jigs * 15,
-            "subgoal_5": self.production_lines_finished * 100
+            "subgoal_3": self.production_lines_finished * 100,
+            "goal": self.problem_solved * 1000    
         }
         
-
-    def upddate_subgoals(self):
-        self.belugas_unloaded += int(not self.belugas[0].current_jigs)
-        self.belugas_finished += int(not self.belugas[0].outgoing and not self.belugas[0].current_jigs)
-        self.production_lines_finished = self.total_lines - len(self.production_lines)
-        self.racks_with_empty_jigs = sum(
-                                                1 for rack in self.racks
-                                                if rack.current_jigs and all(self.jigs[jig_id].empty for jig_id in rack.current_jigs)
-                                            )
-        self.racks_with_loaded_jigs = sum(
-                                                1 for rack in self.racks
-                                                if rack.current_jigs and all(not self.jigs[jig_id].empty for jig_id in rack.current_jigs)
-                                                ) 
-
     def apply_action(self, action_name, params):
         params = list(params.values()) if isinstance(params, dict) else list(params)  # ensure params is a list
         #action_name, params = candidate
@@ -205,7 +184,6 @@ class ProblemState:
             return deliver_to_hangar(self, *params)
         else:
             raise NotImplementedError(f"Aktionsname nicht bekannt: {action_name}")
-        #self.upddate_subgoals()
       
 
     def check_action_valid(self, action_name: str, params=None) -> bool:

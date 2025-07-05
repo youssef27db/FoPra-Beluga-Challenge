@@ -49,8 +49,6 @@ class MCTSNode:
     def expand(self, candidate: tuple):
         new_state = self.state.copy()  # Kopie erstellen
         new_state.apply_action(candidate[0], candidate[1])  # Aktion auf Kopie anwenden
-        new_state.upddate_subgoals()  # Subgoals aktualisieren
-        
         child_node = MCTSNode(state=new_state, parent=self, action=candidate, depth=self.depth + 1)
         self.add_child(child_node)
         return child_node

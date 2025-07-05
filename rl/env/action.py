@@ -49,6 +49,15 @@ def load_beluga(state, trailer_beluga: int, none) -> bool:
         return False
 
     # Effects: Remove outgoing type and clear trailer slot
+
+    # Case: nur noch ein Jig im Beluga, wird entladen und dann neuer beluga geholt
+    if len(beluga.outgoing) == 1:
+        beluga.outgoing.pop(0)
+        state.trailers_beluga[trailer_beluga] = None
+        state.beluga_complete()
+        return True
+
+
     beluga.outgoing.pop(0)
     state.trailers_beluga[trailer_beluga] = None
     return True
@@ -71,8 +80,19 @@ def unload_beluga(state) -> bool:
     if not beluga.current_jigs:
         return False
 
+    if len(state.belugas[0].current_jigs) == 1:
+        state.belugas_unloaded += 1
+        state.trailers_beluga[trailer_beluga] = beluga.current_jigs.pop(-1)
+
+        if not beluga.outgoing:
+            state.beluga_complete()
+        
+        return True
+
     # Effects: Unload the last jig from current_jigs into the trailer slot
     state.trailers_beluga[trailer_beluga] = beluga.current_jigs.pop(-1)
+
+    
 
     # if not beluga.current_jigs and not beluga.outgoing:
     #     # Effect: Remove beluga from the list if fully processed

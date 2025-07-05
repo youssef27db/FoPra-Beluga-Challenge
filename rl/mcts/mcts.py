@@ -4,13 +4,15 @@ from rl.env import *
 import random
 
 class MCTS:
-    def __init__(self, root: MCTSNode, depth: int = 100, n_simulations: int = 1000):
+    def __init__(self, root: MCTSNode, depth: int = 5, n_simulations: int = 300, debug: bool = False):
         self.root = root
         self.depth = depth
         self.n_simulations = n_simulations
-        self.debug = True
+        self.debug = debug
 
     def search(self):
+        terminal_node_found = False
+
         for i in range(self.n_simulations):
             if self.debug:
                 print(f"\nIteration {i+1}/{self.n_simulations}")
@@ -28,14 +30,28 @@ class MCTS:
                     if self.debug:
                         print(f"Expanding node with action: {action}")
                     node = node.expand(action)
-                else:
-                    if node == self.root:
-                        # Nur abbrechen, wenn der Root keine Kinder hat
+                    
+                    
+                    if node.state.is_terminal():
                         if self.debug:
-                            print("Root has no untried actions, aborting MCTS search.")
-                        return None
+                            print("Terminal-Zustand erreicht! Lösung gefunden.")
+                        terminal_node_found = True
+                        # Reward wird durch evaluate() bereits gesetzt
+                        reward = node.state.evaluate(node.depth)
+                        node.backpropagate(reward)
+                        if self.debug:
+                            print(f"Rollout reward: {reward}")
+                        break  # MCTS abbrechen
+                else:
+                    # Abbruch, wenn keine untried actions verfügbar sind
+                    if not node.children or node.depth >= self.depth - 1:
+                        if self.debug:
+                            print(f"Keine weiteren Aktionen möglich bei Tiefe {node.depth}. Breche MCTS ab.")
+                        # Final selection wie am Ende der Methode
+                        print("\nFinal selection (early):")
+                        best_child = self.root.best_child(exploration_weight=0)
+                        return best_child
                     else:
-                        # Bei tieferen Knoten: Einfach mit Rollout fortfahren
                         if self.debug:
                             print("No untried actions available, skipping expansion.")
             
@@ -47,14 +63,16 @@ class MCTS:
             # 4. Backpropagation
             node.backpropagate(reward)
     
-        # Final selection
+        # Final selection - immer gleich, egal wie wir hierher gekommen sind
         print("\nFinal selection:")
         best_child = self.root.best_child(exploration_weight=0)
         if best_child is None:
             print("WARNING: Root has no children!")
             return None
         else:
-            print(f"Best child: action={best_child.action}, visits={best_child.visits}, reward={best_child.total_reward}")
+            print(f"Best child: action={best_child.action}, visits={best_child.visits}, reward={best_child.total_reward/best_child.visits if best_child.visits > 0 else 0}")
+            if terminal_node_found:
+                print("Hinweis: Ein Terminal-Zustand wurde gefunden!")
             return best_child
 
 
@@ -64,7 +82,6 @@ class MCTS:
         while not node.is_terminal() and node.is_fully_expanded() and current_depth < self.depth:
             next_node = node.best_child()
             if next_node is None:
-                
                 break  # Falls keine Kinder vorhanden
             node = next_node
             current_depth += 1
@@ -89,15 +106,12 @@ class MCTS:
             # Choose a random action
             action_name, params = random.choice(possible_actions)
             
-            # Apply the action and update state
+            # Apply the action
             #print(f"DEBUG - Rollout action: {action_name} with params {params}")
             rollout_actions.append((action_name, params))
             
             # Apply action to state
             state.apply_action(action_name, params)
-            # Update subgoals after each action
-            state.upddate_subgoals()
-            
             depth += 1
         
         if self.debug:
@@ -106,8 +120,17 @@ class MCTS:
         
         # Calculate reward based on final state
         reward = state.evaluate(depth)
-        #print(f"DEBUG - Evaluation result: {reward}")
+        if self.debug:
+            print(f"DEBUG - Rollout ended at depth {depth}, final reward: {reward}")
+            # alle subgoals und deren Erfüllung ausgeben
+            # self.belugas_unloaded
+            # self.belugas_finished
+            # self.production_lines_finished
+            print(f"DEBUG - Subgoals: {state.belugas_unloaded} unloaded, {state.belugas_finished} finished, {state.production_lines_finished} production lines finished")
         
+        # Nach dem Rollout:
+        if state.is_terminal() and self.debug:
+            print("Terminal-Zustand im Rollout erreicht!")
         return reward
 
     def get_best_path(self):
