@@ -359,7 +359,8 @@ class ProblemState:
         # First slot 0 beluga
         if len(self.belugas) > 0:
             out[0] = max(0, min(len(self.belugas[0].current_jigs), 1))
-            needed_outgoing_types = self.belugas[0].outgoing
+            if out[0] == 0:
+                needed_outgoing_types = self.belugas[0].outgoing
         else:
             out[0] = -1
 
