@@ -49,13 +49,15 @@ class PPOMemory:
 
 
 class ActorNetwork(nn.Module):
-    def __init__(self, n_actions, input_dims, alpha, fc1dims=512, fc2dims=512, chkpt_dir='tmp/ppo'):
+    def __init__(self, n_actions, input_dims, alpha, fc1dims=512, fc2dims=512, fc3dims=256, fc4dims=128, chkpt_dir='tmp/ppo'):
         super(ActorNetwork, self).__init__()
 
         self.checkpoint_file = os.path.join(chkpt_dir, 'actor_torch_ppo')
         self.actor = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                    nn.Linear(fc1dims, fc2dims), nn.ReLU(),
-                                   nn.Linear(fc2dims, n_actions), nn.Softmax(dim=-1))
+                                   nn.Linear(fc2dims, fc3dims), nn.ReLU(),
+                                   nn.Linear(fc3dims, fc4dims), nn.ReLU(),
+                                   nn.Linear(fc4dims, n_actions), nn.Softmax(dim=-1))
 
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
         self.device = T.device('cuda' if T.cuda.is_available() else 'cpu')
@@ -78,13 +80,15 @@ class ActorNetwork(nn.Module):
 
 
 class CriticNetwork(nn.Module):
-    def __init__(self, input_dims, alpha, fc1dims=512, fc2dims=512, chkpt_dir='tmp/ppo'):
+    def __init__(self, input_dims, alpha, fc1dims=512, fc2dims=512, fc3dims=256, fc4dims=128, chkpt_dir='tmp/ppo'):
         super(CriticNetwork, self).__init__()
 
         self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_ppo')
         self.critic = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                     nn.Linear(fc1dims, fc2dims), nn.ReLU(),
-                                    nn.Linear(fc2dims, 1))
+                                    nn.Linear(fc2dims, fc3dims), nn.ReLU(),
+                                    nn.Linear(fc3dims, fc4dims), nn.ReLU(),
+                                    nn.Linear(fc4dims, 1))
 
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
         self.device = T.device('cuda' if T.cuda.is_available() else 'cpu')
@@ -146,7 +150,7 @@ class PPOAgent:
         action = T.squeeze(action).item()
         value = T.squeeze(value).item()
 
-        return action, probs, value
+        return action, probs, value, dist
 
 
     def learn(self):

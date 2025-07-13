@@ -15,7 +15,7 @@ class Trainer:
         self.episode_rewards = []
         self.avg_rewards = []
         self.steps_per_episode = []
-        self.best_score = -30000
+        self.best_score = -90000
         self.score_history = []
         self.learn_iters = 0
 
@@ -31,7 +31,7 @@ class Trainer:
             7 : "right_unstack_rack"
         }
 
-    def train(self, n_episodes=2000, N=5, max_steps_per_episode = 200, train_on_old_models = False):
+    def train(self, n_episodes=2000, N=5, max_steps_per_episode = 200, train_on_old_models = False, start_learn_after = 1000):
         if train_on_old_models:
             self.ppo_agent.load_models()  # Lade die Modelle des PPO-Agenten
         total_steps = 0
@@ -41,18 +41,38 @@ class Trainer:
             isTerminal = False
             total_reward = 0
             steps = 0
+            last_trailer_id = None
+            last_rack_id = None
+            last_action = None
+            positive_actions_reward = 0
+            print_action = None
 
             while not isTerminal:
-
+                bool_heuristic = False
                 reward = 0
                 # High-Level-Entscheidung (PPO)
-                high_level_action, prob, val = self.ppo_agent.choose_action(obs)
+                high_level_action, prob, val, dist = self.ppo_agent.choose_action(obs)
                 high_level_action_str = self.action_mapping[high_level_action]  # Mapping der Aktion
-
 
                 debuglog("-" *20)
                 debuglog(high_level_action_str)
                 debuglog("-" *20)
+
+                probs = dist.probs.detach().cpu().numpy()
+
+                while not self.env.check_action_execution(high_level_action_str, obs):
+                    if np.all(probs == 0):
+                        print("No valid action found, stopping episode.")
+                        isTerminal = True
+                        reward -= 1000000.0  # Bestrafe Episode, wenn keine Aktionen auführbar sind
+                        break
+
+                    probs[high_level_action] = 0.0  # Setze die Wahrscheinlichkeit der aktuellen Aktion auf 0
+                    high_level_action = np.argmax(probs)  # Wähle die Aktion mit der höchsten Wahrscheinlichkeit
+                    high_level_action_str = self.action_mapping[high_level_action]  # Aktualisiere den Aktionsnamen
+                    prob = probs[high_level_action]  # Aktualisiere die Wahrscheinlichkeit der Aktion
+
+
                 # Low-Level-Agent: 
                 # Heuristik
                 action_name, params = decide_parameters(obs, high_level_action_str)
@@ -67,26 +87,58 @@ class Trainer:
                     if best_node:
                         params = best_node.action[1]
                 else:
-                    reward += 5.0 # Füge Heuristik-Belohnung hinzu
+                    bool_heuristic = True
 
                 debuglog("-" *20)
                 debuglog(params)
                 debuglog("-" *20)
         
+
+                # Überprüfe, ob wir eine loop haben mit unstacking und stacking
+                params_check = list(params.values()) if isinstance(params, dict) else list(params)
+                if params_check != []:
+                    if (high_level_action == 4 and last_action == 6) or (high_level_action == 5 and last_action == 7) \
+                        or (high_level_action == 6 and last_action == 4) or (high_level_action == 7 and last_action == 5):
+                        if last_trailer_id == params_check[1] and last_rack_id == params_check[0]:
+                            reward -= 1000.0  
+                    last_action = high_level_action
+                    if last_action in [4, 5, 6, 7]:
+                        last_trailer_id = params_check[1]
+                        last_rack_id = params_check[0] 
+
+
                 # Führe Aktion aus
-                obs_ , reward, isTerminal = self.env.step(high_level_action_str, params)
+                obs_ , reward_main, isTerminal = self.env.step(high_level_action_str, params)
+                reward += reward_main
+
+                # Wenn besondere Heuristik verwendet wurde, dann führe folge von Aktionen aus: left_unstack -> load_beluga; right_unstack -> deliver_to_hangar
+                if bool_heuristic:
+                    if high_level_action_str == "right_unstack_rack":
+                        action_name, params = decide_parameters(obs_, "deliver_to_hangar")
+                        if not action_name == "None":
+                            obs_ , reward_heuristic, isTerminal = self.env.step("deliver_to_hangar", params)
+                            reward += reward_heuristic
+                    elif high_level_action_str == "left_unstack_rack":
+                        action_name, params = decide_parameters(obs_, "load_beluga")
+                        if not action_name == "None":
+                            obs_ , reward_heuristic, isTerminal = self.env.step("load_beluga", params)
+                            reward += reward_heuristic
+                    reward += 5.0 # Füge Heuristik-Belohnung hinzu
                 
-                
+
+                print_action = high_level_action_str  # Speichere die letzte Aktion für Debugging
                 # Speichere Erfahrung für PPO
                 self.ppo_agent.remember(obs, high_level_action, prob, val, reward, isTerminal)
 
+                if reward > 0: 
+                    positive_actions_reward += reward
                 obs = obs_
                 total_reward += reward
                 steps += 1
                 total_steps += 1
 
                 # PPO-Lernschritt am Ende der Episode
-                if total_steps % N == 0:
+                if total_steps >= start_learn_after and total_steps % N == 0:
                     self.ppo_agent.learn()
                     self.learn_iters += 1
 
@@ -106,7 +158,7 @@ class Trainer:
                 self.best_score = avg_reward
 
             print('episode', episode, 'score %.1f' % total_reward, 'avg score %.1f' % avg_reward, 'Best avg score %.1f' % self.best_score,
-              'time_steps', steps, 'learn_iters', self.learn_iters)
+              'time_steps', steps, 'learn_iters', self.learn_iters, 'positive reward', positive_actions_reward, 'last_action', print_action)
 
     # def evaluate(self, n_episodes=10):
     #     state = self.env.reset()

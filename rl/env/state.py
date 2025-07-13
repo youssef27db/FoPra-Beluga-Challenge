@@ -66,7 +66,8 @@ class Rack:
         total_used_space = 0
         for jig_id in self.current_jigs:
             jig = all_jigs[jig_id - 1]
-            total_used_space += jig.jig_type.size_loaded
+            jig_size = jig.jig_type.size_empty if jig.empty else jig.jig_type.size_loaded 
+            total_used_space += jig_size
         
         remaining_space = self.size - total_used_space
         return remaining_space
