@@ -72,59 +72,59 @@ class Trainer:
                     high_level_action_str = self.action_mapping[high_level_action]  # Aktualisiere den Aktionsnamen
                     prob = probs[high_level_action]  # Aktualisiere die Wahrscheinlichkeit der Aktion
 
+                if not isTerminal:
+                    # Low-Level-Agent: 
+                    # Heuristik
+                    action_name, params = decide_parameters(obs, high_level_action_str)
+                    # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden
+                    if action_name == "None":
+                        root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
 
-                # Low-Level-Agent: 
-                # Heuristik
-                action_name, params = decide_parameters(obs, high_level_action_str)
-                # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden
-                if action_name == "None":
-                    root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
+                        # MCTS mit diesem Root-Node starten
+                        mcts = MCTS(root, depth=10, n_simulations=10)
+                        best_node = mcts.search()
+                        
+                        if best_node:
+                            params = best_node.action[1]
+                    else:
+                        bool_heuristic = True
 
-                    # MCTS mit diesem Root-Node starten
-                    mcts = MCTS(root, depth=10, n_simulations=10)
-                    best_node = mcts.search()
+                    debuglog("-" *20)
+                    debuglog(params)
+                    debuglog("-" *20)
+            
+
+                    # Überprüfe, ob wir eine loop haben mit unstacking und stacking
+                    params_check = list(params.values()) if isinstance(params, dict) else list(params)
+                    if params_check != []:
+                        if (high_level_action == 4 and last_action == 6) or (high_level_action == 5 and last_action == 7) \
+                            or (high_level_action == 6 and last_action == 4) or (high_level_action == 7 and last_action == 5):
+                            if last_trailer_id == params_check[1] and last_rack_id == params_check[0]:
+                                reward -= 1000.0  
+                        last_action = high_level_action
+                        if last_action in [4, 5, 6, 7]:
+                            last_trailer_id = params_check[1]
+                            last_rack_id = params_check[0] 
+
+
+                    # Führe Aktion aus
+                    obs_ , reward_main, isTerminal = self.env.step(high_level_action_str, params)
+                    reward += reward_main
+
+                    # Wenn besondere Heuristik verwendet wurde, dann führe folge von Aktionen aus: left_unstack -> load_beluga; right_unstack -> deliver_to_hangar
+                    if bool_heuristic:
+                        if high_level_action_str == "right_unstack_rack":
+                            action_name, params = decide_parameters(obs_, "deliver_to_hangar")
+                            if not action_name == "None":
+                                obs_ , reward_heuristic, isTerminal = self.env.step("deliver_to_hangar", params)
+                                reward += reward_heuristic
+                        elif high_level_action_str == "left_unstack_rack":
+                            action_name, params = decide_parameters(obs_, "load_beluga")
+                            if not action_name == "None":
+                                obs_ , reward_heuristic, isTerminal = self.env.step("load_beluga", params)
+                                reward += reward_heuristic
+                        reward += 5.0 # Füge Heuristik-Belohnung hinzu
                     
-                    if best_node:
-                        params = best_node.action[1]
-                else:
-                    bool_heuristic = True
-
-                debuglog("-" *20)
-                debuglog(params)
-                debuglog("-" *20)
-        
-
-                # Überprüfe, ob wir eine loop haben mit unstacking und stacking
-                params_check = list(params.values()) if isinstance(params, dict) else list(params)
-                if params_check != []:
-                    if (high_level_action == 4 and last_action == 6) or (high_level_action == 5 and last_action == 7) \
-                        or (high_level_action == 6 and last_action == 4) or (high_level_action == 7 and last_action == 5):
-                        if last_trailer_id == params_check[1] and last_rack_id == params_check[0]:
-                            reward -= 1000.0  
-                    last_action = high_level_action
-                    if last_action in [4, 5, 6, 7]:
-                        last_trailer_id = params_check[1]
-                        last_rack_id = params_check[0] 
-
-
-                # Führe Aktion aus
-                obs_ , reward_main, isTerminal = self.env.step(high_level_action_str, params)
-                reward += reward_main
-
-                # Wenn besondere Heuristik verwendet wurde, dann führe folge von Aktionen aus: left_unstack -> load_beluga; right_unstack -> deliver_to_hangar
-                if bool_heuristic:
-                    if high_level_action_str == "right_unstack_rack":
-                        action_name, params = decide_parameters(obs_, "deliver_to_hangar")
-                        if not action_name == "None":
-                            obs_ , reward_heuristic, isTerminal = self.env.step("deliver_to_hangar", params)
-                            reward += reward_heuristic
-                    elif high_level_action_str == "left_unstack_rack":
-                        action_name, params = decide_parameters(obs_, "load_beluga")
-                        if not action_name == "None":
-                            obs_ , reward_heuristic, isTerminal = self.env.step("load_beluga", params)
-                            reward += reward_heuristic
-                    reward += 5.0 # Füge Heuristik-Belohnung hinzu
-                
 
                 print_action = high_level_action_str  # Speichere die letzte Aktion für Debugging
                 # Speichere Erfahrung für PPO
@@ -145,9 +145,6 @@ class Trainer:
                 debuglog(steps)
                 if steps >= max_steps_per_episode or total_reward <= -20000:
                     isTerminal = True  # Abbruchbedingung, um zu lange Episoden zu vermeiden
-
-                if self.env.state.is_terminal():
-                    continue
     
             # Metriken speichern
             self.episode_rewards.append(total_reward)
