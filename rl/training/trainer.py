@@ -145,6 +145,9 @@ class Trainer:
                 debuglog(steps)
                 if steps >= max_steps_per_episode or total_reward <= -20000:
                     isTerminal = True  # Abbruchbedingung, um zu lange Episoden zu vermeiden
+
+                if self.env.state.is_terminal():
+                    continue
     
             # Metriken speichern
             self.episode_rewards.append(total_reward)
