@@ -3,7 +3,7 @@ from rl.env.environment import * # Environment
 from rl.agents.high_level.ppo_agent import *  # High-Level-Agent
 from rl.agents.low_level.heuristics import *  # Low-Level-Heuristik
 from rl.mcts import *  # MCTS-Algorithmus
-from rl.utils.utils import debuglog
+from rl.utils.utils import *
 
 class Trainer:
     def __init__(self, env: Env, ppo_agent: PPOAgent, mcts_params=None):
@@ -46,12 +46,15 @@ class Trainer:
             last_action = None
             positive_actions_reward = 0
             print_action = None
+            permutation = np.random.permutation(10)
 
             while not isTerminal:
+                obs_ = None  # Reset der Beobachtung für die nächste Iteration
                 bool_heuristic = False
                 reward = 0
                 # High-Level-Entscheidung (PPO)
-                high_level_action, prob, val, dist = self.ppo_agent.choose_action(obs)
+                permuted_obs = permute_high_level_observation(permutation, obs)
+                high_level_action, prob, val, dist = self.ppo_agent.choose_action(permuted_obs)
                 high_level_action_str = self.action_mapping[high_level_action]  # Mapping der Aktion
 
                 debuglog("-" *20)
@@ -132,7 +135,8 @@ class Trainer:
 
                 if reward > 0: 
                     positive_actions_reward += reward
-                obs = obs_
+                if not obs_ is None:
+                    obs = obs_
                 total_reward += reward
                 steps += 1
                 total_steps += 1
