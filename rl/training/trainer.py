@@ -167,6 +167,10 @@ class Trainer:
 
 
     def evaluateModel(self, n_eval_episodes=10, max_steps_per_episode=200, plot = False):
+        """
+        Evaluiert das Modell über eine bestimmte Anzahl von Episoden.
+        Gibt den durchschnittlichen Reward und die Standardabweichung aus.
+        """
         self.ppo_agent.load_models()
         total_rewards = []
         steps_list = []
@@ -261,6 +265,11 @@ class Trainer:
 
 
     def evaluateProblem(self, problem):
+        """
+        Löst ein spezifisches Problem mit dem trainierten Modell.
+        Ausgegeben wird die Reihenfolge der Aktionen und Parameter.
+        """
+
         obs = self.env.reset_specific_problem(problem)
         self.ppo_agent.load_models()
 
