@@ -3,7 +3,7 @@ from rl.env.environment import * # Environment
 from rl.agents.high_level.ppo_agent import *  # High-Level-Agent
 from rl.agents.low_level.heuristics import *  # Low-Level-Heuristik
 from rl.mcts import *  # MCTS-Algorithmus
-from rl.utils.utils import debuglog
+from rl.utils.utils import *
 import matplotlib.pyplot as plt
 
 class Trainer:
