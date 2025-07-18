@@ -4,6 +4,7 @@ from rl.agents.high_level.ppo_agent import *  # High-Level-Agent
 from rl.agents.low_level.heuristics import *  # Low-Level-Heuristik
 from rl.mcts import *  # MCTS-Algorithmus
 from rl.utils.utils import debuglog
+import matplotlib.pyplot as plt
 
 class Trainer:
     def __init__(self, env: Env, ppo_agent: PPOAgent, mcts_params=None):
@@ -158,26 +159,147 @@ class Trainer:
                 self.best_score = avg_reward
 
             print('episode', episode, 'score %.1f' % total_reward, 'avg score %.1f' % avg_reward, 'Best avg score %.1f' % self.best_score,
-              'time_steps', steps, 'learn_iters', self.learn_iters, 'positive reward', positive_actions_reward, 'last_action', print_action)
+              'time_steps', steps, 'learn_iters', self.learn_iters, 'positive reward', positive_actions_reward, 'problem', self.env.problem_name)
 
-    # def evaluate(self, n_episodes=10):
-    #     state = self.env.reset()
-    #     obs = self.env.get_observation(state)
-    #     high_level_action, _, _ = self.ppo_agent.choose_action(state)
 
-    #     for episode in range(n_episodes):
-    #         state = self.env.reset()
-    #         done = False
-    #         total_reward = 0
+    def evaluateModel(self, n_eval_episodes=10, max_steps_per_episode=200, plot = False):
+        self.ppo_agent.load_models()
+        total_rewards = []
+        steps_list = []
 
-    #         while not done:
-    #             if np.random.rand() < 0.6:  # 60% Heuristik, 40% MCTS 
-    #                 action_name, params = decide_parameters(obs, high_level_action)
-    #             else:
-    #                 action_name, params = self.mcts.search(state)
+        for ep in range(n_eval_episodes):
+            obs = self.env.reset()
+            isTerminal = False
+            total_reward = 0
+            steps = 0
+            last_trailer_id = None
+            last_rack_id = None
+            last_action = None
+
+            while not isTerminal and steps < max_steps_per_episode:
+
+                # Wähle Aktion ohne Lernen
+                _, _, _, dist = self.ppo_agent.choose_action(obs)
+
+                probs = dist.probs.detach().cpu().numpy() 
+                high_level_action = np.argmax(probs)
+                high_level_action_str = self.action_mapping[high_level_action]
+
+                while not self.env.check_action_execution(high_level_action_str, obs):
+                    if np.all(probs == 0):
+                        isTerminal = True
+                        break
+
+                    probs[high_level_action] = 0.0
+                    high_level_action = np.argmax(probs)
+                    high_level_action_str = self.action_mapping[high_level_action]
+
+                if isTerminal:
+                    break
+
+                # Low-Level-Agent
+                action_name, params = decide_parameters(obs, high_level_action_str)
+                if action_name == "None":
+                    root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
+                    mcts = MCTS(root, depth=10, n_simulations=10)
+                    best_node = mcts.search()
+                    if best_node:
+                        params = best_node.action[1]
+
+                # Loop-Prävention
+                params_check = list(params.values()) if isinstance(params, dict) else list(params)
+                if params_check != []:
+                    if (high_level_action == 4 and last_action == 6) or (high_level_action == 5 and last_action == 7) \
+                        or (high_level_action == 6 and last_action == 4) or (high_level_action == 7 and last_action == 5):
+                        if last_trailer_id == params_check[1] and last_rack_id == params_check[0]:
+                            total_reward -= 1000.0
+                    last_action = high_level_action
+                    if last_action in [4, 5, 6, 7]:
+                        last_trailer_id = params_check[1]
+                        last_rack_id = params_check[0]
+
+                obs, reward, isTerminal = self.env.step(high_level_action_str, params)
+                total_reward += reward
+                steps += 1
+
+            total_rewards.append(total_reward)
+            steps_list.append(steps)
+            print(f"[Eval] Episode {ep+1}: Reward = {total_reward:.2f}, Steps = {steps}")
+
+        avg_reward = np.mean(total_rewards)
+        std_reward = np.std(total_rewards) # Standardabweichung der Belohnungen
+        avg_steps = np.mean(steps_list)
+
+        print(f"\n⮞ Durchschnittlicher Reward: {avg_reward:.2f} ± {std_reward:.2f}")
+        print(f"⮞ Durchschnittliche Schritte: {avg_steps:.2f}")
+        
+        if plot:
+            plt.figure(figsize=(10, 5))
+            plt.subplot(2, 1, 1)
+            plt.plot(total_rewards, 'r-o', label='Episode Reward')
+            plt.fill_between(
+                range(len(total_rewards)),
+                np.array(total_rewards) - np.std(std_reward),
+                np.array(total_rewards) + np.std(std_reward),
+                color='red', alpha=0.1
+            )
+            plt.title('Evaluierungsergebnisse vom Modell')
+            plt.ylabel('Total Reward')
+            plt.legend()
+            plt.grid(True, linestyle='--', alpha=0.5)
+            plt.subplot(2, 1, 2)
+            plt.bar(range(len(steps_list)), steps_list, color='blue', alpha=0.6)
+            plt.xlabel('Episode')
+            plt.ylabel('Schritte')
+            plt.grid(True, linestyle='--', alpha=0.3)
+            plt.tight_layout()
+            plt.show()
+
+
+    def evaluateProblem(self, problem):
+        obs = self.env.reset_specific_problem(problem)
+        self.ppo_agent.load_models()
+
+        isTerminal = False
+        action_trace = []
+
+        print("Problem wird gelöst: " + problem)
+
+        while not isTerminal:
+            _, _, _, dist = self.ppo_agent.choose_action(obs)
+            probs = dist.probs.detach().cpu().numpy()
+
+            # Wähle beste gültige Aktion
+            high_level_action = np.argmax(probs)
+            high_level_action_str = self.action_mapping[high_level_action]
+
+            while not self.env.check_action_execution(high_level_action_str, obs):
+                probs[high_level_action] = 0.0
+                if np.all(probs == 0):
+                    print("Keine gültige Aktion verfügbar. PROBLEM STUCK!")
+                    return
                 
-    #             next_state, reward, done, _ = self.env.step(action_name, params)
-    #             total_reward += reward
-    #             state = next_state
+                high_level_action = np.argmax(probs)
+                high_level_action_str = self.action_mapping[high_level_action]
 
-    #         print(f"Evaluation Episode {episode + 1}, Reward: {total_reward:.2f}")
+            # Heuristische Parameterentscheidung
+            action_name, params = decide_parameters(obs, high_level_action_str)
+            if action_name == "None":
+                root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
+                mcts = MCTS(root, depth=10, n_simulations=10)
+                best_node = mcts.search()
+                if best_node:
+                    params = best_node.action[1]
+
+            # Aktion ausführen
+            obs, _, isTerminal = self.env.step(high_level_action_str, params)
+
+            # Aktion und Parameter speichern
+            action_trace.append((high_level_action_str, params))
+
+            print(f"Aktion: {high_level_action_str}, Parameter: {params}")
+
+        # Ausgabe
+        print("Reihenfolge der Aktionen:")
+        for i, (action, params) in enumerate(action_trace, 1):
+            print(f"{i:02d}: {action}  |  Parameter: {params}")

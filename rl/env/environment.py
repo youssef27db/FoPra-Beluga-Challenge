@@ -19,6 +19,7 @@ class Env:
         self.state : ProblemState = None  # Not initialized yet, will be set in reset()
         self.path = path 
         self.step_count = 0  # Counter for the number of steps taken, as termination condition in training/evaluation
+        self.problem_name = None
 
 
         # Map action names to action functions
@@ -62,14 +63,24 @@ class Env:
 
     def reset(self):
         """
-        Resets the environment’s state from a JSON file,
-        or any other method of your choice.
+        Resets the environment’s state from a random JSON file
         """
         # Wähle random datei aus problemset
         number = randint(1, 21)
 
-        self.state = load_from_json(self.path + f"problem_{number}.json")
+        self.problem_name = self.path + f"problem_{number}.json"
+        self.state = load_from_json(self.problem_name)
         self.step_count = 0  # Reset the step count
+
+        return self.get_observation_high_level()
+    
+    def reset_specific_problem(self, problem):
+        """
+        Resets the environment’s state from a specific JSON file
+        """
+        self.problem_name = problem
+        self.state = load_from_json(self.problem_name)
+        self.step_count = 0
 
         return self.get_observation_high_level()
 
