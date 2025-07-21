@@ -46,7 +46,6 @@ class Trainer:
             last_rack_id = None
             last_action = None
             positive_actions_reward = 0
-            print_action = None
             permutation = np.random.permutation(10)
 
             while not isTerminal:

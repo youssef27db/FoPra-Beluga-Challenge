@@ -12,7 +12,7 @@ if __name__ == '__main__':
     n_epochs = 10
     alpha = 0.0003
     ppo_agent = PPOAgent(n_actions=n_actions, batch_size=batch_size, alpha=alpha,
-                         n_epochs=n_epochs, input_dims=30, policy_clip=0.2)
+                         n_epochs=n_epochs, input_dims=40, policy_clip=0.2)
 
     # Initialize Trainer
     trainer = Trainer(env=env, ppo_agent=ppo_agent)

@@ -312,18 +312,7 @@ class ProblemState:
             params = self.enumerate_valid_params(action)
             possible_actions.extend([(action, param) for param in params])
         
-        # no_param_actions = [
-        #     "load_beluga",
-        #     "get_from_hangar",
-        #     "deliver_to_hangar"
-        # ]
-        # obs = self.get_observation_high_level()
-        # for action in no_param_actions:
-        #     result = decide_parameters(obs, action)
-        #     if result is not None and result[0] is not None:
-        #         action_name, param_dict = result
-        #         possible_actions.append((action_name, list(param_dict.values())))
-            
+        
         return possible_actions
 
 
@@ -349,7 +338,7 @@ class ProblemState:
         ### CURRENTLY MAX 10 RACKS
         n_racks = 10
 
-        out = np.zeros(10 + 2*n_racks)
+        out = np.zeros(10 + 3*n_racks)
 
         needed_outgoing_types = []
         needed_in_production_lines = []
@@ -411,28 +400,34 @@ class ProblemState:
             else:
                 out[slot + i] = -1
 
-        # Slot 10-29 Racks
+        # Slot 10-39 Racks
         slot = 10
         for i in range(n_racks):
             if i < len(self.racks):
                 rack = self.racks[i]
                 items = len(rack.current_jigs)
                 if items == 0:
-                    out[slot + i * 2] = 0
-                    out[slot + i * 2 + 1] = 0
+                    out[slot + i * 3] = 0
+                    out[slot + i * 3 + 1] = 0
+                    out[slot + i * 3 + 2] = 0
 
                 else:
-                    out[slot + i * 2] = -1
-                    out[slot + i * 2 + 1] = -1
+                    out[slot + i * 3] = 0
+                    out[slot + i * 3 + 1] = 0
+                    out[slot + i * 3 + 2] = rack.get_free_space(self.jigs)/rack.size
                     for k in range(items):
                         jig = self.jigs[rack.current_jigs[k]]
                         if jig.empty and needed_outgoing_types.__contains__(jig.jig_type):
-                            out[slot + i * 2] = (items - k) / items
+                            out[slot + i * 3] = (items - k) / items
                             continue
                     for k in range(items):
                         if needed_in_production_lines.__contains__(rack.current_jigs[k]):
-                            out[slot + i * 2 + 1] = (k + 1) / items
+                            out[slot + i * 3 + 1] = (k + 1) / items
                             continue
+            else:
+                out[slot + i * 3] = -1
+                out[slot + i * 3 + 1] = -1
+                out[slot + i * 3 + 2] = -1
 
 
         return out

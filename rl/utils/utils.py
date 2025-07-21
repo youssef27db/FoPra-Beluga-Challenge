@@ -19,11 +19,12 @@ def permute_high_level_observation(permutation: np.array, obs: np.array) -> np.a
     :return: The permuted observation.
     '''
     
-    permuted_obs = np.zeros(30)
+    permuted_obs = np.zeros(40)
     for i in range(10):
-        pos = permutation[i] * 2
+        pos = permutation[i] * 3
         permuted_obs[i] = obs[i]
-        permuted_obs[10 + i*2] = obs[10 + pos]
-        permuted_obs[11 + i*2] = obs[11 + pos]
+        permuted_obs[10 + i*3] = obs[10 + pos]
+        permuted_obs[11 + i*3] = obs[11 + pos]
+        permuted_obs[12 + i*3] = obs[12 + pos]
 
     return permuted_obs
