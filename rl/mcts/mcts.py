@@ -147,3 +147,115 @@ class MCTS:
             path.append(best_child.action)
             node = best_child
         return path
+
+    def collect_training_data(self, max_samples=1000, min_visits=5):
+        """
+        Sammelt Trainingsdaten aus dem MCTS-Baum für das RL-Modell.
+        
+        Args:
+            max_samples (int): Maximale Anzahl zu sammelnder Trainingsbeispiele
+            min_visits (int): Minimale Anzahl von Besuchen, die ein Knoten haben muss
+                             um als Trainingsdatum berücksichtigt zu werden
+        
+        Returns:
+            list: Liste von Tupeln (observation, value), wobei:
+                - observation: Die Beobachtung des Zustands (Tensor oder Liste)
+                - value: Der normalisierte Wert (total_reward / visits)
+        """
+        training_data = []
+        # Verwende eine Queue für eine Breitensuche
+        nodes_to_process = [self.root]
+        
+        # Statistiken für Diagnose
+        total_nodes_checked = 0
+        nodes_below_threshold = 0
+        
+        while nodes_to_process and len(training_data) < max_samples:
+            current_node = nodes_to_process.pop(0)
+            total_nodes_checked += 1
+            
+            # Nur Knoten mit genügend Besuchen berücksichtigen (für stabilere Schätzungen)
+            if current_node.visits >= min_visits:
+                # Beobachtung des aktuellen Zustands abrufen
+                observation = current_node.state.get_observation_low_level()
+                
+                # Wert berechnen (Q-Wert des Knotens)
+                value = current_node.total_reward / current_node.visits if current_node.visits > 0 else 0
+                
+                # Als Trainingspaar hinzufügen
+                training_data.append((observation, value))
+            else:
+                nodes_below_threshold += 1
+            
+            # Kinder zur Verarbeitung hinzufügen
+            if current_node.children:
+                nodes_to_process.extend(current_node.children)
+        
+        # Diagnose-Ausgabe
+        print(f"Gesammelte Trainingsdaten: {len(training_data)} Samples")
+        print(f"Geprüfte Knoten insgesamt: {total_nodes_checked}")
+        print(f"Knoten unter min_visits={min_visits}: {nodes_below_threshold}")
+        print(f"Anzahl Root-Kinder: {len(self.root.children)}")
+        
+        # Falls zu wenige Knoten gesammelt wurden, versuche es mit geringerem min_visits
+        if len(training_data) < 10 and min_visits > 1:
+            print(f"Zu wenige Trainingsdaten! Versuche mit min_visits=1...")
+            return self.collect_training_data(max_samples=max_samples, min_visits=1)
+            
+        return training_data
+
+    def count_total_nodes(self):
+        """Count total number of nodes in the MCTS tree."""
+        def count_nodes(node):
+            count = 1  # Count current node
+            for child in node.children:
+                count += count_nodes(child)
+            return count
+        
+        return count_nodes(self.root)
+    
+    def get_tree_depth(self):
+        """Get the maximum depth of the MCTS tree."""
+        def get_max_depth(node):
+            if not node.children:
+                return node.depth
+            return max(get_max_depth(child) for child in node.children)
+        
+        return get_max_depth(self.root)
+    
+    def search_single_iteration(self):
+        """Perform a single MCTS iteration (selection, expansion, rollout, backpropagation)."""
+        # 1. Selection
+        node = self.select(self.root)
+        if self.debug:
+            print(f"Selected node: depth={node.depth}, action={node.action}")
+        
+        # 2. Expansion
+        if not node.is_terminal():
+            untried_actions = node.get_untried_action()
+            if untried_actions:
+                action = random.choice(untried_actions)
+                if self.debug:
+                    print(f"Expanding node with action: {action}")
+                node = node.expand(action)
+                
+                if node.state.is_terminal():
+                    if self.debug:
+                        print("Terminal-Zustand erreicht! Lösung gefunden.")
+                    # Reward wird durch evaluate() bereits gesetzt
+                    reward = node.state.evaluate(node.depth)
+                    node.backpropagate(reward)
+                    if self.debug:
+                        print(f"Rollout reward: {reward}")
+                    return True  # Terminal node found
+        
+        # 3. Rollout
+        if not node.is_terminal():
+            reward = self.rollout(node)
+            if self.debug:
+                print(f"Rollout reward: {reward}")
+            
+            # 4. Backpropagation
+            node.backpropagate(reward)
+        
+        return False  # No terminal node found
