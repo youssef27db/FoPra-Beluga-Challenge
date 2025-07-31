@@ -69,7 +69,7 @@ setup(
     zip_safe=False,
     python_requires=">=3.6",
     install_requires=[
-        "numpy>=1.19.0",  # Add other dependencies your module needs
+        "numpy>=1.19.0,<2.0.0",  # Beschränke auf NumPy 1.x für bessere Kompatibilität
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
