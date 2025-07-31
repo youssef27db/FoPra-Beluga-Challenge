@@ -5,3 +5,17 @@ __pycache__/
 .DS_Store
 /rl/agents/high_level/tmp/ppo
 .vscode/settings.json
+
+# Build and compilation artifacts
+/build/
+/build/**/*
+build/
+dist/
+*.so
+*.dll
+*.dylib
+*.egg-info/
+*.egg
+*.pyc
+*.pyo
+*.pyd
