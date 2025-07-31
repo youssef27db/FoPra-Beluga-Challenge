@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "pybind11>=2.6.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+# Skip trying to test arm64 builds on x86_64 runners
+skip = ["pp*", "*-musllinux_*"]
+
+# Run the package tests against the installed wheel
+test-command = "pytest {package}/tests"
+test-requires = ["pytest"]
+
+# Configure C++ standard for different platforms
+[tool.cibuildwheel.linux]
+environment = { CXXFLAGS="-std=c++17" }
+
+[tool.cibuildwheel.macos]
+environment = { CXXFLAGS="-std=c++17" }
+
+[tool.cibuildwheel.windows]
+environment = { CXX_FLAGS="/std:c++17" }
