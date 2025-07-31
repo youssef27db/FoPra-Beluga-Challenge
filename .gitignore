@@ -4,3 +4,4 @@ __pycache__/
 
 .DS_Store
 /rl/agents/high_level/tmp/ppo
+.vscode/settings.json
