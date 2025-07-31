@@ -18,10 +18,10 @@ if __name__ == '__main__':
     trainer = Trainer(env=env, ppo_agent=ppo_agent)
 
     # Start training
-    trainer.train(n_episodes=100000, N=20, max_steps_per_episode = 200, train_on_old_models=True)
+    trainer.train(n_episodes=100000, N=20, max_steps_per_episode = 200, train_on_old_models=True, use_permutation=False)
 
     # Evaluation
     #trainer.evaluateModel(n_eval_episodes=10, max_steps_per_episode=200, plot=True)
 
     # Problem solving
-    #trainer.evaluateProblem("problemset2/problem_12.json")
+    # trainer.evaluateProblem("problemset2/problem_12.json")

@@ -1,0 +1,25 @@
+Metadata-Version: 2.4
+Name: mcts_fast
+Version: 0.1.0
+Summary: A fast MCTS implementation with C++ backend and Python bindings
+Home-page: https://github.com/youssef27db/FoPra-Beluga-Challenge
+Author: Nils-Frederik Schulze
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: C++
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=2.0.0
+Requires-Dist: pybind11>=2.13.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+Monte Carlo Tree Search implementation with C++ backend for high performance and Python bindings via pybind11.

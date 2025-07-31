@@ -32,7 +32,18 @@ class Trainer:
             7 : "right_unstack_rack"
         }
 
-    def train(self, n_episodes=2000, N=5, max_steps_per_episode = 200, train_on_old_models = False, start_learn_after = 1000):
+    def train(self, n_episodes=2000, N=5, max_steps_per_episode = 200, train_on_old_models = False, start_learn_after = 500, use_permutation = False):
+        """
+        Trainiert den Agenten über eine bestimmte Anzahl von Episoden.
+        
+        Args:
+            n_episodes: Anzahl der Trainingsepisoden
+            N: Frequenz der Lernschritte
+            max_steps_per_episode: Maximale Anzahl von Schritten pro Episode
+            train_on_old_models: Ob vorhandene Modelle geladen werden sollen
+            start_learn_after: Nach wie vielen Schritten das Lernen beginnen soll
+            use_permutation: Ob Beobachtungen permutiert werden sollen (kann Training stabilisieren, kostet aber Zeit)
+        """
         if train_on_old_models:
             self.ppo_agent.load_models()  # Lade die Modelle des PPO-Agenten
         total_steps = 0
@@ -46,20 +57,25 @@ class Trainer:
             last_rack_id = None
             last_action = None
             positive_actions_reward = 0
-            permutation = np.random.permutation(10)
 
             while not isTerminal:
-                obs_ = None  # Reset der Beobachtung für die nächste Iteration
                 bool_heuristic = False
                 reward = 0
                 # High-Level-Entscheidung (PPO)
-                permuted_obs = permute_high_level_observation(permutation, obs)
-                high_level_action, prob, val, dist = self.ppo_agent.choose_action(permuted_obs)
+                if use_permutation:
+                    obs_ = None  # Reset der Beobachtung für die nächste Iteration
+                    permutation = np.random.permutation(10)
+                    permuted_obs = permute_high_level_observation(permutation, obs)
+                    high_level_action, prob, val, dist = self.ppo_agent.choose_action(permuted_obs)
+                else:
+                    # Ohne Permutation direkt die Beobachtung verwenden (schneller)
+                    high_level_action, prob, val, dist = self.ppo_agent.choose_action(obs)
                 high_level_action_str = self.action_mapping[high_level_action]  # Mapping der Aktion
 
-                debuglog("-" *20)
-                debuglog(high_level_action_str)
-                debuglog("-" *20)
+                # Debug-Ausgaben deaktiviert für schnellere Ausführung
+                # debuglog("-" *20)
+                # debuglog(high_level_action_str)
+                # debuglog("-" *20)
 
                 probs = dist.probs.detach().cpu().numpy()
 
@@ -67,7 +83,7 @@ class Trainer:
                     if np.all(probs == 0):
                         print("No valid action found, stopping episode.")
                         isTerminal = True
-                        reward -= 1000000.0  # Bestrafe Episode, wenn keine Aktionen auführbar sind
+                        reward -= 10000.0  # Reduzierte Bestrafung für keine gültigen Aktionen
                         break
 
                     probs[high_level_action] = 0.0  # Setze die Wahrscheinlichkeit der aktuellen Aktion auf 0
@@ -79,12 +95,12 @@ class Trainer:
                     # Low-Level-Agent: 
                     # Heuristik
                     action_name, params = decide_parameters(obs, high_level_action_str)
-                    # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden
+                    # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden (optimiert)
                     if action_name == "None":
                         root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
 
-                        # MCTS mit diesem Root-Node starten
-                        mcts = MCTS(root, depth=10, n_simulations=10)
+                        # MCTS mit diesem Root-Node starten - reduzierte Tiefe und Simulationen für Geschwindigkeit
+                        mcts = MCTS(root, depth=5, n_simulations=5)
                         best_node = mcts.search()
                         
                         if best_node:
@@ -92,9 +108,10 @@ class Trainer:
                     else:
                         bool_heuristic = True
 
-                    debuglog("-" *20)
-                    debuglog(params)
-                    debuglog("-" *20)
+                    # Debug-Ausgaben deaktiviert für schnellere Ausführung
+                    # debuglog("-" *20)
+                    # debuglog(params)
+                    # debuglog("-" *20)
             
 
                     # Überprüfe, ob wir eine loop haben mit unstacking und stacking
@@ -103,7 +120,7 @@ class Trainer:
                         if (high_level_action == 4 and last_action == 6) or (high_level_action == 5 and last_action == 7) \
                             or (high_level_action == 6 and last_action == 4) or (high_level_action == 7 and last_action == 5):
                             if last_trailer_id == params_check[1] and last_rack_id == params_check[0]:
-                                reward -= 1000.0  
+                                reward -= 200.0  # Reduzierte Bestrafung für Schleifen
                         last_action = high_level_action
                         if last_action in [4, 5, 6, 7]:
                             last_trailer_id = params_check[1]
@@ -141,14 +158,14 @@ class Trainer:
                 steps += 1
                 total_steps += 1
 
-                # PPO-Lernschritt am Ende der Episode
-                if total_steps >= start_learn_after and total_steps % N == 0:
+                # PPO-Lernschritt am Ende der Episode (optimierte Frequenz)
+                if total_steps >= start_learn_after and total_steps % (N*2) == 0:
                     self.ppo_agent.learn()
                     self.learn_iters += 1
 
-                debuglog(steps)
-                if steps >= max_steps_per_episode or total_reward <= -20000:
-                    isTerminal = True  # Abbruchbedingung, um zu lange Episoden zu vermeiden
+                # debuglog(steps) # Debug-Ausgabe deaktiviert
+                if steps >= self.env.get_max_steps() or total_reward <= -10000:
+                    isTerminal = True  # Angepasste Abbruchbedingung mit weniger strengem Reward-Limit
     
             # Metriken speichern
             self.episode_rewards.append(total_reward)
@@ -161,8 +178,12 @@ class Trainer:
                 self.ppo_agent.save_models()
                 self.best_score = avg_reward
 
-            print('episode', episode, 'score %.1f' % total_reward, 'avg score %.1f' % avg_reward, 'Best avg score %.1f' % self.best_score,
-              'time_steps', steps, 'learn_iters', self.learn_iters, 'positive reward', positive_actions_reward, 'problem', self.env.problem_name)
+            # Prüfen, ob das Problem gelöst wurde
+            solved = self.env.state.is_terminal()
+            status_symbol = "✅" if solved else "  "
+            
+            print(f'{status_symbol} episode {episode}, score {total_reward:.1f}, avg score {avg_reward:.1f}, Best avg score {self.best_score:.1f}',
+                  f'time_steps {steps}, learn_iters {self.learn_iters}, positive reward {positive_actions_reward:.1f}, problem {self.env.problem_name}')
 
 
     def evaluateModel(self, n_eval_episodes=10, max_steps_per_episode=200, plot = False):
@@ -208,7 +229,7 @@ class Trainer:
                 action_name, params = decide_parameters(obs, high_level_action_str)
                 if action_name == "None":
                     root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
-                    mcts = MCTS(root, depth=10, n_simulations=10)
+                    mcts = MCTS(root, depth=3, n_simulations=3)  # Reduzierte Parameter für schnellere Ausführung
                     best_node = mcts.search()
                     if best_node:
                         params = best_node.action[1]
@@ -298,7 +319,7 @@ class Trainer:
             action_name, params = decide_parameters(obs, high_level_action_str)
             if action_name == "None":
                 root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
-                mcts = MCTS(root, depth=10, n_simulations=10)
+                mcts = MCTS(root, depth=3, n_simulations=3)  # Reduzierte Parameter für schnellere Ausführung
                 best_node = mcts.search()
                 if best_node:
                     params = best_node.action[1]

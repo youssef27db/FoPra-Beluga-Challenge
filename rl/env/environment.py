@@ -90,41 +90,47 @@ class Env:
         """
         # Goal completed
         if self.state.is_terminal():
-            return 100000
+            return 10000
         
-        # Strafe, wenn Aktion fehlschlägt
+        # Strafe, wenn Aktion fehlschlägt, aber weniger extrem
         if not could_execute: 
-            return -100000 + min(80, self.step_count) * 1000 # Je mehr Schritte, desto weniger Strafe bis 80 Schritte
+            return -1000 + min(20, self.step_count) * 10 # Mildere Bestrafung mit moderatem Anstieg
         
         if action_name == "unload_beluga":
             # Belohen wenn beluga komplett entladen
             if len(self.state.belugas[0].current_jigs) == 1:
-                return 1000.0
-            return 50.0
+                return 2000.0  # Erhöht für bessere positive Signale
+            return 100.0  # Erhöht für bessere Zwischenschritte
         
         if action_name == "load_beluga":
             if len(self.state.belugas) > 0:
                 if len(self.state.belugas[0].outgoing) == 1:
-                    return 1000.0
-                return 50.0
+                    return 2000.0  # Erhöht für bessere positive Signale
+                return 100.0  # Erhöht für bessere Zwischenschritte
             else: 
-                return 5000.0
+                return 5000.0  # Belassen, da dies ein großer Erfolg ist
 
         if action_name in ["right_stack_rack", "left_stack_rack", "right_unstack_rack", "left_unstack_rack"]:
-            return -5.0
+            return 10.0  # Geändert zu positiv, um diese Aktionen nicht zu bestrafen
         
         if action_name == "deliver_to_hangar":
             if production_line_n_old > len(self.state.production_lines):
-                return 1000.0
-            return 100.0
+                return 2000.0  # Erhöht für bessere positive Signale
+            return 200.0  # Erhöht für bessere Zwischenschritte
         
         if action_name == "get_from_hangar":
-            return 5.0
+            return 50.0  # Erhöht für bessere Zwischenschritte
         
         return 0
 
     def get_observation_high_level(self):
         return self.state.get_observation_high_level()
+    
+    def get_max_steps(self):
+        """
+        Returns the maximum number of steps based on the problem size.
+        """
+        return len(self.state.jigs) * 12 + 50
 
     def get_observation_low_level(self):
         # Return the current state of the environment for a low-level agent
