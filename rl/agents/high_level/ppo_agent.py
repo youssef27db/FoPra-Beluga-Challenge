@@ -49,15 +49,14 @@ class PPOMemory:
 
 
 class ActorNetwork(nn.Module):
-    def __init__(self, n_actions, input_dims, alpha, fc1dims=512, fc2dims=512, fc3dims=256, fc4dims=128, chkpt_dir='tmp/ppo'):
+    def __init__(self, n_actions, input_dims, alpha, fc1dims=256, fc2dims=256, fc3dims=128, chkpt_dir='tmp/ppo'):
         super(ActorNetwork, self).__init__()
 
         self.checkpoint_file = os.path.join(chkpt_dir, 'actor_torch_ppo')
         self.actor = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                    nn.Linear(fc1dims, fc2dims), nn.ReLU(),
                                    nn.Linear(fc2dims, fc3dims), nn.ReLU(),
-                                   nn.Linear(fc3dims, fc4dims), nn.ReLU(),
-                                   nn.Linear(fc4dims, n_actions), nn.Softmax(dim=-1))
+                                   nn.Linear(fc3dims, n_actions), nn.Softmax(dim=-1))
 
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
         self.device = T.device('cuda' if T.cuda.is_available() else 'cpu')
@@ -80,15 +79,14 @@ class ActorNetwork(nn.Module):
 
 
 class CriticNetwork(nn.Module):
-    def __init__(self, input_dims, alpha, fc1dims=512, fc2dims=512, fc3dims=256, fc4dims=128, chkpt_dir='tmp/ppo'):
+    def __init__(self, input_dims, alpha, fc1dims=256, fc2dims=256, fc3dims=128, chkpt_dir='tmp/ppo'):
         super(CriticNetwork, self).__init__()
 
         self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_ppo')
         self.critic = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                     nn.Linear(fc1dims, fc2dims), nn.ReLU(),
                                     nn.Linear(fc2dims, fc3dims), nn.ReLU(),
-                                    nn.Linear(fc3dims, fc4dims), nn.ReLU(),
-                                    nn.Linear(fc4dims, 1))
+                                    nn.Linear(fc3dims, 1))
 
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
         self.device = T.device('cuda' if T.cuda.is_available() else 'cpu')
@@ -110,8 +108,8 @@ class CriticNetwork(nn.Module):
 
 
 class PPOAgent:
-    def __init__(self, input_dims, n_actions, gamma=0.99, alpha=0.0003, gae_lambda=0.95,
-                 policy_clip=0.1, batch_size=64, N=2048, n_epochs=10):
+    def __init__(self, input_dims, n_actions, gamma=0.99, alpha=0.0005, gae_lambda=0.95,
+                 policy_clip=0.2, batch_size=128, N=1024, n_epochs=5):
         self.gamma = gamma
         self.policy_clip = policy_clip
         self.n_epochs = n_epochs
