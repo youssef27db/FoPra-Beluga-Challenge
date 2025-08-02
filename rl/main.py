@@ -4,7 +4,7 @@ from rl.training.trainer import * # Trainer
 
 if __name__ == '__main__':
     # Initialize environment
-    env = Env(path="problemset2/")
+    env = Env(path="problems/", base_index=57)  # Set base_index to -1 for initial problem selection #TODO: Bei train old models = true, setzen wir base_index = 13
 
     # Initialize High-Level-Agent (PPO)
     n_actions = 8  # Number of actions the agent can take
@@ -19,11 +19,11 @@ if __name__ == '__main__':
     trainer = Trainer(env=env, ppo_agent=ppo_agent, debug=False)
 
     # Start training
-    # trainer.train(n_episodes=100000, N=10, max_steps_per_episode=200, train_on_old_models=True, use_permutation=False, start_learn_after=250)
+    trainer.train(n_episodes=10000, N=10, max_steps_per_episode=200, train_on_old_models=True, use_permutation=False, start_learn_after=250)
 
     # Evaluation
     #trainer.evaluateModel(n_eval_episodes=10, max_steps_per_episode=200, plot=True)
 
     # Problem solving
     # trainer.evaluateProblem("problemset2/problem_13.json")
-    trainer.evaluateProblem("problems/problem_90_s132_j137_r8_oc81_f43.json", max_steps=100000)
+    # trainer.evaluateProblem("problems/problem_90_s132_j137_r8_oc81_f43.json", max_steps=100000)

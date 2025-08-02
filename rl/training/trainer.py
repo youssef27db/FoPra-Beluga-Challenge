@@ -24,8 +24,8 @@ class Trainer:
         
         # Exploration-Parameter
         self.epsilon_start = 0.9  # Anfangswert für Epsilon (Explorations-Wahrscheinlichkeit)
-        self.epsilon_end = 0.05   # Endwert für Epsilon
-        self.epsilon_decay = 0.0001  # Rate, mit der Epsilon reduziert wird
+        self.epsilon_end = 0.2   # Endwert für Epsilon
+        self.epsilon_decay = 0.00001  # Rate, mit der Epsilon reduziert wird
         self.total_steps = 0      # Gesamtzahl der durchgeführten Schritte
         
         # Number to Action Mapping
@@ -205,7 +205,7 @@ class Trainer:
                         root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
 
                         # MCTS mit diesem Root-Node starten - reduzierte Tiefe und Simulationen für Geschwindigkeit
-                        mcts = MCTS(root, depth=5, n_simulations=5) #TODO 50 für große probleme
+                        mcts = MCTS(root, depth=5, n_simulations=60) #TODO 60 für große probleme
                         best_node = mcts.search()
                         
                         if best_node:
@@ -288,6 +288,16 @@ class Trainer:
             avg_reward = np.mean(self.episode_rewards[-10:])
             self.avg_rewards.append(avg_reward)
             self.steps_per_episode.append(steps)
+            
+            # Überprüfen, ob ein Reset von Epsilon nötig ist
+            # Wenn die letzten 6 Episoden alle sehr schlechte Rewards haben, setze Epsilon zurück
+            if len(self.episode_rewards) >= 6:
+                recent_rewards = self.episode_rewards[-6:]
+                if all(reward <= -10000 for reward in recent_rewards):
+                    print("\nSehr schlechte Performance in den letzten 10 Episoden. Setze Epsilon zurück, um mehr zu explorieren.")
+                    self.epsilon_start = 0.9  # Zurücksetzen auf Anfangswert
+                    self.epsilon_decay = 0.00001  # Zurücksetzen der Decay-Rate
+                    self.total_steps = 0  # Zurücksetzen der Schritte für die Epsilon-Berechnung
 
             # Fortschritt anzeigen
             if avg_reward > self.best_score:
@@ -299,7 +309,7 @@ class Trainer:
             status_symbol = "✅" if solved else "  "
             
             print(f'{status_symbol} episode {episode}, score {total_reward:.1f}, avg score {avg_reward:.1f}, Best avg score {self.best_score:.1f}',
-                  f'time_steps {steps}, learn_iters {self.learn_iters}, positive reward {positive_actions_reward:.1f}, problem {self.env.problem_name}')
+                  f'time_steps {steps}/{self.env.get_max_steps()}, learn_iters {self.learn_iters}, positive reward {positive_actions_reward:.1f}, problem {self.env.problem_name}, {self.env.base_index}')
                   
             # Speichere das Modell alle 100 Episoden als Checkpoint
             if episode > 0 and episode % 100 == 0:

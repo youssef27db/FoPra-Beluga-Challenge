@@ -344,7 +344,8 @@ class ProblemState:
         needed_in_production_lines = []
 
         for pl in self.production_lines:
-            needed_in_production_lines.append(pl.scheduled_jigs[0])
+            if len(pl.scheduled_jigs) > 0:
+                needed_in_production_lines.append(pl.scheduled_jigs[0])
 
         # First slot 0 beluga
         if len(self.belugas) > 0:

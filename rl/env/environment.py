@@ -10,17 +10,22 @@ from .action import (
     right_unstack_rack
 )
 import numpy as np
+import os, re
 from .check_action import *
 from numpy.random import randint
 
 class Env:
-    def __init__(self, path: str):
+    def __init__(self, path: str, base_index: int = -1):
         # Initialize environment variables here
         self.state : ProblemState = None  # Not initialized yet, will be set in reset()
         self.path = path 
         self.step_count = 0  # Counter for the number of steps taken, as termination condition in training/evaluation
         self.problem_name = None
-
+        self.sorted_problems = []  # List to hold sorted problems by jig count
+        self.problem_count = 0  # Counter for the number of problems solved
+        self.base_index = base_index  # Base index for problem selection, used to select problems in ascending order of jig count
+        self.problems_solved = 0  # Counter for the number of problems solved
+        self.block_size = 6  # Number of problems to select in each block
 
         # Map action names to action functions
         self.check_action_map = {
@@ -33,6 +38,24 @@ class Env:
             "left_unstack_rack": check_left_unstack_rack,
             "right_unstack_rack": check_right_unstack_rack
         }
+
+        # Alle JSON-Dateien im problems-Ordner finden
+        if os.path.exists(self.path):
+            problem_files = [f for f in os.listdir(self.path) if f.endswith('.json')]
+            
+            # Extrahiere die Anzahl der Jigs aus jedem Dateinamen mit regulärem Ausdruck
+            jig_counts = []
+            for file in problem_files:
+                match = re.search(r'_j(\d+)_', file)
+                if match:
+                    jig_count = int(match.group(1))
+                    jig_counts.append((file, jig_count))
+                     
+            # Sortiere nach Anzahl der Jigs (aufsteigend)
+            self.sorted_problems = sorted(jig_counts, key=lambda x: x[1])
+            self.problem_count = len(self.sorted_problems)  # Set the problem count based on the sorted problems
+
+
 
     def step(self, action_name: str, params=None):
         """
@@ -57,21 +80,34 @@ class Env:
         reward = self.get_reward(could_execute, action_name, n_production_lines)
         self.step_count += 1  # Increment the step count
 
+        if self.state.is_terminal():
+            self.problems_solved += 1
+
         return obs, reward, self.state.is_terminal()
 
 
 
     def reset(self):
         """
-        Resets the environment’s state from a random JSON file
+        Resets the environment's state from a JSON file in the problems folder,
+        selecting problems in ascending order of jigs count (in blocks of 6 problems)
         """
-        # Wähle random datei aus problemset
-        number = randint(1, 21)
 
-        self.problem_name = self.path + f"problem_{number}.json"
+        number = randint(1, self.block_size + 1)
+
+        # Erhöhe base_index nur, wenn problems_solved > 0 ist (um Erhöhung bei Initialisierung zu verhindern)
+        # und wenn es ein Vielfaches von block_size * 3 ist (alle 18 Probleme bei block_size=6)
+        if self.problems_solved > 0 and (self.problems_solved % (self.block_size * 3)) == 0:
+            self.base_index += 1
+            self.problems_solved = 0
+
+        # If we have reached the end of the sorted problems, choose a random problem
+        if self.base_index + number >= self.problem_count:
+            self.problem_name = os.path.join(self.path, self.sorted_problems[randint(0, self.problem_count)][0])
+        else:    
+            self.problem_name = os.path.join(self.path, self.sorted_problems[self.base_index + number][0])
+
         self.state = load_from_json(self.problem_name)
-        self.step_count = 0  # Reset the step count
-
         return self.get_observation_high_level()
     
     def reset_specific_problem(self, problem):
@@ -98,8 +134,9 @@ class Env:
         
         if action_name == "unload_beluga":
             # Belohen wenn beluga komplett entladen
-            if len(self.state.belugas[0].current_jigs) == 1:
-                return 2000.0  # Erhöht für bessere positive Signale
+            if len(self.state.belugas) > 0:
+                if len(self.state.belugas[0].current_jigs) == 1:
+                    return 2000.0  # Erhöht für bessere positive Signale
             return 100.0  # Erhöht für bessere Zwischenschritte
         
         if action_name == "load_beluga":
@@ -130,7 +167,7 @@ class Env:
         """
         Returns the maximum number of steps based on the problem size.
         """
-        return len(self.state.jigs) * 12 + 50
+        return len(self.state.jigs) * 20 + 100
 
     def get_observation_low_level(self):
         # Return the current state of the environment for a low-level agent
