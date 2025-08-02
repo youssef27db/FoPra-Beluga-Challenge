@@ -661,5 +661,29 @@ class Trainer:
         if len(visited_states) == len(action_trace) + 1:
             print("\nAlle besuchten Zustände wurden korrekt erfasst!!!")
             
+        initial_state_count = len(visited_states)
+        # Loop-Detection and removal of unnecessary states
+        if loop_detection:
+            state_count = len(visited_states)
+
+            for i in range(state_count):
+                if i >= state_count:
+                    break
+                index = -1
+                for j in range(1, state_count - i -1):
+                    #print(j+i)
+                    if j + i >= len(visited_states):
+                        break
+                    if visited_states[i] == visited_states[j + i]:
+                        index = j + i
+                if index != -1:
+                    del visited_states[i : index]
+                    del action_trace[i : index]
+                    state_count -= (index - i - 1)
+
+            if len(visited_states) == len(action_trace) + 1:
+                print(f"\nReduktion um {initial_state_count - state_count} Zustände erfolgreich!")                
+
+
         # Rückgabe erweitert um visited_states (alle besuchten Zustände)
         return isTerminal, len(action_trace), visited_states

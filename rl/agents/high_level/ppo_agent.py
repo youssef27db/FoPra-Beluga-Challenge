@@ -49,10 +49,10 @@ class PPOMemory:
 
 
 class ActorNetwork(nn.Module):
-    def __init__(self, n_actions, input_dims, alpha, fc1dims=256, fc2dims=256, fc3dims=128, chkpt_dir='tmp/ppo'):
+    def __init__(self, n_actions, input_dims, alpha, fc1dims=256, fc2dims=256, fc3dims=128, chkpt_dir='tmp/ppo', name = 'ppo'):
         super(ActorNetwork, self).__init__()
 
-        self.checkpoint_file = os.path.join(chkpt_dir, 'actor_torch_ppo')
+        self.checkpoint_file = os.path.join(chkpt_dir, 'actor_torch_' + name)
         self.actor = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                    nn.Linear(fc1dims, fc2dims), nn.ReLU(),
                                    nn.Linear(fc2dims, fc3dims), nn.ReLU(),
@@ -79,10 +79,10 @@ class ActorNetwork(nn.Module):
 
 
 class CriticNetwork(nn.Module):
-    def __init__(self, input_dims, alpha, fc1dims=256, fc2dims=256, fc3dims=128, chkpt_dir='tmp/ppo'):
+    def __init__(self, input_dims, alpha, fc1dims=256, fc2dims=256, fc3dims=128, chkpt_dir='tmp/ppo', name = 'ppo'):
         super(CriticNetwork, self).__init__()
 
-        self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_ppo')
+        self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_' + name)
         self.critic = nn.Sequential(nn.Linear(input_dims, fc1dims), nn.ReLU(),
                                     nn.Linear(fc1dims, fc2dims), nn.ReLU(),
                                     nn.Linear(fc2dims, fc3dims), nn.ReLU(),
@@ -109,14 +109,14 @@ class CriticNetwork(nn.Module):
 
 class PPOAgent:
     def __init__(self, input_dims, n_actions, gamma=0.99, alpha=0.0005, gae_lambda=0.95,
-                 policy_clip=0.2, batch_size=128, N=1024, n_epochs=5):
+                 policy_clip=0.2, batch_size=128, N=1024, n_epochs=5, model_name ='ppo'):
         self.gamma = gamma
         self.policy_clip = policy_clip
         self.n_epochs = n_epochs
         self.gae_lambda = gae_lambda
 
-        self.actor = ActorNetwork(n_actions, input_dims, alpha)
-        self.critic = CriticNetwork(input_dims, alpha)
+        self.actor = ActorNetwork(n_actions, input_dims, alpha, name = model_name)
+        self.critic = CriticNetwork(input_dims, alpha, name = model_name)
         self.memory = PPOMemory(batch_size)
 
 
