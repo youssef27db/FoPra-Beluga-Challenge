@@ -657,9 +657,6 @@ class Trainer:
         print("\nAktionsstatistik:")
         for action, count in action_counts.items():
             print(f"{action}: {count} ({count/len(action_trace)*100:.1f}%)")
-
-        if len(visited_states) == len(action_trace) + 1:
-            print("\nAlle besuchten Zustände wurden korrekt erfasst!!!")
             
         initial_state_count = len(visited_states)
         # Loop-Detection and removal of unnecessary states
