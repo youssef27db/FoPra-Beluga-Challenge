@@ -30,8 +30,7 @@ Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
 > 💡 **Vorteil:** Durch diese modulare Trennung können wir die Stärken verschiedener Methoden gezielt nutzen und die Charakteristika einzelner Teilprobleme optimal abdecken.
 
 ## 📄 Projektdokumentation
-Die vollständige, generierte HTML-Dokumentation befindet sich im Ordner [`docs/html`](./docs/html).  
-Du kannst sie lokal öffnen über:
+Die vollständige generierte HTML-Dokumentation findest du hier:  
+[📖 Projekt-Dokumentation anzeigen](https://youssef27db.github.io/FoPra-Beluga-Challenge/docs/index.html)
 
-[**📖 Projekt-Dokumentation anzeigen**](./docs/html/index.html)
 
