@@ -34,6 +34,8 @@ def main():
                        help='Pfad zum zu evaluierenden Problem (default: problems/problem_90_s132_j137_r8_oc81_f43.json (Bigest Problem with 10 Racks))')
     parser.add_argument('--max_problem_steps', type=int, default=20000,
                        help='Maximale Schritte für Problem-Evaluation (default: 20000)')
+    parser.add_argument('--save_to_file', action='store_true', default=False,
+                       help='Speichere Ergebnisse in TXT-Datei (default: False)')
     
     args = parser.parse_args()
     
@@ -66,7 +68,7 @@ def main():
         
     elif args.mode == 'problem':
         print(f"Evaluiere Problem: {args.problem_path}")
-        trainer.evaluateProblem(args.problem_path, max_steps=args.max_problem_steps)
+        trainer.evaluateProblem(args.problem_path, max_steps=args.max_problem_steps, save_to_file=args.save_to_file)
 
 if __name__ == '__main__':
     main()
@@ -91,6 +93,8 @@ Beispiele:
 python -m rl.main --mode train --n_episodes 5000 --base_index 61 --use_permutation 
 
 python -m rl.main --mode problem --problem_path "problems/problem_90_s132_j137_r8_oc81_f43.json"
+
+python -m rl.main --mode problem --problem_path "problems/problem_7_s49_j5_r2_oc85_f6.json" --save_to_file
 
 
 """

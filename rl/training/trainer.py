@@ -457,7 +457,7 @@ class Trainer:
             plt.show()
 
 
-    def evaluateProblem(self, problem, max_steps=2000, loop_detection=True, exploration_rate=0.1):
+    def evaluateProblem(self, problem, max_steps=2000, loop_detection=True, exploration_rate=0.1, save_to_file=False):
         """
         Löst ein spezifisches Problem mit dem trainierten Modell.
         
@@ -466,9 +466,15 @@ class Trainer:
             max_steps: Maximale Anzahl an Schritten, um Endlosschleifen zu vermeiden
             loop_detection: Aktiviert die Erkennung und Vermeidung von Aktionsschleifen
             exploration_rate: Wahrscheinlichkeit, eine zufällige Aktion zu wählen, um aus Schleifen auszubrechen
+            save_to_file: Speichert Ergebnisse in TXT-Datei
             
         Ausgegeben wird die Reihenfolge der Aktionen und Parameter.
         """
+        import time
+        
+        # Zeitmessung starten
+        start_time = time.time()
+        
         obs = self.env.reset_specific_problem(problem)
         self.ppo_agent.load_models()
 
@@ -632,12 +638,14 @@ class Trainer:
             if temperature > 1.0:
                 temperature = max(1.0, temperature - 0.1)
 
-            print(f"Aktion: {high_level_action_str}, Parameter: {params}")
+            #print(f"Aktion: {high_level_action_str}, Parameter: {params}")
 
         
-        print("\nReihenfolge der Aktionen:")
-        for i, (action, params) in enumerate(action_trace, 1):
-            print(f"{i:02d}: {action}  |  Parameter: {params}")
+        # print("\nReihenfolge der Aktionen:")
+        # for i, (action, params) in enumerate(action_trace, 1):
+        #     # Formatiere Parameter für bessere Lesbarkeit
+        #     formatted_params = self._format_parameters(action, params)
+        #     print(f"{i:02d}: {action}  |  Parameter: {formatted_params}")
 
         # Ausgabe
         print("\n" + "="*50)
@@ -677,10 +685,184 @@ class Trainer:
                     del visited_states[i : index]
                     del action_trace[i : index]
                     state_count -= (index - i - 1)
+    
+        print("\n" + "="*50)
+        print("Anzahl der Aktionen nach Post-Processing:", len(action_trace), "\nOptimierung/Reduktion:" , f"{(1 - len(action_trace)/steps) * 100: .2f}", "%")
+        print("="*50)        
 
-            if len(visited_states) == len(action_trace) + 1:
-                print(f"\nReduktion um {initial_state_count - state_count} Zustände erfolgreich!")                
+        # Zeitmessung beenden
+        end_time = time.time()
+        execution_time = end_time - start_time
+        
+        # Formatiere die Zeit leserlich
+        def format_time(seconds):
+            if seconds < 60:
+                return f"{seconds:.2f} Sekunden"
+            elif seconds < 3600:
+                minutes = int(seconds // 60)
+                secs = seconds % 60
+                return f"{minutes} Min {secs:.1f} Sek"
+            else:
+                hours = int(seconds // 3600)
+                minutes = int((seconds % 3600) // 60)
+                secs = seconds % 60
+                return f"{hours} Std {minutes} Min {secs:.1f} Sek"
+        
+        formatted_time = format_time(execution_time)
+        print(f"\nBenötigte Zeit: {formatted_time}")
 
+        # Aktionsstatistik nach Optimierung berechnen
+        optimized_action_counts = {}
+        for action, _ in action_trace:
+            if action in optimized_action_counts:
+                optimized_action_counts[action] += 1
+            else:
+                optimized_action_counts[action] = 1
+        
+        print("\nOptimierte Aktionsstatistik:")
+        for action, count in optimized_action_counts.items():
+            percentage = count/len(action_trace)*100 if len(action_trace) > 0 else 0
+            print(f"{action}: {count} ({percentage:.1f}%)")
+
+        # Speichere Ergebnisse in Datei, wenn gewünscht
+        if save_to_file:
+            self._save_results_to_file(problem, steps, max_steps, isTerminal, action_trace, optimized_action_counts, len(action_trace), steps, execution_time, formatted_time)
 
         # Rückgabe erweitert um visited_states (alle besuchten Zustände)
         return isTerminal, len(action_trace), visited_states
+    
+
+    def _save_results_to_file(self, problem, steps, max_steps, is_terminal, action_trace, action_counts, optimized_steps, original_steps, execution_time, formatted_time):
+        """
+        Speichert die Ergebnisse der Problemlösung in eine formatierte TXT-Datei.
+        
+        Args:
+            problem: Pfad zum Problem-JSON
+            steps: Anzahl der durchgeführten Schritte
+            max_steps: Maximale Anzahl an Schritten
+            is_terminal: Ob das Problem erfolgreich gelöst wurde
+            action_trace: Liste der durchgeführten Aktionen mit Parametern
+            action_counts: Dictionary mit Aktionszählungen (nach Optimierung)
+            optimized_steps: Anzahl der Schritte nach Optimierung
+            original_steps: Ursprüngliche Anzahl der Schritte
+            execution_time: Benötigte Zeit in Sekunden
+            formatted_time: Formatierte Zeit als String
+        """
+        import os
+        from datetime import datetime
+        
+        # Erstelle Output-Verzeichnis falls es nicht existiert
+        output_dir = "results"
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        
+        # Extrahiere Problem-Namen für Dateinamen
+        problem_name = os.path.basename(problem).replace('.json', '')
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{output_dir}/solution_{problem_name}_{timestamp}.txt"
+        
+        with open(filename, 'w', encoding='utf-8') as f:
+            # Header
+            f.write("="*70 + "\n")
+            f.write("BELUGA CHALLENGE - LÖSUNGSPROTOKOLL\n")
+            f.write("="*70 + "\n\n")
+            
+            # Problem-Information
+            f.write(f"Problem: {problem}\n")
+            f.write(f"Lösungsdatum: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}\n")
+            f.write(f"Anzahl Schritte: {steps}/{max_steps}\n")
+            f.write(f"Erfolgreicher Abschluss: {'Ja' if is_terminal else 'Nein - Maximale Schritte erreicht'}\n")
+            f.write(f"Benötigte Zeit: {formatted_time}\n\n")
+            
+            # Aktionsstatistik (nach Optimierung)
+            f.write("="*70 + "\n")
+            f.write("AKTIONSSTATISTIK (NACH OPTIMIERUNG)\n")
+            f.write("="*70 + "\n\n")
+            
+            for action, count in action_counts.items():
+                percentage = count/len(action_trace)*100 if len(action_trace) > 0 else 0
+                f.write(f"{action:<25}: {count:>4} ({percentage:>5.1f}%)\n")
+            
+            # Optimierung
+            f.write(f"\n{'='*70}\n")
+            f.write("OPTIMIERUNG\n")
+            f.write(f"{'='*70}\n\n")
+            f.write(f"Ursprüngliche Anzahl Schritte: {original_steps}\n")
+            f.write(f"Optimierte Anzahl Schritte: {optimized_steps}\n")
+            optimization_percentage = (1 - optimized_steps/original_steps) * 100 if original_steps > 0 else 0
+            f.write(f"Optimierung/Reduktion: {optimization_percentage:.2f}%\n\n")
+            
+            # Optimierte Aktionssequenz
+            f.write("="*70 + "\n")
+            f.write("OPTIMIERTE AKTIONSSEQUENZ\n")
+            f.write("="*70 + "\n\n")
+            
+            for i, (action, params) in enumerate(action_trace, 1):
+                # Formatiere Parameter für bessere Lesbarkeit
+                formatted_params = self._format_parameters(action, params)
+                
+                # Formatiere die Ausgabe
+                if formatted_params:
+                    params_str = ", ".join([f"{k}={v}" for k, v in formatted_params.items()])
+                    f.write(f"{i:>3}: {action:<25} | Parameter: {params_str}\n")
+                else:
+                    f.write(f"{i:>3}: {action:<25} | Parameter: -\n")
+            
+            f.write(f"\n{'='*70}\n")
+            f.write("ENDE DES PROTOKOLLS\n")
+            f.write(f"{'='*70}\n")
+        
+        print(f"\nErgebnisse wurden gespeichert in: {filename}")
+
+    def _format_parameters(self, action, params):
+        """
+        Formatiert Parameter für bessere Lesbarkeit in der Ausgabe.
+        Konvertiert Tupel und Listen in aussagekräftige Dictionary-Formate.
+        """
+        # Wenn params bereits ein Dictionary ist, filtere None-Werte und 'none'-Schlüssel heraus
+        if isinstance(params, dict):
+            # Filtere None-Werte und 'none'-Schlüssel heraus
+            filtered_params = {k: v for k, v in params.items() 
+                             if v is not None and k.lower() != 'none'}
+            return filtered_params
+            
+        # Wenn params eine Liste oder Tupel ist, konvertiere je nach Aktion
+        if isinstance(params, (list, tuple)):
+            if len(params) == 0:
+                return {}
+            elif action in ["left_stack_rack", "right_stack_rack"]:
+                if len(params) >= 2:
+                    result = {"rack": params[0], "trailer": params[1]}
+                else:
+                    result = {"rack": params[0] if len(params) > 0 else None}
+                # Filtere None-Werte heraus
+                return {k: v for k, v in result.items() if v is not None}
+            elif action in ["left_unstack_rack", "right_unstack_rack"]:
+                if len(params) >= 2:
+                    result = {"rack": params[0], "trailer": params[1]}
+                else:
+                    result = {"rack": params[0] if len(params) > 0 else None}
+                # Filtere None-Werte heraus
+                return {k: v for k, v in result.items() if v is not None}
+            elif action == "load_beluga":
+                if len(params) >= 1:
+                    result = {"trailer": params[0]}
+                else:
+                    result = {}
+                # Filtere None-Werte heraus
+                return {k: v for k, v in result.items() if v is not None}
+            elif action == "unload_beluga":
+                return {}
+            elif action in ["get_from_hangar", "deliver_to_hangar"]:
+                if len(params) >= 2:
+                    result = {"hangar": params[0], "trailer": params[1]}
+                else:
+                    result = {"hangar": params[0] if len(params) > 0 else None}
+                # Filtere None-Werte heraus
+                return {k: v for k, v in result.items() if v is not None}
+            else:
+                # Fallback für unbekannte Aktionen
+                return {"params": params}
+        
+        # Fallback für andere Typen
+        return params
