@@ -1,0 +1,499 @@
+\doxysection{rl.\+env.\+environment.\+Env Class Reference}
+\hypertarget{classrl_1_1env_1_1environment_1_1_env}{}\label{classrl_1_1env_1_1environment_1_1_env}\index{rl.env.environment.Env@{rl.env.environment.Env}}
+
+
+Beluga Challenge environment for reinforcement learning.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a854345c229606424171d25bbca295cc6}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{path}}, int \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}{base\+\_\+index}}=-\/1)
+\begin{DoxyCompactList}\small\item\em Initialize the Beluga Challenge environment. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a76393a457d967795a342ab2b337dafe1}{step}} (self, str action\+\_\+name, params=None)
+\begin{DoxyCompactList}\small\item\em Execute a single environment step with the given action. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a28122a6add6549d34e304fa70fae6304}{reset}} (self)
+\begin{DoxyCompactList}\small\item\em Reset the environment with a new problem instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a3d6e6d0ea00ba57d24e24bcec9e2f576}{reset\+\_\+specific\+\_\+problem}} (self, problem)
+\begin{DoxyCompactList}\small\item\em Reset the environment with a specific problem instance. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ac4121b9da9e6b7a6fbbe63d8f815f6b6}{get\+\_\+reward}} (self, bool could\+\_\+execute, str action\+\_\+name, production\+\_\+line\+\_\+n\+\_\+old)
+\begin{DoxyCompactList}\small\item\em Calculate the reward for the current action. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}{get\+\_\+observation\+\_\+high\+\_\+level}} (self)
+\begin{DoxyCompactList}\small\item\em Get the high-\/level observation of the current state. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a72aa4d5e730a250ed60129f424e82b1b}{get\+\_\+max\+\_\+steps}} (self)
+\begin{DoxyCompactList}\small\item\em Get the maximum number of steps to solve the current problem. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ae548ff172d321b8a5da2b5a8f2aef90d}{check\+\_\+action\+\_\+execution}} (self, str action\+\_\+name, obs)
+\begin{DoxyCompactList}\small\item\em Check if the action can be executed without actually executing it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state}{Problem\+State}} \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}} = None
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{path}} = path
+\item 
+int \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b}{step\+\_\+count}} = 0
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{problem\+\_\+name}} = None
+\item 
+list \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}{sorted\+\_\+problems}} = \mbox{[}$\,$\mbox{]}
+\item 
+int \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d}{problem\+\_\+count}} = 0
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}{base\+\_\+index}} = base\+\_\+index
+\item 
+int \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}{problems\+\_\+solved}} = 0
+\item 
+int \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa7aeae08ab212e94a1daf3d11e516c1a}{block\+\_\+size}} = 6
+\item 
+dict \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a30f8172ea1dc5ad2e16a7f72015ba466}{check\+\_\+action\+\_\+map}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Beluga Challenge environment for reinforcement learning. 
+
+This class implements the main environment for the Beluga Challenge shipping container optimization problem. It manages problem states, action execution, reward calculation, and episode management. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a854345c229606424171d25bbca295cc6}\index{rl.env.environment.Env@{rl.env.environment.Env}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a854345c229606424171d25bbca295cc6} 
+rl.\+env.\+environment.\+Env.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{str}]{path}{, }\item[{int }]{base\+\_\+index}{ = {\ttfamily -\/1}}\end{DoxyParamCaption})}
+
+
+
+Initialize the Beluga Challenge environment. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to the directory containing problem JSON files \\
+\hline
+{\em base\+\_\+index} & Base index for problem selection \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{def\ }\_\_init\_\_(self,\ path:\ str,\ base\_index:\ int\ =\ -\/1): }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00036\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ Beluga\ Challenge\ environment }}
+\DoxyCodeLine{00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ path\ Path\ to\ the\ directory\ containing\ problem\ JSON\ files }}
+\DoxyCodeLine{00038\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ base\_index\ Base\ index\ for\ problem\ selection }}
+\DoxyCodeLine{00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initialize\ environment\ variables\ here }}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ self.state\ :\ ProblemState\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Not\ initialized\ yet,\ will\ be\ set\ in\ reset() }}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ self.path\ =\ path\  }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ self.step\_count\ =\ 0\ \ \textcolor{comment}{\#\ Counter\ for\ the\ number\ of\ steps\ taken,\ as\ termination\ condition\ in\ training/evaluation }}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ self.problem\_name\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ self.sorted\_problems\ =\ []\ \ \textcolor{comment}{\#\ List\ to\ hold\ sorted\ problems\ by\ jig\ count }}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ self.problem\_count\ =\ 0\ \ \textcolor{comment}{\#\ Counter\ for\ the\ number\ of\ problems\ solved }}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ self.base\_index\ =\ base\_index\ \ \textcolor{comment}{\#\ Base\ index\ for\ problem\ selection,\ used\ to\ select\ problems\ in\ ascending\ order\ of\ jig\ count }}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ self.problems\_solved\ =\ 0\ \ \textcolor{comment}{\#\ Counter\ for\ the\ number\ of\ problems\ solved }}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ self.block\_size\ =\ 6\ \ \textcolor{comment}{\#\ Number\ of\ problems\ to\ select\ in\ each\ block }}
+\DoxyCodeLine{00050\  }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Map\ action\ names\ to\ action\ functions }}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ self.check\_action\_map\ =\ \{ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}load\_beluga"{}}:\ check\_load\_beluga, }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unload\_beluga"{}}:\ check\_unload\_beluga, }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}:\ check\_get\_from\_hangar, }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}:\ check\_deliver\_to\_hangar, }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}:\ check\_left\_stack\_rack, }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}:\ check\_right\_stack\_rack, }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}:\ check\_left\_unstack\_rack, }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}:\ check\_right\_unstack\_rack }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \} }
+\DoxyCodeLine{00062\  }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Find\ all\ JSON\ files\ in\ the\ problems\ folder }}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.exists(self.path): }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ problem\_files\ =\ [f\ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ os.listdir(self.path)\ \textcolor{keywordflow}{if}\ f.endswith(\textcolor{stringliteral}{'.json'})] }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ the\ number\ of\ jigs\ from\ each\ filename\ using\ regular\ expression }}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_counts\ =\ [] }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\ \textcolor{keywordflow}{in}\ problem\_files: }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ match\ =\ re.search(\textcolor{stringliteral}{r'\_j(\(\backslash\)d+)\_'},\ file) }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ match: }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\_count\ =\ int(match.group(1)) }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\_counts.append((file,\ jig\_count)) }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Sort\ by\ number\ of\ jigs\ (ascending) }}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ self.sorted\_problems\ =\ sorted(jig\_counts,\ key=\textcolor{keyword}{lambda}\ x:\ x[1]) }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ self.problem\_count\ =\ len(self.sorted\_problems)\ \ \textcolor{comment}{\#\ Set\ the\ problem\ count\ based\ on\ the\ sorted\ problems }}
+\DoxyCodeLine{00078\  }
+\DoxyCodeLine{00079\  }
+\DoxyCodeLine{00080\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_ae548ff172d321b8a5da2b5a8f2aef90d}\index{rl.env.environment.Env@{rl.env.environment.Env}!check\_action\_execution@{check\_action\_execution}}
+\index{check\_action\_execution@{check\_action\_execution}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{check\_action\_execution()}{check\_action\_execution()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_ae548ff172d321b8a5da2b5a8f2aef90d} 
+rl.\+env.\+environment.\+Env.\+check\+\_\+action\+\_\+execution (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{str}]{action\+\_\+name}{, }\item[{}]{obs}{}\end{DoxyParamCaption})}
+
+
+
+Check if the action can be executed without actually executing it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action\+\_\+name} & Name of the action to check \\
+\hline
+{\em obs} & Current observation of the environment \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the action can be executed, False otherwise 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keyword}{def\ }check\_action\_execution(self,\ action\_name:\ str,\ obs): }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00213\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ if\ the\ action\ can\ be\ executed\ without\ actually\ executing\ it }}
+\DoxyCodeLine{00214\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ to\ check }}
+\DoxyCodeLine{00215\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ obs\ Current\ observation\ of\ the\ environment }}
+\DoxyCodeLine{00216\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ the\ action\ can\ be\ executed,\ False\ otherwise }}
+\DoxyCodeLine{00217\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ \textcolor{keywordflow}{in}\ self.check\_action\_map: }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.check\_action\_map[action\_name](self.state,\ obs)}
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a72aa4d5e730a250ed60129f424e82b1b}\index{rl.env.environment.Env@{rl.env.environment.Env}!get\_max\_steps@{get\_max\_steps}}
+\index{get\_max\_steps@{get\_max\_steps}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{get\_max\_steps()}{get\_max\_steps()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a72aa4d5e730a250ed60129f424e82b1b} 
+rl.\+env.\+environment.\+Env.\+get\+\_\+max\+\_\+steps (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Get the maximum number of steps to solve the current problem. 
+
+\begin{DoxyReturn}{Returns}
+Maximum steps based on the problem size 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keyword}{def\ }get\_max\_steps(self): }
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00205\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ the\ maximum\ number\ of\ steps\ to\ solve\ the\ current\ problem }}
+\DoxyCodeLine{00206\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Maximum\ steps\ based\ on\ the\ problem\ size }}
+\DoxyCodeLine{00207\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00208\ \ \ \ \  }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ len(self.state.jigs)\ *\ 20\ +\ 100 }
+\DoxyCodeLine{00210\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}\index{rl.env.environment.Env@{rl.env.environment.Env}!get\_observation\_high\_level@{get\_observation\_high\_level}}
+\index{get\_observation\_high\_level@{get\_observation\_high\_level}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{get\_observation\_high\_level()}{get\_observation\_high\_level()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9} 
+rl.\+env.\+environment.\+Env.\+get\+\_\+observation\+\_\+high\+\_\+level (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Get the high-\/level observation of the current state. 
+
+\begin{DoxyReturn}{Returns}
+High-\/level observation array 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keyword}{def\ }get\_observation\_high\_level(self): }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00198\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ the\ high-\/level\ observation\ of\ the\ current\ state }}
+\DoxyCodeLine{00199\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ High-\/level\ observation\ array }}
+\DoxyCodeLine{00200\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.state.get\_observation\_high\_level() }
+\DoxyCodeLine{00202\ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_ac4121b9da9e6b7a6fbbe63d8f815f6b6}\index{rl.env.environment.Env@{rl.env.environment.Env}!get\_reward@{get\_reward}}
+\index{get\_reward@{get\_reward}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{get\_reward()}{get\_reward()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_ac4121b9da9e6b7a6fbbe63d8f815f6b6} 
+rl.\+env.\+environment.\+Env.\+get\+\_\+reward (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{bool}]{could\+\_\+execute}{, }\item[{str}]{action\+\_\+name}{, }\item[{}]{production\+\_\+line\+\_\+n\+\_\+old}{}\end{DoxyParamCaption})}
+
+
+
+Calculate the reward for the current action. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em could\+\_\+execute} & Boolean indicating if the action was successfully executed \\
+\hline
+{\em action\+\_\+name} & Name of the action taken \\
+\hline
+{\em production\+\_\+line\+\_\+n\+\_\+old} & Number of production lines before the action \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reward value based on the action and state 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keyword}{def\ }get\_reward(self,\ could\_execute:\ bool,\ action\_name:\ str,\ production\_line\_n\_old): }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00152\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Calculate\ the\ reward\ for\ the\ current\ action }}
+\DoxyCodeLine{00153\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ could\_execute\ Boolean\ indicating\ if\ the\ action\ was\ successfully\ executed }}
+\DoxyCodeLine{00154\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ taken }}
+\DoxyCodeLine{00155\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ production\_line\_n\_old\ Number\ of\ production\ lines\ before\ the\ action }}
+\DoxyCodeLine{00156\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Reward\ value\ based\ on\ the\ action\ and\ state }}
+\DoxyCodeLine{00157\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00158\  }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Goal\ completed }}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.state.is\_terminal(): }
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10000 }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Penalty\ if\ action\ fails,\ but\ less\ severe }}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ could\_execute:\  }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1000\ +\ min(20,\ self.step\_count)\ *\ 10\ \textcolor{comment}{\#\ Mild\ penalty\ with\ moderate\ increase }}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}unload\_beluga"{}}: }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reward\ if\ beluga\ is\ completely\ unloaded }}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.state.belugas)\ >\ 0: }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.state.belugas[0].current\_jigs)\ ==\ 1: }
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2000.0\ \  }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 100.0\ \  }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}load\_beluga"{}}: }
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.state.belugas)\ >\ 0: }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.state.belugas[0].outgoing)\ ==\ 1: }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2000.0\ \  }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 100.0\ \  }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\  }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5000.0\ \  }
+\DoxyCodeLine{00181\  }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Actions\ that\ stack\ or\ unstack\ racks }}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}right\_stack\_rack"{}},\ \textcolor{stringliteral}{"{}left\_stack\_rack"{}},\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}},\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}]: }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10.0\  }
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}: }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ production\_line\_n\_old\ >\ len(self.state.production\_lines): }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2000.0\  }
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 200.0\  }
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}: }
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 50.0\  }
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0 }
+\DoxyCodeLine{00195\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a28122a6add6549d34e304fa70fae6304}\index{rl.env.environment.Env@{rl.env.environment.Env}!reset@{reset}}
+\index{reset@{reset}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a28122a6add6549d34e304fa70fae6304} 
+rl.\+env.\+environment.\+Env.\+reset (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Reset the environment with a new problem instance. 
+
+Resets the environment\textquotesingle{}s state from a JSON file in the problems folder, selecting problems in ascending order of jigs count (in blocks of 6 problems)
+
+\begin{DoxyReturn}{Returns}
+Initial observation of the new episode 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keyword}{def\ }reset(self): }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00113\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Reset\ the\ environment\ with\ a\ new\ problem\ instance }}
+\DoxyCodeLine{00114\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \  }}
+\DoxyCodeLine{00115\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Resets\ the\ environment's\ state\ from\ a\ JSON\ file\ in\ the\ problems\ folder, }}
+\DoxyCodeLine{00116\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ selecting\ problems\ in\ ascending\ order\ of\ jigs\ count\ (in\ blocks\ of\ 6\ problems) }}
+\DoxyCodeLine{00117\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \  }}
+\DoxyCodeLine{00118\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Initial\ observation\ of\ the\ new\ episode }}
+\DoxyCodeLine{00119\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00120\  }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ number\ =\ randint(1,\ self.block\_size\ +\ 1) }
+\DoxyCodeLine{00122\  }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Increase\ base\_index\ only\ if\ problems\_solved\ >\ 0\ (to\ prevent\ increase\ at\ initialization) }}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ and\ if\ it's\ a\ multiple\ of\ block\_size\ *\ 3\ (every\ 18\ problems\ when\ block\_size=6) }}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.problems\_solved\ >\ 0\ \textcolor{keywordflow}{and}\ (self.problems\_solved\ \%\ (self.block\_size\ *\ 3))\ ==\ 0: }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ self.base\_index\ +=\ 1 }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ self.problems\_solved\ =\ 0 }
+\DoxyCodeLine{00128\  }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ we\ have\ reached\ the\ end\ of\ the\ sorted\ problems,\ choose\ a\ random\ problem }}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.base\_index\ +\ number\ >=\ self.problem\_count: }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ self.problem\_name\ =\ os.path.join(self.path,\ self.sorted\_problems[randint(0,\ self.problem\_count)][0]) }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \ \  }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ self.problem\_name\ =\ os.path.join(self.path,\ self.sorted\_problems[self.base\_index\ +\ number][0]) }
+\DoxyCodeLine{00134\  }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ self.state\ =\ load\_from\_json(self.problem\_name) }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.get\_observation\_high\_level() }
+\DoxyCodeLine{00137\ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a3d6e6d0ea00ba57d24e24bcec9e2f576}\index{rl.env.environment.Env@{rl.env.environment.Env}!reset\_specific\_problem@{reset\_specific\_problem}}
+\index{reset\_specific\_problem@{reset\_specific\_problem}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{reset\_specific\_problem()}{reset\_specific\_problem()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a3d6e6d0ea00ba57d24e24bcec9e2f576} 
+rl.\+env.\+environment.\+Env.\+reset\+\_\+specific\+\_\+problem (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{problem}{}\end{DoxyParamCaption})}
+
+
+
+Reset the environment with a specific problem instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em problem} & Path to the specific problem JSON file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Initial observation of the new episode 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keyword}{def\ }reset\_specific\_problem(self,\ problem): }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00140\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Reset\ the\ environment\ with\ a\ specific\ problem\ instance }}
+\DoxyCodeLine{00141\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ problem\ Path\ to\ the\ specific\ problem\ JSON\ file }}
+\DoxyCodeLine{00142\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Initial\ observation\ of\ the\ new\ episode }}
+\DoxyCodeLine{00143\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ self.problem\_name\ =\ problem }
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ self.state\ =\ load\_from\_json(self.problem\_name) }
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ self.step\_count\ =\ 0 }
+\DoxyCodeLine{00147\  }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.get\_observation\_high\_level() }
+\DoxyCodeLine{00149\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a76393a457d967795a342ab2b337dafe1}\index{rl.env.environment.Env@{rl.env.environment.Env}!step@{step}}
+\index{step@{step}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{step()}{step()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a76393a457d967795a342ab2b337dafe1} 
+rl.\+env.\+environment.\+Env.\+step (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{str}]{action\+\_\+name}{, }\item[{}]{params}{ = {\ttfamily None}}\end{DoxyParamCaption})}
+
+
+
+Execute a single environment step with the given action. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action\+\_\+name} & Name of the action to execute \\
+\hline
+{\em params} & Parameters for the action (optional) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Tuple of (observation, reward, done\+\_\+flag) 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{def\ }step(self,\ action\_name:\ str,\ params=\textcolor{keywordtype}{None}): }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00083\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Execute\ a\ single\ environment\ step\ with\ the\ given\ action }}
+\DoxyCodeLine{00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ to\ execute }}
+\DoxyCodeLine{00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ params\ Parameters\ for\ the\ action\ (optional) }}
+\DoxyCodeLine{00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Tuple\ of\ (observation,\ reward,\ done\_flag) }}
+\DoxyCodeLine{00087\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00088\ \ \ \ \  }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ n\_production\_lines\ =\ len(self.state.production\_lines) }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ could\_execute\ =\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00091\  }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ params\ ==\ []\ \textcolor{keywordflow}{and}\ action\_name\ ==\ \textcolor{stringliteral}{"{}unload\_beluga"{}}: }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ could\_execute\ =\ self.state.apply\_action(action\_name,\ \{\}) }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Unpack\ params\ as\ needed.\ This\ example\ assumes\ params\ is\ a\ dictionary }}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ containing\ the\ arguments\ to\ be\ passed\ (besides\ state). }}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ params\ !=\ []: }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ could\_execute\ =\ self.state.apply\_action(action\_name,\ params) }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ could\_execute\ =\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00101\  }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ obs\ =\ self.get\_observation\_high\_level()\ \ \textcolor{comment}{\#\ Get\ the\ current\ observation\ before\ executing\ the\ action }}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ reward\ =\ self.get\_reward(could\_execute,\ action\_name,\ n\_production\_lines) }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ self.step\_count\ +=\ 1\ \ \textcolor{comment}{\#\ Increment\ the\ step\ count }}
+\DoxyCodeLine{00105\  }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.state.is\_terminal(): }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ self.problems\_solved\ +=\ 1 }
+\DoxyCodeLine{00108\  }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ obs,\ reward,\ self.state.is\_terminal() }
+\DoxyCodeLine{00110\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}\index{rl.env.environment.Env@{rl.env.environment.Env}!base\_index@{base\_index}}
+\index{base\_index@{base\_index}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{base\_index}{base\_index}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35} 
+rl.\+env.\+environment.\+Env.\+base\+\_\+index = base\+\_\+index}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_aa7aeae08ab212e94a1daf3d11e516c1a}\index{rl.env.environment.Env@{rl.env.environment.Env}!block\_size@{block\_size}}
+\index{block\_size@{block\_size}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{block\_size}{block\_size}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_aa7aeae08ab212e94a1daf3d11e516c1a} 
+int rl.\+env.\+environment.\+Env.\+block\+\_\+size = 6}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a30f8172ea1dc5ad2e16a7f72015ba466}\index{rl.env.environment.Env@{rl.env.environment.Env}!check\_action\_map@{check\_action\_map}}
+\index{check\_action\_map@{check\_action\_map}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{check\_action\_map}{check\_action\_map}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a30f8172ea1dc5ad2e16a7f72015ba466} 
+dict rl.\+env.\+environment.\+Env.\+check\+\_\+action\+\_\+map}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}load\_beluga"{}}:\ check\_load\_beluga,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unload\_beluga"{}}:\ check\_unload\_beluga,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}:\ check\_get\_from\_hangar,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}:\ check\_deliver\_to\_hangar,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}:\ check\_left\_stack\_rack,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}:\ check\_right\_stack\_rack,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}:\ check\_left\_unstack\_rack,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}:\ check\_right\_unstack\_rack}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}\index{rl.env.environment.Env@{rl.env.environment.Env}!path@{path}}
+\index{path@{path}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{path}{path}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116} 
+rl.\+env.\+environment.\+Env.\+path = path}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d}\index{rl.env.environment.Env@{rl.env.environment.Env}!problem\_count@{problem\_count}}
+\index{problem\_count@{problem\_count}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{problem\_count}{problem\_count}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d} 
+int rl.\+env.\+environment.\+Env.\+problem\+\_\+count = 0}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}\index{rl.env.environment.Env@{rl.env.environment.Env}!problem\_name@{problem\_name}}
+\index{problem\_name@{problem\_name}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{problem\_name}{problem\_name}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2} 
+rl.\+env.\+environment.\+Env.\+problem\+\_\+name = None}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}\index{rl.env.environment.Env@{rl.env.environment.Env}!problems\_solved@{problems\_solved}}
+\index{problems\_solved@{problems\_solved}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{problems\_solved}{problems\_solved}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706} 
+int rl.\+env.\+environment.\+Env.\+problems\+\_\+solved = 0}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}\index{rl.env.environment.Env@{rl.env.environment.Env}!sorted\_problems@{sorted\_problems}}
+\index{sorted\_problems@{sorted\_problems}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{sorted\_problems}{sorted\_problems}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b} 
+list rl.\+env.\+environment.\+Env.\+sorted\+\_\+problems = \mbox{[}$\,$\mbox{]}}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}\index{rl.env.environment.Env@{rl.env.environment.Env}!state@{state}}
+\index{state@{state}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3} 
+rl.\+env.\+environment.\+Env.\+state = None}
+
+\Hypertarget{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b}\index{rl.env.environment.Env@{rl.env.environment.Env}!step\_count@{step\_count}}
+\index{step\_count@{step\_count}!rl.env.environment.Env@{rl.env.environment.Env}}
+\doxysubsubsection{\texorpdfstring{step\_count}{step\_count}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b} 
+rl.\+env.\+environment.\+Env.\+step\+\_\+count = 0}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+rl/env/environment.\+py\end{DoxyCompactItemize}

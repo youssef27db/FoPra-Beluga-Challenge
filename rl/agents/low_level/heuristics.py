@@ -1,26 +1,32 @@
 from typing import Tuple, Optional
 
-
 def decide_parameters(obs, high_level_action):
+    """!
+    @brief Decide action parameters based on high-level action and current observation
+    
+    This function implements heuristic decision-making for low-level action parameters.
+    It analyzes the current state observation to determine appropriate parameters
+    for the given high-level action.
+    
+    @param obs Current state observation array
+    @param high_level_action High-level action string to execute
+    @return Tuple of (action_name, parameters) or ("None", []) if no action possible
     """
-    Entscheidet die nächste Aktion basierend auf dem High-Level-Plan.
-    Gibt zurück: (action_name, params) oder (None, None) falls keine Aktion möglich.
-    """
-    n_racks = 10  # Anzahl der Racks
+    n_racks = 10  # Number of available racks
 
-    # Switchcase für die Aktion des High-Level-Agents
+    # Switch case for high-level agent action
     match high_level_action:
-        # Falls unload_beluga, dann werden keine Parameter zurückgegeben
+        # If unload_beluga, no parameters are returned
         case "unload_beluga":
             return "unload_beluga", []
 
-        # Falls load_beluga, dann wird der Trailer-Index zurückgegeben
+        # If load_beluga, return trailer index
         case "load_beluga":
             for i in range(3):
-                if obs[1 + i] == 0:  # Trailer hat passenden leeren Jig
+                if obs[1 + i] == 0:  # Trailer has matching empty jig
                     return "load_beluga", {"trailer_beluga": i, "none": None}
 
-        # Falls right_unstack_rack, dann wird Rack-Index und Trailer-ID zurückgegeben
+        # If right_unstack_rack, return rack index and trailer ID
         case "right_unstack_rack":
             for rack_idx in range(n_racks):
                 slot = 10 + rack_idx * 3
@@ -29,7 +35,7 @@ def decide_parameters(obs, high_level_action):
                         if obs[4 + trailer_idx] == 0.5:
                             return "right_unstack_rack", {"rack": rack_idx, "trailer_id": trailer_idx}
                     
-        # Falls left_unstack_rack, dann wird Rack-Index und Trailer-ID zurückgegeben
+        # If left_unstack_rack, return rack index and trailer ID
         case "left_unstack_rack":
             for rack_idx in range(n_racks):
                 slot = 10 + rack_idx * 3
@@ -38,7 +44,7 @@ def decide_parameters(obs, high_level_action):
                         if obs[1 + trailer_idx] == 0.5:
                             return "left_unstack_rack", {"rack": rack_idx, "trailer_id": trailer_idx}
 
-        # Falls get_from_hangar, dann wird Hangar-Index und Trailer-Fabrik-Index zurückgegeben
+        # If get_from_hangar, return hangar index and trailer factory index
         case "get_from_hangar":
             for hangar_idx in range(3):
                 if obs[7 + hangar_idx] == 1:
@@ -46,7 +52,7 @@ def decide_parameters(obs, high_level_action):
                         if obs[4 + trailer_idx] == 0.5:
                             return "get_from_hangar", {"hangar": hangar_idx, "trailer_factory": trailer_idx}
 
-        # Falls deliver_to_hangar, dann wird Hangar-Index und Trailer-Fabrik-Index zurückgegeben
+        # If deliver_to_hangar, return hangar index and trailer factory index
         case "deliver_to_hangar":
             for trailer_idx in range(3):
                 if obs[4 + trailer_idx] == 1:
@@ -54,27 +60,8 @@ def decide_parameters(obs, high_level_action):
                         if obs[7 + hangar_idx] == 0:
                             return "deliver_to_hangar", {"hangar": hangar_idx, "trailer_factory": trailer_idx}
 
-        # Falls left_stack_rack, dann wird Rack-Index und Trailer-ID zurückgegeben
-        # Sollte eigentlich MCTS entscheiden
-        # case "left_stack_rack":
-        #     for trailer_idx in range(3):
-        #         if obs[1 + trailer_idx] == 1:
-        #             for rack_idx in range(n_racks):
-        #                 slot = 10 + rack_idx * 2
-        #                 if obs[slot] == 0 and obs[slot + 1] == 0:
-        #                     return "left_stack_rack", {"rack": rack, "trailer_beluga": trailer_idx}
-        
-        # Falls right_stack_rack, dann wird Rack-Index und Trailer-ID zurückgegeben
-        # Sollte eigentlich MCTS entscheiden
-        # case "right_stack_rack":
-        #     for trailer_idx in range(3):
-        #         if obs[1 + trailer_idx] == 0:
-        #             for rack_idx in range(n_racks):
-        #                 slot = 10 + rack_idx * 2
-        #                 if obs[slot + 1] == 0 and obs[slot] == 0:
-        #                     return "right_stack_rack", {"rack": rack, "trailer_factory": trailer_idx}
 
-        # Keine Aktion
+        # No action available
         case _:
             return "None", []
         

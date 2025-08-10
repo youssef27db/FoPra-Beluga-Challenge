@@ -1,0 +1,57 @@
+\doxysection{utils.\+py}
+\hypertarget{toolkit_2encoder_2utils_8py_source}{}\label{toolkit_2encoder_2utils_8py_source}\index{toolkit/encoder/utils.py@{toolkit/encoder/utils.py}}
+\mbox{\hyperlink{toolkit_2encoder_2utils_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00001}\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_aa0435cc0658da4c65e5542107324d38f}{00001}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_aa0435cc0658da4c65e5542107324d38f}{format\_number}}(i,\ max\_val)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00002}00002\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_ad99c7074da09489a1900b26a4a6ebecc}{format\_str}}(i,\ len(str(max(max\_val,10))))}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00005}\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_ad99c7074da09489a1900b26a4a6ebecc}{00005}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_ad99c7074da09489a1900b26a4a6ebecc}{format\_str}}(no,\ digits)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00006}00006\ \ \ \ \ res\ =\ str(no)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00007}00007\ \ \ \ \ \textcolor{keywordflow}{while}\ len(res)\ <\ digits:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00008}00008\ \ \ \ \ \ \ \ \ res\ =\ \textcolor{stringliteral}{"{}0"{}}\ +\ res}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00009}00009\ \ \ \ \ \textcolor{keywordflow}{return}\ res}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00011}\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_a6854f4ba6d2a18aeca06fae929df9a0b}{00011}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_a6854f4ba6d2a18aeca06fae929df9a0b}{get\_necessary\_numbers}}(jig\_sizes,\ rack\_sizes)\ -\/>\ set[int]:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00012}00012\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00013}00013\ \ \ \ \ \ \ \ \ numbers\ =\ set()}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00014}00014\ \ \ \ \ \ \ \ \ numbers.add(0)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00015}00015\ \ \ \ \ \ \ \ \ numbers.update(rack\_sizes)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00016}00016\ \ \ \ \ \ \ \ \ changed\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ changed:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ new\_numbers\ =\ set()}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ numbers:\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ jig\_sizes:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ new\_number\ =\ rack\ -\/\ jig}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (new\_number\ >=\ 0):}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ new\_numbers.add(new\_number)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ changed\ =\ \textcolor{keywordflow}{not}\ new\_numbers.issubset(numbers)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ numbers.update(new\_numbers)\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ numbers.update(jig\_sizes)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ numbers}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00033}\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_a48ebc176a2170dddef32b4332060980d}{00033}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1encoder_1_1utils_a48ebc176a2170dddef32b4332060980d}{get\_necessary\_rack\_numbers}}(jig\_sizes,\ rack\_size)\ -\/>\ set[int]:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ numbers\ =\ set()}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ numbers.add(0)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ numbers.add(rack\_size)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ changed\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ changed:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ new\_numbers\ =\ set()}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ numbers:\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ jig\_sizes:}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ new\_number\ =\ rack\ -\/\ jig}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (new\_number\ >=\ 0):}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ new\_numbers.add(new\_number)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ changed\ =\ \textcolor{keywordflow}{not}\ new\_numbers.issubset(numbers)}
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ numbers.update(new\_numbers)\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{toolkit_2encoder_2utils_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ numbers}
+
+\end{DoxyCode}

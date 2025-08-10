@@ -1,0 +1,208 @@
+\doxysection{rl.\+env.\+state Namespace Reference}
+\hypertarget{namespacerl_1_1env_1_1state}{}\label{namespacerl_1_1env_1_1state}\index{rl.env.state@{rl.env.state}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}}
+\begin{DoxyCompactList}\small\item\em Container ship (\doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}) with current and outgoing jigs. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig}{Jig}}
+\begin{DoxyCompactList}\small\item\em Individual jig instance with type and status. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type}}
+\begin{DoxyCompactList}\small\item\em Represents a type of jig with size properties. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state}{Problem\+State}}
+\begin{DoxyCompactList}\small\item\em Complete state representation for the \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} Challenge. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_production_line}{Production\+Line}}
+\begin{DoxyCompactList}\small\item\em Factory production line with scheduled jigs. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_rack}{Rack}}
+\begin{DoxyCompactList}\small\item\em Storage rack with size constraints. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespacerl_1_1env_1_1state_a55fb09ad7d2c2bb5c9ab751918b6cf45}{extract\+\_\+id}} (str name)
+\begin{DoxyCompactList}\small\item\em Extract numeric ID from jig name string. \end{DoxyCompactList}\item 
+str \mbox{\hyperlink{namespacerl_1_1env_1_1state_aa44dd23853f7f584fced7dde45259e9c}{get\+\_\+name\+\_\+from\+\_\+id}} (int id)
+\begin{DoxyCompactList}\small\item\em Generate jig name from numeric ID. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type}}\texorpdfstring{$\vert$}{|}None \mbox{\hyperlink{namespacerl_1_1env_1_1state_a53c8cd7634a94e486c49b29e6dd40a7e}{get\+\_\+type}} (str name)
+\begin{DoxyCompactList}\small\item\em Get \doxylink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type} instance from type name string. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state}{Problem\+State}} \mbox{\hyperlink{namespacerl_1_1env_1_1state_a92d612bda6ba8b784e940fca67a2c968}{load\+\_\+from\+\_\+json}} (path)
+\begin{DoxyCompactList}\small\item\em Load problem state from JSON file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacerl_1_1env_1_1state_a55fb09ad7d2c2bb5c9ab751918b6cf45}\index{rl.env.state@{rl.env.state}!extract\_id@{extract\_id}}
+\index{extract\_id@{extract\_id}!rl.env.state@{rl.env.state}}
+\doxysubsubsection{\texorpdfstring{extract\_id()}{extract\_id()}}
+{\footnotesize\ttfamily \label{namespacerl_1_1env_1_1state_a55fb09ad7d2c2bb5c9ab751918b6cf45} 
+ int rl.\+env.\+state.\+extract\+\_\+id (\begin{DoxyParamCaption}\item[{str}]{name}{}\end{DoxyParamCaption})}
+
+
+
+Extract numeric ID from jig name string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & \doxylink{classrl_1_1env_1_1state_1_1_jig}{Jig} name in format "{}jig\+XXXX"{} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Integer ID (0-\/based indexing) 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00637\ \textcolor{keyword}{def\ }extract\_id(name:\ str)\ -\/>\ int: }
+\DoxyCodeLine{00638\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00639\ \textcolor{stringliteral}{\ \ \ \ @brief\ Extract\ numeric\ ID\ from\ jig\ name\ string }}
+\DoxyCodeLine{00640\ \textcolor{stringliteral}{\ \ \ \ @param\ name\ Jig\ name\ in\ format\ "{}jigXXXX"{} }}
+\DoxyCodeLine{00641\ \textcolor{stringliteral}{\ \ \ \ @return\ Integer\ ID\ (0-\/based\ indexing) }}
+\DoxyCodeLine{00642\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00643\ \ \ \ \ name\ =\ name.replace(\textcolor{stringliteral}{"{}jig"{}},\ \textcolor{stringliteral}{"{}"{}}) }
+\DoxyCodeLine{00644\ \ \ \ \ \textcolor{keywordflow}{return}\ int(name)\ -\/\ 1 }
+\DoxyCodeLine{00645\  }
+
+\end{DoxyCode}
+\Hypertarget{namespacerl_1_1env_1_1state_aa44dd23853f7f584fced7dde45259e9c}\index{rl.env.state@{rl.env.state}!get\_name\_from\_id@{get\_name\_from\_id}}
+\index{get\_name\_from\_id@{get\_name\_from\_id}!rl.env.state@{rl.env.state}}
+\doxysubsubsection{\texorpdfstring{get\_name\_from\_id()}{get\_name\_from\_id()}}
+{\footnotesize\ttfamily \label{namespacerl_1_1env_1_1state_aa44dd23853f7f584fced7dde45259e9c} 
+ str rl.\+env.\+state.\+get\+\_\+name\+\_\+from\+\_\+id (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Generate jig name from numeric ID. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & Integer ID (0-\/based) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{classrl_1_1env_1_1state_1_1_jig}{Jig} name in format "{}jig\+XXXX"{} 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00646\ \textcolor{keyword}{def\ }get\_name\_from\_id(id:\ int)\ -\/>\ str: }
+\DoxyCodeLine{00647\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00648\ \textcolor{stringliteral}{\ \ \ \ @brief\ Generate\ jig\ name\ from\ numeric\ ID }}
+\DoxyCodeLine{00649\ \textcolor{stringliteral}{\ \ \ \ @param\ id\ Integer\ ID\ (0-\/based) }}
+\DoxyCodeLine{00650\ \textcolor{stringliteral}{\ \ \ \ @return\ Jig\ name\ in\ format\ "{}jigXXXX"{} }}
+\DoxyCodeLine{00651\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00652\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}jig"{}}\ +\ \textcolor{stringliteral}{"{}0"{}}\ *\ (4-\/len(str(id)))\ +\ str(id) }
+\DoxyCodeLine{00653\  }
+\DoxyCodeLine{00654\  }
+
+\end{DoxyCode}
+\Hypertarget{namespacerl_1_1env_1_1state_a53c8cd7634a94e486c49b29e6dd40a7e}\index{rl.env.state@{rl.env.state}!get\_type@{get\_type}}
+\index{get\_type@{get\_type}!rl.env.state@{rl.env.state}}
+\doxysubsubsection{\texorpdfstring{get\_type()}{get\_type()}}
+{\footnotesize\ttfamily \label{namespacerl_1_1env_1_1state_a53c8cd7634a94e486c49b29e6dd40a7e} 
+ \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type}} \texorpdfstring{$\vert$}{|} None rl.\+env.\+state.\+get\+\_\+type (\begin{DoxyParamCaption}\item[{str}]{name}{}\end{DoxyParamCaption})}
+
+
+
+Get \doxylink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type} instance from type name string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Type name (typeA, typeB, typeC, typeD, or typeE) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type} instance with appropriate size properties, or None if unknown 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00655\ \textcolor{keyword}{def\ }get\_type(name:\ str)\ -\/>\ JigType\ |\ \textcolor{keywordtype}{None}: }
+\DoxyCodeLine{00656\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00657\ \textcolor{stringliteral}{\ \ \ \ @brief\ Get\ JigType\ instance\ from\ type\ name\ string }}
+\DoxyCodeLine{00658\ \textcolor{stringliteral}{\ \ \ \ @param\ name\ Type\ name\ (typeA,\ typeB,\ typeC,\ typeD,\ or\ typeE) }}
+\DoxyCodeLine{00659\ \textcolor{stringliteral}{\ \ \ \ @return\ JigType\ instance\ with\ appropriate\ size\ properties,\ or\ None\ if\ unknown }}
+\DoxyCodeLine{00660\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00661\ \ \ \ \ \textcolor{keywordflow}{if}\ name\ ==\ \textcolor{stringliteral}{"{}typeA"{}}: }
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ JigType(\textcolor{stringliteral}{"{}typeA"{}},\ 4,\ 4) }
+\DoxyCodeLine{00663\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeB"{}}: }
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ JigType(\textcolor{stringliteral}{"{}typeB"{}},\ 8,\ 11) }
+\DoxyCodeLine{00665\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeC"{}}: }
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ JigType(\textcolor{stringliteral}{"{}typeC"{}},\ 9,\ 18) }
+\DoxyCodeLine{00667\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeD"{}}: }
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ JigType(\textcolor{stringliteral}{"{}typeD"{}},\ 18,\ 25) }
+\DoxyCodeLine{00669\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeE"{}}: }
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ JigType(\textcolor{stringliteral}{"{}typeE"{}},\ 32,\ 32) }
+\DoxyCodeLine{00671\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00672\  }
+
+\end{DoxyCode}
+\Hypertarget{namespacerl_1_1env_1_1state_a92d612bda6ba8b784e940fca67a2c968}\index{rl.env.state@{rl.env.state}!load\_from\_json@{load\_from\_json}}
+\index{load\_from\_json@{load\_from\_json}!rl.env.state@{rl.env.state}}
+\doxysubsubsection{\texorpdfstring{load\_from\_json()}{load\_from\_json()}}
+{\footnotesize\ttfamily \label{namespacerl_1_1env_1_1state_a92d612bda6ba8b784e940fca67a2c968} 
+ \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state}{Problem\+State}} rl.\+env.\+state.\+load\+\_\+from\+\_\+json (\begin{DoxyParamCaption}\item[{}]{path}{}\end{DoxyParamCaption})}
+
+
+
+Load problem state from JSON file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & Path to the JSON problem file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{classrl_1_1env_1_1state_1_1_problem_state}{Problem\+State} instance loaded from the file
+\end{DoxyReturn}
+Parses the JSON problem definition and creates all necessary objects (jigs, belugas, racks, production lines, etc.) 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00673\ \textcolor{keyword}{def\ }load\_from\_json(path)\ -\/>\ ProblemState: }
+\DoxyCodeLine{00674\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00675\ \textcolor{stringliteral}{\ \ \ \ @brief\ Load\ problem\ state\ from\ JSON\ file }}
+\DoxyCodeLine{00676\ \textcolor{stringliteral}{\ \ \ \ @param\ path\ Path\ to\ the\ JSON\ problem\ file }}
+\DoxyCodeLine{00677\ \textcolor{stringliteral}{\ \ \ \ @return\ ProblemState\ instance\ loaded\ from\ the\ file }}
+\DoxyCodeLine{00678\ \textcolor{stringliteral}{\ \ \ \  }}
+\DoxyCodeLine{00679\ \textcolor{stringliteral}{\ \ \ \ Parses\ the\ JSON\ problem\ definition\ and\ creates\ all\ necessary }}
+\DoxyCodeLine{00680\ \textcolor{stringliteral}{\ \ \ \ objects\ (jigs,\ belugas,\ racks,\ production\ lines,\ etc.) }}
+\DoxyCodeLine{00681\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00682\  }
+\DoxyCodeLine{00683\ \ \ \ \ data\ =\ open(path,\ \textcolor{stringliteral}{"{}r"{}}) }
+\DoxyCodeLine{00684\ \ \ \ \ dictionary\ =\ json.loads(data.read()) }
+\DoxyCodeLine{00685\ \ \ \ \ data.close() }
+\DoxyCodeLine{00686\  }
+\DoxyCodeLine{00687\ \ \ \ \ jig\_data\ =\ dictionary[\textcolor{stringliteral}{"{}jigs"{}}] }
+\DoxyCodeLine{00688\  }
+\DoxyCodeLine{00689\ \ \ \ \ jigs:\ list[Jig]\ =\ [] }
+\DoxyCodeLine{00690\ \ \ \ \ \textcolor{keywordflow}{for}\ jig\_n,\ jig\ \textcolor{keywordflow}{in}\ jig\_data.items(): }
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ jigs.append(Jig(get\_type(jig[\textcolor{stringliteral}{"{}type"{}}]),\ jig[\textcolor{stringliteral}{"{}empty"{}}])) }
+\DoxyCodeLine{00692\  }
+\DoxyCodeLine{00693\ \ \ \ \ beluga\_data\ =\ dictionary[\textcolor{stringliteral}{"{}flights"{}}] }
+\DoxyCodeLine{00694\ \ \ \ \ belugas:\ list[Beluga]\ =\ [] }
+\DoxyCodeLine{00695\ \ \ \ \ \textcolor{keywordflow}{for}\ beluga\ \textcolor{keywordflow}{in}\ beluga\_data: }
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ incoming:\ list[int]\ =\ [] }
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ outgoing:\ list[JigType]\ =\ [] }
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ beluga[\textcolor{stringliteral}{"{}incoming"{}}]: }
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \ \ \ \ incoming.append(extract\_id(entry)) }
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ beluga[\textcolor{stringliteral}{"{}outgoing"{}}]: }
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \ \ \ \ outgoing.append(get\_type(entry)) }
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ belugas.append(Beluga(incoming,\ outgoing)) }
+\DoxyCodeLine{00703\  }
+\DoxyCodeLine{00704\ \ \ \ \ production\_lines\_data\ =\ dictionary[\textcolor{stringliteral}{"{}production\_lines"{}}] }
+\DoxyCodeLine{00705\ \ \ \ \ production\_lines:\ list[ProductionLine]\ =\ [] }
+\DoxyCodeLine{00706\ \ \ \ \ \textcolor{keywordflow}{for}\ production\_line\ \textcolor{keywordflow}{in}\ production\_lines\_data: }
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \ \ schedule:\ list[int]\ =\ [] }
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ production\_line[\textcolor{stringliteral}{"{}schedule"{}}]: }
+\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \ \ \ \ schedule.append(extract\_id(entry)) }
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ production\_lines.append(ProductionLine(schedule)) }
+\DoxyCodeLine{00711\  }
+\DoxyCodeLine{00712\ \ \ \ \ racks\_data\ =\ dictionary[\textcolor{stringliteral}{"{}racks"{}}] }
+\DoxyCodeLine{00713\ \ \ \ \ racks:\ list[Rack]\ =\ [] }
+\DoxyCodeLine{00714\ \ \ \ \ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ racks\_data: }
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ storage:\ list[int]\ =\ [] }
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ rack[\textcolor{stringliteral}{"{}jigs"{}}]: }
+\DoxyCodeLine{00717\ \ \ \ \ \ \ \ \ \ \ \ \ storage.append(extract\_id(entry)) }
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ racks.append(Rack(rack[\textcolor{stringliteral}{"{}size"{}}],\ storage)) }
+\DoxyCodeLine{00719\  }
+\DoxyCodeLine{00720\ \ \ \ \ hangars:\ list[Jig\ |\ \textcolor{keywordtype}{None}]\ =\ [\textcolor{keywordtype}{None}]\ *\ len(dictionary[\textcolor{stringliteral}{"{}hangars"{}}]) }
+\DoxyCodeLine{00721\ \ \ \ \ trailers\_beluga:\ list[Jig\ |\ \textcolor{keywordtype}{None}]\ =\ [\textcolor{keywordtype}{None}]\ *\ len(dictionary[\textcolor{stringliteral}{"{}trailers\_beluga"{}}]) }
+\DoxyCodeLine{00722\ \ \ \ \ trailers\_factory:\ list[Jig\ |\ \textcolor{keywordtype}{None}]\ =\ [\textcolor{keywordtype}{None}]\ *\ len(dictionary[\textcolor{stringliteral}{"{}trailers\_factory"{}}]) }
+\DoxyCodeLine{00723\  }
+\DoxyCodeLine{00724\ \ \ \ \  }
+\DoxyCodeLine{00725\ \ \ \ \ \textcolor{keywordflow}{return}\ ProblemState(jigs,\ belugas,\ trailers\_beluga,\ trailers\_factory,\ racks,\ production\_lines,\ hangars) }
+
+\end{DoxyCode}

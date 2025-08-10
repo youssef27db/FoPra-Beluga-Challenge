@@ -1,0 +1,164 @@
+\doxysection{check\+\_\+action.\+py}
+\hypertarget{check__action_8py_source}{}\label{check__action_8py_source}\index{rl/env/check\_action.py@{rl/env/check\_action.py}}
+\mbox{\hyperlink{check__action_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00001}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action}{00001}}\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00002}00002\ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00003}00003\ \textcolor{stringliteral}{@file\ check\_action.py}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00004}00004\ \textcolor{stringliteral}{@brief\ Action\ validation\ functions\ for\ the\ Beluga\ Challenge}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00005}00005\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00007}00007\ \textcolor{comment}{\#\ 0}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00008}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_af24f03939caac10ed2edc53afc57818b}{00008}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_af24f03939caac10ed2edc53afc57818b}{check\_load\_beluga}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00009}00009\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ beluga\ can\ be\ loaded\ from\ a\ trailer}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ loading\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00015}00015\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00016}00016\ \ \ \ \ \textcolor{keywordflow}{if}\ obs[0]\ !=\ 0:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00018}00018\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00019}00019\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[1\ +\ i]\ ==\ 0:\ \ \textcolor{comment}{\#\ Trailer\ has\ matching\ empty\ jig}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00023}00023\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00026}00026\ \textcolor{comment}{\#\ 1}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00027}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_ae1a06721f1d0f0ec9c68ceb5a6cf8d34}{00027}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_ae1a06721f1d0f0ec9c68ceb5a6cf8d34}{check\_unload\_beluga}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00028}00028\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ beluga\ can\ be\ unloaded}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ unloading\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00034}00034\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00035}00035\ \ \ \ \ \textcolor{keywordflow}{if}\ obs[0]\ !=\ 1:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00037}00037\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[1\ +\ i]\ ==\ 0.5:\ \ \textcolor{comment}{\#\ Trailer\ is\ empty}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00042}00042\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00045}00045\ \textcolor{comment}{\#\ 2}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00046}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_aa7bdab67ba22cf1ef0c55ef20e2e2ff3}{00046}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_aa7bdab67ba22cf1ef0c55ef20e2e2ff3}{check\_get\_from\_hangar}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00047}00047\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00048}00048\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ jig\ can\ be\ retrieved\ from\ hangar}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00049}00049\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00051}00051\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ retrieval\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00053}00053\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00054}00054\ \ \ \ \ \textcolor{keywordflow}{for}\ hangar\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[7\ +\ hangar\_idx]\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[4\ +\ trailer\_idx]\ ==\ 0.5:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00060}00060\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00063}00063\ \textcolor{comment}{\#\ 3}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00064}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_a517d3393ca970c535becda6baf068471}{00064}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_a517d3393ca970c535becda6baf068471}{check\_deliver\_to\_hangar}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00065}00065\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ jig\ can\ be\ delivered\ to\ hangar}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00067}00067\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00068}00068\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ delivery\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00071}00071\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00072}00072\ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[4\ +\ trailer\_idx]\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ hangar\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[7\ +\ hangar\_idx]\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00078}00078\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00080}00080\ \textcolor{comment}{\#\ 4}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00081}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_adc16c65b1d3b238fc9537044889fa597}{00081}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_adc16c65b1d3b238fc9537044889fa597}{check\_left\_stack\_rack}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00082}00082\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00083}00083\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ jig\ can\ be\ stacked\ from\ left\ (Beluga)\ trailer\ to\ rack}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ stacking\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00087}00087\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00088}00088\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00089}00089\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[1\ +\ i]\ !=\ 0.5\ \textcolor{keywordflow}{and}\ obs[1\ +\ i]\ !=\ -\/1:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_id\ =\ state.trailers\_beluga[i]}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ jig\ =\ state.jigs[jig\_id]}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_size\ =\ jig.jig\_type.size\_empty\ \textcolor{keywordflow}{if}\ jig.empty\ \textcolor{keywordflow}{else}\ jig.jig\_type.size\_loaded\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_idx\ \textcolor{keywordflow}{in}\ range(len(state.racks)):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rack\_obj\ =\ state.racks[rack\_idx]}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ rack\_obj.get\_free\_space(state.jigs)\ >=\ jig\_size:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00099}00099\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00102}00102\ \textcolor{comment}{\#\ 5}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00103}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_a51ecb65eb5164d2aee1774c463d35a59}{00103}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_a51ecb65eb5164d2aee1774c463d35a59}{check\_right\_stack\_rack}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00104}00104\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00105}00105\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ jig\ can\ be\ stacked\ from\ right\ (Factory)\ trailer\ to\ rack}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00106}00106\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00108}00108\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ stacking\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00110}00110\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00111}00111\ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[4\ +\ i]\ !=\ 0.5\ \textcolor{keywordflow}{and}\ obs[4\ +\ i]\ !=\ -\/1:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_id\ =\ state.trailers\_factory[i]}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ jig\ =\ state.jigs[jig\_id]}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_size\ =\ jig.jig\_type.size\_empty\ \textcolor{keywordflow}{if}\ jig.empty\ \textcolor{keywordflow}{else}\ jig.jig\_type.size\_loaded\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_idx\ \textcolor{keywordflow}{in}\ range(len(state.racks)):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rack\_obj\ =\ state.racks[rack\_idx]}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ rack\_obj.get\_free\_space(state.jigs)\ >=\ jig\_size:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00121}00121\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00124}00124\ \textcolor{comment}{\#\ 6}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00125}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_abb19443c17a1eaa43fe1ddfdcb24e23b}{00125}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_abb19443c17a1eaa43fe1ddfdcb24e23b}{check\_left\_unstack\_rack}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00126}00126\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ jig\ can\ be\ unstacked\ from\ rack\ to\ left\ (Beluga)\ trailer}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00128}00128\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00129}00129\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00130}00130\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ unstacking\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00131}00131\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00132}00132\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00133}00133\ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[1\ +\ trailer\_idx]\ ==\ 0.5:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_idx\ \textcolor{keywordflow}{in}\ range(len(state.racks)):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ state.racks[rack\_idx].current\_jigs\ !=\ []:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00139}00139\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00142}00142\ \textcolor{comment}{\#\ 7}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00143}\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_a5df3fcea43bb78e8cec5927307a0eb33}{00143}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1env_1_1check__action_a5df3fcea43bb78e8cec5927307a0eb33}{check\_right\_unstack\_rack}}(state,\ obs)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00144}00144\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00145}00145\ \textcolor{stringliteral}{\ \ \ \ @brief\ Check\ if\ a\ jig\ can\ be\ unstacked\ from\ rack\ to\ right\ (Factory)\ trailer}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00146}00146\ \textcolor{stringliteral}{\ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00147}00147\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00148}00148\ \textcolor{stringliteral}{\ \ \ \ @return\ True\ if\ unstacking\ is\ possible,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00149}00149\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00150}00150\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00151}00151\ \ \ \ \ \textcolor{comment}{\#\ Preconditions}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00152}00152\ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[4\ +\ trailer\_idx]\ ==\ 0.5:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_idx\ \textcolor{keywordflow}{in}\ range(len(state.racks)):}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ state.racks[rack\_idx].current\_jigs\ !=\ []:}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{check__action_8py_source_l00158}00158\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+
+\end{DoxyCode}

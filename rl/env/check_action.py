@@ -1,35 +1,23 @@
-"""
---------------------------------
-This file contains a collection of functions that manage state transitions for
-various operations on "beluga" objects, jigs, trailers, hangars, and racks. Each
-function is responsible for a specific action and follows these principles:
 
-• Clearly defined and descriptive function names.
-• Early precondition checks to prevent invalid state mutations.
-• Direct modification of the 'state' object, ensuring that changes are localized.
-• Returning Boolean values to signal the success or failure of an operation.
-• Inline comments provide clarity regarding the preconditions and side effects.
-• Separation of concerns: each function handles one piece of functionality.
-
-Functions:
-    0. load_beluga: Loads a beluga from a specified trailer slot.
-    1. unload_beluga: Unloads a beluga and, if fully processed, removes it from the list.
-    2. get_from_hangar: Retrieves a jig from a hangar and places it into a factory trailer.
-    3. deliver_to_hangar: Delivers a jig from a trailer into a hangar after verifying production line data.
-    4. left_stack_rack: Stacks a jig from the left (Beluga) trailer onto a rack.
-    5. right_stack_rack: Stacks a jig from the right (Factory) trailer onto a rack.
-    6. left_unstack_rack: Unstacks a jig from a rack into a left (Beluga) trailer.
-    7. right_unstack_rack: Unstacks a jig from a rack into a right (Factory) trailer.
+"""!
+@file check_action.py
+@brief Action validation functions for the Beluga Challenge
 """
 
 # 0
 def check_load_beluga(state, obs) -> bool:
+    """!
+    @brief Check if a beluga can be loaded from a trailer
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if loading is possible, False otherwise
+    """
     # Preconditions
     if obs[0] != 0:
         return False
     
     for i in range(3):
-        if obs[1 + i] == 0:  # Trailer hat passenden leeren Jig
+        if obs[1 + i] == 0:  # Trailer has matching empty jig
             return True
 
     return False
@@ -37,12 +25,18 @@ def check_load_beluga(state, obs) -> bool:
 
 # 1
 def check_unload_beluga(state, obs) -> bool:
+    """!
+    @brief Check if a beluga can be unloaded
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if unloading is possible, False otherwise
+    """
     # Preconditions
     if obs[0] != 1:
         return False
     
     for i in range(3):
-        if obs[1 + i] == 0.5:  # Trailer ist leer
+        if obs[1 + i] == 0.5:  # Trailer is empty
             return True
 
     return False
@@ -50,6 +44,12 @@ def check_unload_beluga(state, obs) -> bool:
 
 # 2
 def check_get_from_hangar(state, obs) -> bool:
+    """!
+    @brief Check if a jig can be retrieved from hangar
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if retrieval is possible, False otherwise
+    """
     # Preconditions
     for hangar_idx in range(3):
         if obs[7 + hangar_idx] == 1:
@@ -62,6 +62,12 @@ def check_get_from_hangar(state, obs) -> bool:
 
 # 3
 def check_deliver_to_hangar(state, obs) -> bool:
+    """!
+    @brief Check if a jig can be delivered to hangar
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if delivery is possible, False otherwise
+    """
     # Preconditions
     for trailer_idx in range(3):
                 if obs[4 + trailer_idx] == 1:
@@ -73,6 +79,12 @@ def check_deliver_to_hangar(state, obs) -> bool:
 
 # 4
 def check_left_stack_rack(state, obs) -> bool:
+    """!
+    @brief Check if a jig can be stacked from left (Beluga) trailer to rack
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if stacking is possible, False otherwise
+    """
     # Preconditions
     for i in range(3):
         if obs[1 + i] != 0.5 and obs[1 + i] != -1:
@@ -89,6 +101,12 @@ def check_left_stack_rack(state, obs) -> bool:
 
 # 5
 def check_right_stack_rack(state, obs) -> bool:
+    """!
+    @brief Check if a jig can be stacked from right (Factory) trailer to rack
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if stacking is possible, False otherwise
+    """
     # Preconditions
     for i in range(3):
         if obs[4 + i] != 0.5 and obs[4 + i] != -1:
@@ -105,6 +123,12 @@ def check_right_stack_rack(state, obs) -> bool:
 
 # 6
 def check_left_unstack_rack(state, obs) -> bool:
+    """!
+    @brief Check if a jig can be unstacked from rack to left (Beluga) trailer
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if unstacking is possible, False otherwise
+    """
     # Preconditions
     for trailer_idx in range(3):
         if obs[1 + trailer_idx] == 0.5:
@@ -117,6 +141,13 @@ def check_left_unstack_rack(state, obs) -> bool:
 
 # 7
 def check_right_unstack_rack(state, obs) -> bool:
+    """!
+    @brief Check if a jig can be unstacked from rack to right (Factory) trailer
+    @param state Current problem state
+    @param obs Current observation array
+    @return True if unstacking is possible, False otherwise
+    """
+    # Preconditions
     # Preconditions
     for trailer_idx in range(3):
         if obs[4 + trailer_idx] == 0.5:

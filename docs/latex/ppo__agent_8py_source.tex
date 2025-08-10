@@ -1,0 +1,331 @@
+\doxysection{ppo\+\_\+agent.\+py}
+\hypertarget{ppo__agent_8py_source}{}\label{ppo__agent_8py_source}\index{rl/agents/high\_level/ppo\_agent.py@{rl/agents/high\_level/ppo\_agent.py}}
+\mbox{\hyperlink{ppo__agent_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00001}\mbox{\hyperlink{namespacerl_1_1agents_1_1high__level_1_1ppo__agent}{00001}}\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00002}00002\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00003}00003\ \textcolor{keyword}{import}\ torch\ \textcolor{keyword}{as}\ T}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00004}00004\ \textcolor{keyword}{import}\ torch.nn\ \textcolor{keyword}{as}\ nn}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00005}00005\ \textcolor{keyword}{import}\ torch.optim\ \textcolor{keyword}{as}\ optim}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00006}00006\ \textcolor{keyword}{from}\ torch.distributions.categorical\ \textcolor{keyword}{import}\ Categorical}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00008}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory}{00008}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory}{PPOMemory}}:}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00009}00009\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ @brief\ Memory\ buffer\ for\ storing\ PPO\ training\ experiences}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ This\ class\ manages\ the\ storage\ and\ retrieval\ of\ experiences\ for\ PPO\ training,}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ including\ states,\ actions,\ probabilities,\ values,\ rewards,\ and\ done\ flags.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00015}00015\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00016}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a4be12d895d6566a136a7e7d3a437da6e}{00016}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a4be12d895d6566a136a7e7d3a437da6e}{\_\_init\_\_}}(self,\ batch\_size):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ PPO\ memory\ buffer}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ batch\_size\ Size\ of\ batches\ for\ training}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00021}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0add6132e8c45fde1017f3d1b9fd62e1}{00021}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0add6132e8c45fde1017f3d1b9fd62e1}{states}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00022}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_aba4f59ce24a7a1e276c121cf9fff1512}{00022}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_aba4f59ce24a7a1e276c121cf9fff1512}{probs}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00023}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a47453ce0abdb11c30dd9f8222a96b457}{00023}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a47453ce0abdb11c30dd9f8222a96b457}{values}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00024}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a3bf4561f4eb99d3693f9128ae0522b69}{00024}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a3bf4561f4eb99d3693f9128ae0522b69}{actions}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00025}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_acf933f33d5540126ed764ff35e0667ef}{00025}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_acf933f33d5540126ed764ff35e0667ef}{rewards}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00026}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0e9efad74c28d7fd7e7bd0fda0257cac}{00026}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0e9efad74c28d7fd7e7bd0fda0257cac}{dones}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00028}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0c97a17d1a3dd1bcfbe8bc82655dee63}{00028}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0c97a17d1a3dd1bcfbe8bc82655dee63}{batch\_size}}\ =\ batch\_size}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00030}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a4a87d310ee11c3ce1d58da34eb7b7d03}{00030}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a4a87d310ee11c3ce1d58da34eb7b7d03}{generate\_batches}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Generate\ randomized\ training\ batches\ from\ stored\ experiences}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Tuple\ containing\ arrays\ of\ states,\ actions,\ probabilities,\ values,\ rewards,\ dones,\ and\ batch\ indices}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ n\_states\ =\ len(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0add6132e8c45fde1017f3d1b9fd62e1}{states}})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ batch\_start\ =\ np.arange(0,\ n\_states,\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0c97a17d1a3dd1bcfbe8bc82655dee63}{batch\_size}})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ indices\ =\ np.arange(n\_states,\ dtype=np.int64)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ np.random.shuffle(indices)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ batches\ =\ [indices[i:i+self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0c97a17d1a3dd1bcfbe8bc82655dee63}{batch\_size}}]\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ batch\_start]}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ np.array(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0add6132e8c45fde1017f3d1b9fd62e1}{states}}),\ np.array(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a3bf4561f4eb99d3693f9128ae0522b69}{actions}}),\(\backslash\)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ np.array(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_aba4f59ce24a7a1e276c121cf9fff1512}{probs}}),\ np.array(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a47453ce0abdb11c30dd9f8222a96b457}{values}}),\(\backslash\)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ np.array(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_acf933f33d5540126ed764ff35e0667ef}{rewards}}),\ np.array(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0e9efad74c28d7fd7e7bd0fda0257cac}{dones}}),\(\backslash\)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ batches}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00046}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_acb69a1ceca60755d44ff61f0b7eb4d93}{00046}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_acb69a1ceca60755d44ff61f0b7eb4d93}{store\_memory}}(self,\ state,\ action,\ probs,\ values,\ reward,\ done):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00048}00048\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Store\ a\ single\ experience\ in\ the\ memory\ buffer}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00049}00049\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ state\ Current\ state\ observation}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\ Action\ taken}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00051}00051\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ probs\ Action\ probability\ from\ policy}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ values\ State\ value\ estimate}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00053}00053\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ reward\ Received\ reward}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ done\ Episode\ termination\ flag}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00055}00055\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0add6132e8c45fde1017f3d1b9fd62e1}{states}}.append(state)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a3bf4561f4eb99d3693f9128ae0522b69}{actions}}.append(action)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_aba4f59ce24a7a1e276c121cf9fff1512}{probs}}.append(probs)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a47453ce0abdb11c30dd9f8222a96b457}{values}}.append(values)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_acf933f33d5540126ed764ff35e0667ef}{rewards}}.append(reward)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0e9efad74c28d7fd7e7bd0fda0257cac}{dones}}.append(done)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00063}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0b27fdd1b6d3d971bc034b616b58f7d7}{00063}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0b27fdd1b6d3d971bc034b616b58f7d7}{clear\_memory}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00065}00065\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Clear\ all\ stored\ experiences\ from\ memory}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0add6132e8c45fde1017f3d1b9fd62e1}{states}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a3bf4561f4eb99d3693f9128ae0522b69}{actions}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_aba4f59ce24a7a1e276c121cf9fff1512}{probs}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a47453ce0abdb11c30dd9f8222a96b457}{values}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_acf933f33d5540126ed764ff35e0667ef}{rewards}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory_a0e9efad74c28d7fd7e7bd0fda0257cac}{dones}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00075}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network}{00075}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network}{ActorNetwork}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00076}00076\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ @brief\ Actor\ network\ for\ PPO\ agent}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ Neural\ network\ that\ outputs\ action\ probabilities\ given\ a\ state.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ Uses\ a\ categorical\ distribution\ for\ discrete\ action\ spaces.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00082}00082\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00083}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_aee7d89c100fcc1aee1870322de45a72d}{00083}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_aee7d89c100fcc1aee1870322de45a72d}{\_\_init\_\_}}(self,\ n\_actions,\ input\_dims,\ alpha,\ fc1dims=256,\ fc2dims=256,\ fc3dims=128,\ chkpt\_dir='tmp/ppo',\ name\ =\ 'ppo'):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ actor\ network}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ n\_actions\ Number\ of\ possible\ actions}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00087}00087\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ input\_dims\ Dimension\ of\ input\ state\ space}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ alpha\ Learning\ rate\ for\ optimization}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00089}00089\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc1dims\ Number\ of\ neurons\ in\ first\ hidden\ layer}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00090}00090\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc2dims\ Number\ of\ neurons\ in\ second\ hidden\ layer\ \ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00091}00091\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc3dims\ Number\ of\ neurons\ in\ third\ hidden\ layer}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00092}00092\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ chkpt\_dir\ Directory\ for\ saving\ checkpoints}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ name\ Model\ name\ for\ checkpoint\ files}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ super(ActorNetwork,\ self).\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_aee7d89c100fcc1aee1870322de45a72d}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00097}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a67e4554ca3dd016844a0073df5ff6cbf}{00097}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a67e4554ca3dd016844a0073df5ff6cbf}{checkpoint\_file}}\ =\ os.path.join(chkpt\_dir,\ \textcolor{stringliteral}{'actor\_torch\_'}\ +\ name)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00098}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a28ce44f0321d73d4cbcef057607fcf16}{00098}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a28ce44f0321d73d4cbcef057607fcf16}{actor}}\ =\ nn.Sequential(nn.Linear(input\_dims,\ fc1dims),\ nn.ReLU(),}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc1dims,\ fc2dims),\ nn.ReLU(),}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc2dims,\ fc3dims),\ nn.ReLU(),}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc3dims,\ n\_actions),\ nn.Softmax(dim=-\/1))}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00103}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a94510c3daa25640bed11a76900a888a5}{00103}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a94510c3daa25640bed11a76900a888a5}{optimizer}}\ =\ optim.Adam(self.parameters(),\ lr=alpha)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00104}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a1a3c826967f0c48bd422494b0a61aa35}{00104}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a1a3c826967f0c48bd422494b0a61aa35}{device}}\ =\ T.device(\textcolor{stringliteral}{'cuda'}\ \textcolor{keywordflow}{if}\ T.cuda.is\_available()\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{'cpu'})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ self.to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a1a3c826967f0c48bd422494b0a61aa35}{device}})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00107}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a205adbf70f3a9fa366ab0fcdee380333}{00107}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a205adbf70f3a9fa366ab0fcdee380333}{forward}}(self,\ state):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Forward\ pass\ through\ the\ actor\ network}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00110}00110\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ state\ Input\ state\ tensor}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00111}00111\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Categorical\ distribution\ over\ actions}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00112}00112\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ dist\ =\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a28ce44f0321d73d4cbcef057607fcf16}{actor}}(state)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ dist\ =\ Categorical(dist)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ dist}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00118}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a8bc09dc4a05f9d935d74e45d2d7e459c}{00118}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a8bc09dc4a05f9d935d74e45d2d7e459c}{save\_checkpoint}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00120}00120\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Save\ the\ current\ model\ state\ to\ checkpoint\ file}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00121}00121\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ T.save(self.state\_dict(),\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a67e4554ca3dd016844a0073df5ff6cbf}{checkpoint\_file}})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00124}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a0f4ea4666192124613d9c1073cd5951c}{00124}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a0f4ea4666192124613d9c1073cd5951c}{load\_checkpoint}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00126}00126\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Load\ model\ state\ from\ checkpoint\ file}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ self.load\_state\_dict(T.load(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network_a67e4554ca3dd016844a0073df5ff6cbf}{checkpoint\_file}}))}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00131}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network}{00131}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network}{CriticNetwork}}(nn.Module):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00132}00132\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00133}00133\ \textcolor{stringliteral}{\ \ \ \ @brief\ Critic\ network\ for\ PPO\ agent}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00134}00134\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00135}00135\ \textcolor{stringliteral}{\ \ \ \ Neural\ network\ that\ estimates\ the\ value\ function\ V(s)\ for\ a\ given\ state.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00136}00136\ \textcolor{stringliteral}{\ \ \ \ Used\ to\ compute\ advantages\ in\ the\ PPO\ algorithm.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00137}00137\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00138}00138\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00139}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae3f0e45a7ac28221a69ed2d0a91d5283}{00139}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae3f0e45a7ac28221a69ed2d0a91d5283}{\_\_init\_\_}}(self,\ input\_dims,\ alpha,\ fc1dims=256,\ fc2dims=256,\ fc3dims=128,\ chkpt\_dir='tmp/ppo',\ name\ =\ 'ppo'):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00141}00141\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ critic\ network}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00142}00142\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ input\_dims\ Dimension\ of\ input\ state\ space}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00143}00143\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ alpha\ Learning\ rate\ for\ optimization}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00144}00144\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc1dims\ Number\ of\ neurons\ in\ first\ hidden\ layer}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00145}00145\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc2dims\ Number\ of\ neurons\ in\ second\ hidden\ layer}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00146}00146\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc3dims\ Number\ of\ neurons\ in\ third\ hidden\ layer}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00147}00147\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ chkpt\_dir\ Directory\ for\ saving\ checkpoints}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00148}00148\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ name\ Model\ name\ for\ checkpoint\ files}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00149}00149\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ super(CriticNetwork,\ self).\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae3f0e45a7ac28221a69ed2d0a91d5283}{\_\_init\_\_}}()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00152}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a0f8199be7d8c7e801ff0b88336b96213}{00152}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a0f8199be7d8c7e801ff0b88336b96213}{checkpoint\_file}}\ =\ os.path.join(chkpt\_dir,\ \textcolor{stringliteral}{'critic\_torch\_'}\ +\ name)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00153}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a824b1eed500fc53536c0f7e01d176988}{00153}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a824b1eed500fc53536c0f7e01d176988}{critic}}\ =\ nn.Sequential(nn.Linear(input\_dims,\ fc1dims),\ nn.ReLU(),}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc1dims,\ fc2dims),\ nn.ReLU(),}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc2dims,\ fc3dims),\ nn.ReLU(),}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc3dims,\ 1))}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00158}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ad2c14eed568cf52935eda79be9e6916f}{00158}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ad2c14eed568cf52935eda79be9e6916f}{optimizer}}\ =\ optim.Adam(self.parameters(),\ lr=alpha)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00159}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a83eec626281fcdfb93996bb50aee40a8}{00159}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a83eec626281fcdfb93996bb50aee40a8}{device}}\ =\ T.device(\textcolor{stringliteral}{'cuda'}\ \textcolor{keywordflow}{if}\ T.cuda.is\_available()\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{'cpu'})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ self.to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a83eec626281fcdfb93996bb50aee40a8}{device}})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00162}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae4e70fa5ae609b2ea791905c0c7c37bc}{00162}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae4e70fa5ae609b2ea791905c0c7c37bc}{forward}}(self,\ state):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00164}00164\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Forward\ pass\ through\ the\ critic\ network}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00165}00165\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ state\ Input\ state\ tensor}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00166}00166\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Value\ estimate\ for\ the\ given\ state}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00167}00167\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ value\ =\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a824b1eed500fc53536c0f7e01d176988}{critic}}(state)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ value}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00172}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a56a2a9b7dd1e46f6cca7cd7f3b18e649}{00172}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a56a2a9b7dd1e46f6cca7cd7f3b18e649}{save\_checkpoint}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00174}00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Save\ the\ current\ model\ state\ to\ checkpoint\ file}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00175}00175\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ T.save(self.state\_dict(),\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a0f8199be7d8c7e801ff0b88336b96213}{checkpoint\_file}})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00178}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_acd6e3b7f5abc211d93a99509914e248a}{00178}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_acd6e3b7f5abc211d93a99509914e248a}{load\_checkpoint}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00180}00180\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Load\ model\ state\ from\ checkpoint\ file}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00181}00181\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ self.load\_state\_dict(T.load(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a0f8199be7d8c7e801ff0b88336b96213}{checkpoint\_file}}))}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00185}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent}{00185}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent}{PPOAgent}}:}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00186}00186\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00187}00187\ \textcolor{stringliteral}{\ \ \ \ @brief\ Proximal\ Policy\ Optimization\ (PPO)\ agent\ implementation}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00188}00188\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00189}00189\ \textcolor{stringliteral}{\ \ \ \ This\ class\ implements\ the\ PPO\ algorithm\ for\ reinforcement\ learning.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00190}00190\ \textcolor{stringliteral}{\ \ \ \ It\ uses\ an\ actor-\/critic\ architecture\ with\ clipped\ probability\ ratios}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00191}00191\ \textcolor{stringliteral}{\ \ \ \ to\ ensure\ stable\ policy\ updates.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00192}00192\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00193}00193\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00194}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a2a0c96183d523d54d8203e10dcb129a3}{00194}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a2a0c96183d523d54d8203e10dcb129a3}{\_\_init\_\_}}(self,\ input\_dims,\ n\_actions,\ gamma=0.99,\ alpha=0.0005,\ gae\_lambda=0.95,}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ policy\_clip=0.2,\ batch\_size=128,\ N=1024,\ n\_epochs=5,\ model\_name\ ='ppo'):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00197}00197\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ PPO\ agent}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00198}00198\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ input\_dims\ Dimension\ of\ the\ state\ space}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00199}00199\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ n\_actions\ Number\ of\ possible\ actions}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00200}00200\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ gamma\ Discount\ factor\ for\ future\ rewards}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00201}00201\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ alpha\ Learning\ rate\ for\ both\ actor\ and\ critic\ networks}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00202}00202\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ gae\_lambda\ Lambda\ parameter\ for\ Generalized\ Advantage\ Estimation}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00203}00203\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ policy\_clip\ Clipping\ parameter\ for\ PPO\ objective}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00204}00204\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ batch\_size\ Size\ of\ training\ batches}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00205}00205\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ N\ Number\ of\ steps\ to\ collect\ before\ learning}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00206}00206\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ n\_epochs\ Number\ of\ training\ epochs\ per\ learning\ step}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00207}00207\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ model\_name\ Name\ for\ saving/loading\ model\ checkpoints}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00208}00208\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00209}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a9a01dc3182b551836c5549a8c172b651}{00209}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a9a01dc3182b551836c5549a8c172b651}{gamma}}\ =\ gamma}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00210}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a6943862574b28a3371d19ee56455a544}{00210}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a6943862574b28a3371d19ee56455a544}{policy\_clip}}\ =\ policy\_clip}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00211}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a7ba79036643adb93f11d205be1dd0b5f}{00211}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a7ba79036643adb93f11d205be1dd0b5f}{n\_epochs}}\ =\ n\_epochs}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00212}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a2e14dfc5da07b12391625092aad3a8da}{00212}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a2e14dfc5da07b12391625092aad3a8da}{gae\_lambda}}\ =\ gae\_lambda}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00214}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{00214}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}\ =\ \mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_actor_network}{ActorNetwork}}(n\_actions,\ input\_dims,\ alpha,\ name\ =\ model\_name)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00215}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{00215}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{critic}}\ =\ \mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network}{CriticNetwork}}(input\_dims,\ alpha,\ name\ =\ model\_name)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00216}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_aa806d28253ea490fc8b519af229bec28}{00216}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_aa806d28253ea490fc8b519af229bec28}{memory}}\ =\ \mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_memory}{PPOMemory}}(batch\_size)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00218}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a7caa3ca2d12d84e7eab133650fa115c4}{00218}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a7caa3ca2d12d84e7eab133650fa115c4}{remember}}(self,\ state,\ action,\ probs,\ values,\ reward,\ done):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00220}00220\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Store\ an\ experience\ in\ the\ agent's\ memory}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00221}00221\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ state\ Current\ state\ observation}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00222}00222\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\ Action\ taken}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00223}00223\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ probs\ Log\ probability\ of\ the\ action}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00224}00224\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ values\ Value\ estimate\ for\ the\ state}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00225}00225\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ reward\ Reward\ received}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00226}00226\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ done\ Whether\ the\ episode\ is\ finished}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00227}00227\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_aa806d28253ea490fc8b519af229bec28}{memory}}.store\_memory(state,\ action,\ probs,\ values,\ reward,\ done)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00230}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a470678495edd7cd31b9c58d6d95ed7c0}{00230}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a470678495edd7cd31b9c58d6d95ed7c0}{save\_models}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00232}00232\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Save\ both\ actor\ and\ critic\ model\ checkpoints}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00233}00233\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{'...\ saving\ models\ ...'})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.save\_checkpoint()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{critic}}.save\_checkpoint()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00238}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a661abfa90d86386f305e8f947f0322f9}{00238}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a661abfa90d86386f305e8f947f0322f9}{load\_models}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00240}00240\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Load\ both\ actor\ and\ critic\ model\ checkpoints}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00241}00241\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{'...\ loading\ models\ ...'})}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.load\_checkpoint()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{critic}}.load\_checkpoint()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00246}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a8992b4ff91e79bc53277932481061250}{00246}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a8992b4ff91e79bc53277932481061250}{choose\_action}}(self,\ observation):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00248}00248\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Choose\ an\ action\ based\ on\ the\ current\ observation}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00249}00249\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ observation\ Current\ state\ observation}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00250}00250\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Tuple\ of\ (action,\ log\_probability,\ value\_estimate,\ action\_distribution)}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00251}00251\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ observation\ to\ tensor}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ state\ =\ T.tensor(observation,\ dtype=T.float).to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.device)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ dist\ =\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}(state)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ value\ =\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{critic}}(state)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ action\ =\ dist.sample()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ probs\ =\ T.squeeze(dist.log\_prob(action)).item()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ action\ =\ T.squeeze(action).item()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ value\ =\ T.squeeze(value).item()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ action,\ probs,\ value,\ dist}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00266}\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a7899457347773c0e1ef284fe4cd91d19}{00266}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a7899457347773c0e1ef284fe4cd91d19}{learn}}(self):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00268}00268\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Perform\ PPO\ learning\ update\ using\ stored\ experiences}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00269}00269\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00270}00270\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Implements\ the\ PPO\ algorithm\ with\ clipped\ probability\ ratios\ and\ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00271}00271\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Generalized\ Advantage\ Estimation\ (GAE).\ Updates\ both\ actor\ and\ }}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00272}00272\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ critic\ networks\ for\ multiple\ epochs.}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00273}00273\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a7ba79036643adb93f11d205be1dd0b5f}{n\_epochs}}):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ state\_arr,\ action\_arr,\ old\_probs\_arr,\ values\_arr,\(\backslash\)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ reward\_arr,\ done\_arr,\ batches\ =\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_aa806d28253ea490fc8b519af229bec28}{memory}}.generate\_batches()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ values\ =\ values\_arr}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ advantages\ =\ np.zeros(len(reward\_arr),\ dtype=np.float32)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ advantages\ using\ GAE}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ range(len(reward\_arr)-\/1):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ discount\ =\ 1}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a\_t\ =\ 0}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ range(t,\ len(reward\_arr)-\/1):}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ a\_t\ +=\ discount*(reward\_arr[k]\ +\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a9a01dc3182b551836c5549a8c172b651}{gamma}}*values[k+1]*(1-\/int(done\_arr[k]))\ -\/\ values[k])}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ discount\ *=\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a9a01dc3182b551836c5549a8c172b651}{gamma}}*self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a2e14dfc5da07b12391625092aad3a8da}{gae\_lambda}}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advantages[t]\ =\ a\_t}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ advantage\ =\ T.tensor(advantages).to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.device)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ values\ =\ T.tensor(values).to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.device)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Train\ on\ each\ batch}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ batch\ \textcolor{keywordflow}{in}\ batches:}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ states\ =\ T.tensor(state\_arr[batch],\ dtype=T.float).to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.device)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ old\_probs\ =\ T.tensor(old\_probs\_arr[batch]).to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.device)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ actions\ =\ T.tensor(action\_arr[batch]).to(self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.device)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dist\ =\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}(states)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ critic\_value\ =\ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{critic}}(states)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ critic\_value\ =\ T.squeeze(critic\_value)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ probability\ ratio\ and\ apply\ clipping}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ new\_probs\ =\ dist.log\_prob(actions)}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prob\_ratio\ =\ new\_probs.exp()\ /\ old\_probs.exp()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ weighted\_probs\ =\ advantage[batch]\ *\ prob\_ratio}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ weighted\_clipped\_probs\ =\ T.clamp(prob\_ratio,\ 1-\/self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a6943862574b28a3371d19ee56455a544}{policy\_clip}},\ 1+self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a6943862574b28a3371d19ee56455a544}{policy\_clip}})\ *\ advantage[batch]}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ actor\_loss\ =\ -\/T.min(weighted\_probs,\ weighted\_clipped\_probs).mean()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ critic\ loss}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ returns\ =\ advantage[batch]\ +\ values[batch]}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ critic\_loss\ =\ (returns-\/critic\_value)**2}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ critic\_loss\ =\ critic\_loss.mean()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Combined\ loss\ and\ backpropagation}}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_loss\ =\ actor\_loss\ +\ 0.5*critic\_loss}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.optimizer.zero\_grad()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{critic}}.optimizer.zero\_grad()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_loss.backward()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a30d5505efa99710341c579de4f3c7c03}{actor}}.optimizer.step()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_a476d79433aee6877dcf08d4985a8b798}{critic}}.optimizer.step()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent_aa806d28253ea490fc8b519af229bec28}{memory}}.clear\_memory()}
+\DoxyCodeLine{\Hypertarget{ppo__agent_8py_source_l00325}00325\ }
+
+\end{DoxyCode}

@@ -1,0 +1,226 @@
+\doxysection{environment.\+py}
+\hypertarget{environment_8py_source}{}\label{environment_8py_source}\index{rl/env/environment.py@{rl/env/environment.py}}
+\mbox{\hyperlink{environment_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00001}\mbox{\hyperlink{namespacerl_1_1env_1_1environment}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00002}00002\ \textcolor{stringliteral}{@file\ environment.py}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00003}00003\ \textcolor{stringliteral}{@brief\ Main\ environment\ class\ for\ the\ Beluga\ Challenge}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00005}00005\ \textcolor{stringliteral}{This\ module\ implements\ the\ reinforcement\ learning\ environment\ for\ the}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00006}00006\ \textcolor{stringliteral}{Beluga\ Challenge\ container\ optimization\ problem.}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00007}00007\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00009}00009\ \textcolor{keyword}{from}\ .state\ \textcolor{keyword}{import}\ ProblemState,\ load\_from\_json}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00010}00010\ \textcolor{keyword}{from}\ .action\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00011}00011\ \ \ \ \ load\_beluga,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00012}00012\ \ \ \ \ unload\_beluga,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00013}00013\ \ \ \ \ get\_from\_hangar,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00014}00014\ \ \ \ \ deliver\_to\_hangar,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00015}00015\ \ \ \ \ left\_stack\_rack,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00016}00016\ \ \ \ \ right\_stack\_rack,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00017}00017\ \ \ \ \ left\_unstack\_rack,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00018}00018\ \ \ \ \ right\_unstack\_rack}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00019}00019\ )}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00020}00020\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00021}00021\ \textcolor{keyword}{import}\ os,\ re}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00022}00022\ \textcolor{keyword}{from}\ .check\_action\ \textcolor{keyword}{import}\ *}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00023}00023\ \textcolor{keyword}{from}\ numpy.random\ \textcolor{keyword}{import}\ randint}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00025}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env}{00025}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env}{Env}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00026}00026\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ @brief\ Beluga\ Challenge\ environment\ for\ reinforcement\ learning}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ This\ class\ implements\ the\ main\ environment\ for\ the\ Beluga\ Challenge\ shipping}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ container\ optimization\ problem.\ It\ manages\ problem\ states,\ action\ execution,}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ reward\ calculation,\ and\ episode\ management.}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00033}00033\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00034}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a854345c229606424171d25bbca295cc6}{00034}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a854345c229606424171d25bbca295cc6}{\_\_init\_\_}}(self,\ path:\ str,\ base\_index:\ int\ =\ -\/1):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ Beluga\ Challenge\ environment}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ path\ Path\ to\ the\ directory\ containing\ problem\ JSON\ files}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ base\_index\ Base\ index\ for\ problem\ selection}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initialize\ environment\ variables\ here}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00041}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{00041}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}\ :\ ProblemState\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Not\ initialized\ yet,\ will\ be\ set\ in\ reset()}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00042}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{00042}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{path}}\ =\ path\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00043}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b}{00043}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b}{step\_count}}\ =\ 0\ \ \textcolor{comment}{\#\ Counter\ for\ the\ number\ of\ steps\ taken,\ as\ termination\ condition\ in\ training/evaluation}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00044}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{00044}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{problem\_name}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00045}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}{00045}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}{sorted\_problems}}\ =\ []\ \ \textcolor{comment}{\#\ List\ to\ hold\ sorted\ problems\ by\ jig\ count}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00046}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d}{00046}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d}{problem\_count}}\ =\ 0\ \ \textcolor{comment}{\#\ Counter\ for\ the\ number\ of\ problems\ solved}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00047}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}{00047}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}{base\_index}}\ =\ base\_index\ \ \textcolor{comment}{\#\ Base\ index\ for\ problem\ selection,\ used\ to\ select\ problems\ in\ ascending\ order\ of\ jig\ count}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00048}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}{00048}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}{problems\_solved}}\ =\ 0\ \ \textcolor{comment}{\#\ Counter\ for\ the\ number\ of\ problems\ solved}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00049}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa7aeae08ab212e94a1daf3d11e516c1a}{00049}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa7aeae08ab212e94a1daf3d11e516c1a}{block\_size}}\ =\ 6\ \ \textcolor{comment}{\#\ Number\ of\ problems\ to\ select\ in\ each\ block}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Map\ action\ names\ to\ action\ functions}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00052}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a30f8172ea1dc5ad2e16a7f72015ba466}{00052}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a30f8172ea1dc5ad2e16a7f72015ba466}{check\_action\_map}}\ =\ \{}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}load\_beluga"{}}:\ check\_load\_beluga,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unload\_beluga"{}}:\ check\_unload\_beluga,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}:\ check\_get\_from\_hangar,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}:\ check\_deliver\_to\_hangar,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}:\ check\_left\_stack\_rack,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}:\ check\_right\_stack\_rack,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}:\ check\_left\_unstack\_rack,}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}:\ check\_right\_unstack\_rack}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Find\ all\ JSON\ files\ in\ the\ problems\ folder}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.exists(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{path}}):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ problem\_files\ =\ [f\ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ os.listdir(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{path}})\ \textcolor{keywordflow}{if}\ f.endswith(\textcolor{stringliteral}{'.json'})]}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ the\ number\ of\ jigs\ from\ each\ filename\ using\ regular\ expression}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_counts\ =\ []}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\ \textcolor{keywordflow}{in}\ problem\_files:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ match\ =\ re.search(\textcolor{stringliteral}{r'\_j(\(\backslash\)d+)\_'},\ file)}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ match:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\_count\ =\ int(match.group(1))}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\_counts.append((file,\ jig\_count))}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Sort\ by\ number\ of\ jigs\ (ascending)}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}{sorted\_problems}}\ =\ sorted(jig\_counts,\ key=\textcolor{keyword}{lambda}\ x:\ x[1])}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d}{problem\_count}}\ =\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}{sorted\_problems}})\ \ \textcolor{comment}{\#\ Set\ the\ problem\ count\ based\ on\ the\ sorted\ problems}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00081}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a76393a457d967795a342ab2b337dafe1}{00081}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a76393a457d967795a342ab2b337dafe1}{step}}(self,\ action\_name:\ str,\ params=\textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00083}00083\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Execute\ a\ single\ environment\ step\ with\ the\ given\ action}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ to\ execute}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ params\ Parameters\ for\ the\ action\ (optional)}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Tuple\ of\ (observation,\ reward,\ done\_flag)}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00087}00087\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00088}00088\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ n\_production\_lines\ =\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.production\_lines)}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ could\_execute\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ params\ ==\ []\ \textcolor{keywordflow}{and}\ action\_name\ ==\ \textcolor{stringliteral}{"{}unload\_beluga"{}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ could\_execute\ =\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.apply\_action(action\_name,\ \{\})}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Unpack\ params\ as\ needed.\ This\ example\ assumes\ params\ is\ a\ dictionary}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ containing\ the\ arguments\ to\ be\ passed\ (besides\ state).}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ params\ !=\ []:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ could\_execute\ =\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.apply\_action(action\_name,\ params)}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ could\_execute\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ obs\ =\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}{get\_observation\_high\_level}}()\ \ \textcolor{comment}{\#\ Get\ the\ current\ observation\ before\ executing\ the\ action}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ reward\ =\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ac4121b9da9e6b7a6fbbe63d8f815f6b6}{get\_reward}}(could\_execute,\ action\_name,\ n\_production\_lines)}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b}{step\_count}}\ +=\ 1\ \ \textcolor{comment}{\#\ Increment\ the\ step\ count}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.is\_terminal():}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}{problems\_solved}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ obs,\ reward,\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.is\_terminal()}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00111}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a28122a6add6549d34e304fa70fae6304}{00111}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a28122a6add6549d34e304fa70fae6304}{reset}}(self):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00113}00113\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Reset\ the\ environment\ with\ a\ new\ problem\ instance}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00114}00114\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00115}00115\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Resets\ the\ environment's\ state\ from\ a\ JSON\ file\ in\ the\ problems\ folder,}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00116}00116\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ selecting\ problems\ in\ ascending\ order\ of\ jigs\ count\ (in\ blocks\ of\ 6\ problems)}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00117}00117\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00118}00118\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Initial\ observation\ of\ the\ new\ episode}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00119}00119\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ number\ =\ randint(1,\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa7aeae08ab212e94a1daf3d11e516c1a}{block\_size}}\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Increase\ base\_index\ only\ if\ problems\_solved\ >\ 0\ (to\ prevent\ increase\ at\ initialization)}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ and\ if\ it's\ a\ multiple\ of\ block\_size\ *\ 3\ (every\ 18\ problems\ when\ block\_size=6)}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}{problems\_solved}}\ >\ 0\ \textcolor{keywordflow}{and}\ (self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}{problems\_solved}}\ \%\ (self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa7aeae08ab212e94a1daf3d11e516c1a}{block\_size}}\ *\ 3))\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}{base\_index}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a52fdb33c984f2f5b997ab19423098706}{problems\_solved}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ we\ have\ reached\ the\ end\ of\ the\ sorted\ problems,\ choose\ a\ random\ problem}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}{base\_index}}\ +\ number\ >=\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d}{problem\_count}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{problem\_name}}\ =\ os.path.join(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{path}},\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}{sorted\_problems}}[randint(0,\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a79fa3fdcba112f48ea48a9966dd3116d}{problem\_count}})][0])}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{problem\_name}}\ =\ os.path.join(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aaeb8d08508f65b21982c7c0873f9c116}{path}},\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_aa2551205b5c158666fe974658f89444b}{sorted\_problems}}[self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a041938f61fdf28ed2ee7b005f69bff35}{base\_index}}\ +\ number][0])}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}\ =\ load\_from\_json(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{problem\_name}})}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}{get\_observation\_high\_level}}()}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00137}00137\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00138}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a3d6e6d0ea00ba57d24e24bcec9e2f576}{00138}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a3d6e6d0ea00ba57d24e24bcec9e2f576}{reset\_specific\_problem}}(self,\ problem):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00140}00140\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Reset\ the\ environment\ with\ a\ specific\ problem\ instance}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00141}00141\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ problem\ Path\ to\ the\ specific\ problem\ JSON\ file}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00142}00142\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Initial\ observation\ of\ the\ new\ episode}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00143}00143\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{problem\_name}}\ =\ problem}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}\ =\ load\_from\_json(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_abffb6a6d658716f9a823e77c3c9007a2}{problem\_name}})}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b}{step\_count}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}{get\_observation\_high\_level}}()}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00150}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ac4121b9da9e6b7a6fbbe63d8f815f6b6}{00150}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ac4121b9da9e6b7a6fbbe63d8f815f6b6}{get\_reward}}(self,\ could\_execute:\ bool,\ action\_name:\ str,\ production\_line\_n\_old):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00152}00152\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Calculate\ the\ reward\ for\ the\ current\ action}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00153}00153\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ could\_execute\ Boolean\ indicating\ if\ the\ action\ was\ successfully\ executed}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00154}00154\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ taken}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00155}00155\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ production\_line\_n\_old\ Number\ of\ production\ lines\ before\ the\ action}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00156}00156\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Reward\ value\ based\ on\ the\ action\ and\ state}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00157}00157\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Goal\ completed}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.is\_terminal():}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10000}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Penalty\ if\ action\ fails,\ but\ less\ severe}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ could\_execute:\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1000\ +\ min(20,\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a02f4b1808e4564848cdb5d9962853b1b}{step\_count}})\ *\ 10\ \textcolor{comment}{\#\ Mild\ penalty\ with\ moderate\ increase}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}unload\_beluga"{}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reward\ if\ beluga\ is\ completely\ unloaded}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.belugas)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.belugas[0].current\_jigs)\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2000.0\ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 100.0\ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}load\_beluga"{}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.belugas)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.belugas[0].outgoing)\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2000.0\ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 100.0\ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 5000.0\ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Actions\ that\ stack\ or\ unstack\ racks}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}right\_stack\_rack"{}},\ \textcolor{stringliteral}{"{}left\_stack\_rack"{}},\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}},\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}]:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 10.0\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ production\_line\_n\_old\ >\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.production\_lines):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 2000.0\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 200.0\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 50.0\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00196}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}{00196}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}{get\_observation\_high\_level}}(self):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00198}00198\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ the\ high-\/level\ observation\ of\ the\ current\ state}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00199}00199\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ High-\/level\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00200}00200\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ad80d6abae66e9e26506cf0f6477d93a9}{get\_observation\_high\_level}}()}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00202}00202\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00203}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a72aa4d5e730a250ed60129f424e82b1b}{00203}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a72aa4d5e730a250ed60129f424e82b1b}{get\_max\_steps}}(self):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00205}00205\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ the\ maximum\ number\ of\ steps\ to\ solve\ the\ current\ problem}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00206}00206\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Maximum\ steps\ based\ on\ the\ problem\ size}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00207}00207\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00208}00208\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ len(self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}}.jigs)\ *\ 20\ +\ 100}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00211}\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ae548ff172d321b8a5da2b5a8f2aef90d}{00211}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_ae548ff172d321b8a5da2b5a8f2aef90d}{check\_action\_execution}}(self,\ action\_name:\ str,\ obs):}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00213}00213\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ if\ the\ action\ can\ be\ executed\ without\ actually\ executing\ it}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00214}00214\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ to\ check}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00215}00215\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ obs\ Current\ observation\ of\ the\ environment}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00216}00216\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ the\ action\ can\ be\ executed,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00217}00217\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a30f8172ea1dc5ad2e16a7f72015ba466}{check\_action\_map}}:}
+\DoxyCodeLine{\Hypertarget{environment_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a30f8172ea1dc5ad2e16a7f72015ba466}{check\_action\_map}}[action\_name](self.\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env_a6159ac4f2691e37e74b26251dfa0cce3}{state}},\ obs)}
+
+\end{DoxyCode}

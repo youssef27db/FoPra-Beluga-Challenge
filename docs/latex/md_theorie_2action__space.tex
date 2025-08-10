@@ -1,0 +1,22 @@
+\chapter{action\+\_\+space}
+\hypertarget{md_theorie_2action__space}{}\label{md_theorie_2action__space}\index{action\_space@{action\_space}}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{4}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Aktion   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter (ausgeschrieben)   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Beschreibung   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Anzahl Aktionen pro step    }\\\cline{1-4}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Aktion   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Parameter (ausgeschrieben)   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Beschreibung   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Anzahl Aktionen pro step    }\\\cline{1-4}
+\endhead
+unload-\/beluga   &?j (jig), ?nj (next jig, if null -\/\texorpdfstring{$>$}{>} plane emptied), ?t (trailer), ?b (beluga)   &Jig aus dem Beluga in Trailer entladen   &1    \\\cline{1-4}
+load-\/beluga   &?j (jig), ?jt (type), ?njt (next type), ?b (beluga), ?t (trailer), ?s (slot), ?ns (next slot)   &Jig vom Trailer in den Beluga laden   &1    \\\cline{1-4}
+get-\/from-\/hangar   &?j (jig), ?h (hangar), ?t (trailer)   &Jig aus Hangar holen und in Trailer laden   &\#\+Hangar \texorpdfstring{$\ast$}{*} \#\+Factory\+\_\+\+Trailer \texorpdfstring{$\ast$}{*} \#\+Jigs    \\\cline{1-4}
+deliver-\/to-\/hangar   &?j (jig), ?jn (next jig), ?t (trailer), ?h (hangar), ?pl (production line), ?s (size), ?es (empty size)   &Jig zur Produktionslinie liefern und in Hangar überführen   &\#\+Hangar \texorpdfstring{$\ast$}{*} \#\+Factory\+\_\+\+Trailer \texorpdfstring{$\ast$}{*} \#\+Jigs    \\\cline{1-4}
+put-\/down-\/rack   &?j (jig), ?t (trailer), ?r (rack), ?s (side), ?jsize (jig size), ?fspace (free space), ?nspace (new space)   &Jig in einen (leeren) Rack ablegen   &\#\+Racks \texorpdfstring{$\ast$}{*} (\#\+Factory\+\_\+\+Trailer + \#\+Beluga\+\_\+\+Trailer) \texorpdfstring{$\ast$}{*} \#\+Jigs    \\\cline{1-4}
+stack-\/rack   &?j (jig), ?nj (next jig), ?t (trailer), ?r (rack), ?s (side), ?os (opposite side), ?jsize, ?fspace, ?nspace   &Jig hinter anderem Jig in Rack stapeln (Richtung beachten)   &\#\+Racks \texorpdfstring{$\ast$}{*} (\#\+Factory\+\_\+\+Trailer + \#\+Beluga\+\_\+\+Trailer) \texorpdfstring{$\ast$}{*} \#\+Jigs    \\\cline{1-4}
+pick-\/up-\/rack   &?j (jig), ?t (trailer), ?r (rack), ?s (side), ?os (opposite side), ?jsize, ?fspace, ?nspace   &Jig aus Rack nehmen, wenn leer   &\#\+Racks \texorpdfstring{$\ast$}{*} (\#\+Factory\+\_\+\+Trailer + \#\+Beluga\+\_\+\+Trailer) \texorpdfstring{$\ast$}{*} \#\+Jigs    \\\cline{1-4}
+unstack-\/rack   &?j (jig), ?nj (next jig), ?t (trailer), ?r (rack), ?s (side), ?os (opposite side), ?jsize, ?fspace, ?nspace   &Jig entnehmen, auch wenn ein anderer Jig davor liegt (Swapping nötig)   &\#\+Racks \texorpdfstring{$\ast$}{*} (\#\+Factory\+\_\+\+Trailer + \#\+Beluga\+\_\+\+Trailer) \texorpdfstring{$\ast$}{*} \#\+Jigs    \\\cline{1-4}
+beluga-\/complete   &?b (beluga), ?nb (next beluga)   &Abschluss eines Fluges, Übergabe an nächsten Flug   &1   \\\cline{1-4}
+\end{longtabu}

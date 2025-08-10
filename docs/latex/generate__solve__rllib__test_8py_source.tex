@@ -1,0 +1,645 @@
+\doxysection{generate\+\_\+solve\+\_\+rllib\+\_\+test.\+py}
+\hypertarget{generate__solve__rllib__test_8py_source}{}\label{generate__solve__rllib__test_8py_source}\index{toolkit/generate\_solve\_rllib\_test.py@{toolkit/generate\_solve\_rllib\_test.py}}
+\mbox{\hyperlink{generate__solve__rllib__test_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00001}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test}{00001}}\ \textcolor{comment}{\#!/usr/bin/env\ python}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00003}00003\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00004}00004\ \textcolor{keyword}{from}\ math\ \textcolor{keyword}{import}\ exp}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00005}00005\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00007}00007\ \textcolor{keyword}{import}\ argparse}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00008}00008\ \textcolor{keyword}{import}\ sys}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00009}00009\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Union}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00010}00010\ \textcolor{keyword}{import}\ uuid}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00012}00012\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00013}00013\ \textcolor{keyword}{from}\ numpy.typing\ \textcolor{keyword}{import}\ ArrayLike}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00015}00015\ \textcolor{keyword}{from}\ skdecide\ \textcolor{keyword}{import}\ TransitionOutcome,\ Value}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00016}00016\ \textcolor{keyword}{from}\ skdecide.hub.space.gym\ \textcolor{keyword}{import}\ GymSpace,\ BoxSpace}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00018}00018\ \textcolor{keyword}{from}\ ray.rllib.models.modelv2\ \textcolor{keyword}{import}\ flatten,\ restore\_original\_dimensions}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00019}00019\ \textcolor{keyword}{from}\ ray.rllib.algorithms.ppo\ \textcolor{keyword}{import}\ PPOConfig}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00021}00021\ \textcolor{keyword}{from}\ generator.configurations.default\_configuration\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00022}00022\ \ \ \ \ DefaultProblemConfig,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00023}00023\ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00024}00024\ \textcolor{keyword}{from}\ generator.configurations.configs\ \textcolor{keyword}{import}\ UnsolvabilityScenario}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00025}00025\ \textcolor{keyword}{from}\ beluga\_lib.beluga\_problem\ \textcolor{keyword}{import}\ BelugaProblemDecoder}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00027}00027\ \textcolor{keyword}{from}\ skd\_domains.skd\_base\_domain\ \textcolor{keyword}{import}\ SkdBaseDomain,\ PladoState}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00028}00028\ \textcolor{keyword}{from}\ skd\_domains.skd\_pddl\_domain\ \textcolor{keyword}{import}\ SkdPDDLDomain}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00029}00029\ \textcolor{keyword}{from}\ skd\_domains.skd\_ppddl\_domain\ \textcolor{keyword}{import}\ SkdPPDDLDomain}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00030}00030\ \textcolor{keyword}{from}\ skd\_domains.skd\_spddl\_domain\ \textcolor{keyword}{import}\ SkdSPDDLDomain}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00031}00031\ \textcolor{keyword}{from}\ skd\_domains.skd\_gym\_domain\ \textcolor{keyword}{import}\ BelugaGymCompatibleDomain,\ BelugaGymEnv}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00033}00033\ \textcolor{keyword}{from}\ generate\_instance\ \textcolor{keyword}{import}\ ProbConfig,\ main\ \textcolor{keyword}{as}\ encode\_json}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00036}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain}{00036}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain}{ExampleBelugaGymCompatibleDomain}}(\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain}{BelugaGymCompatibleDomain}}):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00037}00037\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}This\ is\ an\ example\ specialization\ of\ the\ BelugaGymCompatibleDomain\ class}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ which\ transforms\ PDDL-\/style\ states\ and\ actions\ from\ the\ original\ Beluga}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ scikit-\/decide\ domains\ to\ tensors\ to\ be\ used\ with\ deep\ reinforcement\ learning}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ algorithms.\ As\ shown\ at\ the\ bottom\ of\ this\ script,\ an\ instance\ of\ this\ class}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00041}00041\ \textcolor{stringliteral}{\ \ \ \ must\ be\ passed\ to\ the\ BelugaGymEnv\ class,\ which\ will\ automatically\ populate}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ the\ gymnasium\ environment\ methods\ expected\ by\ deep\ reinforcement\ learning}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00043}00043\ \textcolor{stringliteral}{\ \ \ \ solvers.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00044}00044\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00045}00045\ \textcolor{stringliteral}{\ \ \ \ Please\ note\ that\ this\ class\ does\ not\ provide\ efficient\ tensor\ representations}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00046}00046\ \textcolor{stringliteral}{\ \ \ \ for\ states\ and\ actions.\ It\ is\ only\ intended\ as\ exemplifying\ the\ transformation}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00047}00047\ \textcolor{stringliteral}{\ \ \ \ from\ PDDL-\/style\ states\ and\ actions\ to\ tensors,\ and\ vice-\/versa.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00048}00048\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00049}00049\ \textcolor{stringliteral}{\ \ \ \ State\ representation.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ The\ PDDL-\/style\ state\ is\ composed\ of\ a\ set\ of\ predicates\ -\/\ and\ also\ fluents\ in\ the}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00051}00051\ \textcolor{stringliteral}{\ \ \ \ case\ of\ the\ numeric\ PDDL\ encoding.\ Predicate\ and\ fluents\ take\ the\ form}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ (head\ obj1\ ...\ objn),\ e.g.\ (at-\/side\ trailer1\ fside).\ While\ a\ predicate\ can\ only\ be}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00053}00053\ \textcolor{stringliteral}{\ \ \ \ true\ or\ false,\ a\ fluent\ can\ take\ a\ numeric\ value.\ For\ the\ tensor\ representation,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ we\ treat\ predicates\ and\ fluents\ in\ the\ same\ way,\ assuming\ that\ a\ predicate\ is\ a\ fluent}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00055}00055\ \textcolor{stringliteral}{\ \ \ \ taking\ Boolean\ values\ only.\ Our\ tensor\ representation\ is\ a\ fixed-\/size\ tensor,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00056}00056\ \textcolor{stringliteral}{\ \ \ \ but\ sufficiently\ large\ to\ handle\ problems\ of\ different\ sizes,\ using\ padding\ to\ disregard}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00057}00057\ \textcolor{stringliteral}{\ \ \ \ the\ unused\ tensor\ entries.\ The\ observation\ space\ is\ a\ matrix\ NxM\ where\ each\ line}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00058}00058\ \textcolor{stringliteral}{\ \ \ \ encodes\ a\ fluent\ and\ each\ column\ encodes\ the\ fluent's\ objects.\ Since\ fluents\ can}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00059}00059\ \textcolor{stringliteral}{\ \ \ \ have\ a\ different\ number\ of\ arguments,\ we\ have\ as\ many\ columns\ as\ the\ the\ maximum}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00060}00060\ \textcolor{stringliteral}{\ \ \ \ number\ of\ arguments\ across\ all\ the\ fluents,\ and\ we\ use\ padding\ to\ disregard\ entries}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00061}00061\ \textcolor{stringliteral}{\ \ \ \ corresponding\ to\ unused\ arguments.\ It\ means\ that\ a\ fluent\ f,\ whose\ integer\ ID\ is\ f-\/id,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ and\ whose\ arguments\ integer\ IDs\ are\ arg1-\/id,\ arg2-\/id,\ ...,\ and\ whose\ value\ if\ f-\/value,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ is\ represented\ as\ a\ row\ vector\ in\ the\ form\ [f-\/id\ arg1-\/id\ arg2-\/id\ ...\ argn-\/id\ fvalue].}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00064}00064\ \textcolor{stringliteral}{\ \ \ \ The\ arguments\ which\ are\ not\ used\ are\ equal\ to\ -\/1.\ For\ instance,\ if\ all\ the\ fluents}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00065}00065\ \textcolor{stringliteral}{\ \ \ \ in\ the\ domain\ use\ at\ most\ 4\ arguments,\ we\ would\ encode\ the\ Boolean\ predicate}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ (at-\/side\ trailer1\ fside)\ taking\ a\ true\ value\ with\ a\ row\ vector\ in\ the\ form}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00067}00067\ \textcolor{stringliteral}{\ \ \ \ [at-\/side-\/id\ trailer1-\/id\ f-\/side-\/id\ -\/1\ -\/1\ 1].}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00068}00068\ \textcolor{stringliteral}{\ \ \ \ IMPORTANT\ NOTE:\ in\ fact,\ PDDL-\/style\ states\ only\ enumerate\ Boolean\ predicates\ which}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ are\ true,\ for\ memory\ efficiency\ reasons.\ Our\ tensor\ representation\ does\ the\ same,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ by\ listing\ only\ the\ rows\ corresponding\ to\ Boolean\ predicates\ that\ take\ a\ true\ value.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00071}00071\ \textcolor{stringliteral}{\ \ \ \ However,\ all\ the\ integer\ and\ float\ fluents\ are\ listed,\ as\ in\ PDDL.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00072}00072\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ Action\ representation.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00074}00074\ \textcolor{stringliteral}{\ \ \ \ The\ PDDL-\/style\ action\ takes\ the\ form\ of\ (head\ obj1\ ...\ objn),\ e.g.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00075}00075\ \textcolor{stringliteral}{\ \ \ \ (get-\/from-\/hangar\ jig1\ hangar1\ trailer1).\ The\ tensor\ action\ is\ represented\ as\ a}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00076}00076\ \textcolor{stringliteral}{\ \ \ \ 1-\/dimensional\ tensor,\ i.e.\ a\ vector,\ in\ the\ form\ [action-\/id\ arg1-\/id\ ...\ argn-\/id]}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ where\ action-\/id,\ arg1-\/id,\ ...,\ argn-\/id\ are\ all\ integers.\ The\ number\ of\ argument}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ entries\ is\ equal\ to\ the\ maximum\ number\ of\ action\ arguments\ across\ all\ the\ actions}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ in\ the\ domain,\ meaning\ that\ unused\ argument\ entries\ for\ some\ actions\ are\ equal\ to\ -\/1.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ For\ instance,\ if\ the\ maximum\ number\ of\ action\ arguments\ across\ all\ the\ actions\ in}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ the\ domain\ is\ equal\ to\ 5,\ the\ PDDL\ action\ (get-\/from-\/hangar\ jig1\ hangar1\ trailer1)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ would\ be\ encoded\ as\ a\ vector\ [get-\/from-\/hangar-\/id\ jig1-\/ig\ hangar1-\/id\ trailer1-\/id\ -\/1\ -\/1].}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00083}00083\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ Applicable\ actions\ pitfall.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ Whereas\ only\ a\ few\ actions\ are\ application\ in\ each\ possible\ given\ state,\ the\ number}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ of\ potential\ actions\ is\ huge\ (exponential\ in\ the\ number\ of\ action\ arguments).\ This}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00087}00087\ \textcolor{stringliteral}{\ \ \ \ prevents\ from\ using\ standard\ masking\ techniques\ in\ deep\ reinforcement\ learning\ to}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ mask\ inapplicable\ actions\ in\ a\ given\ observation,\ because\ it\ would\ require\ first\ to}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00089}00089\ \textcolor{stringliteral}{\ \ \ \ build\ a\ vector\ of\ size\ equal\ to\ the\ number\ of\ potential\ actions\ in\ the\ problem\ -\/\ which}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00090}00090\ \textcolor{stringliteral}{\ \ \ \ is\ intractable\ for\ the\ Beluga\ problem.\ Finding\ a\ reasonable\ way\ to\ mask\ the\ inapplicable}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00091}00091\ \textcolor{stringliteral}{\ \ \ \ actions\ in\ the\ Beluga\ environment\ is\ part\ of\ the\ challenge.\ In\ this\ simplistic}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00092}00092\ \textcolor{stringliteral}{\ \ \ \ environment,\ we\ assume\ that\ all\ the\ actions\ are\ potentially\ applicable\ in\ each\ state,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ but\ we\ penalize\ the\ inapplicable\ ones\ (see\ the\ reward\ signal\ description\ below).\ An}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ episode\ systematically\ ends\ when\ an\ action\ is\ applied\ in\ the\ current\ state\ where\ it\ is}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ not\ applicable.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00096}00096\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00097}00097\ \textcolor{stringliteral}{\ \ \ \ Reward\ signal.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00098}00098\ \textcolor{stringliteral}{\ \ \ \ The\ objective\ of\ the\ Beluga\ environment\ is\ to\ find\ a\ policy\ which\ reaches\ a\ goal\ state}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00099}00099\ \textcolor{stringliteral}{\ \ \ \ with\ a\ minimum\ number\ of\ steps.\ In\ this\ example\ environment,\ we\ propose\ to\ model\ the}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00100}00100\ \textcolor{stringliteral}{\ \ \ \ reward\ signal\ as\ a\ function\ between\ 0\ and\ 1,\ which\ is\ equal\ to\ 0\ for\ all\ steps\ but\ the}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00101}00101\ \textcolor{stringliteral}{\ \ \ \ terminal\ step\ which\ is\ equal\ to:}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00102}00102\ \textcolor{stringliteral}{\ \ \ \ -\/\ 0\ if\ the\ goal\ is\ not\ reached\ in\ the\ terminal\ step\ (meaning\ that\ this\ terminal\ step}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00103}00103\ \textcolor{stringliteral}{\ \ \ \ corresponds\ to\ having\ applied\ an\ inapplicable\ action\ in\ the\ previous\ step\ or\ to\ having}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00104}00104\ \textcolor{stringliteral}{\ \ \ \ exhausted\ the\ step\ budget)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00105}00105\ \textcolor{stringliteral}{\ \ \ \ -\/\ exp(-\/nb\_of\_steps)\ if\ the\ terminal\ step\ corresponds\ to\ a\ goal\ situation}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00106}00106\ \textcolor{stringliteral}{\ \ \ \ That\ way,\ reaching\ the\ goal\ is\ always\ better\ than\ not\ reaching\ it,\ and\ it\ is\ better\ to}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ reach\ the\ goal\ with\ the\ fewest\ possible\ number\ of\ steps.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00108}00108\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00110}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_aeb43836d21d660032d82a19c74442396}{00110}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_aeb43836d21d660032d82a19c74442396}{\_\_init\_\_}}(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ skd\_beluga\_domain:\ Union[SkdPDDLDomain,\ SkdPPDDLDomain,\ SkdSPDDLDomain],}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ max\_fluent\_value:\ np.int32\ =\ 1000,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ max\_nb\_atoms\_or\_fluents:\ np.int32\ =\ 1000,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ max\_nb\_steps:\ np.int32\ =\ 1000,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00116}00116\ \ \ \ \ )\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}The\ constructor\ of\ the\ example\ Gym-\/compatible\ Beluga\ domain.\ For\ simplicity\ reasons,\ we}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00118}00118\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ construct\ states\ as\ a\ 3-\/dimensional\ tensor\ (x,\ y,\ z)\ where\ we\ store\ (y,\ z)\ as\ described\ in}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00119}00119\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ the\ summary\ presentation\ of\ the\ class\ but\ for\ 3\ different\ categories\ represented\ as\ x:}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00120}00120\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ static\ facts\ (x=0),\ atoms\ (x=1),\ fluents\ (x=2).\ It\ is\ especially\ useful\ because\ the\ number}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00121}00121\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ of\ atoms,\ whose\ only\ the\ ones\ which\ are\ true\ are\ stored\ in\ the\ state,\ is\ state-\/dependent}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00122}00122\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ contrary\ to\ static\ facts\ and\ fluents.\ Then,\ we\ flatten\ the\ tensor\ before\ transferring\ it}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00123}00123\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ to\ the\ external\ world\ in\ the\ reset()\ and\ step()\ methods.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00124}00124\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00125}00125\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00126}00126\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ skd\_beluga\_domain\ (Union[SkdPDDLDomain,\ SkdPPDDLDomain,\ SkdSPDDLDomain]):\ the\ original}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Beluga\ scikit-\/decide\ domain,\ i.e.\ one\ of\ SkdPDDLDomain,\ SkdPPDDLDomain,or\ \ SkdSPDDLDomain}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00128}00128\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ max\_fluent\_value\ (np.int32,\ optional):\ The\ maximum\ value\ that\ can\ take\ a\ fluent.\ Defaults\ to\ 1000.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00129}00129\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ max\_nb\_atoms\_or\_fluents\ (np.int32,\ optional):\ The\ maximum\ number\ of\ static\ facts,\ or\ predicates,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00130}00130\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ or\ fluents.\ Each\ of\ those\ categories\ will\ have\ max\_nb\_atoms\_or\_fluents\ entries\ in\ the\ tensor.\ Defaults\ to\ 1000.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00131}00131\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ max\_nb\_steps\ (np.int32,\ optional):\ Maximum\ number\ of\ steps\ per\ simulation\ episode.\ Defaults\ to\ 1000.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00132}00132\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_aeb43836d21d660032d82a19c74442396}{\_\_init\_\_}}(skd\_beluga\_domain)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(skd\_beluga\_domain,\ SkdSPDDLDomain):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ The\ SkdSPDDLDomain\ creates\ the\ PDDL\ task\ at\ each\ reset\ so\ that}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ we\ must\ reset\ it\ (i.e.\ creates\ PDDL\ problem\ and\ sample\ initial\ state)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ in\ order\ for\ skd\_beluga\_domain.task\ to\ be\ created\ (required\ below)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ skd\_beluga\_domain.reset()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00139}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a3f2121d9a6ddc2a48c7abe634f6f581d}{00139}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a3f2121d9a6ddc2a48c7abe634f6f581d}{max\_fluent\_value}}:\ np.int32\ =\ max\_fluent\_value}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00140}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{00140}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}}:\ np.int32\ =\ max\_nb\_atoms\_or\_fluents}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00141}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a683eb6b8dc84f631a41af4679940ff93}{00141}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a683eb6b8dc84f631a41af4679940ff93}{max\_nb\_steps}}:\ np.int32\ =\ max\_nb\_steps}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00142}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_abeffbf567957e82efe67ca95ec62d55c}{00142}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_abeffbf567957e82efe67ca95ec62d55c}{true\_observation\_space}}\ =\ BoxSpace(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ low=np.ones(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ shape=[}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 3,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 2}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ max(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ len(p.parameters)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ p\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.predicates}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtype=np.int32,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ *\ (-\/1),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ high=np.array(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ len(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.predicates),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [len(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.objects)]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ max(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ len(p.parameters)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ p\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.predicates}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ [}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.functions)\ ==\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a3f2121d9a6ddc2a48c7abe634f6f581d}{max\_fluent\_value}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ 3,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtype=np.int32,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00183}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a52d1fe3a8db509621268aa63d48d2fbd}{00183}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a52d1fe3a8db509621268aa63d48d2fbd}{observation\_space}}\ =\ BoxSpace(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_abeffbf567957e82efe67ca95ec62d55c}{true\_observation\_space}}.unwrapped().low.flatten(),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_abeffbf567957e82efe67ca95ec62d55c}{true\_observation\_space}}.unwrapped().high.flatten(),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ dtype=self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_abeffbf567957e82efe67ca95ec62d55c}{true\_observation\_space}}.unwrapped().dtype,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00188}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a1c9058f65fc9b593b05375044499c18c}{00188}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a1c9058f65fc9b593b05375044499c18c}{action\_space}}\ =\ BoxSpace(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ low=np.array(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [0]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [-\/1]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ max(p.parameters\ \textcolor{keywordflow}{for}\ p\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.actions)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtype=np.int32,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ high=np.array(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ len(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.actions),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [len(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.objects)]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ max(a.parameters\ \textcolor{keywordflow}{for}\ a\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.actions)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dtype=np.int32,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00208}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a314539bb9033a1e37aaf828dfec0ed5e}{00208}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a314539bb9033a1e37aaf828dfec0ed5e}{current\_pddl\_state}}:\ SkdBaseDomain.T\_state\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00209}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a8421572109a685079f440d0f7704ba50}{00209}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a8421572109a685079f440d0f7704ba50}{nb\_steps}}:\ int\ =\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00211}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a09d6401788f654934be7d589574013cc}{00211}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a09d6401788f654934be7d589574013cc}{make\_state\_array}}(self,\ pddl\_state:\ SkdBaseDomain.T\_state)\ -\/>\ ArrayLike:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ state\_array:\ ArrayLike\ =\ np.ones(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ shape=self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_abeffbf567957e82efe67ca95ec62d55c}{true\_observation\_space}}.shape,\ dtype=np.int32}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ )\ *\ (-\/1)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ i\ =\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ p,\ atom\ \textcolor{keywordflow}{in}\ enumerate(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.static\_facts):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ args\ \textcolor{keywordflow}{in}\ atom:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ >=\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Too\ many\ static\ atoms\ to\ store\ them\ in\ the\ state\ tensor;\ "{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}please\ increase\ max\_nb\_atoms\_or\_fluents"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[0][i][0]\ =\ p}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[0][i][1\ :\ 1\ +\ len(args)]\ =\ args}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[0][i][-\/1]\ =\ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ i\ =\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ p,\ atom\ \textcolor{keywordflow}{in}\ enumerate(pddl\_state.atoms):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ args\ \textcolor{keywordflow}{in}\ atom:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ >=\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Too\ many\ state\ atoms\ to\ store\ them\ in\ the\ state\ tensor;\ "{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}please\ increase\ max\_nb\_atoms\_or\_fluents"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[1][i][0]\ =\ p}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[1][i][1\ :\ 1\ +\ len(args)]\ =\ args}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[1][i][-\/1]\ =\ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ i\ =\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ f,\ fluent\ \textcolor{keywordflow}{in}\ enumerate(pddl\_state.fluents):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ args,\ val\ \textcolor{keywordflow}{in}\ fluent:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ >=\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ RuntimeError(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Too\ many\ state\ fluents\ to\ store\ them\ in\ the\ state\ tensor;\ "{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}please\ increase\ max\_nb\_atoms\_or\_fluents"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[2][i][0]\ =\ f}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[2][i][1\ :\ 1\ +\ len(args)]\ =\ args}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_array[2][i][-\/1]\ =\ val}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ state\_array.flatten()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00253}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_ac999c3db221e67e4d6f04f301e0826ae}{00253}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_ac999c3db221e67e4d6f04f301e0826ae}{make\_pddl\_state}}(self,\ state\_array:\ ArrayLike)\ -\/>\ SkdBaseDomain.T\_state:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ plado\_state\ =\ PladoState(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ num\_predicates=len(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.predicates),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ num\_functions=len(self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.task.functions),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ restored\_state\_array:\ ArrayLike\ =\ state\_array.reshape(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_abeffbf567957e82efe67ca95ec62d55c}{true\_observation\_space}}.shape}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ atom\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}}):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ restored\_state\_array[1][atom][0]\ >=\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ restored\_state\_array[1][atom][-\/1]\ >=\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plado\_state.atoms[restored\_state\_array[1][atom][0]].add(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int(arg)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ arg\ \textcolor{keywordflow}{in}\ restored\_state\_array[1][atom][1:-\/1]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ arg\ >=\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ fluent\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a6163a33115ba41d7fd1dd351682dd541}{max\_nb\_atoms\_or\_fluents}}):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ restored\_state\_array[2][fluent][0]\ >=\ 0:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plado\_state.fluents[restored\_state\_array[2][fluent][0]].update(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int(arg)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ arg\ \textcolor{keywordflow}{in}\ restored\_state\_array[2][fluent][1:-\/1]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ arg\ >=\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]:\ restored\_state\_array[2][fluent][-\/1]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SkdBaseDomain.T\_state(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ domain=self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ state=plado\_state,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ cost\_function=self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.cost\_functions,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00290}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a62af319f53216016ebb95b56f7585dfc}{00290}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a62af319f53216016ebb95b56f7585dfc}{make\_action\_array}}(self,\ pddl\_action:\ SkdBaseDomain.T\_event)\ -\/>\ ArrayLike:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ action\_array:\ ArrayLike\ =\ np.ones(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ shape=self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a1c9058f65fc9b593b05375044499c18c}{action\_space}}.shape,\ dtype=np.int32}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ )\ *\ (-\/1)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ action\_array[0]\ =\ pddl\_action.action\_id}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ action\_array[1\ :\ 1\ +\ len(pddl\_action.args)]\ =\ pddl\_action.args}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ action\_array}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00298}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a05a4ce57c273f7631426d92682fb59de}{00298}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a05a4ce57c273f7631426d92682fb59de}{make\_pddl\_action}}(self,\ action\_array:\ ArrayLike)\ -\/>\ SkdBaseDomain.T\_event:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SkdBaseDomain.T\_event(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ domain=self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ action\_id=int(action\_array[0]),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ args=[int(arg)\ \textcolor{keywordflow}{for}\ arg\ \textcolor{keywordflow}{in}\ action\_array[1:]\ \textcolor{keywordflow}{if}\ arg\ >=\ 0],}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00305}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_af305df35d5f5135900c89f73b480cedc}{00305}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_af305df35d5f5135900c89f73b480cedc}{\_state\_reset}}(self)\ -\/>\ BelugaGymCompatibleDomain.T\_state:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a8421572109a685079f440d0f7704ba50}{nb\_steps}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a314539bb9033a1e37aaf828dfec0ed5e}{current\_pddl\_state}}\ =\ self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_af305df35d5f5135900c89f73b480cedc}{\_state\_reset}}()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a09d6401788f654934be7d589574013cc}{make\_state\_array}}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a865dbcbe1e79aa1eccec773c9e1f2826}{make\_state\_array}}(self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a314539bb9033a1e37aaf828dfec0ed5e}{current\_pddl\_state}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00309}00309\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00310}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a151294f42932c0cceb108d901717dfd2}{00310}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a151294f42932c0cceb108d901717dfd2}{\_state\_step}}(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ self,\ action:\ BelugaGymCompatibleDomain.T\_event}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00312}00312\ \ \ \ \ )\ -\/>\ TransitionOutcome[}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ BelugaGymCompatibleDomain.T\_state,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ Value[BelugaGymCompatibleDomain.T\_value],}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ BelugaGymCompatibleDomain.T\_predicate,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ BelugaGymCompatibleDomain.T\_info,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00317}00317\ \ \ \ \ ]:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a8421572109a685079f440d0f7704ba50}{nb\_steps}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ pddl\_action:\ SkdBaseDomain.T\_event\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a05a4ce57c273f7631426d92682fb59de}{make\_pddl\_action}}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a1a9ff58aa5e7385a38068257f2a401c7}{make\_pddl\_action}}(action)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_af33689329f6fb09121a45deb7de51b9d}{\_get\_applicable\_actions\_from}}(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a314539bb9033a1e37aaf828dfec0ed5e}{current\_pddl\_state}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ ).contains(pddl\_action):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ outcome\ =\ self.\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a7cb6b8c5d8223d9e0a7bbff83cc4e65e}{skd\_beluga\_domain}}.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a151294f42932c0cceb108d901717dfd2}{\_state\_step}}(pddl\_action)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ outcome.state\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a09d6401788f654934be7d589574013cc}{make\_state\_array}}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a865dbcbe1e79aa1eccec773c9e1f2826}{make\_state\_array}}(outcome.state)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TransitionOutcome(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state=self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a09d6401788f654934be7d589574013cc}{make\_state\_array}}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a865dbcbe1e79aa1eccec773c9e1f2826}{make\_state\_array}}(outcome.state),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value=Value(reward=exp(-\/self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a8421572109a685079f440d0f7704ba50}{nb\_steps}})\ \textcolor{keywordflow}{if}\ outcome.termination\ \textcolor{keywordflow}{else}\ 0),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ termination=outcome.termination\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a8421572109a685079f440d0f7704ba50}{nb\_steps}}\ >=\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a683eb6b8dc84f631a41af4679940ff93}{max\_nb\_steps}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info=outcome.info,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ TransitionOutcome(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state=self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a09d6401788f654934be7d589574013cc}{make\_state\_array}}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_compatible_domain_a865dbcbe1e79aa1eccec773c9e1f2826}{make\_state\_array}}(self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a314539bb9033a1e37aaf828dfec0ed5e}{current\_pddl\_state}}),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value=Value(reward=0),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ termination=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ info=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00339}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_adeca9c5d281d5be368905991c2faccb2}{00339}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_adeca9c5d281d5be368905991c2faccb2}{\_get\_observation\_space\_}}(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00341}00341\ \ \ \ \ )\ -\/>\ GymSpace[BelugaGymCompatibleDomain.T\_observation]:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a52d1fe3a8db509621268aa63d48d2fbd}{observation\_space}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00343}00343\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00344}\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a1f896bd205e39125d07985556405e912}{00344}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a1f896bd205e39125d07985556405e912}{\_get\_action\_space\_}}(self)\ -\/>\ GymSpace[BelugaGymCompatibleDomain.T\_event]:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain_a1c9058f65fc9b593b05375044499c18c}{action\_space}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00348}00348\ \textcolor{keywordflow}{if}\ \_\_name\_\_\ ==\ \textcolor{stringliteral}{"{}\_\_main\_\_"{}}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00349}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_ae4e42e1c7293f6f6873e212ae37d75fd}{00349}}\ \ \ \ \ parser\ =\ argparse.ArgumentParser(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ description=\textcolor{stringliteral}{"{}Beluga\ random\ instance\ generator\ and\ simulator"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ formatter\_class=argparse.ArgumentDefaultsHelpFormatter,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00352}00352\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00353}00353\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00354}00354\ \ \ \ \ \textcolor{comment}{\#\ Main\ parameters}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00355}00355\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/s"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/seed"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00358}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a6a2e5c0b853f1f47d5e9b62983b4523d}{00358}}\ \ \ \ \ \ \ \ \ type=int,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00359}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a4041e5a0da4393be8d07a2445c0234e9}{00359}}\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00360}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a3d6a5d00b2d79d6a27cb00bd07f5f266}{00360}}\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}seed\ for\ the\ random\ generator"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00361}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a335a2789a215ef848371aa33f158db0e}{00361}}\ \ \ \ \ \ \ \ \ default=1,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00362}00362\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00363}00363\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00364}00364\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/t"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/jig-\/type-\/distribution"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00367}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_adf47c3e3fb8495903e3a25b98aa9de66}{00367}}\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}jig\_t\_dist"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ type=int,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00369}00369\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ default=1,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}distribution\ of\ jigs\ types:\ (0)\ uniform,\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00372}00372\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ (1)\ small\ jigs\ preferred,\ (2)\ large\ jigs\ preferred"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00373}00373\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00374}00374\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00375}00375\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/or"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/occupancy-\/rate-\/racks"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}occupancy\_rate\_racks"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ type=float,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ default=0,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}fraction\ of\ rack\ space\ that\ is\ initially\ occupied"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00383}00383\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00384}00384\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00385}00385\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/f"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/num-\/flights"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}num\_flights"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ type=int,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ default=3,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}number\ of\ incoming\ and\ outgoing\ Beluga\ flights"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00393}00393\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00395}00395\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/us"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/unsolvable"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}unsolvable\_scenario"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ default=\textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ type=UnsolvabilityScenario.argparse,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00401}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a943e3de7d4ed96de537284e81a55b526}{00401}}\ \ \ \ \ \ \ \ \ choices=list(UnsolvabilityScenario),}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}scenario\ based\ on\ which\ the\ generator\ tries\ to\ generate\ an\ unsolvable\ instance"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00403}00403\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00404}00404\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00405}00405\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/v"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/verbose"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}verbose"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}print\ debug\ output"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ default=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00412}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a185fc3284b035ab8f491f61800a740c4}{00412}}\ \ \ \ \ \ \ \ \ action=\textcolor{stringliteral}{"{}store\_true"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00413}00413\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00414}00414\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00415}00415\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00416}00416\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/o"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/out"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ type=str,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}output\ folder\ for\ the\ problem,\ if\ no\ folder\ is\ given,\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00421}00421\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ problem\ is\ printed\ onto\ stdout"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00422}00422\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00423}00423\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00424}00424\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/on"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/out-\/name"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}out\_name"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ type=str,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}name\ for\ the\ problem,\ if\ no\ name\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00431}00431\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ is\ defined,\ a\ name\ based\ on\ the\ number\ of\ jigs,\ jig\ types,\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00432}00432\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ racks,\ the\ exact\ occupancy\ rate,\ the\ number\ of\ flights,\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00433}00433\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ seed\ and\ potentially\ the\ unsolvability\ scenarios\ is\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00434}00434\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ generated"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00435}00435\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00436}00436\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00437}00437\ \ \ \ \ \textcolor{comment}{\#\ Parameters\ for\ the\ probabilistic\ model}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00438}00438\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/pp"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/probabilistic"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ action=\textcolor{stringliteral}{"{}store\_true"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}Enables\ the\ probabilistic\ model,\ triggering\ the\ generation\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00443}00443\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ of\ probabilistic\ instances"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00444}00444\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00445}00445\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00446}00446\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/pm"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/probabilistic-\/model"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ type=str,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ choices=[\textcolor{stringliteral}{"{}arrivals"{}},\ \textcolor{stringliteral}{"{}ppddl"{}}],}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ default=\textcolor{stringliteral}{"{}arrivals"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00453}00453\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}Probabilistic\ model,\ one\ of\ ['arrivals';\ 'ppddl'];\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00454}00454\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'arrivals'\ mode:\ triggers\ the\ generation\ of\ scheduled\ arrival\ times\ for\ all\ flights;\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00455}00455\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'ppddl'\ mode:\ generate\ next\ arrival\ flight\ based\ on\ the\ history\ of\ landed\ Beluga\ flights"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00456}00456\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00457}00457\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00458}00458\ \ \ \ \ \textcolor{comment}{\#\ parser.add\_argument(}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00459}00459\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ "{}-\/pt"{},}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00460}00460\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ "{}-\/-\/probabilistic-\/type"{},}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00461}00461\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ type=argparse.FileType("{}r"{}),}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00462}00462\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ default=None,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00463}00463\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ help="{}Configuration\ file\ for\ the\ chosen\ type\ of\ Potential\ in\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00464}00464\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the\ probabilistic\ model;\ by\ default,\ a\ uniform\ potential\ is\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00465}00465\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ used.\ This\ parameter\ is\ ignored\ unless\ 'ppddl'\ probabilistic\ mode\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00466}00466\ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ enabled"{},}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00467}00467\ \ \ \ \ \textcolor{comment}{\#\ )}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00469}00469\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/pw"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/-\/probabilistic-\/window"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ type=int,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ default=1,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}Length\ of\ the\ swapping\ window\ for\ the\ probabilistic\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00475}00475\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model;\ e.g.\ passing\ 1\ guarantees\ that\ flights\ cannot\ move\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00476}00476\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ more\ than\ 1\ step\ away\ from\ the\ position\ initially\ assigned\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00477}00477\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ by\ the\ generation\ process.\ This\ parameter\ is\ ignored\ unless\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00478}00478\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'ppddl'\ probabilistic\ mode\ is\ enabled"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00479}00479\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00481}00481\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/n"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}numeric"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}numeric\ encoding,\ otherwise\ classic\ encoding"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ action=\textcolor{stringliteral}{"{}store\_true"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00486}00486\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00487}00487\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00488}00488\ \ \ \ \ parser.add\_argument(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00489}00489\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}-\/ms"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00490}00490\ \ \ \ \ \ \ \ \ dest=\textcolor{stringliteral}{"{}max\_simulation\_steps"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{"{}maximum\ number\ of\ simulation\ steps\ unless\ the\ goal\ is\ reached\ before"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ type=int,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ required=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00494}00494\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00495}00495\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00496}00496\ \ \ \ \ \textcolor{comment}{\#\ Parse\ command\ line\ arguments}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00497}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a85ff4b12a2e7857846d1892e69d69d39}{00497}}\ \ \ \ \ args\ =\ parser.parse\_args()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00498}00498\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00499}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_aad4514ed6b7c18f517218e4d2b9f307b}{00499}}\ \ \ \ \ unsolvable\_scenarios\ =\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ []\ \textcolor{keywordflow}{if}\ args.unsolvable\_scenario\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{else}\ [args.unsolvable\_scenario]}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00501}00501\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00503}00503\ \ \ \ \ \textcolor{comment}{\#\ Build\ and\ validate\ the\ deterministic\ configuration}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00504}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_adca150f1bfb3747e957bf816fc79d7ed}{00504}}\ \ \ \ \ config\ =\ \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1default__configuration_1_1_default_problem_config}{DefaultProblemConfig}}(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00505}00505\ \ \ \ \ \ \ \ \ args.verbose,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ args.seed,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ args.occupancy\_rate\_racks,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ args.jig\_t\_dist,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ args.num\_flights,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00510}00510\ \ \ \ \ \ \ \ \ unsolvable\_scenarios,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00511}00511\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00512}00512\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00513}00513\ \ \ \ \ config.check\_config()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00514}00514\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00515}00515\ \ \ \ \ \textcolor{comment}{\#\ Obtain\ arguments\ for\ the\ probabilistic\ model\ generation}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00516}00516\ \ \ \ \ \textcolor{keywordflow}{if}\ args.probabilistic:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00517}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a68a431da3ee49e13c938a0baed1c6326}{00517}}\ \ \ \ \ \ \ \ \ pconfig\ =\ ProbConfig(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ args.probabilistic\_model\ ==\ \textcolor{stringliteral}{"{}arrivals"{}},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ args.probabilistic\_type,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ args.probabilistic\_window,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args.probabilistic\_model\ ==\ \textcolor{stringliteral}{"{}ppddl"{}}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pconfig.window\ <\ 0\ \textcolor{keywordflow}{or}\ pconfig.window\ >\ args.num\_flights\ -\/\ 1:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}The\ length\ of\ the\ state\ sequence\ must\ be\ strictly\ positive\ and\ cannot\ be\ \(\backslash\)}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00526}00526\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ larger\ than\ the\ number\ of\ flights,\ minus\ one"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sys.exit(1)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00529}00529\ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ pconfig\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00531}00531\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00532}00532\ \ \ \ \ \textcolor{keywordflow}{if}\ args.out\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00533}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a6a5c3670a1f843dbfe05fee59c9b3479}{00533}}\ \ \ \ \ \ \ \ \ args.out\ =\ \textcolor{stringliteral}{"{}\_\_tmp\_out\_"{}}\ +\ uuid.uuid4().hex\ +\ \textcolor{stringliteral}{"{}\_\_"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ os.makedirs(args.out)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00535}00535\ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{keywordflow}{not}\ os.path.exists(args.out):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ os.makedirs(args.out)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00538}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a388fff61b016713b702a8e74514cca06}{00538}}\ \ \ \ \ problem\_folder\ =\ args.out}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00539}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a04d2e0fa24e92ccdf5246342dcad922d}{00539}}\ \ \ \ \ problem\_name\ =\ args.out\_name}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00540}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a9084daf0de847152f3cd3dbe1a07da76}{00540}}\ \ \ \ \ classic\ =\ \textcolor{keywordflow}{not}\ args.numeric}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00541}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_acdc8dba846328eedb1e2c8943d3f41e4}{00541}}\ \ \ \ \ max\_simulation\_steps\ =\ args.max\_simulation\_steps}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00543}00543\ \ \ \ \ \textcolor{keywordflow}{if}\ args.probabilistic\ \textcolor{keywordflow}{and}\ args.probabilistic\_model\ ==\ \textcolor{stringliteral}{"{}ppddl"{}}\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ classic:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Error:\ SkdPPDDLDomain\ does\ not\ support\ numeric\ encoding.\ Please\ select\ a\ different\ encoding\ or\ model."{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ sys.exit(1)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00548}00548\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00549}00549\ \ \ \ \ print(\textcolor{stringliteral}{"{}Generating\ JSON\ instance"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00550}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a90b3326fe3aa7c3469b8e11e499c7cb0}{00550}}\ \ \ \ \ \_,\ problem\_name\ =\ encode\_json(problem\_folder,\ problem\_name,\ config,\ pconfig=pconfig)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00551}00551\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00552}00552\ \ \ \ \ print(\textcolor{stringliteral}{"{}Generating\ PDDL\ instance"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00553}00553\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00554}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a446ef23bb0f169bcec37de3096b431b9}{00554}}\ \ \ \ \ problem\_out\ =\ os.path.join(problem\_folder,\ problem\_name)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00555}00555\ \ \ \ \ \textcolor{keyword}{with}\ open(problem\_out,\ \textcolor{stringliteral}{"{}r"{}})\ \textcolor{keyword}{as}\ fp:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00556}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a3803a5ee611c64f999dc934dcf581165}{00556}}\ \ \ \ \ \ \ \ \ inst\ =\ json.load(fp,\ cls=BelugaProblemDecoder)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00557}00557\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00558}00558\ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00559}00559\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Creating\ Sk\{\}PDDLDomain"{}}.format(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}P"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args.probabilistic\ \textcolor{keywordflow}{and}\ args.probabilistic\_model\ ==\ \textcolor{stringliteral}{"{}ppddl"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00562}00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}S"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args.probabilistic\ \textcolor{keywordflow}{and}\ args.probabilistic\_model\ ==\ \textcolor{stringliteral}{"{}arrivals"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00567}00567\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00568}00568\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00569}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a341689b73862f195138e5cb8023af95a}{00569}}\ \ \ \ \ domain\_factory\ =\ \textcolor{keyword}{lambda}:\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00570}00570\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__ppddl__domain_1_1_skd_p_p_d_d_l_domain}{SkdPPDDLDomain}}(inst,\ problem\_name,\ problem\_folder)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args.probabilistic\ \textcolor{keywordflow}{and}\ args.probabilistic\_model\ ==\ \textcolor{stringliteral}{"{}ppddl"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00572}00572\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__spddl__domain_1_1_skd_s_p_d_d_l_domain}{SkdSPDDLDomain}}(inst,\ problem\_name,\ problem\_folder,\ classic=classic)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ args.probabilistic\ \textcolor{keywordflow}{and}\ args.probabilistic\_model\ ==\ \textcolor{stringliteral}{"{}arrivals"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__pddl__domain_1_1_skd_p_d_d_l_domain}{SkdPDDLDomain}}(inst,\ problem\_name,\ problem\_folder,\ classic=classic)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00577}00577\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00578}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_af70b9a3e9f0708c5b0fe030b2404ff70}{00578}}\ \ \ \ \ domain\ =\ \mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a341689b73862f195138e5cb8023af95a}{domain\_factory}}()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00579}00579\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00580}00580\ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Creating\ Gym-\/compatible\ domain,\ i.e.\ containing\ array-\/like\ spaces\ for\ actions\ and\ states"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00582}00582\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00583}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_ac8ed796727977ca27c3111e794541223}{00583}}\ \ \ \ \ gym\_compatible\_domain\ =\ \mbox{\hyperlink{classtoolkit_1_1generate__solve__rllib__test_1_1_example_beluga_gym_compatible_domain}{ExampleBelugaGymCompatibleDomain}}(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ skd\_beluga\_domain=domain,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ max\_fluent\_value=1000,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00586}00586\ \ \ \ \ \ \ \ \ max\_nb\_atoms\_or\_fluents=1000,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ max\_nb\_steps=1000,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00588}00588\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00589}00589\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00590}00590\ \ \ \ \ print(\textcolor{stringliteral}{"{}Creating\ the\ RLlib\ training\ agent,\ learning\ on\ the\ exported\ BelugaGymEnv"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00591}00591\ \ \ \ \ \textcolor{comment}{\#\ IMPORTANT\ NOTE:\ we\ show\ here\ how\ to\ use\ RLlib\ on\ BelugaGymEnv\ which\ relies\ on\ scikit-\/decide's}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00592}00592\ \ \ \ \ \textcolor{comment}{\#\ automated\ mechanism\ to\ cast\ scikit-\/decide\ domains\ to\ gymnasium\ environments.\ However,\ the\ connection}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00593}00593\ \ \ \ \ \textcolor{comment}{\#\ to\ RLlib\ can\ also\ be\ done\ automatically\ by\ scikit-\/decide\ via\ scikit-\/decide's\ RayRLlib\ solver\ without}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00594}00594\ \ \ \ \ \textcolor{comment}{\#\ explicitly\ creating\ the\ exported\ BelugaGymEnv\ (not\ demonstrated\ here\ since\ most\ RL\ people\ will\ most}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00595}00595\ \ \ \ \ \textcolor{comment}{\#\ probably\ train\ the\ Beluga\ environment\ on\ their\ own\ RL\ agent\ outside\ scikit-\/decide\ or\ even\ RLlib).}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00596}00596\ \ \ \ \ \textcolor{comment}{\#\ If\ you\ just\ want\ to\ have\ a\ gymnasium\ environment\ on\ which\ to\ train\ your\ RL\ agent,}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00597}00597\ \ \ \ \ \textcolor{comment}{\#\ do\ the\ 2\ following\ tasks:\ 1)\ specialize\ the\ BelugaGymCompatibleDomain\ class\ to\ your\ tensor\ representation}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00598}00598\ \ \ \ \ \textcolor{comment}{\#\ needs;\ 2)\ pass\ this\ specialized\ class\ to\ the\ BelugaGymEnv\ class,\ which\ is\ your\ gym\ environment.}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00599}00599\ \ \ \ \ config\ =\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00600}00600\ \ \ \ \ \ \ \ \ PPOConfig()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00601}00601\ \ \ \ \ \ \ \ \ .api\_stack(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ enable\_rl\_module\_and\_learner=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ enable\_env\_runner\_and\_connector\_v2=\textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00604}00604\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00605}00605\ \ \ \ \ \ \ \ \ .environment(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00606}00606\ \ \ \ \ \ \ \ \ \ \ \ \ env=BelugaGymEnv,}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00607}00607\ \ \ \ \ \ \ \ \ \ \ \ \ env\_config=\{\textcolor{stringliteral}{"{}domain"{}}:\ gym\_compatible\_domain\},}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00608}00608\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ .env\_runners(num\_env\_runners=1)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00610}00610\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00612}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a4134559f65e326c28aad8e7f2615e7c1}{00612}}\ \ \ \ \ algo\ =\ config.build()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00613}00613\ \ \ \ \ algo.train()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00614}00614\ }
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00615}00615\ \ \ \ \ print(\textcolor{stringliteral}{"{}Simulating\ RL\ learned\ policy"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00616}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a01b6181051ff18e3d19dbb6c1458b7d6}{00616}}\ \ \ \ \ s\ =\ domain.reset()}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00617}00617\ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)nInitial\ state:\ \{s\}"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00618}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a0068039969b9dee1cc4a3e263cecfcaf}{00618}}\ \ \ \ \ step\ =\ 0}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00619}00619\ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ domain.\_is\_terminal(s)\ \textcolor{keywordflow}{and}\ step\ <\ (}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00620}00620\ \ \ \ \ \ \ \ \ max\_simulation\_steps\ \textcolor{keywordflow}{if}\ max\_simulation\_steps\ \textcolor{keywordflow}{else}\ 100}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00621}00621\ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00622}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_a24c8c88b286c3a9c9d3f49df41ea2b8d}{00622}}\ \ \ \ \ \ \ \ \ a\ =\ gym\_compatible\_domain.make\_pddl\_action(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ algo.compute\_single\_action(gym\_compatible\_domain.make\_state\_array(s))}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00624}00624\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00625}00625\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ domain.get\_applicable\_actions(s).contains(a):}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00626}00626\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)nApplying\ action:\ \{a\}"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00627}\mbox{\hyperlink{namespacetoolkit_1_1generate__solve__rllib__test_ab90695b73e971fc90b8698801a4cc7b1}{00627}}\ \ \ \ \ \ \ \ \ \ \ \ \ o\ =\ domain.step(a)}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00628}00628\ \ \ \ \ \ \ \ \ \ \ \ \ s\ =\ o.observation}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00629}00629\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)nCurrent\ state:\ \{s\}"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00630}00630\ \ \ \ \ \ \ \ \ \ \ \ \ step\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00631}00631\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00632}00632\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:\ \ \textcolor{comment}{\#\ inferred\ action's\ integer\ args\ might\ correspond\ to\ non-\/existing\ PDDL\ objects}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00633}00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)nInapplicable\ action:\ \{a\}\ -\/\ exiting"{}})}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00634}00634\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ IndexError:}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00635}00635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00636}00636\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\(\backslash\)nInapplicable\ action:\ \{gym\_compatible\_domain.make\_action\_array(a)\}\ -\/\ exiting"{}}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00637}00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{generate__solve__rllib__test_8py_source_l00639}00639\ \ \ \ \ domain.cleanup()}
+
+\end{DoxyCode}

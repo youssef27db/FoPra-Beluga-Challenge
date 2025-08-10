@@ -1,0 +1,54 @@
+\chapter{Fo\+Pra – Beluga Challenge}
+\hypertarget{index}{}\label{index}\index{FoPra – Beluga Challenge@{FoPra – Beluga Challenge}}
+\label{index_md__r_e_a_d_m_e}%
+\Hypertarget{index_md__r_e_a_d_m_e}%
+
+
+{\bfseries{Hierarchischer Reinforcement-\/\+Learning-\/\+Agent}}
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md32}{}\doxysection{\texorpdfstring{📌 Projektbeschreibung}{📌 Projektbeschreibung}}\label{index_autotoc_md32}
+Dieses Projekt implementiert einen {\bfseries{hierarchischen RL-\/\+Agenten}} für die {\itshape Beluga Challenge}. ~\newline
+ Der Ansatz trennt strategische Entscheidungen (High-\/\+Level) von der konkreten Ausführung (Low-\/\+Level), um unterschiedliche Methoden wie {\bfseries{PPO}}, {\bfseries{Heuristiken}} und {\bfseries{MCTS}} gezielt zu kombinieren.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md34}{}\doxysection{\texorpdfstring{🏗 Architekturübersicht}{🏗 Architekturübersicht}}\label{index_autotoc_md34}
+Unsere Architektur folgt einem {\bfseries{hierarchischen Entscheidungsansatz}}\+:
+
+
+
+
+\begin{DoxyItemize}
+\item {\bfseries{High-\/\+Level Agent}} ~\newline
+
+\begin{DoxyItemize}
+\item Wählt eine von acht möglichen Aktionen (z. B. {\itshape Load Jig}, {\itshape Swap}, {\itshape Dispatch}) ~\newline
+
+\item Trainiert mit {\bfseries{Proximal Policy Optimization (PPO)}} ~\newline
+
+\item Verantwortlich für die strategische Richtung
+\end{DoxyItemize}
+\item {\bfseries{Low-\/\+Level Agent}} ~\newline
+
+\begin{DoxyItemize}
+\item Verfeinert und führt die gewählte High-\/\+Level-\/\+Aktion aus ~\newline
+
+\item Setzt je nach Komplexität unterschiedliche Mechanismen ein\+: ~\newline
+
+\begin{DoxyItemize}
+\item 🔹 {\bfseries{Direkte Ausführung}} – deterministische Aktionen ohne Parameter ~\newline
+
+\item 🔹 {\bfseries{Heuristiken}} – einfache parametrisierte Aktionen ~\newline
+
+\item 🔹 {\bfseries{Monte Carlo Tree Search (MCTS)}} – komplexe, sequenzielle Entscheidungen mit großem Kombinationsraum
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\begin{quote}
+💡 {\bfseries{Vorteil\+:}} Durch diese modulare Trennung können wir die Stärken verschiedener Methoden gezielt nutzen und die Charakteristika einzelner Teilprobleme optimal abdecken. \end{quote}
+\hypertarget{index_autotoc_md35}{}\doxysection{\texorpdfstring{📄 Projektdokumentation}{📄 Projektdokumentation}}\label{index_autotoc_md35}
+Die vollständige, generierte HTML-\/\+Dokumentation befindet sich im Ordner \href{./docs/html}{\texttt{ {\ttfamily docs/html}}}. ~\newline
+ Du kannst sie lokal öffnen über\+:
+
+\href{./docs/html/index.html}{\texttt{ {\bfseries{📖 Projekt-\/\+Dokumentation anzeigen}}}} 

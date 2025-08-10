@@ -1,0 +1,21 @@
+\chapter{Architekturübersicht\+: Hierarchischer RL-\/\+Agent für die Beluga Challenge}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{Architekturübersicht: Hierarchischer RL-\/Agent für die Beluga Challenge@{Architekturübersicht: Hierarchischer RL-\/Agent für die Beluga Challenge}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+
+
+Unsere Architektur basiert auf einem hierarchischen Entscheidungsansatz. Der High-\/\+Level-\/\+Agent trifft strategische Entscheidungen, während die Parametrisierung und Ausführung über spezialisierte Low-\/\+Level-\/\+Mechanismen erfolgt\+: \hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Komponenten}{Komponenten}}\label{md__r_e_a_d_m_e_autotoc_md1}
+
+\begin{DoxyItemize}
+\item {\bfseries{High-\/\+Level Agent}} ~\newline
+ Wählt eine von acht möglichen Aktionen aus (z.\+ B. {\itshape Load Jig}, {\itshape Swap}, {\itshape Dispatch}). Trainiert mit Proximal Policy Optimization (PPO).
+\item {\bfseries{Low-\/\+Level Agent}} ~\newline
+ Verfeinert und führt die vom High-\/\+Level-\/\+Agenten gewählte Aktion aus. Abhängig von der Aktionsart geschieht dies durch\+:
+\begin{DoxyItemize}
+\item 🔹 {\itshape Direkte Ausführung} (z.\+ B. deterministisch lösbare Aktionen ohne Parameter)
+\item 🔹 {\itshape Heuristiken} (für einfache, aber parametrisierte Aktionen)
+\item 🔹 {\itshape Monte Carlo Tree Search (MCTS)} (für komplexe, sequenzielle Entscheidungen mit hohem Kombinationsraum)
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Diese modulare Trennung erlaubt es, unterschiedliche Ansätze (RL, Heuristiken, MCTS) synergetisch zu kombinieren und gezielt auf die Charakteristika einzelner Teilprobleme anzuwenden. 

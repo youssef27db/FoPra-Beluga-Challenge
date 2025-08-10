@@ -1,0 +1,104 @@
+\doxysection{rl.\+main Namespace Reference}
+\hypertarget{namespacerl_1_1main}{}\label{namespacerl_1_1main}\index{rl.main@{rl.main}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacerl_1_1main_a6528ce72033baeaa4ad4a862b649dab0}{main}} ()
+\begin{DoxyCompactList}\small\item\em Main function for PPO training and evaluation of the Beluga Challenge. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacerl_1_1main_a6528ce72033baeaa4ad4a862b649dab0}\index{rl.main@{rl.main}!main@{main}}
+\index{main@{main}!rl.main@{rl.main}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{namespacerl_1_1main_a6528ce72033baeaa4ad4a862b649dab0} 
+rl.\+main.\+main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Main function for PPO training and evaluation of the Beluga Challenge. 
+
+Parses command line arguments and executes the appropriate mode\+:
+\begin{DoxyItemize}
+\item train\+: Train the PPO agent
+\item eval\+: Evaluate trained model performance
+\item problem\+: Evaluate agent on specific problem instances 
+\end{DoxyItemize}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00014\ \textcolor{keyword}{def\ }main(): }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00016\ \textcolor{stringliteral}{\ \ \ \ @brief\ Main\ function\ for\ PPO\ training\ and\ evaluation\ of\ the\ Beluga\ Challenge }}
+\DoxyCodeLine{00017\ \textcolor{stringliteral}{\ \ \ \  }}
+\DoxyCodeLine{00018\ \textcolor{stringliteral}{\ \ \ \ Parses\ command\ line\ arguments\ and\ executes\ the\ appropriate\ mode: }}
+\DoxyCodeLine{00019\ \textcolor{stringliteral}{\ \ \ \ -\/\ train:\ Train\ the\ PPO\ agent }}
+\DoxyCodeLine{00020\ \textcolor{stringliteral}{\ \ \ \ -\/\ eval:\ Evaluate\ trained\ model\ performance }}
+\DoxyCodeLine{00021\ \textcolor{stringliteral}{\ \ \ \ -\/\ problem:\ Evaluate\ agent\ on\ specific\ problem\ instances }}
+\DoxyCodeLine{00022\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{\#\ Define\ command\ line\ arguments }}
+\DoxyCodeLine{00024\ \ \ \ \ parser\ =\ argparse.ArgumentParser(description=\textcolor{stringliteral}{'PPO\ Training\ and\ Evaluation\ for\ Beluga\ Challenge'}) }
+\DoxyCodeLine{00025\ \ \ \ \  }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{\#\ Main\ mode }}
+\DoxyCodeLine{00027\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/mode'},\ type=str,\ choices=[\textcolor{stringliteral}{'train'},\ \textcolor{stringliteral}{'eval'},\ \textcolor{stringliteral}{'problem'}],\ default=\textcolor{stringliteral}{'train'}, }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Mode:\ train\ (Training),\ eval\ (Model\ Evaluation),\ problem\ (Problem\ Evaluation)'}) }
+\DoxyCodeLine{00029\ \ \ \ \  }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{\#\ Training\ parameters }}
+\DoxyCodeLine{00031\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/train\_old\_models'},\ action=\textcolor{stringliteral}{'store\_true'},\ default=\textcolor{keyword}{True}, }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Load\ existing\ models\ (default:\ True)'}) }
+\DoxyCodeLine{00033\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/use\_permutation'},\ action=\textcolor{stringliteral}{'store\_true'},\ default=\textcolor{keyword}{False}, }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Use\ observation\ permutation\ (default:\ False)'}) }
+\DoxyCodeLine{00035\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/n\_episodes'},\ type=int,\ default=10000, }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Number\ of\ training\ episodes\ (default:\ 10000)'}) }
+\DoxyCodeLine{00037\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/base\_index'},\ type=int,\ default=61, }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Base\ index\ for\ problem\ selection\ (default:\ 61)'}) }
+\DoxyCodeLine{00039\ \ \ \ \  }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{\#\ Evaluation\ parameters }}
+\DoxyCodeLine{00041\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/n\_eval\_episodes'},\ type=int,\ default=10, }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Number\ of\ evaluation\ episodes\ (default:\ 10)'}) }
+\DoxyCodeLine{00043\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/max\_steps'},\ type=int,\ default=200, }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Maximum\ steps\ per\ episode\ (default:\ 200)'}) }
+\DoxyCodeLine{00045\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/plot'},\ action=\textcolor{stringliteral}{'store\_true'},\ default=\textcolor{keyword}{False}, }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Show\ plot\ after\ evaluation\ (default:\ False)'}) }
+\DoxyCodeLine{00047\ \ \ \ \  }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{comment}{\#\ Problem\ evaluation\ parameters }}
+\DoxyCodeLine{00049\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/problem\_path'},\ type=str,\ default=\textcolor{stringliteral}{"{}problems/problem\_90\_s132\_j137\_r8\_oc81\_f43.json"{}}, }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Path\ to\ problem\ for\ evaluation\ (default:\ problems/problem\_90\_s132\_j137\_r8\_oc81\_f43.json\ (Biggest\ Problem\ with\ 10\ Racks))'}) }
+\DoxyCodeLine{00051\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/max\_problem\_steps'},\ type=int,\ default=20000, }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Maximum\ steps\ for\ problem\ evaluation\ (default:\ 20000)'}) }
+\DoxyCodeLine{00053\ \ \ \ \ parser.add\_argument(\textcolor{stringliteral}{'-\/-\/save\_to\_file'},\ action=\textcolor{stringliteral}{'store\_true'},\ default=\textcolor{keyword}{False}, }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ help=\textcolor{stringliteral}{'Save\ results\ to\ TXT\ file\ (default:\ False)'}) }
+\DoxyCodeLine{00055\ \ \ \ \  }
+\DoxyCodeLine{00056\ \ \ \ \ args\ =\ parser.parse\_args() }
+\DoxyCodeLine{00057\ \ \ \ \  }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{\#\ Initialize\ environment }}
+\DoxyCodeLine{00059\ \ \ \ \ env\ =\ Env(path=\textcolor{stringliteral}{"{}problems/"{}},\ base\_index=args.base\_index) }
+\DoxyCodeLine{00060\  }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{\#\ Initialize\ High-\/Level\ Agent\ (PPO) }}
+\DoxyCodeLine{00062\ \ \ \ \ n\_actions\ =\ 8\ \ \textcolor{comment}{\#\ Number\ of\ actions\ the\ agent\ can\ take }}
+\DoxyCodeLine{00063\ \ \ \ \ batch\_size\ =\ 128\ \ \textcolor{comment}{\#\ Increased\ batch\ size\ for\ more\ stable\ training }}
+\DoxyCodeLine{00064\ \ \ \ \ n\_epochs\ =\ 5\ \ \ \ \ \textcolor{comment}{\#\ Reduced\ number\ of\ epochs\ to\ prevent\ overfitting }}
+\DoxyCodeLine{00065\ \ \ \ \ alpha\ =\ 0.0005\ \ \ \textcolor{comment}{\#\ Increased\ learning\ rate\ for\ faster\ learning }}
+\DoxyCodeLine{00066\ \ \ \ \ N\ =\ 1024\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Buffer\ size }}
+\DoxyCodeLine{00067\ \ \ \ \ ppo\_agent\ =\ PPOAgent(n\_actions=n\_actions,\ batch\_size=batch\_size,\ alpha=alpha, }
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ n\_epochs=n\_epochs,\ input\_dims=40,\ policy\_clip=0.2,\ N=N,\ model\_name=\textcolor{stringliteral}{"{}ppo"{}}) }
+\DoxyCodeLine{00069\  }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{comment}{\#\ Initialize\ Trainer }}
+\DoxyCodeLine{00071\ \ \ \ \ trainer\ =\ Trainer(env=env,\ ppo\_agent=ppo\_agent,\ debug=\textcolor{keyword}{False}) }
+\DoxyCodeLine{00072\  }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{\#\ Execute\ appropriate\ action\ based\ on\ mode }}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{if}\ args.mode\ ==\ \textcolor{stringliteral}{'train'}: }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Starting\ training\ with\ \{args.n\_episodes\}\ episodes..."{}}) }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ trainer.train(n\_episodes=args.n\_episodes,\ N=10,\ max\_steps\_per\_episode=args.max\_steps,\  }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ train\_on\_old\_models=args.train\_old\_models,\ use\_permutation=args.use\_permutation,\  }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_learn\_after=250) }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordflow}{elif}\ args.mode\ ==\ \textcolor{stringliteral}{'eval'}: }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Starting\ model\ evaluation\ with\ \{args.n\_eval\_episodes\}\ episodes..."{}}) }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ trainer.evaluateModel(n\_eval\_episodes=args.n\_eval\_episodes,\  }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ max\_steps\_per\_episode=args.max\_steps,\ plot=args.plot) }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordflow}{elif}\ args.mode\ ==\ \textcolor{stringliteral}{'problem'}: }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Evaluating\ problem:\ \{args.problem\_path\}"{}}) }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ trainer.evaluateProblem(args.problem\_path,\ max\_steps=args.max\_problem\_steps,\ save\_to\_file=args.save\_to\_file) }
+\DoxyCodeLine{00088\  }
+
+\end{DoxyCode}

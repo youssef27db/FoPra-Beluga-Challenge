@@ -1,0 +1,56 @@
+\doxysection{toolkit.\+skd\+\_\+domains.\+skd\+\_\+gym\+\_\+domain.\+Beluga\+Gym\+Env Class Reference}
+\hypertarget{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_env}{}\label{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_env}\index{toolkit.skd\_domains.skd\_gym\_domain.BelugaGymEnv@{toolkit.skd\_domains.skd\_gym\_domain.BelugaGymEnv}}
+Inheritance diagram for toolkit.\+skd\+\_\+domains.\+skd\+\_\+gym\+\_\+domain.\+Beluga\+Gym\+Env\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_env}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_env_a149bdd285654e2e9891a4e5090537b9f}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, Env\+Config\+Dict env\+\_\+config)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}The Beluga gymnasium environment whose methods are automatically populated
+by scikit-decide from a Gym-compatible Beluga scikit-decide domain passed to
+its constructors. This Gym-compatible Beluga scikit-decide domain must inherit
+from the BelugaGymCompatibleDomain class above.
+A simplistic example of such a inherited domain class can be found in the
+generate_solve_rllib_test.py script.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{skd__gym__domain_8py_source_l00105}{105}} of file \mbox{\hyperlink{skd__gym__domain_8py_source}{skd\+\_\+gym\+\_\+domain.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_env_a149bdd285654e2e9891a4e5090537b9f}\index{toolkit.skd\_domains.skd\_gym\_domain.BelugaGymEnv@{toolkit.skd\_domains.skd\_gym\_domain.BelugaGymEnv}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!toolkit.skd\_domains.skd\_gym\_domain.BelugaGymEnv@{toolkit.skd\_domains.skd\_gym\_domain.BelugaGymEnv}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__gym__domain_1_1_beluga_gym_env_a149bdd285654e2e9891a4e5090537b9f} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+gym\+\_\+domain.\+Beluga\+Gym\+Env.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{Env\+Config\+Dict}]{env\+\_\+config}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The constructor of the Beluga gymnasium environment
+
+Args:
+    env_config (EnvConfigDict): Environment configuration dictionary.
+    This dictionary must at least contain the 'domain' key which points
+    to a scikit-decide domain class inherited from BelugaGymCompatibleDomain.
+    The dictionary can also optionally contain the 'unwrap_spaces' key which
+    must be equal to True if the scikit-decide domain class uses scikit-decide's
+    space classes (such as skdecide.hub.spaces.gym.GymBox) instead of gymnasium
+    space classes (such as gym.Box).
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{skd__gym__domain_8py_source_l00114}{114}} of file \mbox{\hyperlink{skd__gym__domain_8py_source}{skd\+\_\+gym\+\_\+domain.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+toolkit/skd\+\_\+domains/\mbox{\hyperlink{skd__gym__domain_8py}{skd\+\_\+gym\+\_\+domain.\+py}}\end{DoxyCompactItemize}

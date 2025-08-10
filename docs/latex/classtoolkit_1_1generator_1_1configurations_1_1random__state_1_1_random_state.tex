@@ -1,0 +1,128 @@
+\doxysection{toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State Class Reference}
+\hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state}{}\label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+None \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a1d0700adebdc389fec6d2a8665428d02}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, seed)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}} \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ac06da305db6b32b849d7fc32c96f09dc}{get\+\_\+random\+\_\+element\+\_\+uniform}} (self, list\mbox{[}\mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}}\mbox{]} list)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}} \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ae7174453977928ce48029fca0b760ea3}{get\+\_\+random\+\_\+element\+\_\+prop}} (self, list\mbox{[}\mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}}\mbox{]} list, list\mbox{[}float\mbox{]} probs)
+\item 
+int \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a2ac51c0924234a6767d7475bb4b7d9dd}{get\+\_\+discrete\+\_\+truncated\+\_\+uniform\+\_\+sample}} (self, int lower, int upper)
+\item 
+int \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_aec175664666df908c8880fbe3711060c}{get\+\_\+discrete\+\_\+truncated\+\_\+normal\+\_\+sample}} (self, int center, int sigma, int lower, int upper)
+\item 
+int \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a4c55dac10917751e875cda8cc9bf0a85}{get\+\_\+uniform\+\_\+advantage\+\_\+sample}} (self, list\mbox{[}int\mbox{]} advantage)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Generator \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a2940dc0b6b36b8ff26489c22c4ab5bc3}{rng}} = np.\+random.\+default\+\_\+rng(seed)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}} = Type\+Var(\textquotesingle{}T\textquotesingle{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00009}{9}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a1d0700adebdc389fec6d2a8665428d02}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a1d0700adebdc389fec6d2a8665428d02} 
+ None toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{seed}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00011}{11}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_aec175664666df908c8880fbe3711060c}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!get\_discrete\_truncated\_normal\_sample@{get\_discrete\_truncated\_normal\_sample}}
+\index{get\_discrete\_truncated\_normal\_sample@{get\_discrete\_truncated\_normal\_sample}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{get\_discrete\_truncated\_normal\_sample()}{get\_discrete\_truncated\_normal\_sample()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_aec175664666df908c8880fbe3711060c} 
+ int toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+get\+\_\+discrete\+\_\+truncated\+\_\+normal\+\_\+sample (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{int}]{center}{, }\item[{int}]{sigma}{, }\item[{int}]{lower}{, }\item[{int}]{upper}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00042}{42}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a2ac51c0924234a6767d7475bb4b7d9dd}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!get\_discrete\_truncated\_uniform\_sample@{get\_discrete\_truncated\_uniform\_sample}}
+\index{get\_discrete\_truncated\_uniform\_sample@{get\_discrete\_truncated\_uniform\_sample}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{get\_discrete\_truncated\_uniform\_sample()}{get\_discrete\_truncated\_uniform\_sample()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a2ac51c0924234a6767d7475bb4b7d9dd} 
+ int toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+get\+\_\+discrete\+\_\+truncated\+\_\+uniform\+\_\+sample (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{int}]{lower}{, }\item[{int}]{upper}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00039}{39}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ae7174453977928ce48029fca0b760ea3}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!get\_random\_element\_prop@{get\_random\_element\_prop}}
+\index{get\_random\_element\_prop@{get\_random\_element\_prop}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{get\_random\_element\_prop()}{get\_random\_element\_prop()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ae7174453977928ce48029fca0b760ea3} 
+ \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}} toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+get\+\_\+random\+\_\+element\+\_\+prop (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{list\mbox{[}\mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}}\mbox{]}}]{list}{, }\item[{list\mbox{[}float\mbox{]}}]{probs}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00020}{20}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ac06da305db6b32b849d7fc32c96f09dc}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!get\_random\_element\_uniform@{get\_random\_element\_uniform}}
+\index{get\_random\_element\_uniform@{get\_random\_element\_uniform}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{get\_random\_element\_uniform()}{get\_random\_element\_uniform()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ac06da305db6b32b849d7fc32c96f09dc} 
+ \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}} toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+get\+\_\+random\+\_\+element\+\_\+uniform (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{list\mbox{[}\mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}{T}}\mbox{]}}]{list}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00016}{16}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a4c55dac10917751e875cda8cc9bf0a85}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!get\_uniform\_advantage\_sample@{get\_uniform\_advantage\_sample}}
+\index{get\_uniform\_advantage\_sample@{get\_uniform\_advantage\_sample}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{get\_uniform\_advantage\_sample()}{get\_uniform\_advantage\_sample()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a4c55dac10917751e875cda8cc9bf0a85} 
+ int toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+get\+\_\+uniform\+\_\+advantage\+\_\+sample (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{list\mbox{[}int\mbox{]}}]{advantage}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00050}{50}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a2940dc0b6b36b8ff26489c22c4ab5bc3}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!rng@{rng}}
+\index{rng@{rng}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{rng}{rng}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_a2940dc0b6b36b8ff26489c22c4ab5bc3} 
+Generator toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+rng = np.\+random.\+default\+\_\+rng(seed)}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00012}{12}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+\Hypertarget{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad}\index{toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}!T@{T}}
+\index{T@{T}!toolkit.generator.configurations.random\_state.RandomState@{toolkit.generator.configurations.random\_state.RandomState}}
+\doxysubsubsection{\texorpdfstring{T}{T}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1generator_1_1configurations_1_1random__state_1_1_random_state_ab0a3107854dc3efc4243e29b92fb2cad} 
+toolkit.\+generator.\+configurations.\+random\+\_\+state.\+Random\+State.\+T = Type\+Var(\textquotesingle{}T\textquotesingle{})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{random__state_8py_source_l00014}{14}} of file \mbox{\hyperlink{random__state_8py_source}{random\+\_\+state.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+toolkit/generator/configurations/\mbox{\hyperlink{random__state_8py}{random\+\_\+state.\+py}}\end{DoxyCompactItemize}

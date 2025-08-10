@@ -1,30 +1,17 @@
-"""
---------------------------------
-This file contains a collection of functions that manage state transitions for
-various operations on "beluga" objects, jigs, trailers, hangars, and racks. Each
-function is responsible for a specific action and follows these principles:
-
-• Clearly defined and descriptive function names.
-• Early precondition checks to prevent invalid state mutations.
-• Direct modification of the 'state' object, ensuring that changes are localized.
-• Returning Boolean values to signal the success or failure of an operation.
-• Inline comments provide clarity regarding the preconditions and side effects.
-• Separation of concerns: each function handles one piece of functionality.
-
-Functions:
-    0. load_beluga: Loads a beluga from a specified trailer slot.
-    1. unload_beluga: Unloads a beluga and, if fully processed, removes it from the list.
-    2. get_from_hangar: Retrieves a jig from a hangar and places it into a factory trailer.
-    3. deliver_to_hangar: Delivers a jig from a trailer into a hangar after verifying production line data.
-    4. left_stack_rack: Stacks a jig from the left (Beluga) trailer onto a rack.
-    5. right_stack_rack: Stacks a jig from the right (Factory) trailer onto a rack.
-    6. left_unstack_rack: Unstacks a jig from a rack into a left (Beluga) trailer.
-    7. right_unstack_rack: Unstacks a jig from a rack into a right (Factory) trailer.
+"""!
+@file action.py
+@brief Collection of state transition functions for the Beluga Challenge
 """
 
 # 0
 def load_beluga(state, trailer_beluga: int, none) -> bool:
-    """Load beluga from specific trailer."""
+    """!
+    @brief Load beluga from specific trailer
+    @param state Current problem state
+    @param trailer_beluga Index of the beluga trailer to load from
+    @param none Unused parameter for API consistency
+    @return True if loading was successful, False otherwise
+    """
     jig_id = state.trailers_beluga[trailer_beluga]
 
     # Preconditions
@@ -39,10 +26,10 @@ def load_beluga(state, trailer_beluga: int, none) -> bool:
     if not state.jigs[jig_id].empty:  # Jig must be empty
         return False
 
-    if not beluga.outgoing:  # Beluga muss outgoing types haben
+    if not beluga.outgoing:  # Beluga must have outgoing types
         return False
 
-    if len(beluga.current_jigs) != 0: # Beluga darf keine incoming jigs haben
+    if len(beluga.current_jigs) != 0: # Beluga must not have incoming jigs
         return False
     
     if state.jigs[jig_id].jig_type != beluga.outgoing[0]:
@@ -50,7 +37,7 @@ def load_beluga(state, trailer_beluga: int, none) -> bool:
 
     # Effects: Remove outgoing type and clear trailer slot
 
-    # Case: nur noch ein Jig im Beluga, wird entladen und dann neuer beluga geholt
+    # Case: only one jig left in beluga, gets unloaded and then new beluga is fetched
     if len(beluga.outgoing) == 1:
         beluga.outgoing.pop(0)
         state.trailers_beluga[trailer_beluga] = None
@@ -65,7 +52,11 @@ def load_beluga(state, trailer_beluga: int, none) -> bool:
 
 # 1
 def unload_beluga(state) -> bool:
-    """Unload beluga (no additional parameter besides state)."""
+    """!
+    @brief Unload beluga (no additional parameter besides state)
+    @param state Current problem state
+    @return True if unloading was successful, False otherwise
+    """
     # Find the first empty trailer slot
     trailer_beluga = None
     for i, trailer in enumerate(state.trailers_beluga):
@@ -103,7 +94,13 @@ def unload_beluga(state) -> bool:
 
 # 2
 def get_from_hangar(state, hangar: int, trailer_factory: int) -> bool:
-    """Get jig from specific hangar to specific trailer."""
+    """!
+    @brief Get jig from specific hangar to specific trailer
+    @param state Current problem state
+    @param hangar Index of the hangar to retrieve from
+    @param trailer_factory Index of the factory trailer to place jig into
+    @return True if retrieval was successful, False otherwise
+    """
     if hangar >= len(state.hangars) or trailer_factory >= len(state.trailers_factory):
         return False
 
@@ -122,7 +119,13 @@ def get_from_hangar(state, hangar: int, trailer_factory: int) -> bool:
 
 # 3
 def deliver_to_hangar(state, hangar: int, trailer_factory: int) -> bool:
-    """Deliver jig from specific trailer to specific hangar."""
+    """!
+    @brief Deliver jig from specific trailer to specific hangar
+    @param state Current problem state
+    @param hangar Index of the hangar to deliver to
+    @param trailer_factory Index of the factory trailer to take jig from
+    @return True if delivery was successful, False otherwise
+    """
     if hangar >= len(state.hangars) or trailer_factory >= len(state.trailers_factory):
         return False
 
@@ -156,7 +159,13 @@ def deliver_to_hangar(state, hangar: int, trailer_factory: int) -> bool:
 
 # 4
 def left_stack_rack(state, rack: int, trailer_id: int) -> bool:
-    """Stack jig on rack from the left trailer (Beluga)."""
+    """!
+    @brief Stack jig on rack from the left trailer (Beluga)
+    @param state Current problem state
+    @param rack Index of the rack to stack onto
+    @param trailer_id Index of the left (Beluga) trailer to take jig from
+    @return True if stacking was successful, False otherwise
+    """
     rack = int(rack)
     if rack >= len(state.racks):
         return False
@@ -181,7 +190,13 @@ def left_stack_rack(state, rack: int, trailer_id: int) -> bool:
 
 # 5
 def right_stack_rack(state, rack: int, trailer_id: int) -> bool:
-    """Stack jig on rack from the right trailer (Factory)."""
+    """!
+    @brief Stack jig on rack from the right trailer (Factory)
+    @param state Current problem state
+    @param rack Index of the rack to stack onto
+    @param trailer_id Index of the right (Factory) trailer to take jig from
+    @return True if stacking was successful, False otherwise
+    """
     rack = int(rack)
     if rack >= len(state.racks):
         return False
@@ -206,7 +221,13 @@ def right_stack_rack(state, rack: int, trailer_id: int) -> bool:
 
 # 6
 def left_unstack_rack(state, rack: int, trailer_id: int) -> bool:
-    """Unstack jig from rack to the left trailer (Beluga)."""
+    """!
+    @brief Unstack jig from rack to the left trailer (Beluga)
+    @param state Current problem state
+    @param rack Index of the rack to unstack from
+    @param trailer_id Index of the left (Beluga) trailer to place jig into
+    @return True if unstacking was successful, False otherwise
+    """
     rack = int(rack)
     if rack >= len(state.racks):
         return False
@@ -222,7 +243,13 @@ def left_unstack_rack(state, rack: int, trailer_id: int) -> bool:
 
 # 7
 def right_unstack_rack(state, rack: int, trailer_id: int) -> bool:
-    """Unstack jig from rack to the right trailer (Factory)."""
+    """!
+    @brief Unstack jig from rack to the right trailer (Factory)
+    @param state Current problem state
+    @param rack Index of the rack to unstack from
+    @param trailer_id Index of the right (Factory) trailer to place jig into
+    @return True if unstacking was successful, False otherwise
+    """
     rack = int(rack)
     if rack >= len(state.racks):
         return False

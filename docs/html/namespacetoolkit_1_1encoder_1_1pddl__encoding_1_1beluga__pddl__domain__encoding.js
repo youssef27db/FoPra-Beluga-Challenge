@@ -1,0 +1,4 @@
+var namespacetoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__pddl__domain__encoding =
+[
+    [ "DomainEncoding", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__pddl__domain__encoding_1_1_domain_encoding.html", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__pddl__domain__encoding_1_1_domain_encoding" ]
+];

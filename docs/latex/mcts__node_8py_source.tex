@@ -1,0 +1,133 @@
+\doxysection{mcts\+\_\+node.\+py}
+\hypertarget{mcts__node_8py_source}{}\label{mcts__node_8py_source}\index{rl/mcts/mcts\_node.py@{rl/mcts/mcts\_node.py}}
+\mbox{\hyperlink{mcts__node_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00001}\mbox{\hyperlink{namespacerl_1_1mcts_1_1mcts__node}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00002}00002\ \textcolor{stringliteral}{@file\ mcts\_node.py}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00003}00003\ \textcolor{stringliteral}{@brief\ MCTS\ Node\ implementation\ for\ the\ Beluga\ Challenge}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00005}00005\ \textcolor{stringliteral}{This\ module\ implements\ the\ Monte\ Carlo\ Tree\ Search\ node\ structure}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00006}00006\ \textcolor{stringliteral}{for\ choosing\ the\ best\ parameters\ for\ complex\ actions\ in\ the\ Beluga\ Challenge.}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00007}00007\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00009}00009\ \textcolor{keyword}{import}\ math}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00010}00010\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacerl_1_1env_1_1state}{rl.env.state}}\ \textcolor{keyword}{import}\ ProblemState\ \ \textcolor{comment}{\#\ Assuming\ State\ is\ defined\ in\ state.py}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00012}00012\ \textcolor{comment}{\#\ List\ of\ complex\ actions\ that\ require\ parameter\ selection}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00013}\mbox{\hyperlink{namespacerl_1_1mcts_1_1mcts__node_a33d2380ff4f66b986118e36e1ef8fd8f}{00013}}\ complex\_actions\ =\ [\textcolor{stringliteral}{"{}left\_stack\_rack"{}},\ \textcolor{stringliteral}{"{}right\_stack\_rack"{}},\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}},\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}]}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00015}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node}{00015}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node}{MCTSNode}}:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00016}00016\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00017}00017\ \textcolor{stringliteral}{\ \ \ \ @brief\ Node\ class\ for\ Monte\ Carlo\ Tree\ Search}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ Each\ node\ represents\ a\ state\ in\ the\ search\ tree\ and\ maintains}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ information\ about\ visits,\ rewards,\ and\ possible\ actions.}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00022}00022\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00023}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a0308bb295c09d75a962045c9c1538bce}{00023}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a0308bb295c09d75a962045c9c1538bce}{\_\_init\_\_}}(self,\ state,\ parent=None,\ action=None,\ depth=0):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ a\ new\ MCTS\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ state\ Current\ problem\ state}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ parent\ Parent\ node\ in\ the\ search\ tree}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\ Action\ taken\ to\ reach\ this\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ depth\ Depth\ of\ this\ node\ in\ the\ tree}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00031}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a971fa4a5d101ac6718fc4131a0100607}{00031}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a971fa4a5d101ac6718fc4131a0100607}{state}}\ =\ state\ \textcolor{comment}{\#\ Current\ state\ (later\ observation)}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00032}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a998ee584a8fdd624e32a1c80b8720399}{00032}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a998ee584a8fdd624e32a1c80b8720399}{parent}}\ =\ parent\ \textcolor{comment}{\#\ Parent\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00033}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ae2593b09a9d8644897706df1b60509cc}{00033}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ae2593b09a9d8644897706df1b60509cc}{action}}\ =\ action\ \textcolor{comment}{\#\ Action\ taken\ to\ reach\ this\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00034}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a18c2a407fd2344930e0fe8a0b750f1aa}{00034}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a18c2a407fd2344930e0fe8a0b750f1aa}{depth}}\ =\ depth\ \textcolor{comment}{\#\ Depth\ in\ the\ tree}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00035}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac78169388028a21c56a5ff598fc7b5b9}{00035}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac78169388028a21c56a5ff598fc7b5b9}{children}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aab51f49d6b68f92101b21ed00bf749c0}{children}}\ =\ []\ \textcolor{comment}{\#\ List\ of\ child\ nodes}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00036}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac95d5c05b2da87ff65a374c50772627a}{00036}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac95d5c05b2da87ff65a374c50772627a}{visits}}\ =\ 0\ \textcolor{comment}{\#\ Number\ of\ visits\ to\ this\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00037}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a58fb7e57f65c0da19b994d61b0652517}{00037}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a58fb7e57f65c0da19b994d61b0652517}{total\_reward}}\ =\ 0.0\ \textcolor{comment}{\#\ Total\ reward\ accumulated\ from\ this\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00039}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aeb1eb26c2561fd9888013a7bb1c8e905}{00039}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aeb1eb26c2561fd9888013a7bb1c8e905}{is\_root}}(self):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00041}00041\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ if\ this\ node\ is\ the\ root\ of\ the\ tree}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ this\ is\ the\ root\ node,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00043}00043\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a998ee584a8fdd624e32a1c80b8720399}{parent}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00046}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a12d3758fe3419165f72dcb71b1ac2c7e}{00046}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a12d3758fe3419165f72dcb71b1ac2c7e}{is\_terminal}}(self):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00048}00048\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ if\ this\ node\ represents\ a\ terminal\ state}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00049}00049\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ this\ is\ a\ terminal\ state,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a971fa4a5d101ac6718fc4131a0100607}{state}}.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a12d3758fe3419165f72dcb71b1ac2c7e}{is\_terminal}}()}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00053}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a1d2a58e24826e80d8323b48715692b3f}{00053}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a1d2a58e24826e80d8323b48715692b3f}{is\_fully\_expanded}}(self):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00055}00055\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ if\ all\ possible\ actions\ have\ been\ tried\ from\ this\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00056}00056\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ fully\ expanded,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00057}00057\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ len(self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ad2b66c425801d788443a2d3471b4890d}{get\_untried\_action}}())\ ==\ 0}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00060}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ad2b66c425801d788443a2d3471b4890d}{00060}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ad2b66c425801d788443a2d3471b4890d}{get\_untried\_action}}(self):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ list\ of\ actions\ that\ haven't\ been\ tried\ yet\ from\ this\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ List\ of\ untried\ (action\_name,\ parameters)\ tuples}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00064}00064\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ root\ node\ has\ a\ specific\ action\ without\ parameters}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aeb1eb26c2561fd9888013a7bb1c8e905}{is\_root}}()\ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ae2593b09a9d8644897706df1b60509cc}{action}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ae2593b09a9d8644897706df1b60509cc}{action}}[1]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Only\ return\ parameters\ for\ this\ specific\ action}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ action\_name\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ae2593b09a9d8644897706df1b60509cc}{action}}[0]}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ all\_params\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a971fa4a5d101ac6718fc4131a0100607}{state}}.enumerate\_valid\_params(action\_name)}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ tried\_params\ =\ [child.action[1]\ \textcolor{keywordflow}{for}\ child\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac78169388028a21c56a5ff598fc7b5b9}{children}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aab51f49d6b68f92101b21ed00bf749c0}{children}}]}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ only\ untried\ parameters}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [(action\_name,\ param)\ \textcolor{keywordflow}{for}\ param\ \textcolor{keywordflow}{in}\ all\_params\ \textcolor{keywordflow}{if}\ param\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ tried\_params]}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normal\ behavior\ for\ other\ nodes}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ all\_possible\_actions\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a971fa4a5d101ac6718fc4131a0100607}{state}}.get\_possible\_actions()}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ tried\_actions\ =\ [child.action\ \textcolor{keywordflow}{for}\ child\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac78169388028a21c56a5ff598fc7b5b9}{children}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aab51f49d6b68f92101b21ed00bf749c0}{children}}]}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [action\ \textcolor{keywordflow}{for}\ action\ \textcolor{keywordflow}{in}\ all\_possible\_actions\ \textcolor{keywordflow}{if}\ action\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ tried\_actions]}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00079}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a439b5b9e5e6c840265b58648fe8261bc}{00079}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a439b5b9e5e6c840265b58648fe8261bc}{expand}}(self,\ candidate:\ tuple):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Expand\ the\ node\ by\ adding\ a\ new\ child\ for\ the\ given\ action}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ candidate\ Tuple\ of\ (action\_name,\ parameters)\ to\ expand}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00083}00083\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ The\ newly\ created\ child\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ new\_state\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a971fa4a5d101ac6718fc4131a0100607}{state}}.copy()\ \ \textcolor{comment}{\#\ Create\ copy}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ new\_state.apply\_action(candidate[0],\ candidate[1])\ \ \textcolor{comment}{\#\ Apply\ action\ on\ copy}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ child\_node\ =\ \mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node}{MCTSNode}}(state=new\_state,\ parent=self,\ action=candidate,\ depth=self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a18c2a407fd2344930e0fe8a0b750f1aa}{depth}}\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aae8b165fe121c8eb31d754ab635c0d68}{add\_child}}(child\_node)}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ child\_node}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00091}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aae8b165fe121c8eb31d754ab635c0d68}{00091}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aae8b165fe121c8eb31d754ab635c0d68}{add\_child}}(self,\ child):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Add\ a\ child\ node\ to\ this\ node}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ child\ Child\ node\ to\ add}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac78169388028a21c56a5ff598fc7b5b9}{children}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aab51f49d6b68f92101b21ed00bf749c0}{children}}.append(child)}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00098}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac6746487f2b65438677a44647d6e062c}{00098}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac6746487f2b65438677a44647d6e062c}{best\_child}}(self,\ exploration\_weight=1.0):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00100}00100\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Select\ the\ best\ child\ node\ using\ UCT\ (Upper\ Confidence\ bounds\ applied\ to\ Trees)}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00101}00101\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ exploration\_weight\ Weight\ for\ exploration\ vs\ exploitation\ trade-\/off}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00102}00102\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Best\ child\ node\ according\ to\ UCT\ formula}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00103}00103\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Example:\ UCT\ formula}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ best\_score\ =\ float(\textcolor{stringliteral}{'-\/inf'})}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ best\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00107}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aab51f49d6b68f92101b21ed00bf749c0}{00107}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ child\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac78169388028a21c56a5ff598fc7b5b9}{children}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_aab51f49d6b68f92101b21ed00bf749c0}{children}}:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ child.visits\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ score\ =\ float(\textcolor{stringliteral}{'inf'})}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exploitation\ =\ child.total\_reward\ /\ child.visits}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exploration\ =\ exploration\_weight\ *\ math.sqrt(math.log(self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac95d5c05b2da87ff65a374c50772627a}{visits}})\ /\ child.visits)}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ score\ =\ exploitation\ +\ exploration}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ score\ >\ best\_score:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_score\ =\ score}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\ =\ child}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ best}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00119}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ad2fba66b374cca4da79bb9b3e1406a26}{00119}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ad2fba66b374cca4da79bb9b3e1406a26}{backpropagate}}(self,\ reward):}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00121}00121\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Backpropagate\ the\ reward\ up\ the\ tree\ to\ all\ ancestors}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00122}00122\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ reward\ Reward\ value\ to\ propagate}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00123}00123\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ac95d5c05b2da87ff65a374c50772627a}{visits}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a58fb7e57f65c0da19b994d61b0652517}{total\_reward}}\ +=\ reward}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a998ee584a8fdd624e32a1c80b8720399}{parent}}:}
+\DoxyCodeLine{\Hypertarget{mcts__node_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_a998ee584a8fdd624e32a1c80b8720399}{parent}}.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts__node_1_1_m_c_t_s_node_ad2fba66b374cca4da79bb9b3e1406a26}{backpropagate}}(reward)}
+
+\end{DoxyCode}

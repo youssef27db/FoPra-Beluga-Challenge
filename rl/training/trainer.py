@@ -1,32 +1,54 @@
+"""!
+@file trainer.py
+@brief Training orchestrator for the Beluga Challenge
+
+This module implements the main training loop that coordinates
+the RL agent, MCTS, and environment for the container optimization problem.
+"""
+
 import numpy as np
 from rl.env.environment import * # Environment 
 from rl.agents.high_level.ppo_agent import *  # High-Level-Agent
-from rl.agents.low_level.heuristics import *  # Low-Level-Heuristik
-from rl.mcts import *  # MCTS-Algorithmus
+from rl.agents.low_level.heuristics import *  # Low-Level-Heuristic
+from rl.mcts import *  # MCTS-Algorithm
 from rl.utils.utils import *
 import matplotlib.pyplot as plt
 
 class Trainer:
+    """!
+    @brief Main training orchestrator for the Beluga Challenge
+    
+    This class manages the training process, coordinating between
+    the RL agent, MCTS, and environment components.
+    """
+    
     def __init__(self, env: Env, ppo_agent: PPOAgent, mcts_params=None, debug=False):
+        """!
+        @brief Initialize the trainer
+        @param env Environment instance
+        @param ppo_agent PPO agent for high-level decisions
+        @param mcts_params Parameters for MCTS (optional)
+        @param debug Enable debug output
+        """
         self.env = env
         self.ppo_agent: PPOAgent = ppo_agent  # High-Level-Agent
         self.mcts = None
-        self.debug = debug  # Debug-Modus für zusätzliche Ausgaben
+        self.debug = debug  # Debug mode for additional output
         
-        # Tracking-Metriken
+        # Tracking metrics
         self.episode_rewards = []
         self.avg_rewards = []
         self.steps_per_episode = []
         self.best_score = -90000
         self.score_history = []
         self.learn_iters = 0
-        self.invalid_action_counts = {i: 0 for i in range(8)}  # Zähler für ungültige Aktionen nach Typ
+        self.invalid_action_counts = {i: 0 for i in range(8)}  # Counter for invalid actions by type
         
-        # Exploration-Parameter
-        self.epsilon_start = 0.9  # Anfangswert für Epsilon (Explorations-Wahrscheinlichkeit)
-        self.epsilon_end = 0.2   # Endwert für Epsilon
-        self.epsilon_decay = 0.00001  # Rate, mit der Epsilon reduziert wird
-        self.total_steps = 0      # Gesamtzahl der durchgeführten Schritte
+        # Exploration parameters
+        self.epsilon_start = 0.9  # Initial value for epsilon (exploration probability)
+        self.epsilon_end = 0.2   # Final value for epsilon
+        self.epsilon_decay = 0.00001  # Rate at which epsilon is reduced
+        self.total_steps = 0      # Total number of steps taken
         
         # Number to Action Mapping
         self.action_mapping = {
@@ -41,7 +63,11 @@ class Trainer:
         }
         
     def get_valid_actions(self, obs):
-        """Überprüft, welche Aktionen im aktuellen Zustand gültig sind"""
+        """!
+        @brief Check which actions are valid in the current state
+        @param obs Current observation
+        @return List of valid action indices
+        """
         valid_actions = []
         for action_idx in range(len(self.action_mapping)):
             if self.env.check_action_execution(self.action_mapping[action_idx], obs):
@@ -49,19 +75,17 @@ class Trainer:
         return valid_actions
 
     def train(self, n_episodes=2000, N=5, max_steps_per_episode = 200, train_on_old_models = False, start_learn_after = 500, use_permutation = False):
-        """
-        Trainiert den Agenten über eine bestimmte Anzahl von Episoden.
-        
-        Args:
-            n_episodes: Anzahl der Trainingsepisoden
-            N: Frequenz der Lernschritte
-            max_steps_per_episode: Maximale Anzahl von Schritten pro Episode
-            train_on_old_models: Ob vorhandene Modelle geladen werden sollen
-            start_learn_after: Nach wie vielen Schritten das Lernen beginnen soll
-            use_permutation: Ob Beobachtungen permutiert werden sollen (kann Training stabilisieren, kostet aber Zeit)
+        """!
+        @brief Train the agent over a specified number of episodes
+        @param n_episodes Number of training episodes
+        @param N Frequency of learning steps
+        @param max_steps_per_episode Maximum number of steps per episode
+        @param train_on_old_models Whether to load existing models
+        @param start_learn_after After how many steps learning should begin
+        @param use_permutation Whether observations should be permuted (can stabilize training but costs time)
         """
         if train_on_old_models:
-            self.ppo_agent.load_models()  # Lade die Modelle des PPO-Agenten
+            self.ppo_agent.load_models()  # Load the PPO agent's models
         self.total_steps = 0
 
         for episode in range(n_episodes):
@@ -77,95 +101,88 @@ class Trainer:
             while not isTerminal:
                 bool_heuristic = False
                 reward = 0
-                # High-Level-Entscheidung (PPO)
-                # Berechne aktuelle Epsilon-Wert für Exploration
+                # High-Level decision (PPO)
+                # Calculate current epsilon value for exploration
                 epsilon = self.epsilon_end + (self.epsilon_start - self.epsilon_end) * \
                           np.exp(-self.epsilon_decay * self.total_steps)
                 
-                # Epsilon-Greedy Strategie für Exploration
+                # Epsilon-Greedy strategy for exploration
                 if np.random.random() < epsilon:
-                    # Explorative Aktion: Wähle eine zufällige gültige Aktion
+                    # Explorative action: Choose a random valid action
                     valid_actions = self.get_valid_actions(obs)
                     if valid_actions:
                         high_level_action = np.random.choice(valid_actions)
                         high_level_action_str = self.action_mapping[high_level_action]
                         
-                        # Um die PPO-Logik beizubehalten, brauchen wir die Verteilung
+                        # To maintain PPO logic, we need the distribution
                         if use_permutation:
                             _, prob, val, dist = self.ppo_agent.choose_action(permute_high_level_observation(np.random.permutation(10), obs))
                         else:
                             _, prob, val, dist = self.ppo_agent.choose_action(obs)
                     else:
-                        # Falls keine gültigen Aktionen vorhanden sind, normale Strategien nutzen
+                        # If no valid actions are available, use normal strategies
                         if use_permutation:
-                            obs_ = None  # Reset der Beobachtung für die nächste Iteration
+                            obs_ = None  # Reset observation for next iteration
                             permutation = np.random.permutation(10)
                             permuted_obs = permute_high_level_observation(permutation, obs)
                             high_level_action, prob, val, dist = self.ppo_agent.choose_action(permuted_obs)
                         else:
-                            # Ohne Permutation direkt die Beobachtung verwenden (schneller)
                             high_level_action, prob, val, dist = self.ppo_agent.choose_action(obs)
                         high_level_action_str = self.action_mapping[high_level_action]
                 else:
-                    # Exploitative Aktion: Nutze die PPO-Policy
+                    # Exploitative action: Use PPO policy
                     if use_permutation:
-                        obs_ = None  # Reset der Beobachtung für die nächste Iteration
+                        obs_ = None  # Reset observation for next iteration
                         permutation = np.random.permutation(10)
                         permuted_obs = permute_high_level_observation(permutation, obs)
                         high_level_action, prob, val, dist = self.ppo_agent.choose_action(permuted_obs)
                     else:
-                        # Ohne Permutation direkt die Beobachtung verwenden (schneller)
                         high_level_action, prob, val, dist = self.ppo_agent.choose_action(obs)
-                    high_level_action_str = self.action_mapping[high_level_action]  # Mapping der Aktion
-
-                # Debug-Ausgaben deaktiviert für schnellere Ausführung
-                # debuglog("-" *20)
-                # debuglog(high_level_action_str)
-                # debuglog("-" *20)
+                    high_level_action_str = self.action_mapping[high_level_action]  # Action mapping
 
                 probs = dist.probs.detach().cpu().numpy()
                 
-                # Prüfen, welche Aktionen gültig sind
+                # Check which actions are valid
                 valid_actions = self.get_valid_actions(obs)
                 
-                # Falls keine gültigen Aktionen existieren, Fehlermeldung und Episode beenden
+                # If no valid actions exist, error message and end episode
                 if not valid_actions:
                     print(f"Keine gültigen Aktionen für diesen Zustand möglich. Problem: {self.env.problem_name}")
                     isTerminal = True
-                    reward -= 5000.0  # Reduzierte Bestrafung, da es wirklich unmöglich ist
+                    reward -= 5000.0  # Reduced penalty since it's really impossible
                     break
                 
-                # Aktion ausbalancieren - wenn zu viele unstack-Aktionen verwendet wurden,
-                # reduziere deren Wahrscheinlichkeit zugunsten anderer Aktionen
-                if episode > 100 and self.total_steps > 500:  # Nach einer Anlaufphase
+                # Balance actions - if too many unstack actions were used,
+                # reduce their probability in favor of other actions
+                if episode > 100 and self.total_steps > 500:  # After a warm-up phase
                     total_invalid = sum(self.invalid_action_counts.values())
                     if total_invalid > 0:
                         unstack_percentage = (self.invalid_action_counts[6] + self.invalid_action_counts[7]) / total_invalid
-                        if unstack_percentage > 0.4:  # Wenn mehr als 40% der ungültigen Aktionen unstacks sind
-                            # Reduziere die Wahrscheinlichkeit für unstack-Aktionen
+                        if unstack_percentage > 0.4:  # If more than 40% of invalid actions are unstacks
+                            # Reduce probability for unstack actions
                             unstack_idx = [6, 7]  # left_unstack_rack, right_unstack_rack
-                            scale_factor = 0.5  # Skaliere die Wahrscheinlichkeit nach unten
+                            scale_factor = 0.5  # Scale probability down
                             for idx in unstack_idx:
                                 if idx < len(probs):
                                     probs[idx] *= scale_factor
-                            # Normalisiere die Wahrscheinlichkeiten wieder
+                            # Normalize probabilities again
                             if np.sum(probs) > 0:
                                 probs = probs / np.sum(probs)
                                 
-                            # Aktualisiere die Action-Wahl
+                            # Update action choice
                             high_level_action = np.argmax(probs)
                             high_level_action_str = self.action_mapping[high_level_action]
                             prob = probs[high_level_action]
                     
-                # Debug-Ausgabe für gültige Aktionen, wenn aktiviert
-                if self.debug and steps % 10 == 0:  # Nicht zu oft ausgeben
+                # Debug output for valid actions, if enabled
+                if self.debug and steps % 10 == 0:  # Don't output too often
                     valid_action_names = [self.action_mapping[idx] for idx in valid_actions]
                     print(f"Gültige Aktionen: {valid_action_names}")
 
-                # Versuche maximal alle Aktionen durchzuprobieren
+                # Try at most all actions
                 tried_actions = set()
                 while not self.env.check_action_execution(high_level_action_str, obs):
-                    # Zähle ungültige Aktionen für spätere Analyse
+                    # Count invalid actions for later analysis
                     self.invalid_action_counts[high_level_action] += 1
                     tried_actions.add(high_level_action)
                     
@@ -175,12 +192,10 @@ class Trainer:
                         reward -= 10000.0
                         break
 
-                    # Setze die Wahrscheinlichkeit der aktuellen Aktion auf 0
                     probs[high_level_action] = 0.0
                     
-                    # Wenn alle restlichen Wahrscheinlichkeiten 0 sind
+                    # If all remaining probabilities are 0, choose randomly from untried actions
                     if np.all(probs == 0):
-                        # Wähle zufällig aus den noch nicht probierten Aktionen
                         untried_actions = [i for i in range(len(self.action_mapping)) if i not in tried_actions]
                         if untried_actions:
                             high_level_action = np.random.choice(untried_actions)
@@ -190,22 +205,19 @@ class Trainer:
                             reward -= 10000.0
                             break
                     else:
-                        # Wähle die Aktion mit der höchsten Wahrscheinlichkeit
                         high_level_action = np.argmax(probs)
                     
-                    high_level_action_str = self.action_mapping[high_level_action]  # Aktualisiere den Aktionsnamen
-                    prob = probs[high_level_action]  # Aktualisiere die Wahrscheinlichkeit der Aktion
+                    high_level_action_str = self.action_mapping[high_level_action]  
+                    prob = probs[high_level_action] 
 
                 if not isTerminal:
                     # Low-Level-Agent: 
                     # Heuristik
                     action_name, params = decide_parameters(obs, high_level_action_str)
-                    # Wenn keine Heuristik gefunden wurde, dann MCTS verwenden (optimiert)
+                    # If no heuristic found, use MCTS 
                     if action_name == "None":
                         root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
-
-                        # MCTS mit diesem Root-Node starten - reduzierte Tiefe und Simulationen für Geschwindigkeit
-                        mcts = MCTS(root, depth=5, n_simulations=60) #TODO 60 für große probleme
+                        mcts = MCTS(root, depth=5, n_simulations=60)
                         best_node = mcts.search()
                         
                         if best_node:
@@ -213,19 +225,14 @@ class Trainer:
                     else:
                         bool_heuristic = True
 
-                    # Debug-Ausgaben deaktiviert für schnellere Ausführung
-                    # debuglog("-" *20)
-                    # debuglog(params)
-                    # debuglog("-" *20)
-            
 
-                    # Überprüfe, ob wir eine loop haben mit unstacking und stacking
+                    # Check if there is a loop in the actions
                     params_check = list(params.values()) if isinstance(params, dict) else list(params)
                     if params_check != []:
                         if (high_level_action == 4 and last_action == 6) or (high_level_action == 5 and last_action == 7) \
                             or (high_level_action == 6 and last_action == 4) or (high_level_action == 7 and last_action == 5):
                             if last_trailer_id == params_check[1] and last_rack_id == params_check[0]:
-                                reward -= 200.0  # Reduzierte Bestrafung für Schleifen
+                                reward -= 200.0 
                         last_action = high_level_action
                         if last_action in [4, 5, 6, 7]:
                             last_trailer_id = params_check[1]
@@ -255,15 +262,15 @@ class Trainer:
                                 reward += reward_heuristic
                                 reward += 50.0  # Erhöhte Belohnung für erfolgreiche Aktionskette
                             else:
-                                # Bestrafe das Unstacking ohne Folgeaktion
+                                # Penalize unstacking without follow-up action
                                 reward -= 20.0
                         else:
-                            # Andere Heuristiken erhalten kleinere Belohnungen
+                            # Other heuristics receive smaller rewards
                             reward += 5.0
                     
 
-                print_action = high_level_action_str  # Speichere die letzte Aktion für Debugging
-                # Speichere Erfahrung für PPO
+                print_action = high_level_action_str  # Store last action for debugging
+                # Store experience for PPO
                 self.ppo_agent.remember(obs, high_level_action, prob, val, reward, isTerminal)
 
                 if reward > 0: 
@@ -274,23 +281,23 @@ class Trainer:
                 steps += 1
                 self.total_steps += 1
 
-                # PPO-Lernschritt am Ende der Episode (optimierte Frequenz)
+                # PPO learning step at end of episode (optimized frequency)
                 if self.total_steps >= start_learn_after and self.total_steps % (N*2) == 0:
                     self.ppo_agent.learn()
                     self.learn_iters += 1
 
-                # debuglog(steps) # Debug-Ausgabe deaktiviert
+                # debuglog(steps) # Debug output disabled
                 if steps >= self.env.get_max_steps() or total_reward <= -10000:
-                    isTerminal = True  # Angepasste Abbruchbedingung mit weniger strengem Reward-Limit
+                    isTerminal = True  # Adjusted termination condition with less strict reward limit
     
-            # Metriken speichern
+            # Save metrics
             self.episode_rewards.append(total_reward)
             avg_reward = np.mean(self.episode_rewards[-10:])
             self.avg_rewards.append(avg_reward)
             self.steps_per_episode.append(steps)
             
-            # Überprüfen, ob ein Reset von Epsilon nötig ist
-            # Wenn die letzten 6 Episoden alle sehr schlechte Rewards haben, setze Epsilon zurück
+            # Check if epsilon reset is needed
+            # If the last 6 episodes all have very bad rewards, reset epsilon
             if len(self.episode_rewards) >= 6:
                 recent_rewards = self.episode_rewards[-6:]
                 if all(reward <= -10000 for reward in recent_rewards):
@@ -299,42 +306,31 @@ class Trainer:
                     self.epsilon_decay = 0.00001  # Zurücksetzen der Decay-Rate
                     self.total_steps = 0  # Zurücksetzen der Schritte für die Epsilon-Berechnung
 
-            # Fortschritt anzeigen
+            # Save model if average reward improves
             if avg_reward > self.best_score:
                 self.ppo_agent.save_models()
                 self.best_score = avg_reward
 
-            # Prüfen, ob das Problem gelöst wurde
+            # Check if the problem is solved
             solved = self.env.state.is_terminal()
             status_symbol = "✅" if solved else "  "
             
             print(f'{status_symbol} episode {episode}, score {total_reward:.1f}, avg score {avg_reward:.1f}, Best avg score {self.best_score:.1f}',
                   f'time_steps {steps}/{self.env.get_max_steps()}, learn_iters {self.learn_iters}, positive reward {positive_actions_reward:.1f}, problem {self.env.problem_name}, {self.env.base_index}')
                   
-            # Speichere das Modell alle 100 Episoden als Checkpoint
+            # Save model every 100 episodes
             if episode > 0 and episode % 100 == 0:
                 self.ppo_agent.save_models()
-            
-            # Zeige alle 20 Episoden Statistik zu ungültigen Aktionen an
-            # if episode % 20 == 0 and episode > 0:
-            #     total_invalid = sum(self.invalid_action_counts.values())
-            #     if total_invalid > 0:
-            #         print("\nStatistik ungültiger Aktionen:")
-            #         for action_idx, count in sorted(self.invalid_action_counts.items(), key=lambda x: x[1], reverse=True):
-            #             if count > 0:
-            #                 percentage = (count / total_invalid) * 100
-            #                 print(f"  {self.action_mapping[action_idx]}: {count} ({percentage:.1f}%)")
-            #         print("")  # Leerzeile
-                    
-            #         # Zurücksetzen der Zähler alle 100 Episoden
-            #         if episode % 100 == 0:
-            #             self.invalid_action_counts = {i: 0 for i in range(8)}
+
 
 
     def evaluateModel(self, n_eval_episodes=10, max_steps_per_episode=200, plot = False):
         """
-        Evaluiert das Modell über eine bestimmte Anzahl von Episoden.
-        Gibt den durchschnittlichen Reward und die Standardabweichung aus.
+        @brief Evaluates the model over a specific number of episodes
+        @param n_eval_episodes Number of episodes for evaluation (default: 10)
+        @param max_steps_per_episode Maximum steps per episode (default: 200)
+        @param plot Whether to plot results (default: False)
+        @return tuple containing average reward, standard deviation, and steps data
         """
         self.ppo_agent.load_models()
         total_rewards = []
@@ -351,23 +347,23 @@ class Trainer:
 
             while not isTerminal and steps < max_steps_per_episode:
 
-                # Wähle Aktion ohne Lernen
+                # Choose action without learning
                 _, _, _, dist = self.ppo_agent.choose_action(obs)
 
                 probs = dist.probs.detach().cpu().numpy() 
                 high_level_action = np.argmax(probs)
                 high_level_action_str = self.action_mapping[high_level_action]
 
-                # Prüfe, welche Aktionen gültig sind
+                # Check which actions are valid
                 valid_actions = self.get_valid_actions(obs)
                 
-                # Falls keine gültigen Aktionen existieren, Episode beenden
+                # If no valid actions exist, end episode
                 if not valid_actions:
                     print(f"[Eval] Keine gültigen Aktionen für diesen Zustand. Problem: {self.env.problem_name}")
                     isTerminal = True
                     break
 
-                # Versuche maximal alle Aktionen durchzuprobieren
+                # Try at most all actions
                 tried_actions = set()
                 while not self.env.check_action_execution(high_level_action_str, obs):
                     tried_actions.add(high_level_action)
@@ -377,12 +373,12 @@ class Trainer:
                         isTerminal = True
                         break
 
-                    # Setze die Wahrscheinlichkeit der aktuellen Aktion auf 0
+                    # Set probability of current action to 0
                     probs[high_level_action] = 0.0
                     
-                    # Wenn alle restlichen Wahrscheinlichkeiten 0 sind
+                    # If all remaining probabilities are 0
                     if np.all(probs == 0):
-                        # Wähle zufällig aus den noch nicht probierten Aktionen
+                        # Choose randomly from actions not yet tried
                         untried_actions = [i for i in range(len(self.action_mapping)) if i not in tried_actions]
                         if untried_actions:
                             high_level_action = np.random.choice(untried_actions)
@@ -390,7 +386,7 @@ class Trainer:
                             isTerminal = True
                             break
                     else:
-                        # Wähle die Aktion mit der höchsten Wahrscheinlichkeit
+                        # Choose action with highest probability
                         high_level_action = np.argmax(probs)
                     
                     high_level_action_str = self.action_mapping[high_level_action]
@@ -398,16 +394,16 @@ class Trainer:
                 if isTerminal:
                     break
 
-                # Low-Level-Agent
+                # Low-Level Agent
                 action_name, params = decide_parameters(obs, high_level_action_str)
                 if action_name == "None":
                     root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
-                    mcts = MCTS(root, depth=3, n_simulations=3)  # Reduzierte Parameter für schnellere Ausführung
+                    mcts = MCTS(root, depth=3, n_simulations=3)  # Reduced parameters for faster execution
                     best_node = mcts.search()
                     if best_node:
                         params = best_node.action[1]
 
-                # Loop-Prävention
+                # Loop prevention
                 params_check = list(params.values()) if isinstance(params, dict) else list(params)
                 if params_check != []:
                     if (high_level_action == 4 and last_action == 6) or (high_level_action == 5 and last_action == 7) \
@@ -428,7 +424,7 @@ class Trainer:
             print(f"[Eval] Episode {ep+1}: Reward = {total_reward:.2f}, Steps = {steps}")
 
         avg_reward = np.mean(total_rewards)
-        std_reward = np.std(total_rewards) # Standardabweichung der Belohnungen
+        std_reward = np.std(total_rewards) # Standard deviation of rewards
         avg_steps = np.mean(steps_list)
 
         print(f"\n⮞ Durchschnittlicher Reward: {avg_reward:.2f} ± {std_reward:.2f}")
@@ -444,14 +440,14 @@ class Trainer:
                 np.array(total_rewards) + np.std(std_reward),
                 color='red', alpha=0.1
             )
-            plt.title('Evaluierungsergebnisse vom Modell')
+            plt.title('Model Evaluation Results')
             plt.ylabel('Total Reward')
             plt.legend()
             plt.grid(True, linestyle='--', alpha=0.5)
             plt.subplot(2, 1, 2)
             plt.bar(range(len(steps_list)), steps_list, color='blue', alpha=0.6)
             plt.xlabel('Episode')
-            plt.ylabel('Schritte')
+            plt.ylabel('Steps')
             plt.grid(True, linestyle='--', alpha=0.3)
             plt.tight_layout()
             plt.show()
@@ -459,20 +455,17 @@ class Trainer:
 
     def evaluateProblem(self, problem, max_steps=2000, loop_detection=True, exploration_rate=0.1, save_to_file=False):
         """
-        Löst ein spezifisches Problem mit dem trainierten Modell.
-        
-        Args:
-            problem: Pfad zum Problem-JSON
-            max_steps: Maximale Anzahl an Schritten, um Endlosschleifen zu vermeiden
-            loop_detection: Aktiviert die Erkennung und Vermeidung von Aktionsschleifen
-            exploration_rate: Wahrscheinlichkeit, eine zufällige Aktion zu wählen, um aus Schleifen auszubrechen
-            save_to_file: Speichert Ergebnisse in TXT-Datei
-            
-        Ausgegeben wird die Reihenfolge der Aktionen und Parameter.
+        @brief Solves a specific problem with the trained model
+        @param problem Path to the problem JSON file
+        @param max_steps Maximum number of steps to avoid infinite loops (default: 2000)
+        @param loop_detection Enables detection and avoidance of action loops (default: True)
+        @param exploration_rate Probability of choosing a random action to break out of loops (default: 0.1)
+        @param save_to_file Saves results to TXT file (default: False)
+        @return tuple containing action sequence, parameters, and execution info
         """
         import time
         
-        # Zeitmessung starten
+        # Start time measurement
         start_time = time.time()
         
         obs = self.env.reset_specific_problem(problem)
@@ -482,48 +475,48 @@ class Trainer:
         action_trace = []
         steps = 0
         
-        # Liste zur Erfassung der Hash-Werte aller besuchten Zustände
+        # List to capture hash values of all visited states
         visited_states = []
-        # Speichere den Hash-Wert des Environment-Zustands statt der Beobachtung
+        # Store hash value of environment state instead of observation
         visited_states.append(hash(str(self.env.state)))
         
-        # Für Loop-Detection
+        # For loop detection
         action_history = []
         repetition_count = {}
         last_action = None
         
-        # Temperatur für Boltzmann-Exploration (steigt bei wiederholten Aktionen)
+        # Temperature for Boltzmann exploration (increases with repeated actions)
         temperature = 1.0
 
         print("Problem wird gelöst: " + problem)
 
         while not isTerminal and steps < max_steps:
             steps += 1
-            # Hole Action-Wahrscheinlichkeiten vom Agenten
+            # Get action probabilities from agent
             _, _, _, dist = self.ppo_agent.choose_action(obs)
             probs = dist.probs.detach().cpu().numpy()
             
-            # Loop-Detection: Überprüfe, ob wir in einer Aktionsschleife stecken
+            # Loop detection: Check if we're stuck in an action loop
             if loop_detection and len(action_history) >= 6:
-                # Überprüfe die letzten 6 Aktionen auf wiederholte Muster
+                # Check last 6 actions for repeated patterns
                 last_6_actions = ''.join([str(a) for a in action_history[-6:]])
-                for pattern_length in [2, 3]:  # Suche nach 2er- oder 3er-Mustern
+                for pattern_length in [2, 3]:  # Search for 2- or 3-patterns
                     if len(last_6_actions) >= pattern_length*2:
                         pattern = last_6_actions[-pattern_length*2:-pattern_length]
                         if pattern == last_6_actions[-pattern_length:]:
                             #print(f"[LOOP DETECTED] Muster: {pattern}")
-                            # Erhöhe die Temperatur, um aus der Schleife auszubrechen
-                            temperature = min(10.0, temperature * 1.5)  # Erhöhe die Temperatur, aber nicht über 10
+                            # Increase temperature to break out of loop
+                            temperature = min(10.0, temperature * 1.5)  # Increase temperature, but not above 10
                             #print(f"Temperatur auf {temperature:.2f} erhöht")
                             
-            # Entscheide, ob exploriert werden soll (zufällige Aktion) oder ausgebeutet (beste Aktion)
-            if np.random.random() < exploration_rate or temperature > 1.5:  # Erhöhte Exploration bei hoher Temperatur
-                # Exploration: Wähle Aktion basierend auf Boltzmann-Verteilung oder zufällig
+            # Decide whether to explore (random action) or exploit (best action)
+            if np.random.random() < exploration_rate or temperature > 1.5:  # Increased exploration at high temperature
+                # Exploration: Choose action based on Boltzmann distribution or randomly
                 valid_actions = self.get_valid_actions(obs)
                 if valid_actions:
                     if temperature > 1.2:
-                        # Boltzmann-Exploration mit aktueller Temperatur
-                        # Normalisiere Wahrscheinlichkeiten und wende Temperatur an
+                        # Boltzmann exploration with current temperature
+                        # Normalize probabilities and apply temperature
                         valid_probs = np.array([probs[a] for a in valid_actions])
                         if np.sum(valid_probs) > 0:
                             scaled_probs = np.exp(np.log(valid_probs + 1e-10) / temperature)
@@ -533,44 +526,44 @@ class Trainer:
                         else:
                             high_level_action = np.random.choice(valid_actions)
                     else:
-                        # Einfache zufällige Exploration
+                        # Simple random exploration
                         high_level_action = np.random.choice(valid_actions)
                         
                     high_level_action_str = self.action_mapping[high_level_action]
                     #print(f"[EXPLORATION] Wähle: {high_level_action_str}")
                 else:
-                    # Keine gültigen Aktionen vorhanden
+                    # No valid actions available
                     print(f"Keine gültigen Aktionen für diesen Zustand möglich. Problem: {problem}")
                     return
             else:
-                # Exploitation: Normaler Prozess mit der besten Aktion
-                # Wahrscheinlichkeiten wurden bereits oben geholt
+                # Exploitation: Normal process with best action
+                # Probabilities were already retrieved above
                 
-                # Prüfe, welche Aktionen gültig sind
+                # Check which actions are valid
                 valid_actions = self.get_valid_actions(obs)
                 
-                # Falls keine gültigen Aktionen existieren, Episode beenden
+                # If no valid actions exist, end episode
                 if not valid_actions:
                     print(f"Keine gültigen Aktionen für diesen Zustand möglich. Problem: {problem}")
                     return
     
-                # Wähle beste gültige Aktion aus den verfügbaren
-                # Erstelle eine Maske für gültige Aktionen
+                # Choose best valid action from available ones
+                # Create mask for valid actions
                 valid_mask = np.zeros_like(probs)
                 for valid_action in valid_actions:
                     valid_mask[valid_action] = 1
                     
-                # Multipliziere Wahrscheinlichkeiten mit der Maske und wähle die beste
+                # Multiply probabilities with mask and choose best
                 masked_probs = probs * valid_mask
                 if np.sum(masked_probs) > 0:
                     high_level_action = np.argmax(masked_probs)
                 else:
-                    # Fallback: Wähle zufällig aus den gültigen Aktionen
+                    # Fallback: Choose randomly from valid actions
                     high_level_action = np.random.choice(valid_actions)
                     
                 high_level_action_str = self.action_mapping[high_level_action]
 
-            # Versuche maximal alle Aktionen durchzuprobieren
+            # Try at most all actions
             tried_actions = set()
             while not self.env.check_action_execution(high_level_action_str, obs):
                 tried_actions.add(high_level_action)
@@ -579,12 +572,12 @@ class Trainer:
                     print(f"Alle Aktionen probiert, keine ist gültig. Problem: {problem}")
                     return
 
-                # Setze die Wahrscheinlichkeit der aktuellen Aktion auf 0
+                # Set probability of current action to 0
                 probs[high_level_action] = 0.0
                 
-                # Wenn alle restlichen Wahrscheinlichkeiten 0 sind
+                # If all remaining probabilities are 0
                 if np.all(probs == 0):
-                    # Wähle zufällig aus den noch nicht probierten Aktionen
+                    # Choose randomly from actions not yet tried
                     untried_actions = [i for i in range(len(self.action_mapping)) if i not in tried_actions]
                     if untried_actions:
                         high_level_action = np.random.choice(untried_actions)
@@ -592,69 +585,60 @@ class Trainer:
                         print("Keine gültige Aktion verfügbar. PROBLEM STUCK!")
                         return
                 else:
-                    # Wähle die Aktion mit der höchsten Wahrscheinlichkeit
+                    # Choose action with highest probability
                     high_level_action = np.argmax(probs)
                 
                 high_level_action_str = self.action_mapping[high_level_action]
 
-            # Heuristische Parameterentscheidung
+            # Heuristic parameter decision
             action_name, params = decide_parameters(obs, high_level_action_str)
             if action_name == "None":
                 root = MCTSNode(state=self.env.state, action=(high_level_action_str, None))
-                mcts = MCTS(root, depth=3, n_simulations=3)  # Reduzierte Parameter für schnellere Ausführung
+                mcts = MCTS(root, depth=3, n_simulations=3)  # Reduced parameters for faster execution
                 best_node = mcts.search()
                 if best_node:
                     params = best_node.action[1]
 
-            # Aktion ausführen
+            # Execute action
             obs, reward, isTerminal = self.env.step(high_level_action_str, params)
             
-            # Aktuellen Zustand als Hash zur Liste hinzufügen
+            # Add current state as hash to list
             visited_states.append(hash(str(self.env.state)))
 
-            # Aktion und Parameter speichern
+            # Store action and parameters
             action_trace.append((high_level_action_str, params))
             
-            # Für Loop-Detection: Aktion in Verlauf speichern
+            # For loop detection: Store action in history
             action_history.append(high_level_action)
             
-            # Spezielle Muster erkennen (z.B. abwechselndes stack/unstack)
+            # Detect special patterns (e.g., alternating stack/unstack)
             if last_action is not None:
                 action_pair = (last_action, high_level_action)
                 if action_pair in repetition_count:
                     repetition_count[action_pair] += 1
-                    # Wenn ein Muster zu oft wiederholt wird, erhöhe die Temperatur
-                    if repetition_count[action_pair] > 3:  # Nach 3 Wiederholungen
+                    # If pattern is repeated too often, increase temperature
+                    if repetition_count[action_pair] > 3:  # After 3 repetitions
                         temperature = min(5.0, temperature + 0.5)
                         #print(f"[PATTERN DETECTED] {self.action_mapping[action_pair[0]]} -> {self.action_mapping[action_pair[1]]}")
                         #print(f"Temperatur auf {temperature:.2f} erhöht")
                 else:
                     repetition_count[action_pair] = 1
                     
-            # Speichern der aktuellen Aktion für den nächsten Durchlauf
+            # Store current action for next iteration
             last_action = high_level_action
             
-            # Abkühlen der Temperatur über Zeit, wenn keine Muster erkannt werden
+            # Cool down temperature over time if no patterns are detected
             if temperature > 1.0:
                 temperature = max(1.0, temperature - 0.1)
 
-            #print(f"Aktion: {high_level_action_str}, Parameter: {params}")
-
-        
-        # print("\nReihenfolge der Aktionen:")
-        # for i, (action, params) in enumerate(action_trace, 1):
-        #     # Formatiere Parameter für bessere Lesbarkeit
-        #     formatted_params = self._format_parameters(action, params)
-        #     print(f"{i:02d}: {action}  |  Parameter: {formatted_params}")
-
-        # Ausgabe
+        # Output results
         print("\n" + "="*50)
         print(f"ERGEBNIS FÜR PROBLEM: {problem}")
         print(f"Anzahl Schritte: {steps}/{max_steps}")
         print(f"Erfolgreicher Abschluss: {'Ja' if isTerminal else 'Nein - Maximale Schritte erreicht'}")
         print("="*50)
             
-        # Statistische Auswertung
+        # Statistics of actions
         action_counts = {}
         for action, _ in action_trace:
             if action in action_counts:
@@ -690,11 +674,11 @@ class Trainer:
         print("Anzahl der Aktionen nach Post-Processing:", len(action_trace), "\nOptimierung/Reduktion:" , f"{(1 - len(action_trace)/steps) * 100: .2f}", "%")
         print("="*50)        
 
-        # Zeitmessung beenden
+        # End time measurement
         end_time = time.time()
         execution_time = end_time - start_time
         
-        # Formatiere die Zeit leserlich
+        # Format time readably
         def format_time(seconds):
             if seconds < 60:
                 return f"{seconds:.2f} Sekunden"
@@ -711,7 +695,7 @@ class Trainer:
         formatted_time = format_time(execution_time)
         print(f"\nBenötigte Zeit: {formatted_time}")
 
-        # Aktionsstatistik nach Optimierung berechnen
+        # Calculate optimized action statistics
         optimized_action_counts = {}
         for action, _ in action_trace:
             if action in optimized_action_counts:
@@ -724,39 +708,37 @@ class Trainer:
             percentage = count/len(action_trace)*100 if len(action_trace) > 0 else 0
             print(f"{action}: {count} ({percentage:.1f}%)")
 
-        # Speichere Ergebnisse in Datei, wenn gewünscht
+        # Save results to file if desired
         if save_to_file:
             self._save_results_to_file(problem, steps, max_steps, isTerminal, action_trace, optimized_action_counts, len(action_trace), steps, execution_time, formatted_time)
 
-        # Rückgabe erweitert um visited_states (alle besuchten Zustände)
+        # Return extended with visited_states (all visited states)
         return isTerminal, len(action_trace), visited_states
     
 
     def _save_results_to_file(self, problem, steps, max_steps, is_terminal, action_trace, action_counts, optimized_steps, original_steps, execution_time, formatted_time):
         """
-        Speichert die Ergebnisse der Problemlösung in eine formatierte TXT-Datei.
-        
-        Args:
-            problem: Pfad zum Problem-JSON
-            steps: Anzahl der durchgeführten Schritte
-            max_steps: Maximale Anzahl an Schritten
-            is_terminal: Ob das Problem erfolgreich gelöst wurde
-            action_trace: Liste der durchgeführten Aktionen mit Parametern
-            action_counts: Dictionary mit Aktionszählungen (nach Optimierung)
-            optimized_steps: Anzahl der Schritte nach Optimierung
-            original_steps: Ursprüngliche Anzahl der Schritte
-            execution_time: Benötigte Zeit in Sekunden
-            formatted_time: Formatierte Zeit als String
+        @brief Saves the results of problem solving to a formatted TXT file
+        @param problem Path to the problem JSON file
+        @param steps Number of steps performed
+        @param max_steps Maximum number of steps
+        @param is_terminal Whether the problem was successfully solved
+        @param action_trace List of performed actions with parameters
+        @param action_counts Dictionary with action counts (after optimization)
+        @param optimized_steps Number of steps after optimization
+        @param original_steps Original number of steps
+        @param execution_time Required time in seconds
+        @param formatted_time Formatted time as string
         """
         import os
         from datetime import datetime
         
-        # Erstelle Output-Verzeichnis falls es nicht existiert
+        # Create output directory if it doesn't exist
         output_dir = "results"
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         
-        # Extrahiere Problem-Namen für Dateinamen
+        # Extract problem name for filename
         problem_name = os.path.basename(problem).replace('.json', '')
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"{output_dir}/solution_{problem_name}_{timestamp}.txt"
@@ -767,14 +749,14 @@ class Trainer:
             f.write("BELUGA CHALLENGE - LÖSUNGSPROTOKOLL\n")
             f.write("="*70 + "\n\n")
             
-            # Problem-Information
+            # Problem information
             f.write(f"Problem: {problem}\n")
             f.write(f"Lösungsdatum: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}\n")
             f.write(f"Anzahl Schritte: {steps}/{max_steps}\n")
             f.write(f"Erfolgreicher Abschluss: {'Ja' if is_terminal else 'Nein - Maximale Schritte erreicht'}\n")
             f.write(f"Benötigte Zeit: {formatted_time}\n\n")
             
-            # Aktionsstatistik (nach Optimierung)
+            # Action statistics (after optimization)
             f.write("="*70 + "\n")
             f.write("AKTIONSSTATISTIK (NACH OPTIMIERUNG)\n")
             f.write("="*70 + "\n\n")
@@ -783,7 +765,7 @@ class Trainer:
                 percentage = count/len(action_trace)*100 if len(action_trace) > 0 else 0
                 f.write(f"{action:<25}: {count:>4} ({percentage:>5.1f}%)\n")
             
-            # Optimierung
+            # Optimization
             f.write(f"\n{'='*70}\n")
             f.write("OPTIMIERUNG\n")
             f.write(f"{'='*70}\n\n")
@@ -792,16 +774,16 @@ class Trainer:
             optimization_percentage = (1 - optimized_steps/original_steps) * 100 if original_steps > 0 else 0
             f.write(f"Optimierung/Reduktion: {optimization_percentage:.2f}%\n\n")
             
-            # Optimierte Aktionssequenz
+            # Optimized action sequence
             f.write("="*70 + "\n")
             f.write("OPTIMIERTE AKTIONSSEQUENZ\n")
             f.write("="*70 + "\n\n")
             
             for i, (action, params) in enumerate(action_trace, 1):
-                # Formatiere Parameter für bessere Lesbarkeit
+                # Format parameters for better readability
                 formatted_params = self._format_parameters(action, params)
                 
-                # Formatiere die Ausgabe
+                # Format output
                 if formatted_params:
                     params_str = ", ".join([f"{k}={v}" for k, v in formatted_params.items()])
                     f.write(f"{i:>3}: {action:<25} | Parameter: {params_str}\n")
@@ -816,17 +798,22 @@ class Trainer:
 
     def _format_parameters(self, action, params):
         """
-        Formatiert Parameter für bessere Lesbarkeit in der Ausgabe.
-        Konvertiert Tupel und Listen in aussagekräftige Dictionary-Formate.
+        @brief Formats parameters for better readability in output
+        @param action The action name
+        @param params The parameters to format
+        @return Dictionary with formatted parameters
+        
+        Converts tuples and lists into meaningful dictionary formats.
+        Filters out None values and 'none' keys.
         """
-        # Wenn params bereits ein Dictionary ist, filtere None-Werte und 'none'-Schlüssel heraus
+        # If params is already a dictionary, filter out None values and 'none' keys
         if isinstance(params, dict):
-            # Filtere None-Werte und 'none'-Schlüssel heraus
+            # Filter out None values and 'none' keys
             filtered_params = {k: v for k, v in params.items() 
                              if v is not None and k.lower() != 'none'}
             return filtered_params
             
-        # Wenn params eine Liste oder Tupel ist, konvertiere je nach Aktion
+        # If params is a list or tuple, convert depending on action
         if isinstance(params, (list, tuple)):
             if len(params) == 0:
                 return {}
@@ -835,21 +822,21 @@ class Trainer:
                     result = {"rack": params[0], "trailer": params[1]}
                 else:
                     result = {"rack": params[0] if len(params) > 0 else None}
-                # Filtere None-Werte heraus
+                # Filter out None values
                 return {k: v for k, v in result.items() if v is not None}
             elif action in ["left_unstack_rack", "right_unstack_rack"]:
                 if len(params) >= 2:
                     result = {"rack": params[0], "trailer": params[1]}
                 else:
                     result = {"rack": params[0] if len(params) > 0 else None}
-                # Filtere None-Werte heraus
+                # Filter out None values
                 return {k: v for k, v in result.items() if v is not None}
             elif action == "load_beluga":
                 if len(params) >= 1:
                     result = {"trailer": params[0]}
                 else:
                     result = {}
-                # Filtere None-Werte heraus
+                # Filter out None values
                 return {k: v for k, v in result.items() if v is not None}
             elif action == "unload_beluga":
                 return {}
@@ -858,11 +845,11 @@ class Trainer:
                     result = {"hangar": params[0], "trailer": params[1]}
                 else:
                     result = {"hangar": params[0] if len(params) > 0 else None}
-                # Filtere None-Werte heraus
+                # Filter out None values
                 return {k: v for k, v in result.items() if v is not None}
             else:
-                # Fallback für unbekannte Aktionen
+                # Fallback for unknown actions
                 return {"params": params}
         
-        # Fallback für andere Typen
+        # Fallback for other types
         return params

@@ -1,0 +1,327 @@
+\doxysection{problem\+\_\+state.\+py}
+\hypertarget{problem__state_8py_source}{}\label{problem__state_8py_source}\index{toolkit/problem\_state.py@{toolkit/problem\_state.py}}
+\mbox{\hyperlink{problem__state_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00001}\mbox{\hyperlink{namespacetoolkit_1_1problem__state}{00001}}\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00002}00002\ \textcolor{keyword}{import}\ copy}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00003}00003\ \textcolor{keyword}{from}\ json\ \textcolor{keyword}{import}\ JSONEncoder}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00005}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type}{00005}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type}{JigType}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00006}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a9d197415d16d6757444a69a2c15459b2}{00006}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a9d197415d16d6757444a69a2c15459b2}{\_\_init\_\_}}(self,\ name:\ str,\ size\_empty:\ int,\ size\_loaded:\ int):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00007}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ac5df62ac65d5964588ccf3bc5fb2d39f}{00007}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ac5df62ac65d5964588ccf3bc5fb2d39f}{name}}\ =\ name}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00008}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ae39c7563e8693d7e198feff76752cf27}{00008}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ae39c7563e8693d7e198feff76752cf27}{size\_empty}}\ =\ size\_empty}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00009}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ae2e1f2202a765e4d12696bf60f05cf5a}{00009}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ae2e1f2202a765e4d12696bf60f05cf5a}{size\_loaded}}\ =\ size\_loaded}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00011}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a21f9049358ad3bd9f31784930b434bda}{00011}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a21f9049358ad3bd9f31784930b434bda}{\_\_str\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ac5df62ac65d5964588ccf3bc5fb2d39f}{name}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00014}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ad09d29e0976fc210d41616e5e0507249}{00014}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ad09d29e0976fc210d41616e5e0507249}{\_\_repr\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ac5df62ac65d5964588ccf3bc5fb2d39f}{name}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00017}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a6fe2131ee983d1c9442b0aea30aa614a}{00017}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a6fe2131ee983d1c9442b0aea30aa614a}{\_\_ne\_\_}}(self,\ other):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ac5df62ac65d5964588ccf3bc5fb2d39f}{name}}\ !=\ other.name}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00019}00019\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00020}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a5cb075e371fa78f24d4677591f809655}{00020}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_a5cb075e371fa78f24d4677591f809655}{\_\_eq\_\_}}(self,\ other):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type_ac5df62ac65d5964588ccf3bc5fb2d39f}{name}}\ ==\ other.name}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00024}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig}{00024}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig}{Jig}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00025}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a4fa01f7bee202f8a9702e979dbf2ce13}{00025}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a4fa01f7bee202f8a9702e979dbf2ce13}{\_\_init\_\_}}(self,\ jig\_type:\ JigType,\ empty:\ bool):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00026}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a1193dea5861562f7152bb7036ce8ec68}{00026}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a1193dea5861562f7152bb7036ce8ec68}{jig\_type}}\ =\ jig\_type}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00027}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a8ea4b0fe49214030ee553c7f5c347e95}{00027}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a8ea4b0fe49214030ee553c7f5c347e95}{empty}}\ =\ empty}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00029}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_acdd3dbd647fec5e137dada67c250f1f1}{00029}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_acdd3dbd647fec5e137dada67c250f1f1}{\_\_str\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a1193dea5861562f7152bb7036ce8ec68}{jig\_type}})\ +\ \textcolor{stringliteral}{"{}\ |\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_a8ea4b0fe49214030ee553c7f5c347e95}{empty}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00033}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga}{Beluga}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00034}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_aefbdb9485c4ae0606c6969dfa6598bd2}{00034}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_aefbdb9485c4ae0606c6969dfa6598bd2}{\_\_init\_\_}}(self,\ current\_jigs:\ list[int],\ outgoing:\ list[JigType]):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00035}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_a36d4305b015f39ae5a1d057353aa2d24}{00035}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_a36d4305b015f39ae5a1d057353aa2d24}{current\_jigs}}\ =\ current\_jigs}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00036}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_a6f006654e6bebe2bc014deb660d19d78}{00036}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_a6f006654e6bebe2bc014deb660d19d78}{outgoing}}\ =\ outgoing}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00038}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_ace25b5a92df3d40a531941644904c2a9}{00038}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_ace25b5a92df3d40a531941644904c2a9}{\_\_str\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}current\_jigs\ =\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_a36d4305b015f39ae5a1d057353aa2d24}{current\_jigs}})\ +\ \textcolor{stringliteral}{"{}\ |\ outgoing\ =\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga_a6f006654e6bebe2bc014deb660d19d78}{outgoing}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00042}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack}{00042}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack}{Rack}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00043}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a68c8c02ea5d14706dabb3a7f5b774bba}{00043}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a68c8c02ea5d14706dabb3a7f5b774bba}{\_\_init\_\_}}(self,\ size:\ int,\ current\_jigs:\ list[int]):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00044}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a6fd6d2e6b138ffecb27fe2a5c6907899}{00044}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a6fd6d2e6b138ffecb27fe2a5c6907899}{size}}\ =\ size}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00045}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_abf58d63eb0f873ea9023949b7db033d3}{00045}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_abf58d63eb0f873ea9023949b7db033d3}{current\_jigs}}\ =\ current\_jigs}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00047}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a066624e19bc0176d6d3c3593cd4a1010}{00047}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a066624e19bc0176d6d3c3593cd4a1010}{\_\_str\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}size\ =\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a6fd6d2e6b138ffecb27fe2a5c6907899}{size}})\ +\ \textcolor{stringliteral}{"{}\ |\ current\_jigs\ =\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_abf58d63eb0f873ea9023949b7db033d3}{current\_jigs}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00049}00049\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00050}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_abcf29e4c23545a66a16c3e0ffc5eed18}{00050}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_abcf29e4c23545a66a16c3e0ffc5eed18}{get\_free\_space}}(self,\ all\_jigs:\ list[Jig])\ -\/>\ int:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ total\_used\_space\ =\ 0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\_id\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_abf58d63eb0f873ea9023949b7db033d3}{current\_jigs}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ jig\ =\ all\_jigs[jig\_id\ -\/\ 1]}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ total\_used\_space\ +=\ jig.jig\_type.size\_loaded}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ remaining\_space\ =\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack_a6fd6d2e6b138ffecb27fe2a5c6907899}{size}}\ -\/\ total\_used\_space}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ remaining\_space}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00060}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line}{00060}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line}{ProductionLine}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00061}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line_a561693aa3e0a63f30ff8de78135459be}{00061}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line_a561693aa3e0a63f30ff8de78135459be}{\_\_init\_\_}}(self,\ scheduled\_jigs:\ list[int]):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00062}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line_a87e6d5d778bfdf95120c69f3c8cc8d32}{00062}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line_a87e6d5d778bfdf95120c69f3c8cc8d32}{scheduled\_jigs}}\ =\ scheduled\_jigs}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00064}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line_a3487dc93b58d2eb9489ed4841a379524}{00064}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line_a3487dc93b58d2eb9489ed4841a379524}{\_\_str\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}scheduled\_jigs\ =\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line_a87e6d5d778bfdf95120c69f3c8cc8d32}{scheduled\_jigs}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00068}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state}{00068}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state}{ProblemState}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00070}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a01f9356c8988b1a166ca250338b3ebf8}{00070}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a01f9356c8988b1a166ca250338b3ebf8}{\_\_init\_\_}}(self,\ jigs\ :\ list[Jig],\ belugas:\ list[Beluga],\ trailers\_beluga:\ list[int\ |\ \textcolor{keywordtype}{None}],\ trailers\_factory:\ list[int\ |\ \textcolor{keywordtype}{None}],\ racks:\ list[Rack],\ production\_lines:\ list[ProductionLine],\ hangars:\ list[int\ |\ \textcolor{keywordtype}{None}]):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00071}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a300e9ddb90f03da3815ce8dfd2805bac}{00071}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a300e9ddb90f03da3815ce8dfd2805bac}{jigs}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a7e60bff386fea1ed5e202e0de311dbb8}{jigs}}\ =\ jigs}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00072}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af17cb40c4aee419f7e97547aad0aa520}{00072}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af17cb40c4aee419f7e97547aad0aa520}{belugas}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a8fc91af097e1dd8d373e671979aa6d41}{belugas}}\ =\ belugas}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00073}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af9566e3eb22dc3791e399b15c593cf3a}{00073}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af9566e3eb22dc3791e399b15c593cf3a}{trailers\_beluga}}\ =\ trailers\_beluga}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00074}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_ac841dbc01b40cc3b66f8ae359323d4c8}{00074}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_ac841dbc01b40cc3b66f8ae359323d4c8}{trailers\_factory}}\ =\ trailers\_factory}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00075}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a1f668b439f069fb8f5636e59d47bb191}{00075}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a1f668b439f069fb8f5636e59d47bb191}{racks}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_aa8f94234869f6a3b44b0d0df8ee3bce5}{racks}}\ =\ racks}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00076}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a722afcc771d1b273d09f366a4c93e1d9}{00076}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a722afcc771d1b273d09f366a4c93e1d9}{production\_lines}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6623e06f26683e815da17827475814f6}{production\_lines}}\ =\ production\_lines}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00077}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6f2ee3f95ed14ca04037c66f8f527de0}{00077}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6f2ee3f95ed14ca04037c66f8f527de0}{hangars}}\ =\ hangars}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00080}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a458d80d854ba58ebc2eca2e896d9792f}{00080}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a458d80d854ba58ebc2eca2e896d9792f}{deep\_copy}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state}{ProblemState}}(}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ jigs=copy.deepcopy(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a300e9ddb90f03da3815ce8dfd2805bac}{jigs}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a7e60bff386fea1ed5e202e0de311dbb8}{jigs}}),}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ belugas=copy.deepcopy(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af17cb40c4aee419f7e97547aad0aa520}{belugas}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a8fc91af097e1dd8d373e671979aa6d41}{belugas}}),}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ trailers\_beluga=copy.deepcopy(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af9566e3eb22dc3791e399b15c593cf3a}{trailers\_beluga}}),}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ trailers\_factory=copy.deepcopy(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_ac841dbc01b40cc3b66f8ae359323d4c8}{trailers\_factory}}),}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ racks=copy.deepcopy(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a1f668b439f069fb8f5636e59d47bb191}{racks}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_aa8f94234869f6a3b44b0d0df8ee3bce5}{racks}}),}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ production\_lines=copy.deepcopy(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a722afcc771d1b273d09f366a4c93e1d9}{production\_lines}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6623e06f26683e815da17827475814f6}{production\_lines}}),}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ hangars=copy.deepcopy(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6f2ee3f95ed14ca04037c66f8f527de0}{hangars}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00092}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_ac21b79149630f9724f172ac666bd9a16}{00092}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_ac21b79149630f9724f172ac666bd9a16}{\_\_str\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ out\ =\ \textcolor{stringliteral}{"{}jigs:\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00095}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a7e60bff386fea1ed5e202e0de311dbb8}{00095}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a300e9ddb90f03da3815ce8dfd2805bac}{jigs}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a7e60bff386fea1ed5e202e0de311dbb8}{jigs}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(jig)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}belugas:\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00100}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a8fc91af097e1dd8d373e671979aa6d41}{00100}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ beluga\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af17cb40c4aee419f7e97547aad0aa520}{belugas}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a8fc91af097e1dd8d373e671979aa6d41}{belugas}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(beluga)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}trailers\_beluga:\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_af9566e3eb22dc3791e399b15c593cf3a}{trailers\_beluga}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}trailers\_factory:\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_ac841dbc01b40cc3b66f8ae359323d4c8}{trailers\_factory}})\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}racks:\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00107}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_aa8f94234869f6a3b44b0d0df8ee3bce5}{00107}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a1f668b439f069fb8f5636e59d47bb191}{racks}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_aa8f94234869f6a3b44b0d0df8ee3bce5}{racks}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(rack)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}production\_lines:\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00112}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6623e06f26683e815da17827475814f6}{00112}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ production\_line\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a722afcc771d1b273d09f366a4c93e1d9}{production\_lines}}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6623e06f26683e815da17827475814f6}{production\_lines}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(production\_line)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}hangars:\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a6f2ee3f95ed14ca04037c66f8f527de0}{hangars}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00118}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a8c423ba22fd1e31201de846bb7af3be4}{00118}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a8c423ba22fd1e31201de846bb7af3be4}{\_\_repr\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_ac21b79149630f9724f172ac666bd9a16}{\_\_str\_\_}}()}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00120}00120\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00121}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a3992bfab8957672f20f0788053916a2e}{00121}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_a3992bfab8957672f20f0788053916a2e}{\_\_hash\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hash(str(self))\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00124}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_aead05160ba017838ba5ee23b186cceeb}{00124}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state_aead05160ba017838ba5ee23b186cceeb}{\_\_eq\_\_}}(self,\ other):\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str(self)\ ==\ str(other)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00127}\mbox{\hyperlink{namespacetoolkit_1_1problem__state_aa028361cc0b8b2896f870606b20624df}{00127}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1problem__state_aa028361cc0b8b2896f870606b20624df}{get\_type}}(name:\ str)\ -\/>\ JigType\ |\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00128}00128\ \ \ \ \ \textcolor{keywordflow}{if}\ name\ ==\ \textcolor{stringliteral}{"{}typeA"{}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type}{JigType}}(\textcolor{stringliteral}{"{}typeA"{}},\ 4,\ 4)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00130}00130\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeB"{}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type}{JigType}}(\textcolor{stringliteral}{"{}typeB"{}},\ 8,\ 11)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeC"{}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type}{JigType}}(\textcolor{stringliteral}{"{}typeC"{}},\ 9,\ 18)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00134}00134\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeD"{}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type}{JigType}}(\textcolor{stringliteral}{"{}typeD"{}},\ 18,\ 25)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00136}00136\ \ \ \ \ \textcolor{keywordflow}{elif}\ name\ ==\ \textcolor{stringliteral}{"{}typeE"{}}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig_type}{JigType}}(\textcolor{stringliteral}{"{}typeE"{}},\ 32,\ 32)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00138}00138\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00140}\mbox{\hyperlink{namespacetoolkit_1_1problem__state_ab4aeb35891e57e804399c26a02589e27}{00140}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1problem__state_ab4aeb35891e57e804399c26a02589e27}{extract\_id}}(name:\ str)\ -\/>\ int:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00141}00141\ \ \ \ \ name\ =\ name.replace(\textcolor{stringliteral}{"{}jig"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00142}00142\ \ \ \ \ \textcolor{keywordflow}{return}\ int(name)\ -\/\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00144}\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{00144}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(id:\ int)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00145}00145\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}jig"{}}\ +\ \textcolor{stringliteral}{"{}0"{}}\ *\ (4-\/len(str(id)))\ +\ str(id)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00147}\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a4d5092d2f78e3ea1cf99394eb7dad368}{00147}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a4d5092d2f78e3ea1cf99394eb7dad368}{load\_from\_json}}(path)\ -\/>\ ProblemState:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00149}00149\ \ \ \ \ data\ =\ open(path,\ \textcolor{stringliteral}{"{}r"{}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00150}00150\ \ \ \ \ dictionary\ =\ json.loads(data.read())}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00151}00151\ \ \ \ \ data.close()}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00153}00153\ \ \ \ \ jig\_data\ =\ dictionary[\textcolor{stringliteral}{"{}jigs"{}}]}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00155}00155\ \ \ \ \ jigs:\ list[Jig]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00156}00156\ \ \ \ \ \textcolor{keywordflow}{for}\ jig\_n,\ jig\ \textcolor{keywordflow}{in}\ jig\_data.items():}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ jigs.append(\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_jig}{Jig}}(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_aa028361cc0b8b2896f870606b20624df}{get\_type}}(jig[\textcolor{stringliteral}{"{}type"{}}]),\ jig[\textcolor{stringliteral}{"{}empty"{}}]))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00159}00159\ \ \ \ \ beluga\_data\ =\ dictionary[\textcolor{stringliteral}{"{}flights"{}}]}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00160}00160\ \ \ \ \ belugas:\ list[Beluga]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00161}00161\ \ \ \ \ \textcolor{keywordflow}{for}\ beluga\ \textcolor{keywordflow}{in}\ beluga\_data:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ incoming:\ list[int]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ outgoing:\ list[JigType]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ beluga[\textcolor{stringliteral}{"{}incoming"{}}]:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ incoming.append(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_ab4aeb35891e57e804399c26a02589e27}{extract\_id}}(entry))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ beluga[\textcolor{stringliteral}{"{}outgoing"{}}]:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ outgoing.append(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_aa028361cc0b8b2896f870606b20624df}{get\_type}}(entry))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ belugas.append(\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_beluga}{Beluga}}(incoming,\ outgoing))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00170}00170\ \ \ \ \ production\_lines\_data\ =\ dictionary[\textcolor{stringliteral}{"{}production\_lines"{}}]}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00171}00171\ \ \ \ \ production\_lines:\ list[ProductionLine]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00172}00172\ \ \ \ \ \textcolor{keywordflow}{for}\ production\_line\ \textcolor{keywordflow}{in}\ production\_lines\_data:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ schedule:\ list[int]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ production\_line[\textcolor{stringliteral}{"{}schedule"{}}]:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ schedule.append(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_ab4aeb35891e57e804399c26a02589e27}{extract\_id}}(entry))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ production\_lines.append(\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_production_line}{ProductionLine}}(schedule))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00178}00178\ \ \ \ \ racks\_data\ =\ dictionary[\textcolor{stringliteral}{"{}racks"{}}]}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00179}00179\ \ \ \ \ racks:\ list[Rack]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00180}00180\ \ \ \ \ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ racks\_data:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ storage:\ list[int]\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ rack[\textcolor{stringliteral}{"{}jigs"{}}]:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ storage.append(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_ab4aeb35891e57e804399c26a02589e27}{extract\_id}}(entry))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ racks.append(\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_rack}{Rack}}(rack[\textcolor{stringliteral}{"{}size"{}}],\ storage))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00186}00186\ \ \ \ \ hangars:\ list[Jig\ |\ \textcolor{keywordtype}{None}]\ =\ [\textcolor{keywordtype}{None}]\ *\ len(dictionary[\textcolor{stringliteral}{"{}hangars"{}}])}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00187}00187\ \ \ \ \ trailers\_beluga:\ list[Jig\ |\ \textcolor{keywordtype}{None}]\ =\ [\textcolor{keywordtype}{None}]\ *\ len(dictionary[\textcolor{stringliteral}{"{}trailers\_beluga"{}}])}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00188}00188\ \ \ \ \ trailers\_factory:\ list[Jig\ |\ \textcolor{keywordtype}{None}]\ =\ [\textcolor{keywordtype}{None}]\ *\ len(dictionary[\textcolor{stringliteral}{"{}trailers\_factory"{}}])}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00190}00190\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00191}00191\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_problem_state}{ProblemState}}(jigs,\ belugas,\ trailers\_beluga,\ trailers\_factory,\ racks,\ production\_lines,\ hangars)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00193}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_state_encoder}{00193}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_state_encoder}{StateEncoder}}(JSONEncoder):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00194}\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_state_encoder_af2699084be80219bb30f37855491356a}{00194}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1problem__state_1_1_state_encoder_af2699084be80219bb30f37855491356a}{default}}(self,\ o):}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ o.\_\_dict\_\_}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00198}\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a67fdadced9ff264838f5f688d59df320}{00198}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a67fdadced9ff264838f5f688d59df320}{save\_to\_json}}(path:\ str,\ problem:\ ProblemState)\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00199}00199\ \ \ \ \ file\ =\ open(path,\ \textcolor{stringliteral}{"{}w"{}})}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00200}00200\ \ \ \ \ data\ :\ dict\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00203}00203\ \ \ \ \ \textcolor{comment}{\#Trailers\ Beluga}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00204}00204\ \ \ \ \ count\ =\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00205}00205\ \ \ \ \ trailers\_beluga\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00206}00206\ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\ \textcolor{keywordflow}{in}\ problem.trailers\_beluga:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ dummy\ =\ \{\textcolor{stringliteral}{"{}name"{}}:\ \textcolor{stringliteral}{"{}beluga\_trailer\_"{}}\ +\ str(count),\ \textcolor{stringliteral}{"{}slot"{}}:\ \mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(trailer)\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ trailers\_beluga.append(dummy)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00211}00211\ \ \ \ \ data[\textcolor{stringliteral}{"{}trailers\_beluga"{}}]\ =\ trailers\_beluga}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00213}00213\ \ \ \ \ \textcolor{comment}{\#Trailer\ Factory}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00214}00214\ \ \ \ \ count\ =\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00215}00215\ \ \ \ \ trailers\_factory\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00216}00216\ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\ \textcolor{keywordflow}{in}\ problem.trailers\_factory:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ dummy\ =\ \{\textcolor{stringliteral}{"{}name"{}}:\ \textcolor{stringliteral}{"{}factory\_trailer\_"{}}\ +\ str(count),\ \textcolor{stringliteral}{"{}slot"{}}:\ \mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(trailer)\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ trailers\_factory.append(dummy)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00221}00221\ \ \ \ \ data[\textcolor{stringliteral}{"{}trailers\_factory"{}}]\ =\ trailers\_factory}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00223}00223\ \ \ \ \ \textcolor{comment}{\#Hangar}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00224}00224\ \ \ \ \ count\ =\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00225}00225\ \ \ \ \ hangars\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00226}00226\ \ \ \ \ \textcolor{keywordflow}{for}\ hangar\ \textcolor{keywordflow}{in}\ problem.hangars:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ hangars.append(\textcolor{stringliteral}{"{}hangar"{}}\ +\ str(count))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00230}00230\ \ \ \ \ data[\textcolor{stringliteral}{"{}hangars"{}}]\ =\ hangars}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00232}00232\ \ \ \ \ \textcolor{comment}{\#Jig\ Types}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00233}00233\ \ \ \ \ jig\_types\ =\ \{}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}typeA"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name"{}}:\ \textcolor{stringliteral}{"{}typeA"{}},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_empty"{}}:\ 4,}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_loaded"{}}:\ 4}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}typeB"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name"{}}:\ \textcolor{stringliteral}{"{}typeB"{}},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_empty"{}}:\ 8,}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_loaded"{}}:\ 11}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}typeC"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name"{}}:\ \textcolor{stringliteral}{"{}typeC"{}},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_empty"{}}:\ 9,}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_loaded"{}}:\ 18}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}typeD"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name"{}}:\ \textcolor{stringliteral}{"{}typeD"{}},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_empty"{}}:\ 18,}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_loaded"{}}:\ 25}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}typeE"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}name"{}}:\ \textcolor{stringliteral}{"{}typeE"{}},}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_empty"{}}:\ 32,}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size\_loaded"{}}:\ 32}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00259}00259\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00261}00261\ \ \ \ \ data[\textcolor{stringliteral}{"{}jig\_types"{}}]\ =\ jig\_types}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00263}00263\ \ \ \ \ \textcolor{comment}{\#Racks}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00264}00264\ \ \ \ \ count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00265}00265\ \ \ \ \ racks\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00266}00266\ \ \ \ \ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ problem.racks:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ dummy\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}name"{}}]\ =\ \textcolor{stringliteral}{"{}rack"{}}\ +\ \textcolor{stringliteral}{"{}0"{}}\ *\ (2-\/len(str(count)))\ +\ str(count)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}size"{}}]\ =\ rack.size}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ jigs\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jid\ \textcolor{keywordflow}{in}\ rack.current\_jigs:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ jigs.append(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(jid))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}jigs"{}}]\ =\ jigs}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ racks.append(dummy)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00278}00278\ \ \ \ \ data[\textcolor{stringliteral}{"{}racks"{}}]\ =\ racks}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00280}00280\ \ \ \ \ \textcolor{comment}{\#Jigs}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00281}00281\ \ \ \ \ count\ =\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00282}00282\ \ \ \ \ jigs\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00283}00283\ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ problem.jigs:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ dummy\ =\ \{\textcolor{stringliteral}{"{}name"{}}:\ \mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(count),\ \textcolor{stringliteral}{"{}type"{}}:\ str(jig.jig\_type.name),\ \textcolor{stringliteral}{"{}empty"{}}:\ jig.empty\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ jigs[\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(count)]\ =\ dummy}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00288}00288\ \ \ \ \ data[\textcolor{stringliteral}{"{}jigs"{}}]\ =\ jigs}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00290}00290\ \ \ \ \ \textcolor{comment}{\#Productionlines}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00291}00291\ \ \ \ \ count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00292}00292\ \ \ \ \ production\_lines\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00293}00293\ \ \ \ \ \textcolor{keywordflow}{for}\ production\_line\ \textcolor{keywordflow}{in}\ problem.production\_lines:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ dummy\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}name"{}}]\ =\ \textcolor{stringliteral}{"{}pl"{}}\ +\ str(count)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ schedule\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jid\ \textcolor{keywordflow}{in}\ production\_line.scheduled\_jigs:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ schedule.append(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(jid))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}schedule"{}}]\ =\ schedule}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ production\_lines.append(dummy)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00303}00303\ \ \ \ \ data[\textcolor{stringliteral}{"{}production\_lines"{}}]\ =\ production\_lines}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00305}00305\ \ \ \ \ \textcolor{comment}{\#Flights}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00306}00306\ \ \ \ \ count\ =\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00307}00307\ \ \ \ \ flights\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00308}00308\ \ \ \ \ \textcolor{keywordflow}{for}\ beluga\ \textcolor{keywordflow}{in}\ problem.belugas:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ dummy\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}name"{}}]\ =\ \textcolor{stringliteral}{"{}beluga"{}}\ +\ str(count)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ incoming\ =\ []}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jid\ \textcolor{keywordflow}{in}\ beluga.current\_jigs:}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ incoming.append(\mbox{\hyperlink{namespacetoolkit_1_1problem__state_a5c6f8b6e0053a717bf0916879ab996b6}{get\_name\_from\_id}}(jid))}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}incoming"{}}]\ =\ incoming}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ dummy[\textcolor{stringliteral}{"{}outgoing"{}}]\ =\ beluga.outgoing}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ flights.append(dummy)}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00319}00319\ \ \ \ \ data[\textcolor{stringliteral}{"{}flights"{}}]\ =\ flights}
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{problem__state_8py_source_l00321}00321\ \ \ \ \ file.write(json.dumps(data,\ indent=4,\ cls=StateEncoder))}
+
+\end{DoxyCode}

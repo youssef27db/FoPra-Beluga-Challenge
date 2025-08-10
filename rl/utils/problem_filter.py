@@ -1,8 +1,16 @@
+"""!
+@file problem_filter.py
+@brief Problem filtering utilities for the Beluga Challenge
+
+This module provides functions to filter and modify problem instances
+by adjusting the number of jigs, belugas, production lines, and racks
+to create problems of different complexity levels.
+"""
+
 import json
 import random
 import os
 from pathlib import Path
-
 
 JIG_TYPES = {
     "typeA": {"name": "typeA", "size_empty": 4, "size_loaded": 4},
@@ -11,27 +19,41 @@ JIG_TYPES = {
     "typeD": {"name": "typeD", "size_empty": 18, "size_loaded": 25},
     "typeE": {"name": "typeE", "size_empty": 32, "size_loaded": 32}
 }
+
 def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_lines, max_racks):
+    """!
+    @brief Filter a problem instance to reduce its complexity
+    
+    This function takes a problem JSON file and creates a simplified version
+    by limiting the number of jigs, belugas, production lines, and racks.
+    
+    @param input_file Path to the input problem JSON file
+    @param output_file Path for the output filtered problem JSON file
+    @param max_jigs Maximum number of jigs to keep
+    @param max_belugas Maximum number of belugas to keep
+    @param max_prod_lines Maximum number of production lines to keep
+    @param max_racks Maximum number of racks to keep
+    """
 
     with open(input_file) as f:
         data = json.load(f)
 
-    # Schritt 1: Jigs trimmen
+    # Step 1: Trim jigs
     all_jig_keys = list(data["jigs"].keys())
     kept_jig_keys = set(all_jig_keys[:max_jigs])
     
-    # Entferne nicht benötigte Jigs
+    # Remove unnecessary jigs
     data["jigs"] = {k: v for k, v in data["jigs"].items() if k in kept_jig_keys}
 
-    # Racks bereinigen
+    # Clean racks
     for rack in data["racks"]:
         rack["jigs"] = []
 
-    # Produktionslinien bereinigen
+    # Clean production lines
     for pl in data["production_lines"]:
         pl["schedule"] = []
 
-    # Flüge bereinigen
+    # Clean flights
     for flight in data["flights"]:
         flight["incoming"] = []
         flight["outgoing"] = []

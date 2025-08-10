@@ -1,19 +1,37 @@
-# Architekturübersicht: Hierarchischer RL-Agent für die Beluga Challenge
+# FoPra – Beluga Challenge  
+**Hierarchischer Reinforcement-Learning-Agent**
 
-Unsere Architektur basiert auf einem hierarchischen Entscheidungsansatz. Der High-Level-Agent trifft strategische Entscheidungen, während die Parametrisierung und Ausführung über spezialisierte Low-Level-Mechanismen erfolgt:
-![agent-architecture](https://github.com/user-attachments/assets/ac2d5b83-8f99-4fbd-b97b-1441114ee30b)
+---
 
+## 📌 Projektbeschreibung
+Dieses Projekt implementiert einen **hierarchischen RL-Agenten** für die *Beluga Challenge*.  
+Der Ansatz trennt strategische Entscheidungen (High-Level) von der konkreten Ausführung (Low-Level), um unterschiedliche Methoden wie **PPO**, **Heuristiken** und **MCTS** gezielt zu kombinieren.
 
+---
 
-## Komponenten
+## 🏗 Architekturübersicht
+
+Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
+
+![Agent Architecture](https://github.com/user-attachments/assets/ac2d5b83-8f99-4fbd-b97b-1441114ee30b)
 
 - **High-Level Agent**  
-  Wählt eine von acht möglichen Aktionen aus (z. B. *Load Jig*, *Swap*, *Dispatch*). Trainiert mit Proximal Policy Optimization (PPO).
+  - Wählt eine von acht möglichen Aktionen (z. B. *Load Jig*, *Swap*, *Dispatch*)  
+  - Trainiert mit **Proximal Policy Optimization (PPO)**  
+  - Verantwortlich für die strategische Richtung
 
 - **Low-Level Agent**  
-  Verfeinert und führt die vom High-Level-Agenten gewählte Aktion aus. Abhängig von der Aktionsart geschieht dies durch:
-  - 🔹 *Direkte Ausführung* (z. B. deterministisch lösbare Aktionen ohne Parameter)
-  - 🔹 *Heuristiken* (für einfache, aber parametrisierte Aktionen)
-  - 🔹 *Monte Carlo Tree Search (MCTS)* (für komplexe, sequenzielle Entscheidungen mit hohem Kombinationsraum)
+  - Verfeinert und führt die gewählte High-Level-Aktion aus  
+  - Setzt je nach Komplexität unterschiedliche Mechanismen ein:  
+    - 🔹 **Direkte Ausführung** – deterministische Aktionen ohne Parameter  
+    - 🔹 **Heuristiken** – einfache parametrisierte Aktionen  
+    - 🔹 **Monte Carlo Tree Search (MCTS)** – komplexe, sequenzielle Entscheidungen mit großem Kombinationsraum
 
-Diese modulare Trennung erlaubt es, unterschiedliche Ansätze (RL, Heuristiken, MCTS) synergetisch zu kombinieren und gezielt auf die Charakteristika einzelner Teilprobleme anzuwenden.
+> 💡 **Vorteil:** Durch diese modulare Trennung können wir die Stärken verschiedener Methoden gezielt nutzen und die Charakteristika einzelner Teilprobleme optimal abdecken.
+
+## 📄 Projektdokumentation
+Die vollständige, generierte HTML-Dokumentation befindet sich im Ordner [`docs/html`](./docs/html).  
+Du kannst sie lokal öffnen über:
+
+[**📖 Projekt-Dokumentation anzeigen**](./docs/html/index.html)
+

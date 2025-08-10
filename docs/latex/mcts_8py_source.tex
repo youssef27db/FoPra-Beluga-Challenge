@@ -1,0 +1,189 @@
+\doxysection{mcts.\+py}
+\hypertarget{mcts_8py_source}{}\label{mcts_8py_source}\index{rl/mcts/mcts.py@{rl/mcts/mcts.py}}
+\mbox{\hyperlink{mcts_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00001}\mbox{\hyperlink{namespacerl_1_1mcts_1_1mcts}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00002}00002\ \textcolor{stringliteral}{@file\ mcts.py}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00003}00003\ \textcolor{stringliteral}{@brief\ Monte\ Carlo\ Tree\ Search\ implementation\ for\ container\ optimization}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00004}00004\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00005}00005\ \textcolor{stringliteral}{This\ module\ implements\ the\ main\ MCTS\ algorithm\ for\ finding\ optimal}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00006}00006\ \textcolor{stringliteral}{action\ sequences\ in\ the\ Beluga\ Challenge\ container\ loading\ problem.}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00007}00007\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00009}00009\ \textcolor{keyword}{from}\ .mcts\_node\ \textcolor{keyword}{import}\ MCTSNode}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00010}00010\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacerl_1_1env_1_1state}{rl.env.state}}\ \textcolor{keyword}{import}\ *}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00011}00011\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacerl_1_1env}{rl.env}}\ \textcolor{keyword}{import}\ *}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00012}00012\ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacerl_1_1utils_1_1utils}{rl.utils.utils}}\ \textcolor{keyword}{import}\ debuglog}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00013}00013\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00015}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s}{00015}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s}{MCTS}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00016}00016\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00017}00017\ \textcolor{stringliteral}{\ \ \ \ @brief\ Monte\ Carlo\ Tree\ Search\ algorithm\ implementation}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ MCTS\ uses\ random\ sampling\ to\ build\ a\ search\ tree\ and\ find}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ optimal\ action\ sequences\ for\ the\ container\ optimization\ problem.}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00022}00022\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00023}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_af8413689d831e059f7e36002b0375e0b}{00023}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_af8413689d831e059f7e36002b0375e0b}{\_\_init\_\_}}(self,\ root:\ MCTSNode,\ depth:\ int\ =\ 5,\ n\_simulations:\ int\ =\ 300,\ debug:\ bool\ =\ \textcolor{keyword}{False}):}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ MCTS\ algorithm}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ root\ Root\ node\ of\ the\ search\ tree}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ depth\ Maximum\ search\ depth}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ n\_simulations\ Number\ of\ simulations\ to\ run}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ debug\ Enable\ debug\ output}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00031}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a11142d8d66dba17479436e590192fb90}{00031}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a11142d8d66dba17479436e590192fb90}{root}}\ =\ root}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00032}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aab310caec54328f75daa9e0a82fa35c7}{00032}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aab310caec54328f75daa9e0a82fa35c7}{depth}}\ =\ depth}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00033}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a8f4bd2ea226660619b54bd7a3bed820f}{00033}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a8f4bd2ea226660619b54bd7a3bed820f}{n\_simulations}}\ =\ n\_simulations}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00034}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{00034}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}\ =\ debug}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00036}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a156ee61d7a35a8cab7ec32494dea1b2a}{00036}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a156ee61d7a35a8cab7ec32494dea1b2a}{search}}(self):}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Run\ the\ MCTS\ search\ algorithm}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Best\ child\ node\ found\ after\ all\ simulations}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ terminal\_node\_found\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a8f4bd2ea226660619b54bd7a3bed820f}{n\_simulations}}):}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)nIteration\ \{i+1\}/\{self.n\_simulations\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ 1.\ Selection}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ node\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_af0c0d8b6cb7e0d0bc83d009fa6a6ebc3}{select}}(self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a11142d8d66dba17479436e590192fb90}{root}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Selected\ node:\ depth=\{node.depth\},\ action=\{node.action\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ 2.\ Expansion}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ node.is\_terminal():}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ untried\_actions\ =\ node.get\_untried\_action()}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ untried\_actions:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\ =\ random.choice(untried\_actions)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Expanding\ node\ with\ action:\ \{action\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ node\ =\ node.expand(action)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ node.state.is\_terminal():}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00063}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{00063}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Terminal\ state\ reached!\ Solution\ found."{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ terminal\_node\_found\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reward\ is\ already\ set\ by\ evaluate()}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ =\ node.state.evaluate(node.depth)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ node.backpropagate(reward)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00069}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{00069}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Rollout\ reward:\ \{reward\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}\ \ \textcolor{comment}{\#\ Abort\ MCTS}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Abort\ if\ no\ untried\ actions\ are\ available}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ node.children\ \textcolor{keywordflow}{or}\ node.depth\ >=\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aab310caec54328f75daa9e0a82fa35c7}{depth}}\ -\/\ 1:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}No\ further\ actions\ possible\ at\ depth\ \{node.depth\}.\ Aborting\ MCTS."{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Final\ selection\ as\ at\ the\ end\ of\ the\ method}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ debuglog(\textcolor{stringliteral}{"{}\(\backslash\)nFinal\ selection\ (early):"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_child\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a11142d8d66dba17479436e590192fb90}{root}}.best\_child(exploration\_weight=0)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ best\_child}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}No\ untried\ actions\ available,\ skipping\ expansion."{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ 3.\ Simulation}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ reward\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_abf0f1615b5957012620acadb53e31562}{rollout}}(node)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Rollout\ reward:\ \{reward\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ 4.\ Backpropagation}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ node.backpropagate(reward)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00092}00092\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Final\ selection\ -\/\ always\ the\ same,\ regardless\ of\ how\ we\ got\ here}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ debuglog(\textcolor{stringliteral}{"{}\(\backslash\)nFinal\ selection:"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ best\_child\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a11142d8d66dba17479436e590192fb90}{root}}.best\_child(exploration\_weight=0)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ best\_child\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ debuglog(\textcolor{stringliteral}{"{}WARNING:\ Root\ has\ no\ children!"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ debuglog(f\textcolor{stringliteral}{"{}Best\ child:\ action=\{best\_child.action\},\ visits=\{best\_child.visits\},\ reward=\{best\_child.total\_reward/best\_child.visits\ if\ best\_child.visits\ >\ 0\ else\ 0\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ terminal\_node\_found:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ debuglog(\textcolor{stringliteral}{"{}Note:\ A\ terminal\ state\ was\ found!"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ best\_child}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00105}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_af0c0d8b6cb7e0d0bc83d009fa6a6ebc3}{00105}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_af0c0d8b6cb7e0d0bc83d009fa6a6ebc3}{select}}(self,\ node):}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Traverse\ the\ tree\ until\ we\ find\ a\ not\ fully\ expanded\ node\ or\ terminal\ node}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00108}00108\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ node\ Starting\ node\ for\ selection}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Selected\ node\ for\ expansion}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00110}00110\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ current\_depth\ =\ 0}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ node.is\_terminal()\ \textcolor{keywordflow}{and}\ node.is\_fully\_expanded()\ \textcolor{keywordflow}{and}\ current\_depth\ <\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aab310caec54328f75daa9e0a82fa35c7}{depth}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ next\_node\ =\ node.best\_child()}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ next\_node\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}\ \ \textcolor{comment}{\#\ If\ no\ children\ are\ present}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ node\ =\ next\_node}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ current\_depth\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ node}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00120}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_abf0f1615b5957012620acadb53e31562}{00120}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_abf0f1615b5957012620acadb53e31562}{rollout}}(self,\ node):}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00122}00122\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Simulate\ random\ actions\ from\ the\ node\ until\ terminal\ state\ or\ max\ depth}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00123}00123\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ node\ Starting\ node\ for\ rollout\ simulation}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00124}00124\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Reward\ value\ from\ the\ rollout}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00125}00125\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ state:\ ProblemState\ =\ node.state.copy()}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ depth\ =\ node.depth\ \ \textcolor{comment}{\#\ Start\ from\ the\ node's\ current\ depth}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}DEBUG\ -\/\ Starting\ rollout\ from\ depth\ \{depth\}"{})}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ rollout\_actions\ =\ []}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ state.is\_terminal()\ \textcolor{keywordflow}{and}\ depth\ <\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aab310caec54328f75daa9e0a82fa35c7}{depth}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ possible\ actions\ as\ (action\_name,\ params)\ tuples}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ possible\_actions\ =\ state.get\_possible\_actions()}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ possible\_actions:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ debuglog(f\textcolor{stringliteral}{"{}DEBUG\ -\/\ No\ possible\ actions\ at\ depth\ \{depth\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Choose\ a\ random\ action}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ action\_name,\ params\ =\ random.choice(possible\_actions)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Apply\ the\ action}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}DEBUG\ -\/\ Rollout\ action:\ \{action\_name\}\ with\ params\ \{params\}"{})}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ rollout\_actions.append((action\_name,\ params))}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Apply\ action\ to\ state}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ state.apply\_action(action\_name,\ params)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ depth\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}DEBUG\ -\/\ Rollout\ completed\ with\ \{len(rollout\_actions)\}\ actions"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}DEBUG\ -\/\ Final\ rollout\ actions:\ \{rollout\_actions[:5]\}\{'...'\ if\ len(rollout\_actions)\ >\ 5\ else\ ''\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ reward\ based\ on\ final\ state}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ reward\ =\ state.evaluate(depth)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}DEBUG\ -\/\ Rollout\ ended\ at\ depth\ \{depth\},\ final\ reward:\ \{reward\}"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Output\ all\ subgoals\ and\ their\ fulfillment}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.belugas\_unloaded}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.belugas\_finished}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ self.production\_lines\_finished}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}DEBUG\ -\/\ Subgoals:\ \{state.belugas\_unloaded\}\ unloaded,\ \{state.belugas\_finished\}\ finished,\ \{state.production\_lines\_finished\}\ production\ lines\ finished"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ After\ rollout:}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ state.is\_terminal()\ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adbbff374479f0397a831fbbd3059dec8}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a5ac970654c94548d5d9d5c787150b9b7}{debug}}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_aed987f22fa5ac170bed5a64a2daa4667}{debug}}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Terminal\ state\ reached\ in\ rollout!"{}})}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ reward}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00170}\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adcfd05d490fbdf9c71929ae591e0ab8d}{00170}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_adcfd05d490fbdf9c71929ae591e0ab8d}{get\_best\_path}}(self):}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00172}00172\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ the\ path\ of\ best-\/visited\ child\ nodes\ from\ the\ root}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00173}00173\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ List\ of\ actions\ representing\ the\ best\ path\ found}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00174}00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ path\ =\ []}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ node\ =\ self.\mbox{\hyperlink{classrl_1_1mcts_1_1mcts_1_1_m_c_t_s_a11142d8d66dba17479436e590192fb90}{root}}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keyword}{True}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ best\_child\ =\ node.best\_child(exploration\_weight=0)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ best\_child\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ path.append(best\_child.action)}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ node\ =\ best\_child}
+\DoxyCodeLine{\Hypertarget{mcts_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path}
+
+\end{DoxyCode}

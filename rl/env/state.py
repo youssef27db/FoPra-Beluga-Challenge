@@ -1,5 +1,20 @@
-'TODO: add docstrings to all classes and methods'
-'TODO: viel zu viel code, vorschlag: trennung in base-classes, mcts-api, utility-functions, etc.'
+"""!
+@file state.py
+@brief Problem state representation for the Beluga Challenge
+
+This module contains all classes and functions for representing and manipulating
+the state of the Beluga Challenge container optimization problem. It includes
+data structures for jigs, belugas, racks, production lines, and the complete
+problem state with all necessary operations for MCTS and RL algorithms.
+
+Classes:
+    - JigType: Represents different types of jigs with size properties
+    - Jig: Individual jig instance with type and empty/loaded status
+    - Beluga: Container ship with current and outgoing jigs
+    - Rack: Storage rack with size constraints and current contents
+    - ProductionLine: Factory production line with scheduled jigs
+    - ProblemState: Complete state representation with all components
+"""
 
 import json
 import copy
@@ -11,7 +26,20 @@ import numpy as np
 from rl.agents.low_level.heuristics import decide_parameters
 
 class JigType:
+    """!
+    @brief Represents a type of jig with size properties
+    
+    Different jig types have different sizes when empty vs loaded,
+    which affects storage and transportation constraints.
+    """
+    
     def __init__(self, name: str, size_empty: int, size_loaded: int):
+        """!
+        @brief Initialize a jig type
+        @param name Name identifier for the jig type
+        @param size_empty Size when the jig is empty
+        @param size_loaded Size when the jig is loaded
+        """
         self.name = name
         self.size_empty = size_empty
         self.size_loaded = size_loaded
@@ -30,7 +58,19 @@ class JigType:
 
 
 class Jig:
+    """!
+    @brief Individual jig instance with type and status
+    
+    A jig can be empty or loaded, which affects its size and
+    determines valid operations that can be performed on it.
+    """
+    
     def __init__(self, jig_type: JigType, empty: bool):
+        """!
+        @brief Initialize a jig instance
+        @param jig_type Type of this jig (determines size properties)
+        @param empty Whether the jig is currently empty or loaded
+        """
         self.jig_type = jig_type
         self.empty = empty
 
@@ -38,11 +78,27 @@ class Jig:
         return str(self.jig_type) + " | " + str(self.empty)
     
     def copy(self):
+        """!
+        @brief Create a deep copy of this jig
+        @return New Jig instance with same properties
+        """
         return Jig(self.jig_type, self.empty)
 
 
 class Beluga:
+    """!
+    @brief Container ship (Beluga) with current and outgoing jigs
+    
+    Represents a ship that can carry jigs. Has current jigs aboard
+    and a list of outgoing jig types that need to be loaded.
+    """
+    
     def __init__(self, current_jigs: list[int], outgoing: list[JigType]):
+        """!
+        @brief Initialize a Beluga ship
+        @param current_jigs List of jig IDs currently on the ship
+        @param outgoing List of jig types that need to be loaded onto this ship
+        """
         self.current_jigs = current_jigs
         self.outgoing = outgoing
 
@@ -50,12 +106,28 @@ class Beluga:
         return "current_jigs = " + str(self.current_jigs) + " | outgoing = " + str(self.outgoing)
     
     def copy(self):
-        # current_jigs und outgoing sind Listen von ints/Objekten → flache Kopie reicht
+        """!
+        @brief Create a deep copy of this Beluga
+        @return New Beluga instance with same properties
+        """
+        # current_jigs and outgoing are lists of ints/objects → shallow copy suffices
         return Beluga(self.current_jigs[:], self.outgoing[:])
 
 
 class Rack:
+    """!
+    @brief Storage rack with size constraints
+    
+    Represents a storage location that can hold multiple jigs
+    up to its total size capacity.
+    """
+    
     def __init__(self, size: int, current_jigs: list[int]):
+        """!
+        @brief Initialize a storage rack
+        @param size Maximum capacity of the rack
+        @param current_jigs List of jig IDs currently stored in this rack
+        """
         self.size = size
         self.current_jigs = current_jigs
 
@@ -63,6 +135,11 @@ class Rack:
         return "size = " + str(self.size) + " | current_jigs = " + str(self.current_jigs)
     
     def get_free_space(self, all_jigs: list[Jig]) -> int:
+        """!
+        @brief Calculate remaining free space in the rack
+        @param all_jigs List of all jigs in the problem (for size lookup)
+        @return Amount of free space remaining in the rack
+        """
         total_used_space = 0
         for jig_id in self.current_jigs:
             jig = all_jigs[jig_id - 1]
@@ -73,21 +150,57 @@ class Rack:
         return remaining_space
 
     def copy(self):
+        """!
+        @brief Create a deep copy of this rack
+        @return New Rack instance with same properties
+        """
         return Rack(self.size, self.current_jigs[:])
 
 class ProductionLine:
+    """!
+    @brief Factory production line with scheduled jigs
+    
+    Represents a production facility that processes jigs in a specific order.
+    """
+    
     def __init__(self, scheduled_jigs: list[int]):
+        """!
+        @brief Initialize a production line
+        @param scheduled_jigs List of jig IDs scheduled for processing in order
+        """
         self.scheduled_jigs = scheduled_jigs
 
     def __str__(self):
         return "scheduled_jigs = " + str(self.scheduled_jigs)
     
     def copy(self):
+        """!
+        @brief Create a deep copy of this production line
+        @return New ProductionLine instance with same properties
+        """
         return ProductionLine(self.scheduled_jigs[:])
 
 
 class ProblemState:
+    """!
+    @brief Complete state representation for the Beluga Challenge
+    
+    Contains all components of the problem: jigs, ships, storage, and facilities.
+    Provides the main API for MCTS and RL algorithms including state transitions,
+    validation, and evaluation functions.
+    """
+    
     def __init__(self, jigs : list[Jig], belugas: list[Beluga], trailers_beluga: list[int | None], trailers_factory: list[int | None], racks: list[Rack], production_lines: list[ProductionLine], hangars: list[int | None]):
+        """!
+        @brief Initialize the complete problem state
+        @param jigs List of all jigs in the problem
+        @param belugas List of Beluga ships
+        @param trailers_beluga List of Beluga trailer slots (jig IDs or None)
+        @param trailers_factory List of factory trailer slots (jig IDs or None)
+        @param racks List of storage racks
+        @param production_lines List of production lines
+        @param hangars List of hangar slots (jig IDs or None)
+        """
         self.jigs = jigs
         self.belugas = belugas
         self.trailers_beluga = trailers_beluga
@@ -108,6 +221,10 @@ class ProblemState:
 
 
     def copy(self):
+        """!
+        @brief Create a deep copy of the entire problem state
+        @return New ProblemState instance with all components copied
+        """
         new_state = ProblemState(
             jigs=[jig.copy() for jig in self.jigs],
             belugas=[beluga.copy() for beluga in self.belugas],
@@ -115,42 +232,61 @@ class ProblemState:
             trailers_factory=self.trailers_factory[:],
             racks=[rack.copy() for rack in self.racks],
             production_lines=[pl.copy() for pl in self.production_lines],
-            hangars=self.hangars[:]  # Liste aus ints oder None
+            hangars=self.hangars[:]  # List of ints or None
         )
         new_state.belugas_unloaded = self.belugas_unloaded
         new_state.belugas_finished = self.belugas_finished
         new_state.production_lines_finished = self.production_lines_finished
         new_state.total_lines = self.total_lines
-        new_state.total_belugas = self.total_belugas  # Hinzugefügt!
+        new_state.total_belugas = self.total_belugas 
         new_state.problem_solved = self.problem_solved
         return new_state
     
-    '''
-    ab hier API für MCTS:
-    actions:
-    -  clone() -> ProblemState, copies the current state
-    -  is_terminal() -> bool, checks if the state is terminal e.g. goal state
-    -  evaluate() -> float, evaluates the current state (e.g., score)
-        - get_subgoals() Hilfsfunktion für evaluate(), gibt die Zwischenziele zurück
-    -  def get_possible_parameter_actions(self, action: HighLevelAction) -> List[ParameterAction]
-    '''
+    """!
+    @brief MCTS API functions
+    
+    The following functions provide the interface for Monte Carlo Tree Search:
+    - clone() -> ProblemState: copies the current state
+    - is_terminal() -> bool: checks if the state is terminal (goal state)
+    - evaluate() -> float: evaluates the current state (score)
+        - get_subgoals(): helper function for evaluate(), returns intermediate goals
+    - get_possible_parameter_actions(action): returns valid parameter combinations
+    """
 
     def clone(self):
+        """!
+        @brief Create a clone of the current state (alias for copy)
+        @return Deep copy of this ProblemState
+        """
         return self.copy()
     
     def is_terminal(self):
+        """!
+        @brief Check if this state represents a terminal (goal) state
+        @return True if all belugas and production lines are finished
+        """
         return len(self.belugas) == 0 and len(self.production_lines) == 0
 
     def evaluate(self, depth: int, mu = 0.05) -> float:
-            score = 0.0
-            subgoals = self.get_subgoals()
-            score += sum(subgoals.values())
-            # Abwertung je Tiefe des Pfades
-            score -= mu * depth
-            return score
+        """!
+        @brief Evaluate the current state for MCTS scoring
+        @param depth Current depth in the search tree
+        @param mu Penalty factor for depth (default 0.05)
+        @return Floating point score for this state
+        """
+        score = 0.0
+        subgoals = self.get_subgoals()
+        score += sum(subgoals.values())
+        # Penalty based on path depth
+        score -= mu * depth
+        return score
     
 
     def get_subgoals(self) -> dict[str, float]:
+        """!
+        @brief Calculate subgoal achievements for evaluation
+        @return Dictionary mapping subgoal names to their scores
+        """
         self.belugas_finished = self.total_belugas - len(self.belugas)
         self.production_lines_finished = self.total_lines - len(self.production_lines)
 
@@ -165,6 +301,12 @@ class ProblemState:
         }
         
     def apply_action(self, action_name, params):
+        """!
+        @brief Apply an action to this state
+        @param action_name Name of the action to execute
+        @param params Parameters for the action (dict or list)
+        @return True if action was successfully applied, False otherwise
+        """
         params = list(params.values()) if isinstance(params, dict) else list(params)  # ensure params is a list
         #action_name, params = candidate
         if action_name == "left_stack_rack":
@@ -184,13 +326,17 @@ class ProblemState:
         elif action_name == "deliver_to_hangar":
             return deliver_to_hangar(self, *params)
         else:
-            raise NotImplementedError(f"Aktionsname nicht bekannt: {action_name}")
+            raise NotImplementedError(f"Action name not known: {action_name}")
       
 
     def check_action_valid(self, action_name: str, params=None) -> bool:
-        """
-        Prüft, ob eine Aktion mit den angegebenen Parametern gültig ist,
-        ohne den aktuellen State zu verändern.
+        """!
+        @brief Check if an action with given parameters is valid
+        @param action_name Name of the action to validate
+        @param params Parameters for the action (optional)
+        @return True if action is valid, False otherwise
+        
+        This function validates an action without modifying the current state.
         """
         state_copy = self.copy()
         
@@ -214,10 +360,15 @@ class ProblemState:
             else:
                 return False
         except Exception as e:
-            print(f"Fehler bei Aktion {action_name} mit Params {params}: {e}")
+            print(f"Error in action {action_name} with params {params}: {e}")
             return False
 
     def enumerate_valid_params(self, action):
+        """!
+        @brief Enumerate all valid parameter combinations for a given action
+        @param action Name of the action to enumerate parameters for
+        @return List of valid parameter tuples for the action
+        """
         action_name = action
         params = []
         
@@ -286,18 +437,20 @@ class ProblemState:
 
 
     def get_possible_actions(self):
-        """
-        Gibt eine Liste aller möglichen Aktionen zurück.
-        Eine Aktion gilt als möglich, wenn mindestens eine gültige Parameterkombination existiert.
+        """!
+        @brief Get list of all possible actions in the current state
+        @return List of (action_name, parameters) tuples for all valid actions
+        
+        An action is considered possible if at least one valid parameter combination exists.
         """
         # action = ("action_name", "params")
         possible_actions = []
         
-        # Prüfe unload_beluga (keine Parameter)
+        # Check unload_beluga (no parameters)
         if self.check_action_valid("unload_beluga"):
             possible_actions.append(("unload_beluga", {}))
         
-        # Prüfe Aktionen mit Parametern
+        # Check actions with parameters
         param_actions = [
             "left_stack_rack",
             "right_stack_rack",
@@ -317,7 +470,10 @@ class ProblemState:
 
 
     def beluga_complete(self) -> bool:
-        """Mark beluga as complete."""
+        """!
+        @brief Mark current beluga as complete and remove it
+        @return True if beluga was successfully marked complete, False otherwise
+        """
         if not self.belugas:
             return False
             
@@ -325,13 +481,20 @@ class ProblemState:
         if beluga.outgoing or beluga.current_jigs:
             return False
         
-        # Effekte
+        # Effects
         self.belugas.pop(0)
         return True 
     
 
 
     def get_observation_high_level(self):
+        """!
+        @brief Get high-level observation array for RL agents
+        @return NumPy array representing the current state for high-level agents
+        
+        The observation includes information about belugas, trailers, hangars, and racks.
+        High-level agents convert this array into tensors for neural network processing.
+        """
         # Return the current state of the environment for a high-level agent as array
         # High-Level-Agents converts array into tensor
 
@@ -472,14 +635,29 @@ class ProblemState:
     
 
 def extract_id(name: str) -> int:
+    """!
+    @brief Extract numeric ID from jig name string
+    @param name Jig name in format "jigXXXX"
+    @return Integer ID (0-based indexing)
+    """
     name = name.replace("jig", "")
     return int(name) - 1
 
 def get_name_from_id(id: int) -> str:
+    """!
+    @brief Generate jig name from numeric ID
+    @param id Integer ID (0-based)
+    @return Jig name in format "jigXXXX"
+    """
     return "jig" + "0" * (4-len(str(id))) + str(id)
 
 
 def get_type(name: str) -> JigType | None:
+    """!
+    @brief Get JigType instance from type name string
+    @param name Type name (typeA, typeB, typeC, typeD, or typeE)
+    @return JigType instance with appropriate size properties, or None if unknown
+    """
     if name == "typeA":
         return JigType("typeA", 4, 4)
     elif name == "typeB":
@@ -493,6 +671,14 @@ def get_type(name: str) -> JigType | None:
     return None
 
 def load_from_json(path) -> ProblemState:
+    """!
+    @brief Load problem state from JSON file
+    @param path Path to the JSON problem file
+    @return ProblemState instance loaded from the file
+    
+    Parses the JSON problem definition and creates all necessary
+    objects (jigs, belugas, racks, production lines, etc.)
+    """
 
     data = open(path, "r")
     dictionary = json.loads(data.read())

@@ -1,0 +1,785 @@
+\doxysection{random\+\_\+generator.\+py}
+\hypertarget{random__generator_8py_source}{}\label{random__generator_8py_source}\index{toolkit/generator/random\_generator.py@{toolkit/generator/random\_generator.py}}
+\mbox{\hyperlink{random__generator_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00001}\mbox{\hyperlink{namespacetoolkit_1_1generator_1_1random__generator}{00001}}\ \textcolor{keyword}{from}\ beluga\_lib\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00002}00002\ \ \ \ \ Jig,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00003}00003\ \ \ \ \ JigType,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00004}00004\ \ \ \ \ Rack,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00005}00005\ \ \ \ \ Trailer,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00006}00006\ \ \ \ \ Flight,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00007}00007\ \ \ \ \ ProductionLine,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00008}00008\ \ \ \ \ BelugaProblem,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00009}00009\ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00010}00010\ \textcolor{keyword}{from}\ .configurations.configs\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00011}00011\ \ \ \ \ ProblemConfig,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00012}00012\ \ \ \ \ UnsolvabilityScenario,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00013}00013\ \ \ \ \ UnsolvableGenerationError,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00014}00014\ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00015}00015\ \textcolor{keyword}{import}\ generator.utils\ \textcolor{keyword}{as}\ utils}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00016}00016\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00019}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator}{00019}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator}{BelugaRandomGenerator}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00021}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a3e4a5e84820dc8811a84b1c893b8e738}{00021}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a3e4a5e84820dc8811a84b1c893b8e738}{\_\_init\_\_}}(self,\ config:\ ProblemConfig):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00022}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{00022}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}:\ ProblemConfig\ =\ config}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00024}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{00024}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}:\ list[JigType]\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00026}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{00026}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{rack\_sizes}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00028}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af4a56f784c78ec200671186a61f6a8aa}{00028}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af4a56f784c78ec200671186a61f6a8aa}{jigs\_initially\_on\_racks}}:\ list[Jig]\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ used\ to\ constrain\ the\ number\ of\ jigs\ on\ site}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00031}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{00031}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}:\ list[Jig]\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ jigs\ that\ can\ be\ scheduled\ in\ an\ outgoing\ flight}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00034}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{00034}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}:\ dict[str,\ Jig]\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ jigs\ that\ have\ already\ been\ scheduled\ in\ an\ outgoing}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00036}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad0f531aff8107f1816e33e065957e6f7}{00036}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad0f531aff8107f1816e33e065957e6f7}{have\_been\_outgoing}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a40e76706ece342ef51afa246e024a3ae}{have\_been\_outgoing}}:\ set[Jig]\ =\ set()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ index\ corresponds\ to\ number\ of\ flights\ the\ jigs\ is\ waiting\ in\ the\ racks}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00039}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{00039}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}\ =\ [}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ []\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.max\_delivery\_buffer\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00043}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a63ab440cca98d4b8ba0ddd00861edc67}{00043}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a63ab440cca98d4b8ba0ddd00861edc67}{linear\_production\_schedule}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7722f92a08dc119601ba020ac65d7f8c}{linear\_production\_schedule}}:\ list[Jig]\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ when\ should\ the\ schedule\ fail}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ UnsolvabilityScenario.OUTGOING\_FLIGHT\_NOT\_SAT}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.unsolvable\_scenario}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ONLY\ FOR\ UNSOLVABLE}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00051}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad60b38eb1f8638ef84d81ff92492adb0}{00051}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad60b38eb1f8638ef84d81ff92492adb0}{blocking\_outgoing\_flight}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a66d44c300a7d24e8d2a272fe87bd922e}{blocking\_outgoing\_flight}}\ =\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.random\_state.get\_discrete\_truncated\_uniform\_sample(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_flights\ -\/\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00056}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2c29228a777bd6cb9e09c3f700d6a93e}{00056}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2c29228a777bd6cb9e09c3f700d6a93e}{flight\_containing\_missing\_jigs}}\ =\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.random\_state.get\_discrete\_truncated\_uniform\_sample(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad60b38eb1f8638ef84d81ff92492adb0}{blocking\_outgoing\_flight}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a66d44c300a7d24e8d2a272fe87bd922e}{blocking\_outgoing\_flight}},\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_flights}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00061}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{00061}}\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ config.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}blocking\ flight\ (to\ many\ jigs):\ "{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad60b38eb1f8638ef84d81ff92492adb0}{blocking\_outgoing\_flight}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a66d44c300a7d24e8d2a272fe87bd922e}{blocking\_outgoing\_flight}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}flight\ with\ missing\ jigs:\ "{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2c29228a777bd6cb9e09c3f700d6a93e}{flight\_containing\_missing\_jigs}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00073}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a1b3c253066a8f68bb5cd6b08db4a5524}{00073}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a1b3c253066a8f68bb5cd6b08db4a5524}{greedy\_num\_fit\_racks}}(self,\ instance,\ jig\_type:\ JigType):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ dummy\_racks\ =\ [rack.size\ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ instance.racks]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ fit\ all\ on\ site\ jigs\ onto\ racks}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00078}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{00078}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ no\_space\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ r\ \textcolor{keywordflow}{in}\ enumerate(dummy\_racks):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ r\ >=\ j.size():}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dummy\_racks[i]\ -\/=\ j.size()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ no\_space\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ no\_space:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ check\ how\ many\ jigs\ of\ type\ <jig\_type>\ fit\ additionally\ onto\ racks}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ add\_jigs\ =\ 0}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keyword}{True}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ no\_space\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ r\ \textcolor{keywordflow}{in}\ enumerate(dummy\_racks):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ r\ >=\ jig\_type.size\_loaded:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dummy\_racks[i]\ -\/=\ jig\_type.size\_loaded}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ no\_space\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ add\_jigs\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ no\_space:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ add\_jigs}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00101}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2b59ef2cfd3373d2e03c253fb92bf22e}{00101}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2b59ef2cfd3373d2e03c253fb92bf22e}{gen\_jig\_types}}(self,\ instance:\ BelugaProblem):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.jig\_types}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.jig\_types\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_jig\_types):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loaded\_size\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_size\_loaded\_jig(max([r.size\ \textcolor{keywordflow}{for}\ r\ \textcolor{keywordflow}{in}\ instance.racks]))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}.append(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1jigs_1_1_jig_type}{JigType}}(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}type"{}}\ +\ str(i),}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_size\_empty\_jig(loaded\_size),}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loaded\_size,}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ instance.jig\_types\ =\ \{t.name:\ t\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}\ =\ \{t.name:\ []\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00121}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af9e007aa90d85a1eaa27bcb1782a6112}{00121}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af9e007aa90d85a1eaa27bcb1782a6112}{trailers}}(self,\ instance:\ BelugaProblem):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ n\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_beluga\_trailers):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ instance.trailers\_beluga.append(\mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1trailer_1_1_trailer}{Trailer}}(\textcolor{stringliteral}{"{}beluga\_trailer\_"{}}\ +\ str(n\ +\ 1)))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ n\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_factory\_trailers):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ instance.trailers\_factory.append(\mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1trailer_1_1_trailer}{Trailer}}(\textcolor{stringliteral}{"{}factory\_trailer\_"{}}\ +\ str(n\ +\ 1)))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00129}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5e95b43ab0a2321b8805cbd508ea561d}{00129}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5e95b43ab0a2321b8805cbd508ea561d}{hangars}}(self,\ instance:\ BelugaProblem):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ n\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_craning\_hangars):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ instance.hangars.append(\textcolor{stringliteral}{"{}hangar"{}}\ +\ str(n\ +\ 1))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00134}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a25842f7e0e8d57facd0b9155f13df6f3}{00134}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a25842f7e0e8d57facd0b9155f13df6f3}{racks}}(self,\ instance:\ BelugaProblem):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{rack\_sizes}}\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.rack\_sizes}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{rack\_sizes}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{rack\_sizes}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_racks):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{rack\_sizes}}.append(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_rack\_size())}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Rack\ sizes:"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{rack\_sizes}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ size\ \textcolor{keywordflow}{in}\ enumerate(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5d374afe988c3a71cf0eec2163d73c29}{rack\_sizes}}):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ instance.racks.append(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1rack_1_1_rack}{Rack}}(f\textcolor{stringliteral}{"{}rack\{utils.format\_number(i,\ self.config.num\_racks)\}"{}},\ size,\ [])}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00152}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af93fc9668a8c65d049d322288eda809c}{00152}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af93fc9668a8c65d049d322288eda809c}{jigs\_on\_racks}}(self,\ instance:\ BelugaProblem):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ instance.occupancy\_rate()\ <\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.occupancy\_rate\_racks:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ max\_free\_space\_on\_rack\ =\ max([rack.free\_space()\ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ instance.racks])}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ fitting\_jig\_types\ =\ [}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jt\ \textcolor{keywordflow}{for}\ jt\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}\ \textcolor{keywordflow}{if}\ jt.size\_loaded\ <=\ max\_free\_space\_on\_rack}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(fitting\_jig\_types)\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_type\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_jig\_types(fitting\_jig\_types)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ name\ =\ f\textcolor{stringliteral}{"{}jig\{utils.format\_number(len(instance.jigs)\ +\ 1,\ 1000)\}"{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ jig\ =\ \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1jigs_1_1_jig}{Jig}}(name,\ jig\_type)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ jig.empty\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_initial\_jig\_state()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ racks\_with\_sufficient\_space\ =\ [}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rack\ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ instance.racks\ \textcolor{keywordflow}{if}\ rack.free\_space()\ >=\ jig.size()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ rack:\ Rack\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.random\_state.get\_random\_element\_uniform(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ racks\_with\_sufficient\_space}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ rack.fits(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ instance.jigs[jig.name]\ =\ jig}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af4a56f784c78ec200671186a61f6a8aa}{jigs\_initially\_on\_racks}}.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ jig.empty:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ empty\ jigs\ can\ be\ part\ of\ outgoing\ flights}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}[jig.type.name].append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ loaded\ jigs\ can\ be\ scheduled\ for\ the\ factory}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}[}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_delivery\_buffer()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ].append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jig.empty):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rack.add\_jig\_beluga\_side(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rack.add\_jig\_factory\_side(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00197}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7bf6a483cf12342988bcf145906c30c0}{00197}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7bf6a483cf12342988bcf145906c30c0}{gen\_next\_incoming\_jigs}}(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ self,\ instance:\ BelugaProblem,\ flight\_id:\ int}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00199}00199\ \ \ \ \ )\ -\/>\ list[Jig]:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00200}00200\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ next\_incoming\_jigs\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ UnsolvabilityScenario.OUTGOING\_FLIGHT\_NOT\_SAT}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.unsolvable\_scenario}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2c29228a777bd6cb9e09c3f700d6a93e}{flight\_containing\_missing\_jigs}}\ ==\ flight\_id}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ ),\ \textcolor{stringliteral}{"{}ERROR\ while\ trying\ to\ make\ instance\ unsolvable\ due\ to\ "{}}\ +\ str(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UnsolvabilityScenario.OUTGOING\_FLIGHT\_NOT\_SAT}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UNSOLVABLE:\ schedule\ additional\ jigs\ from\ failed\ outgoing\ flight"{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00223}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{00223}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next\_incoming\_jigs.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\_delivery\_buffer\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_delivery\_buffer()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}[jig\_delivery\_buffer].append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ next\_incoming\_jigs}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ jig\_type\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_jig\_types(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ num\_jigs\_fit\_beluga\ =\ int(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.beluga\_size\ /\ jig\_type.size\_loaded)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ approximate\ how\ many\ jigs\ fit\ on\ the\ racks}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ num\_jigs\_fit\_racks\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a1b3c253066a8f68bb5cd6b08db4a5524}{greedy\_num\_fit\_racks}}(instance,\ jig\_type)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ num\_jigs\_allowed\ =\ min(num\_jigs\_fit\_beluga,\ num\_jigs\_fit\_racks)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ UnsolvabilityScenario.RACK\_SPACE\_GENERAL\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.unsolvable\_scenario:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ deliver\ maximal\ number\ of\ jigs\ fitting\ into\ the\ Beluga\ independent\ of\ space}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UNSOLVABLE:\ more\ incoming\ jigs\ "{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(num\_jigs\_allowed)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ -\/-\/>\ "{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(num\_jigs\_fit\_beluga)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ num\_jigs\_allowed\ =\ num\_jigs\_fit\_beluga}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}jig\ type:\ "{}}\ +\ jig\_type.name)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}num\ jigs\ fit\ racks:\ "{}}\ +\ str(num\_jigs\_fit\_racks))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}num\ jigs\ fit\ Beluga:\ "{}}\ +\ str(num\_jigs\_fit\_beluga))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}num\ jigs\ allowed:\ "{}}\ +\ str(num\_jigs\_allowed))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(num\_jigs\_allowed):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00257}00257\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ name\ =\ f\textcolor{stringliteral}{"{}jig\{utils.format\_number(len(instance.jigs)\ +\ 1,\ 1000)\}"{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ jig\ =\ \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1jigs_1_1_jig}{Jig}}(name,\ jig\_type,\ \textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ instance.jigs[name]\ =\ jig}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ next\_incoming\_jigs.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_delivery\_buffer\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_delivery\_buffer()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}[jig\_delivery\_buffer].append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ next\_incoming\_jigs}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00270}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a67d923c8e2b8f1c2c67a81a3e1a597a8}{00270}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a67d923c8e2b8f1c2c67a81a3e1a597a8}{update\_production\_schedule}}(self)\ -\/>\ list[Jig]:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Jigs\ waiting\ for\ factory:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ d,\ j\ \textcolor{keywordflow}{in}\ enumerate(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(str(d)\ +\ \textcolor{stringliteral}{"{}\ flights(s):\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(j)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Number\ of\ jigs\ added\ to\ production\ schedule:\ "{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(len(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}[0]))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ can\_be\_outgoing\_jigs\_after\_next\_flight\ =\ [}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ j}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}[0]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ j.name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad0f531aff8107f1816e33e065957e6f7}{have\_been\_outgoing}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a40e76706ece342ef51afa246e024a3ae}{have\_been\_outgoing}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a63ab440cca98d4b8ba0ddd00861edc67}{linear\_production\_schedule}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7722f92a08dc119601ba020ac65d7f8c}{linear\_production\_schedule}}\ +=\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}[0]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ shift\ waiting\ jigs\ by\ one\ flight}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_abe2cbb81424378d80d5b7cfe804cf7f5}{jig\_waiting\_for\_factory}}[1:]\ +\ [[]]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}production\ Schedule\ ("{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(len(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a63ab440cca98d4b8ba0ddd00861edc67}{linear\_production\_schedule}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7722f92a08dc119601ba020ac65d7f8c}{linear\_production\_schedule}}))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{})"{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a63ab440cca98d4b8ba0ddd00861edc67}{linear\_production\_schedule}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7722f92a08dc119601ba020ac65d7f8c}{linear\_production\_schedule}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Can\ be\ outgoing\ after\ next\ flight:"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ print(can\_be\_outgoing\_jigs\_after\_next\_flight)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ can\_be\_outgoing\_jigs\_after\_next\_flight}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00304}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a1371a27e29a2ee966c862f0853da86b4}{00304}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a1371a27e29a2ee966c862f0853da86b4}{schedule\_next\_outgoing\_jigs}}(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ self,\ instance:\ BelugaProblem,\ flight\_id:\ int}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00306}00306\ \ \ \ \ )\ -\/>\ list[Jig]:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ next\_outgoing\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00309}00309\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ UnsolvabilityScenario.OUTGOING\_FLIGHT\_NOT\_SAT}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.unsolvable\_scenario}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00314}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a66d44c300a7d24e8d2a272fe87bd922e}{00314}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad60b38eb1f8638ef84d81ff92492adb0}{blocking\_outgoing\_flight}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a66d44c300a7d24e8d2a272fe87bd922e}{blocking\_outgoing\_flight}}\ ==\ flight\_id}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}UNSOLVABLE:\ schedule\ to\ many\ outgoing\ jigs\ of\ one\ type"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ how\ many\ jigs\ are\ on\ site\ of\ each\ type}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ jig\_types\_on\_site\ =\ \{t:\ 0\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00322}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{00322}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\_types\_on\_site[jig.type]\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Jig\ types\ on\ site:"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(jig\_types\_on\_site)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ is\ there\ a\ type\ where\ more\ jigs\ fit\ into\ the\ Beluga\ than\ are\ on\ site}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ possible\_unsat\_jig\_types\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00331}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{00331}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0258ee406966c76c68c3e8a6dfcec08e}{jig\_types}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_aae5ffa4597194200a71aa5212f2da5c6}{jig\_types}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ int(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.beluga\_size\ /\ t.size\_empty)\ >\ jig\_types\_on\_site[t]:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ possible\_unsat\_jig\_types.append(t)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00334}00334\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Jig\ types\ with\ less\ jigs\ on\ site\ than\ fit\ into\ the\ Beluga:"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(possible\_unsat\_jig\_types)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(possible\_unsat\_jig\_types)\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ \mbox{\hyperlink{classtoolkit_1_1generator_1_1configurations_1_1configs_1_1_unsolvable_generation_error}{UnsolvableGenerationError}}(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str(UnsolvabilityScenario.OUTGOING\_FLIGHT\_NOT\_SAT.value)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}:\ In\ the\ randomly\ chosen\ flight\ there\ is\ no\ jig\ type\ with\ less\ jigs\ on\ site\ than\ fit\ into\ the\ Beluga!"{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ random\_jig\_type\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.random\_state.get\_random\_element\_uniform(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ possible\_unsat\_jig\_types}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ num\_jigs\_on\_site\ =\ jig\_types\_on\_site[random\_jig\_type]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ num\_jigs\_fit\_beluga\ =\ int(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.beluga\_size\ /\ random\_jig\_type.size\_empty}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ num\_missing\_jigs\ =\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.random\_state.get\_discrete\_truncated\_uniform\_sample(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ num\_jigs\_on\_site\ +\ 1,\ num\_jigs\_fit\_beluga}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/\ num\_jigs\_on\_site}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}selected\ type:\ "{}}\ +\ str(random\_jig\_type))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Number\ of\ jigs\ on\ sight:\ "{}}\ +\ str(num\_jigs\_on\_site))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Number\ of\ jigs\ fitting\ Beluga:\ "{}}\ +\ str(num\_jigs\_fit\_beluga))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Number\ of\ missing\ jigs:\ "{}}\ +\ str(num\_missing\_jigs))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ create\ missing\ jigs}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(num\_missing\_jigs):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00369}00369\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name\ =\ f\textcolor{stringliteral}{"{}jig\{utils.format\_number(len(instance.jigs)\ +\ 1,\ 1000)\}"{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\ =\ \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1jigs_1_1_jig}{Jig}}(name,\ random\_jig\_type,\ \textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ instance.jigs[name]\ =\ jig}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}}.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ treat\ the\ actually\ existing\ jigs}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}[random\_jig\_type.name]\ =\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ all\ jigs\ that\ could\ actually\ be\ schedules\ are\ scheduled}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ next\_outgoing\ =\ [}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ j\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}\ \textcolor{keywordflow}{if}\ j.type\ ==\ random\_jig\_type}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00383}00383\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Outgoing\ and\ on\ site:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(next\_outgoing)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ next\_outgoing:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ jig\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}},\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str(jig)\ +\ \textcolor{stringliteral}{"{}\ not\ in\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}.remove(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00393}00393\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ next\_outgoing\ +=\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad0f531aff8107f1816e33e065957e6f7}{have\_been\_outgoing}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a40e76706ece342ef51afa246e024a3ae}{have\_been\_outgoing}}.update(next\_outgoing)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Missing\ jigs:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a0a6cbd24be6d3fd936c8a3a56898697f}{missing\_jigs}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a88c8de30482f4a1ad39052deee36cdfb}{missing\_jigs}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}have\ been\ outgoing:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad0f531aff8107f1816e33e065957e6f7}{have\_been\_outgoing}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a40e76706ece342ef51afa246e024a3ae}{have\_been\_outgoing}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00403}00403\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ next\_outgoing}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00405}00405\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ sum([len(jigs)\ \textcolor{keywordflow}{for}\ jigs\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}.values()])\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ check\ which\ type\ has\ enough\ jigs\ to\ fill\ the\ beluga\ with\ the\ maximal\ number}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ enough\_jigs\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\_name,\ jigs\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}.items():}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00412}00412\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(jigs)\ >\ 0\ \textcolor{keywordflow}{and}\ int(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.beluga\_size\ /\ jigs[0].type.size\_empty}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )\ >=\ len(jigs):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ enough\_jigs.append(t\_name)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ there\ is\ no\ full\ flight,\ then\ choose\ the\ jig\ type\ that\ leaves\ the\ least\ amount\ of\ free\ space\ in\ the\ Beluga}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(enough\_jigs)\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}not\ enough\ empty\ jigs,\ use\ type\ with\ least\ free\ space\ in\ Beluga"{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min\_free\_space\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.beluga\_size}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_type\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\_name,\ jigs\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}.items():}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ free\_space\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.beluga\_size\ -\/\ sum(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [j.type.size\_empty\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ jigs]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(jigs)\ >\ 0\ \textcolor{keywordflow}{and}\ free\_space\ <\ min\_free\_space:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min\_free\_space\ =\ free\_space}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_type\ =\ jigs[0].type.name}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ enough\_jigs.append(best\_type)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}can\ be\ empty\ and\ thus\ scheduled:"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}enough\ jigs\ to\ fill\ Beluga\ completely:"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(enough\_jigs)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00440}00440\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ name\_next\_type\_out\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.random\_state.get\_random\_element\_uniform(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ enough\_jigs}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ num\_jigs\_fit\_beluga\ =\ int(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.beluga\_size}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ /\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}[name\_next\_type\_out][0].type.size\_empty}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Next\ outgoing\ type:\ "{}}\ +\ str(name\_next\_type\_out))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Jigs\ fit\ Beluga:\ "{}}\ +\ str(num\_jigs\_fit\_beluga))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00452}00452\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00453}00453\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ ONLY\ UNSOLVABLE:}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ only\ one\ outgoing\ jig\ independent\ on\ how\ many\ fit\ into\ the\ Beluga\ or}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ are\ available}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UnsolvabilityScenario.RACK\_SPACE\_GENERAL}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.unsolvable\_scenario}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UNSOLVABLE:\ less\ outgoing\ jigs\ "{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(num\_jigs\_fit\_beluga)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ \textcolor{stringliteral}{"{}\ -\/-\/>\ "{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ str(1)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ num\_jigs\_fit\_beluga\ =\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ next\_outgoing\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}[name\_next\_type\_out][}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :num\_jigs\_fit\_beluga}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}[name\_next\_type\_out]\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}[}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name\_next\_type\_out}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ ][num\_jigs\_fit\_beluga:]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ next\_outgoing:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ jig\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}},\ (}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ str(jig)\ +\ \textcolor{stringliteral}{"{}\ not\ in\ "{}}\ +\ str(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}}.remove(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00481}00481\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}No\ jigs\ ready\ to\ be\ scheduled\ for\ outgoing\ flight"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00485}00485\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad0f531aff8107f1816e33e065957e6f7}{have\_been\_outgoing}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a40e76706ece342ef51afa246e024a3ae}{have\_been\_outgoing}}.update([j.name\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ next\_outgoing])}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00487}00487\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00488}00488\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ next\_outgoing}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00489}00489\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00490}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ac223d0f51d99b3faaf46aeb1494af0b0}{00490}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ac223d0f51d99b3faaf46aeb1494af0b0}{schedule\_individual\_production\_lines}}(self,\ instance:\ BelugaProblem)\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ UnsolvabilityScenario.SCHEDULE\_CLASHES\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.unsolvable\_scenario:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ae457d2a47b37cc5d5db0f0713c324443}{schedule\_individual\_production\_lines\_clashes}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00494}00494\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00495}00495\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_production\_lines):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ instance.production\_lines.append(\mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1production__line_1_1_production_line}{ProductionLine}}(\textcolor{stringliteral}{"{}pl"{}}\ +\ str(i),\ []))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00497}00497\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}final\ production\ schedule:"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}linear\ schedule:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a63ab440cca98d4b8ba0ddd00861edc67}{linear\_production\_schedule}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7722f92a08dc119601ba020ac65d7f8c}{linear\_production\_schedule}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ effects\ the\ probability\ of\ a\ production\ line\ been\ chosen}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00504}00504\ \ \ \ \ \ \ \ \ advantage\ =\ [0\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_production\_lines)]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00505}00505\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00506}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7722f92a08dc119601ba020ac65d7f8c}{00506}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a63ab440cca98d4b8ba0ddd00861edc67}{linear\_production\_schedule}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7722f92a08dc119601ba020ac65d7f8c}{linear\_production\_schedule}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.distribution\_next\_production\_line(advantage)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_production\_lines):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ ==\ index:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advantage[i]\ =\ 0}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ advantage[i]\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ instance.production\_lines[index].schedule.append(jig.name)}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ instance.production\_lines[index].schedule.append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00516}00516\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00517}00517\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pl\ \textcolor{keywordflow}{in}\ instance.production\_lines:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(pl.name)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(pl.schedule)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00521}00521\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00522}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ae457d2a47b37cc5d5db0f0713c324443}{00522}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ae457d2a47b37cc5d5db0f0713c324443}{schedule\_individual\_production\_lines\_clashes}}(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ self,\ instance:\ BelugaProblem}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00524}00524\ \ \ \ \ )\ -\/>\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_production\_lines):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ instance.production\_lines.append(\mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1production__line_1_1_production_line}{ProductionLine}}(\textcolor{stringliteral}{"{}pl"{}}\ +\ str(i),\ []))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ jigs\_arriving\ =\ [f.incoming\ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ instance.flights\ \textcolor{keywordflow}{if}\ len(f.incoming)\ >\ 0]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ jigs\_arriving\_with\_index\ =\ [}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ [(jig,\ i)\ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ instance.flights[i].incoming]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(instance.flights))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(instance.flights[i].incoming)\ >\ 0}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ all\_jigs\ =\ set()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ all\_jigs\_index\ =\ set()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ all\_jigs\_queue\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ x,\ x\_index\ \textcolor{keywordflow}{in}\ zip(jigs\_arriving,\ jigs\_arriving\_with\_index):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ x:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_jigs.add(j)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ x\_index:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_jigs\_index.add(j)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ all\_jigs\_queue\ +=\ x}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00542}00542\ \ \ \ \ \ \ \ \ put\_in\_factories\ =\ set()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00543}00543\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ len(put\_in\_factories)\ <\ len(all\_jigs):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ max\_\ =\ max(all\_jigs\_index,\ key=\textcolor{keyword}{lambda}\ x:\ x[1])}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ all\_jigs\_index.remove(max\_)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ r\_factory:\ ProductionLine\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.random\_state.get\_random\_element\_uniform(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ instance.production\_lines}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_index\ =\ max\_[1]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ cur\_jig\ =\ max\_[0]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ cur\_index\ >=\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ r\_factory.schedule.append(cur\_jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ put\_in\_factories.add(cur\_jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next\_candidates\ =\ [x\ \textcolor{keywordflow}{for}\ x\ \textcolor{keywordflow}{in}\ all\_jigs\_index\ \textcolor{keywordflow}{if}\ x[1]\ <\ cur\_index]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(next\_candidates)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00556}00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ max\_\ =\ max(next\_candidates,\ key=\textcolor{keyword}{lambda}\ x:\ x[1])}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cur\_index\ =\ max\_[1]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cur\_jig\ =\ max\_[0]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_jigs\_index.remove(max\_)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00563}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af7f9a63354ed8d216df7bb36198a6d0f}{00563}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af7f9a63354ed8d216df7bb36198a6d0f}{schedules}}(self,\ instance:\ BelugaProblem):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00564}00564\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ flight\_id\ =\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00566}00566\ \ \ \ \ \ \ \ \ tries\ =\ 200}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00567}00567\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ flight\_id\ <=\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.num\_flights:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ tries\ -\/=\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ tries\ >\ 0,\ \textcolor{stringliteral}{"{}Error:\ Generating\ valid\ schedule."{}}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00570}00570\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}++++++++++++\ Flight\ "{}}\ +\ str(flight\_id)\ +\ \textcolor{stringliteral}{"{}\ ++++++++++++++++"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/>\ INCOMING"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00574}00574\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ next\_incoming\_jigs\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a7bf6a483cf12342988bcf145906c30c0}{gen\_next\_incoming\_jigs}}(instance,\ flight\_id)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00576}00576\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/>\ PRODUCTION\ SCHEDULE"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00579}00579\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ can\_be\_outgoing\_jigs\_after\_next\_flight\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a67d923c8e2b8f1c2c67a81a3e1a597a8}{update\_production\_schedule}}()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00581}00581\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/>\ OUTGOING"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00584}00584\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ next\_outgoing\ =\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a1371a27e29a2ee966c862f0853da86b4}{schedule\_next\_outgoing\_jigs}}(instance,\ flight\_id)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00586}00586\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ can\_be\_outgoing\_jigs\_after\_next\_flight:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00588}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a40e76706ece342ef51afa246e024a3ae}{00588}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ jig.name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ad0f531aff8107f1816e33e065957e6f7}{have\_been\_outgoing}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a40e76706ece342ef51afa246e024a3ae}{have\_been\_outgoing}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2e42ba07e442d76bb6ff6f0350e1044c}{can\_be\_outgoing}}[jig.type.name].append(jig)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00590}00590\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ if\ there\ are\ not\ incoming\ jigs\ (not\ enough\ space)\ and\ no\ outgoing}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ jigs\ (no\ jig\ ready\ according\ to\ delay\ buffer)\ then\ no\ flight}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00593}00593\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ is\ scheduled,\ but\ the\ delay\ buffer\ is\ still\ push\ forward\ by\ one\ flight}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(next\_incoming\_jigs)\ ==\ 0\ \textcolor{keywordflow}{and}\ len(next\_outgoing)\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00595}00595\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}flight\ canceled,\ no\ incoming\ and\ outgoing\ jigs"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00598}00598\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00599}00599\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ flight\ =\ Flight(}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00600}00600\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ "{}beluga"{}\ +\ str(flight\_id),}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ [j.name\ for\ j\ in\ next\_incoming\_jigs],}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ \ \ \ \ [j.type\ for\ j\ in\ next\_outgoing],}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ )}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00604}00604\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ flight\ =\ \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1flight__schedule_1_1_flight}{Flight}}(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00606}00606\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}beluga"{}}\ +\ str(flight\_id),}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00607}00607\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [j\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ next\_incoming\_jigs],}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00608}00608\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [j.type\ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ next\_outgoing],}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00610}00610\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a4db47a979852f8539944dbefbb9aa870}{config}}.log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00612}00612\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}next\ flight:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}incoming:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00614}00614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(flight.incoming)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00615}00615\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}outgoing:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00616}00616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(flight.outgoing)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00617}00617\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}currently\ on\ side:\ "{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00618}00618\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a714832d724fb948eb0419190688a7f49}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a57a0c119223405361cd7f573312c6b0d}{jigs\_currently\_on\_site}}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af827d93c8a350299d1fa551898ffd593}{jigs\_currently\_on\_site}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00619}00619\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}++++++++++++\ Flight\ "{}}\ +\ str(flight\_id)\ +\ \textcolor{stringliteral}{"{}\ ++++++++++++++++"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00620}00620\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00621}00621\ \ \ \ \ \ \ \ \ \ \ \ \ instance.flights.append(flight)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ flight\_id\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00623}00623\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00624}00624\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_ac223d0f51d99b3faaf46aeb1494af0b0}{schedule\_individual\_production\_lines}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00626}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a37f98d6a25f42a16567a40151c99784d}{00626}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a37f98d6a25f42a16567a40151c99784d}{generate}}(self)\ -\/>\ BelugaProblem:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00627}00627\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00628}00628\ \ \ \ \ \ \ \ \ instance\ =\ \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1beluga__problem_1_1_beluga_problem}{BelugaProblem}}()}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00629}00629\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00630}00630\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a25842f7e0e8d57facd0b9155f13df6f3}{racks}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00631}00631\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00632}00632\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a2b59ef2cfd3373d2e03c253fb92bf22e}{gen\_jig\_types}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00633}00633\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00634}00634\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af9e007aa90d85a1eaa27bcb1782a6112}{trailers}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00635}00635\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00636}00636\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_a5e95b43ab0a2321b8805cbd508ea561d}{hangars}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00637}00637\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00638}00638\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af93fc9668a8c65d049d322288eda809c}{jigs\_on\_racks}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00640}00640\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_beluga_random_generator_af7f9a63354ed8d216df7bb36198a6d0f}{schedules}}(instance)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00641}00641\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00642}00642\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ instance}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00643}00643\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00645}00645\ \textcolor{comment}{\#\ ==============================================================================}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00646}00646\ \textcolor{comment}{\#\ Code\ for\ generating\ a\ probabilistic\ model}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00647}00647\ \textcolor{comment}{\#\ ==============================================================================}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00648}00648\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00649}00649\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00650}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator}{00650}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator}{ProbabilisticModelGenerator}}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00651}00651\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00652}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a1b87c872310561b1aac802a23ea6cd6d}{00652}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a1b87c872310561b1aac802a23ea6cd6d}{\_single\_transition}}(seq,\ pos,\ win,\ num,\ res,\ verbose=0):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00653}00653\ \ \ \ \ \ \ \ \ \textcolor{keyword}{assert}\ len(seq)\ ==\ win\ +\ 1}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00654}00654\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Determine\ whether\ there's\ a\ mandatory\ next\ node}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00655}00655\ \ \ \ \ \ \ \ \ mandatory\ =\ pos\ -\/\ win}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00656}00656\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ mandatory\ >=\ 0\ \textcolor{keywordflow}{and}\ mandatory\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ seq:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00657}00657\ \ \ \ \ \ \ \ \ \ \ \ \ choices\ =\ [mandatory]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00658}00658\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00659}00659\ \ \ \ \ \ \ \ \ \ \ \ \ choices\ =\ range(max(0,\ pos\ -\/\ win),\ min(num,\ pos\ +\ win\ +\ 1))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00660}00660\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00661}00661\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}seq=\{seq\},\ pos=\{pos\},\ win=\{win\},\ num=\{num\},\ choices=\{choices\}"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00662}00662\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Consider\ all\ possible\ next\ nodes}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00663}00663\ \ \ \ \ \ \ \ \ visited\ =\ set(seq)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00664}00664\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ choices:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ k\ \textcolor{keywordflow}{in}\ visited:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ nxt\ =\ seq\ +\ [k]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ res.append(tuple(nxt))}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00669}00669\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00670}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a5186245936271f6ebb69221ecee20463}{00670}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a5186245936271f6ebb69221ecee20463}{\_assign\_probabilities}}(tbl,\ pos,\ potential,\ prec=5):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00671}00671\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Assign\ a\ potential\ to\ the\ transitions}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00672}00672\ \ \ \ \ \ \ \ \ pvals\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00673}00673\ \ \ \ \ \ \ \ \ zvals\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00674}00674\ \ \ \ \ \ \ \ \ last\_of\_group\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00675}00675\ \ \ \ \ \ \ \ \ prev\_last\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00676}00676\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lst,\ nxt\ \textcolor{keywordflow}{in}\ zip(tbl[\textcolor{stringliteral}{"{}last"{}}],\ tbl[\textcolor{stringliteral}{"{}next"{}}]):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00677}00677\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Obtain\ the\ potential}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ pval\ =\ potential(pos,\ lst,\ nxt)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00679}00679\ \ \ \ \ \ \ \ \ \ \ \ \ pvals.append(pval)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00680}00680\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Update\ the\ normalization\ factor}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00681}00681\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ lst\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ zvals:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ zvals[lst]\ =\ pval}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ zvals[lst]\ +=\ pval}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00685}00685\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Flag\ the\ previous\ transition\ if\ it\ was\ the\ last\ in\ a\ group}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ last\_of\_group.append(prev\_last\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{and}\ lst\ !=\ prev\_last)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00687}00687\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ The\ last\ transition\ always\ closes\ a\ group}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00688}00688\ \ \ \ \ \ \ \ \ last\_of\_group.append(\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00689}00689\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ the\ potentials\ to\ obtain\ probabilities}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00690}00690\ \ \ \ \ \ \ \ \ tbl[\textcolor{stringliteral}{"{}prob"{}}]\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00691}00691\ \ \ \ \ \ \ \ \ current\_group\_prob\ =\ 0}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00692}00692\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lst,\ nxt,\ pval,\ log\ \textcolor{keywordflow}{in}\ zip(tbl[\textcolor{stringliteral}{"{}last"{}}],\ tbl[\textcolor{stringliteral}{"{}next"{}}],\ pvals,\ last\_of\_group):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Determine\ the\ probability\ and\ update\ the\ current\ group\ prob.}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00694}00694\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ log:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00695}00695\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prob\ =\ np.round(pval\ /\ zvals[lst],\ decimals=prec)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00696}00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_group\_prob\ +=\ prob}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00697}00697\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00698}00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prob\ =\ 1\ -\/\ current\_group\_prob}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00699}00699\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_group\_prob\ =\ 0}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00700}00700\ \ \ \ \ \ \ \ \ \ \ \ \ tbl[\textcolor{stringliteral}{"{}prob"{}}].append(prob)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00701}00701\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00702}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a7df319d4eb0a134d845057a93fd2beb9}{00702}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a7df319d4eb0a134d845057a93fd2beb9}{build\_transition\_table}}(num,\ win,\ potential,\ verbose=0):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00703}00703\ \ \ \ \ \ \ \ \ ptbl\ =\ [[-\/1]\ *\ (win\ +\ 1)]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00704}00704\ \ \ \ \ \ \ \ \ itbl\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00705}00705\ \ \ \ \ \ \ \ \ res\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00706}00706\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pos\ \textcolor{keywordflow}{in}\ range(0,\ num):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00707}00707\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00708}00708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}===\ POS\ \{pos\}"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00709}00709\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Build\ multiple\ possible\ extensions}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00710}00710\ \ \ \ \ \ \ \ \ \ \ \ \ tbl\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00711}00711\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ seq\ \textcolor{keywordflow}{in}\ ptbl:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00712}00712\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ProbabilisticModelGenerator.\_single\_transition(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00713}00713\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ seq=seq,\ pos=pos,\ win=win,\ num=num,\ res=tbl,\ verbose=verbose\ -\/\ 2}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00714}00714\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00715}00715\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Display\ the\ local\ transition\ table}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00716}00716\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00717}00717\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}-\/-\/-\/\ internal\ table"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00718}00718\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ row\ \textcolor{keywordflow}{in}\ tbl:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00719}00719\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(row)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00720}00720\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Store\ local\ transition\ table}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00721}00721\ \ \ \ \ \ \ \ \ \ \ \ \ tbl\ =\ sorted(tbl)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00722}00722\ \ \ \ \ \ \ \ \ \ \ \ \ itbl.append(tbl)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00723}00723\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Build\ the\ predecessor\ table\ for\ the\ next\ iteration}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00724}00724\ \ \ \ \ \ \ \ \ \ \ \ \ ptbl\ =\ set(t[1:]\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ tbl)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00725}00725\ \ \ \ \ \ \ \ \ \ \ \ \ ptbl\ =\ [list(t)\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ ptbl]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00726}00726\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00727}00727\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}-\/-\/-\/\ next\ predecessor\ table"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00728}00728\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ row\ \textcolor{keywordflow}{in}\ ptbl:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00729}00729\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(row)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00730}00730\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Build\ the\ transition\ table}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00731}00731\ \ \ \ \ \ \ \ \ \ \ \ \ res[pos]\ =\ \{\textcolor{stringliteral}{"{}last"{}}:\ [t[:-\/1]\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ tbl],\ \textcolor{stringliteral}{"{}next"{}}:\ [t[-\/1]\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ tbl]\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00732}00732\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Assign\ a\ probability\ value\ to\ the\ transitions}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00733}00733\ \ \ \ \ \ \ \ \ \ \ \ \ ProbabilisticModelGenerator.\_assign\_probabilities(res[pos],\ pos,\ potential)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00734}00734\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Print\ the\ transition\ table}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00735}00735\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ verbose\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00736}00736\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}-\/-\/-\/\ transition\ table"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00737}00737\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}last,\ next,\ prob"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00738}00738\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lst,\ nxt,\ prob\ \textcolor{keywordflow}{in}\ zip(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00739}00739\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ res[pos][\textcolor{stringliteral}{"{}last"{}}],\ res[pos][\textcolor{stringliteral}{"{}next"{}}],\ res[pos][\textcolor{stringliteral}{"{}prob"{}}]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00740}00740\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00741}00741\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{lst\},\ \{nxt\},\ \{prob\}"{}})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00742}00742\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ res}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00743}00743\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00744}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_abc0806f31a862d5b2d1e0e998c0fd14d}{00744}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_abc0806f31a862d5b2d1e0e998c0fd14d}{\_read\_potential}}(json\_dict):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00745}00745\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}type"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ json\_dict:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00746}00746\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00747}00747\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'A\ Potential\ configuration\ file\ should\ have\ a\ "{}type"{}\ field'}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00748}00748\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00749}00749\ \ \ \ \ \ \ \ \ ptype\ =\ json\_dict[\textcolor{stringliteral}{"{}type"{}}]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00750}00750\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pclass\ \textcolor{keywordflow}{in}\ potentials.pclasses:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00751}00751\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ptype\ ==\ pclass.ptype:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00752}00752\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pclass.from\_json(json\_dict)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00753}00753\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(f\textcolor{stringliteral}{'Unsupporteed\ type\ of\ Potential\ "{}\{ptype\}"{}'})}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00754}00754\ }
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00755}\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a618c896e9bda3c47a1dbcc5cf9cdfced}{00755}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classtoolkit_1_1generator_1_1random__generator_1_1_probabilistic_model_generator_a618c896e9bda3c47a1dbcc5cf9cdfced}{\_augment\_instance}}(prob,\ potential,\ win,\ use\_flight\_ids=False):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00756}00756\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Obtain\ the\ flight\ names}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00757}00757\ \ \ \ \ \ \ \ \ fl\_names\ =\ \{p:\ f[\textcolor{stringliteral}{"{}name"{}}]\ \textcolor{keywordflow}{for}\ p,\ f\ \textcolor{keywordflow}{in}\ enumerate(prob[\textcolor{stringliteral}{"{}flights"{}}])\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00758}00758\ \ \ \ \ \ \ \ \ fl\_names[-\/1]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00759}00759\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Prepare\ a\ data\ structure\ for\ the\ information\ to\ be\ added}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00760}00760\ \ \ \ \ \ \ \ \ res\ =\ []}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00761}00761\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Build\ all\ the\ transition\ tables}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00762}00762\ \ \ \ \ \ \ \ \ tables\ =\ ProbabilisticModelGenerator.build\_transition\_table(}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00763}00763\ \ \ \ \ \ \ \ \ \ \ \ \ num=len(fl\_names)\ -\/\ 1,\ win=win,\ potential=potential}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00764}00764\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00765}00765\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pos\ \textcolor{keywordflow}{in}\ sorted(tables.keys()):}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00766}00766\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Obtain\ the\ table\ for\ the\ current\ position}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00767}00767\ \ \ \ \ \ \ \ \ \ \ \ \ tbl\ =\ tables[pos]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00768}00768\ \ \ \ \ \ \ \ \ \ \ \ \ to\_add\ =\ \{\textcolor{stringliteral}{"{}last"{}}:\ \textcolor{keywordtype}{None},\ \textcolor{stringliteral}{"{}next"{}}:\ \textcolor{keywordtype}{None},\ \textcolor{stringliteral}{"{}prob"{}}:\ \textcolor{keywordtype}{None}\}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00769}00769\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ use\_flight\_ids:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00770}00770\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ to\_add[\textcolor{stringliteral}{"{}last"{}}]\ =\ tbl[\textcolor{stringliteral}{"{}last"{}}]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00771}00771\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ to\_add[\textcolor{stringliteral}{"{}next"{}}]\ =\ tbl[\textcolor{stringliteral}{"{}next"{}}]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00772}00772\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ to\_add[\textcolor{stringliteral}{"{}prob"{}}]\ =\ tbl[\textcolor{stringliteral}{"{}prob"{}}]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00773}00773\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00774}00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ to\_add[\textcolor{stringliteral}{"{}last"{}}]\ =\ [tuple(fl\_names[p]\ \textcolor{keywordflow}{for}\ p\ \textcolor{keywordflow}{in}\ t)\ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ tbl[\textcolor{stringliteral}{"{}last"{}}]]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00775}00775\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ to\_add[\textcolor{stringliteral}{"{}next"{}}]\ =\ [fl\_names[p]\ \textcolor{keywordflow}{for}\ p\ \textcolor{keywordflow}{in}\ tbl[\textcolor{stringliteral}{"{}next"{}}]]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00776}00776\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ to\_add[\textcolor{stringliteral}{"{}prob"{}}]\ =\ tbl[\textcolor{stringliteral}{"{}prob"{}}]}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00777}00777\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Store\ the\ table}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00778}00778\ \ \ \ \ \ \ \ \ \ \ \ \ res.append(to\_add)}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00779}00779\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ the\ new\ information}}
+\DoxyCodeLine{\Hypertarget{random__generator_8py_source_l00780}00780\ \ \ \ \ \ \ \ \ prob[\textcolor{stringliteral}{"{}transition\_tables"{}}]\ =\ res}
+
+\end{DoxyCode}

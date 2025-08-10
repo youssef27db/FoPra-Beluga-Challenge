@@ -1,0 +1,74 @@
+\doxysection{heuristics.\+py}
+\hypertarget{heuristics_8py_source}{}\label{heuristics_8py_source}\index{rl/agents/low\_level/heuristics.py@{rl/agents/low\_level/heuristics.py}}
+\mbox{\hyperlink{heuristics_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00001}\mbox{\hyperlink{namespacerl_1_1agents_1_1low__level_1_1heuristics}{00001}}\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Tuple,\ Optional}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00003}\mbox{\hyperlink{namespacerl_1_1agents_1_1low__level_1_1heuristics_aa0c1456298ab2b3c59928f150075a2c9}{00003}}\ \textcolor{keyword}{def\ }\mbox{\hyperlink{namespacerl_1_1agents_1_1low__level_1_1heuristics_aa0c1456298ab2b3c59928f150075a2c9}{decide\_parameters}}(obs,\ high\_level\_action):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00004}00004\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}!}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00005}00005\ \textcolor{stringliteral}{\ \ \ \ @brief\ Decide\ action\ parameters\ based\ on\ high-\/level\ action\ and\ current\ observation}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00006}00006\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00007}00007\ \textcolor{stringliteral}{\ \ \ \ This\ function\ implements\ heuristic\ decision-\/making\ for\ low-\/level\ action\ parameters.}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00008}00008\ \textcolor{stringliteral}{\ \ \ \ It\ analyzes\ the\ current\ state\ observation\ to\ determine\ appropriate\ parameters}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00009}00009\ \textcolor{stringliteral}{\ \ \ \ for\ the\ given\ high-\/level\ action.}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00010}00010\ \textcolor{stringliteral}{\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00011}00011\ \textcolor{stringliteral}{\ \ \ \ @param\ obs\ Current\ state\ observation\ array}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00012}00012\ \textcolor{stringliteral}{\ \ \ \ @param\ high\_level\_action\ High-\/level\ action\ string\ to\ execute}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00013}00013\ \textcolor{stringliteral}{\ \ \ \ @return\ Tuple\ of\ (action\_name,\ parameters)\ or\ ("{}None"{},\ [])\ if\ no\ action\ possible}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00014}00014\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00015}00015\ \ \ \ \ n\_racks\ =\ 10\ \ \textcolor{comment}{\#\ Number\ of\ available\ racks}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00017}00017\ \ \ \ \ \textcolor{comment}{\#\ Switch\ case\ for\ high-\/level\ agent\ action}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00018}00018\ \ \ \ \ match\ high\_level\_action:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ unload\_beluga,\ no\ parameters\ are\ returned}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00020}00020\ \ \ \ \ \ \ \ \ case\ \textcolor{stringliteral}{"{}unload\_beluga"{}}:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}unload\_beluga"{}},\ []}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ load\_beluga,\ return\ trailer\ index}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00024}00024\ \ \ \ \ \ \ \ \ case\ \textcolor{stringliteral}{"{}load\_beluga"{}}:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[1\ +\ i]\ ==\ 0:\ \ \textcolor{comment}{\#\ Trailer\ has\ matching\ empty\ jig}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}load\_beluga"{}},\ \{\textcolor{stringliteral}{"{}trailer\_beluga"{}}:\ i,\ \textcolor{stringliteral}{"{}none"{}}:\ \textcolor{keywordtype}{None}\}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ right\_unstack\_rack,\ return\ rack\ index\ and\ trailer\ ID}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ case\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_idx\ \textcolor{keywordflow}{in}\ range(n\_racks):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ slot\ =\ 10\ +\ rack\_idx\ *\ 3}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[slot\ +\ 1]\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[4\ +\ trailer\_idx]\ ==\ 0.5:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}},\ \{\textcolor{stringliteral}{"{}rack"{}}:\ rack\_idx,\ \textcolor{stringliteral}{"{}trailer\_id"{}}:\ trailer\_idx\}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ left\_unstack\_rack,\ return\ rack\ index\ and\ trailer\ ID}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ case\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_idx\ \textcolor{keywordflow}{in}\ range(n\_racks):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ slot\ =\ 10\ +\ rack\_idx\ *\ 3}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[slot]\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[1\ +\ trailer\_idx]\ ==\ 0.5:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}},\ \{\textcolor{stringliteral}{"{}rack"{}}:\ rack\_idx,\ \textcolor{stringliteral}{"{}trailer\_id"{}}:\ trailer\_idx\}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ get\_from\_hangar,\ return\ hangar\ index\ and\ trailer\ factory\ index}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ case\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ hangar\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[7\ +\ hangar\_idx]\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[4\ +\ trailer\_idx]\ ==\ 0.5:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}},\ \{\textcolor{stringliteral}{"{}hangar"{}}:\ hangar\_idx,\ \textcolor{stringliteral}{"{}trailer\_factory"{}}:\ trailer\_idx\}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ deliver\_to\_hangar,\ return\ hangar\ index\ and\ trailer\ factory\ index}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ case\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[4\ +\ trailer\_idx]\ ==\ 1:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ hangar\_idx\ \textcolor{keywordflow}{in}\ range(3):}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ obs[7\ +\ hangar\_idx]\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}},\ \{\textcolor{stringliteral}{"{}hangar"{}}:\ hangar\_idx,\ \textcolor{stringliteral}{"{}trailer\_factory"{}}:\ trailer\_idx\}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ No\ action\ available}}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ case\ \_:}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}None"{}},\ []}
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{heuristics_8py_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}None"{}},\ []}
+
+\end{DoxyCode}

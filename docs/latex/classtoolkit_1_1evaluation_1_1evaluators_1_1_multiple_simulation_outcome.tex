@@ -1,0 +1,200 @@
+\doxysection{toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome Class Reference}
+\hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome}{}\label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1eb2751e3f5ccd518336c336fbd5c32c}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, list\mbox{[}\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_single_simulation_outcome}{Single\+Simulation\+Outcome}}\mbox{]} \mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ae763783bf50d4c9755b46eafe99d5246}{individual\+\_\+outcomes}})
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ace3f4c792861cfa75432dc3695b316d7}{to\+\_\+json\+\_\+obj}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a9d7a2ce9bf4e1e6daf329d2e8ae2abe2}{to\+\_\+json\+\_\+str}} (self, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}args)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a696e9b6f703aa351e4a7d4d269e9df68}{\+\_\+\+\_\+repr\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1f4c6bcca04cf8f99d6b49ac0f5dd12e}{from\+\_\+json\+\_\+obj}} (json\+\_\+obj)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ae763783bf50d4c9755b46eafe99d5246}{individual\+\_\+outcomes}} = individual\+\_\+outcomes
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ab3e0bd63a59bc18f62f3340453249d29}{\+\_\+avg\+\_\+plan\+\_\+construction\+\_\+time}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_aa240b464d5e4a3dcb2ce29af90fff7c8}{\+\_\+avg\+\_\+plan\+\_\+length}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a48a18ef72fe13f5e00dba43f8a41ab9b}{\+\_\+avg\+\_\+free\+\_\+racks}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a91a8318ff2195e4de6aac6f999e0f327}{\+\_\+frac\+\_\+goal\+\_\+reached}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a9e8be4d4f9a90a55c210630b5e7e9be3}{\+\_\+frac\+\_\+invalid\+\_\+plan}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a89df942bb4a852f9c59a55f79d6117d2}{\+\_\+frac\+\_\+time\+\_\+limit\+\_\+reached}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ab013259a75ee418b0eec63203ec7240e}{\+\_\+frac\+\_\+step\+\_\+limit\+\_\+reached}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1ffd7c2233d295a044ac6a151eff01e5}{\+\_\+avg\+\_\+score\+\_\+dict}} (self)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00097}{97}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1eb2751e3f5ccd518336c336fbd5c32c}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1eb2751e3f5ccd518336c336fbd5c32c} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{list\mbox{[}\mbox{\hyperlink{classtoolkit_1_1evaluation_1_1evaluators_1_1_single_simulation_outcome}{Single\+Simulation\+Outcome}}\mbox{]}}]{individual\+\_\+outcomes}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00099}{99}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a696e9b6f703aa351e4a7d4d269e9df68}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_\_repr\_\_@{\_\_repr\_\_}}
+\index{\_\_repr\_\_@{\_\_repr\_\_}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_\_repr\_\_()}{\_\_repr\_\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a696e9b6f703aa351e4a7d4d269e9df68} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+\+\_\+repr\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00145}{145}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a48a18ef72fe13f5e00dba43f8a41ab9b}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_avg\_free\_racks@{\_avg\_free\_racks}}
+\index{\_avg\_free\_racks@{\_avg\_free\_racks}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_avg\_free\_racks()}{\_avg\_free\_racks()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a48a18ef72fe13f5e00dba43f8a41ab9b} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+avg\+\_\+free\+\_\+racks (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00110}{110}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ab3e0bd63a59bc18f62f3340453249d29}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_avg\_plan\_construction\_time@{\_avg\_plan\_construction\_time}}
+\index{\_avg\_plan\_construction\_time@{\_avg\_plan\_construction\_time}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_avg\_plan\_construction\_time()}{\_avg\_plan\_construction\_time()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ab3e0bd63a59bc18f62f3340453249d29} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+avg\+\_\+plan\+\_\+construction\+\_\+time (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00104}{104}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_aa240b464d5e4a3dcb2ce29af90fff7c8}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_avg\_plan\_length@{\_avg\_plan\_length}}
+\index{\_avg\_plan\_length@{\_avg\_plan\_length}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_avg\_plan\_length()}{\_avg\_plan\_length()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_aa240b464d5e4a3dcb2ce29af90fff7c8} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+avg\+\_\+plan\+\_\+length (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00107}{107}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1ffd7c2233d295a044ac6a151eff01e5}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_avg\_score\_dict@{\_avg\_score\_dict}}
+\index{\_avg\_score\_dict@{\_avg\_score\_dict}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_avg\_score\_dict()}{\_avg\_score\_dict()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1ffd7c2233d295a044ac6a151eff01e5} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+avg\+\_\+score\+\_\+dict (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00125}{125}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a91a8318ff2195e4de6aac6f999e0f327}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_frac\_goal\_reached@{\_frac\_goal\_reached}}
+\index{\_frac\_goal\_reached@{\_frac\_goal\_reached}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_frac\_goal\_reached()}{\_frac\_goal\_reached()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a91a8318ff2195e4de6aac6f999e0f327} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+frac\+\_\+goal\+\_\+reached (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00113}{113}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a9e8be4d4f9a90a55c210630b5e7e9be3}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_frac\_invalid\_plan@{\_frac\_invalid\_plan}}
+\index{\_frac\_invalid\_plan@{\_frac\_invalid\_plan}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_frac\_invalid\_plan()}{\_frac\_invalid\_plan()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a9e8be4d4f9a90a55c210630b5e7e9be3} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+frac\+\_\+invalid\+\_\+plan (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00116}{116}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ab013259a75ee418b0eec63203ec7240e}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_frac\_step\_limit\_reached@{\_frac\_step\_limit\_reached}}
+\index{\_frac\_step\_limit\_reached@{\_frac\_step\_limit\_reached}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_frac\_step\_limit\_reached()}{\_frac\_step\_limit\_reached()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ab013259a75ee418b0eec63203ec7240e} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+frac\+\_\+step\+\_\+limit\+\_\+reached (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00122}{122}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a89df942bb4a852f9c59a55f79d6117d2}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!\_frac\_time\_limit\_reached@{\_frac\_time\_limit\_reached}}
+\index{\_frac\_time\_limit\_reached@{\_frac\_time\_limit\_reached}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{\_frac\_time\_limit\_reached()}{\_frac\_time\_limit\_reached()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a89df942bb4a852f9c59a55f79d6117d2} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+\_\+frac\+\_\+time\+\_\+limit\+\_\+reached (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00119}{119}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1f4c6bcca04cf8f99d6b49ac0f5dd12e}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!from\_json\_obj@{from\_json\_obj}}
+\index{from\_json\_obj@{from\_json\_obj}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{from\_json\_obj()}{from\_json\_obj()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a1f4c6bcca04cf8f99d6b49ac0f5dd12e} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+from\+\_\+json\+\_\+obj (\begin{DoxyParamCaption}\item[{}]{json\+\_\+obj}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00148}{148}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ace3f4c792861cfa75432dc3695b316d7}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!to\_json\_obj@{to\_json\_obj}}
+\index{to\_json\_obj@{to\_json\_obj}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{to\_json\_obj()}{to\_json\_obj()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ace3f4c792861cfa75432dc3695b316d7} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+to\+\_\+json\+\_\+obj (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00129}{129}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a9d7a2ce9bf4e1e6daf329d2e8ae2abe2}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!to\_json\_str@{to\_json\_str}}
+\index{to\_json\_str@{to\_json\_str}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{to\_json\_str()}{to\_json\_str()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_a9d7a2ce9bf4e1e6daf329d2e8ae2abe2} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+to\+\_\+json\+\_\+str (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{args}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00142}{142}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ae763783bf50d4c9755b46eafe99d5246}\index{toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}!individual\_outcomes@{individual\_outcomes}}
+\index{individual\_outcomes@{individual\_outcomes}!toolkit.evaluation.evaluators.MultipleSimulationOutcome@{toolkit.evaluation.evaluators.MultipleSimulationOutcome}}
+\doxysubsubsection{\texorpdfstring{individual\_outcomes}{individual\_outcomes}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1evaluation_1_1evaluators_1_1_multiple_simulation_outcome_ae763783bf50d4c9755b46eafe99d5246} 
+toolkit.\+evaluation.\+evaluators.\+Multiple\+Simulation\+Outcome.\+individual\+\_\+outcomes = individual\+\_\+outcomes}
+
+
+
+Definition at line \mbox{\hyperlink{evaluators_8py_source_l00102}{102}} of file \mbox{\hyperlink{evaluators_8py_source}{evaluators.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+toolkit/evaluation/\mbox{\hyperlink{evaluators_8py}{evaluators.\+py}}\end{DoxyCompactItemize}

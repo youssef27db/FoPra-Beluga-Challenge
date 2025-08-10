@@ -1,0 +1,570 @@
+\doxysection{toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain Class Reference}
+\hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain}{}\label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+Inheritance diagram for toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.627907cm]{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaf063d8996fdb9b3f6b4c98790a05ff6}{cleanup}} (self)
+\item 
+os.\+Path\+Like \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a2856c608df109f3d481bf9ffd48a7761}{get\+\_\+pddl\+\_\+domain}} (self)
+\item 
+os.\+Path\+Like \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a1f32fd66b68ad12162ca09f51efd1182}{get\+\_\+pddl\+\_\+problem}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a6bd426bf08d7df32753c3d1aed98ff9a}{deserialize\+\_\+state}} (self, Iterable\mbox{[}tuple\mbox{[}str\mbox{]}\mbox{]} atoms, Iterable\mbox{[}tuple\mbox{[}tuple\mbox{[}str\mbox{]}, int\mbox{]}\mbox{]} fluents)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_action}{Action}} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3173e84b091338e2e58f9a9cc00c489b}{deserialize\+\_\+action}} (self, tuple\mbox{[}str\mbox{]} action)
+\item 
+tuple\mbox{[}tuple\mbox{[}str\mbox{]}, tuple\mbox{[}tuple\mbox{[}str\mbox{]}, int\mbox{]}\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a902c9ce22bff5bb0a4676f61f551150d}{serialize\+\_\+state}} (self, \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_state}{State}} state)
+\item 
+tuple\mbox{[}str\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ac7806fe4d870e83bac44607d3538cdae}{serialize\+\_\+action}} (self, \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_action}{Action}} action)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+set\mbox{[}int\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a133ac611dd796eb6f1a8bd609a71ca7d}{cost\+\_\+functions}}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a59362fde0b695214961d0aea26cf360f}{temp\+\_\+pddl\+\_\+directory}} = Temporary\+Directory()
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaca9d19f3e4b953efa74c77e3befa0a5}{domain\+\_\+path}} = os.\+path.\+join(instance\+\_\+dir, domain\+\_\+filename)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afecbfdd1e5babb03777d69fe3637fdfc}{problem\+\_\+path}} = os.\+path.\+join(instance\+\_\+dir, problem\+\_\+filename)
+\item 
+Task \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a363c3ba0194de8fe791346439480b8a1}{task}} = Task(domain, problem)
+\item 
+Goal\+Checker \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a40678c1eed4102427fa83c87138cc187}{check\+\_\+goal}} = Goal\+Checker(self.\+task)
+\item 
+Applicable\+Actions\+Generator \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a9b6f2356844999da7e1ea0b49a3b599d}{aops\+\_\+gen}}
+\item 
+Successor\+Generator \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a76817368c2c3b76915412ce979bc3553}{succ\+\_\+gen}} = Successor\+Generator(self.\+task)
+\item 
+int\texorpdfstring{$\vert$}{|}None \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a09c4ef8b2fb00356fe7f40fac386c67a}{total\+\_\+cost}} = None
+\item 
+dict \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afb7f4ae21ac9d95e311389c498274d38}{transition\+\_\+cost}} = \{\}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a92f6e9101eac414412087a85321f1f13}{observation\+\_\+space}}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaceac54ccdda73d0cc8dc6548565c31c}{action\+\_\+space}}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a5abde9a0ddf1f0a243cc4701d819c932}{domain\+\_\+str}} = domain\+\_\+encoding.\+domain.\+to\+\_\+pddl("{}beluga"{})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_state}{State}} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a942a9abf5ed495e1e90ed6b00b9e0b28}{\+\_\+translate\+\_\+state}} (self, Plado\+State state)
+\item 
+int \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a015be374c16483c4c2a8c0a9725e0a0a}{\+\_\+get\+\_\+cost\+\_\+from\+\_\+state}} (self, Plado\+State state)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_ae4a3cd761ca7ccc7541068f60b1fbb80}{D.\+T\+\_\+predicate}} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a6b1c8790134a1071ecc404def6aa40ab}{\+\_\+is\+\_\+terminal}} (self, \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}} state)
+\item 
+Value\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a6e62246424fa2076bc8320809f581bbb}{D.\+T\+\_\+value}}\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afd1be6a75976577714a7cc50328daed4}{\+\_\+get\+\_\+transition\+\_\+value}} (self, \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}} memory, \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a5193f60e76aa6c9f9dc9ae1bab41b305}{D.\+T\+\_\+event}} action, Optional\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}}\mbox{]} next\+\_\+state=None)
+\item 
+Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a316824b07fc6dacf8063f6edaff8108c}{D.\+T\+\_\+observation}}\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3bcf48842d3537c97a631ae4a375c1e2}{\+\_\+get\+\_\+goals\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ad6fd632829c1d57217fef34ec45cfe60}{\+\_\+get\+\_\+initial\+\_\+state\+\_\+}} (self)
+\item 
+Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a5193f60e76aa6c9f9dc9ae1bab41b305}{D.\+T\+\_\+event}}\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_addb7925183fa42034f2072a21c664009}{\+\_\+get\+\_\+applicable\+\_\+actions\+\_\+from}} (self, \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}} memory)
+\item 
+Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a5193f60e76aa6c9f9dc9ae1bab41b305}{D.\+T\+\_\+event}}\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aa60e55ecd3b848f54c2b17cb9d575c14}{\+\_\+get\+\_\+action\+\_\+space\+\_\+}} (self)
+\item 
+Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a316824b07fc6dacf8063f6edaff8108c}{D.\+T\+\_\+observation}}\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a8705341995951f40a4609bfa336fb684}{\+\_\+get\+\_\+observation\+\_\+space\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_abc9d4d4a3aba03d6fe6d2c10c37d2c88}{\+\_\+init\+\_\+deserializer}} (self)
+\item 
+tuple\mbox{[}int\mbox{]} \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3de4972ff21f0c2640f001836acf6166}{\+\_\+deserialize\+\_\+objects}} (self, tuple\mbox{[}str\mbox{]} objs)
+\item 
+tuple\mbox{[}int\mbox{]}\texorpdfstring{$\vert$}{|}None \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ac8f2b85ca852a26d4015980caedd2dfd}{\+\_\+deserialize\+\_\+atom}} (self, tuple\mbox{[}str\mbox{]} atom)
+\item 
+tuple\mbox{[}int\mbox{]}\texorpdfstring{$\vert$}{|}None \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_acb09567acb6b125b31534916e97d8bd5}{\+\_\+deserialize\+\_\+fluent\+\_\+atom}} (self, tuple\mbox{[}str\mbox{]} atom)
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3392256372eb9aa464c2128ce786376a}{\+\_\+create\+\_\+pddl\+\_\+structs}} (self, str \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a5abde9a0ddf1f0a243cc4701d819c932}{domain\+\_\+str}}, str problem\+\_\+str, os.\+Path\+Like instance\+\_\+dir=None, str domain\+\_\+filename="{}domain.\+pddl"{}, str problem\+\_\+filename="{}problem.\+pddl"{})
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aca68f0849b1589934d4cd7b4d936b51a}{\+\_\+generate\+\_\+pddl}} (self, \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1beluga__problem_1_1_beluga_problem}{Beluga\+Problem}} beluga\+\_\+problem, str problem\+\_\+name, \mbox{\hyperlink{classtoolkit_1_1encoder_1_1pddl__encoding_1_1variant_1_1_variant}{Variant}} variant, \mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1problem__state_1_1_beluga_problem_state}{Beluga\+Problem\+State}} state=None)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a94ea4ac20301c9b0b4966e12b74ffffb}{\+\_\+action\+\_\+idx}} = \{\}
+\item 
+dict \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aa59df53849bb6a42886f765858bcbfb2}{\+\_\+predicate\+\_\+idx}} = \{\}
+\item 
+dict \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a70cd5f7d7b3f33979bbe248cd076e320}{\+\_\+function\+\_\+idx}} = \{\}
+\item 
+dict \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a767b133d002854e51ac585ce651ed465}{\+\_\+object\+\_\+idx}} = \{\}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Attributes inherited from \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d}{toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+D}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{T\+\_\+state}} = \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_state}{State}}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a316824b07fc6dacf8063f6edaff8108c}{T\+\_\+observation}} = \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{T\+\_\+state}}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a5193f60e76aa6c9f9dc9ae1bab41b305}{T\+\_\+event}} = \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_action}{Action}}
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a6e62246424fa2076bc8320809f581bbb}{T\+\_\+value}} = float
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_ae4a3cd761ca7ccc7541068f60b1fbb80}{T\+\_\+predicate}} = bool
+\item 
+\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a741eb86e3e4206113018420e27cc02bd}{T\+\_\+info}} = None
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Base class of the scikit-decide domains.
+All those domains are based on a PDDL encoding of the actions
+to model the logics of the transition function.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00148}{148}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3392256372eb9aa464c2128ce786376a}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_create\_pddl\_structs@{\_create\_pddl\_structs}}
+\index{\_create\_pddl\_structs@{\_create\_pddl\_structs}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_create\_pddl\_structs()}{\_create\_pddl\_structs()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3392256372eb9aa464c2128ce786376a} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+create\+\_\+pddl\+\_\+structs (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{str}]{domain\+\_\+str}{, }\item[{str}]{problem\+\_\+str}{, }\item[{os.\+Path\+Like }]{instance\+\_\+dir}{ = {\ttfamily None}, }\item[{str }]{domain\+\_\+filename}{ = {\ttfamily "{}domain.pddl"{}}, }\item[{str }]{problem\+\_\+filename}{ = {\ttfamily "{}problem.pddl"{}}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00301}{301}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ac8f2b85ca852a26d4015980caedd2dfd}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_deserialize\_atom@{\_deserialize\_atom}}
+\index{\_deserialize\_atom@{\_deserialize\_atom}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_deserialize\_atom()}{\_deserialize\_atom()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ac8f2b85ca852a26d4015980caedd2dfd} 
+ tuple\mbox{[}int\mbox{]} \texorpdfstring{$\vert$}{|} None toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+deserialize\+\_\+atom (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{tuple\mbox{[}str\mbox{]}}]{atom}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00236}{236}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_acb09567acb6b125b31534916e97d8bd5}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_deserialize\_fluent\_atom@{\_deserialize\_fluent\_atom}}
+\index{\_deserialize\_fluent\_atom@{\_deserialize\_fluent\_atom}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_deserialize\_fluent\_atom()}{\_deserialize\_fluent\_atom()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_acb09567acb6b125b31534916e97d8bd5} 
+ tuple\mbox{[}int\mbox{]} \texorpdfstring{$\vert$}{|} None toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+deserialize\+\_\+fluent\+\_\+atom (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{tuple\mbox{[}str\mbox{]}}]{atom}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00247}{247}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3de4972ff21f0c2640f001836acf6166}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_deserialize\_objects@{\_deserialize\_objects}}
+\index{\_deserialize\_objects@{\_deserialize\_objects}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_deserialize\_objects()}{\_deserialize\_objects()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3de4972ff21f0c2640f001836acf6166} 
+ tuple\mbox{[}int\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+deserialize\+\_\+objects (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{tuple\mbox{[}str\mbox{]}}]{objs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00228}{228}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aca68f0849b1589934d4cd7b4d936b51a}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_generate\_pddl@{\_generate\_pddl}}
+\index{\_generate\_pddl@{\_generate\_pddl}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_generate\_pddl()}{\_generate\_pddl()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aca68f0849b1589934d4cd7b4d936b51a} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+generate\+\_\+pddl (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1beluga__problem_1_1_beluga_problem}{Beluga\+Problem}}}]{beluga\+\_\+problem}{, }\item[{str}]{problem\+\_\+name}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1encoder_1_1pddl__encoding_1_1variant_1_1_variant}{Variant}}}]{variant}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1beluga__lib_1_1problem__state_1_1_beluga_problem_state}{Beluga\+Problem\+State}} }]{state}{ = {\ttfamily None}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00356}{356}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aa60e55ecd3b848f54c2b17cb9d575c14}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_get\_action\_space\_@{\_get\_action\_space\_}}
+\index{\_get\_action\_space\_@{\_get\_action\_space\_}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_get\_action\_space\_()}{\_get\_action\_space\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aa60e55ecd3b848f54c2b17cb9d575c14} 
+ Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a5193f60e76aa6c9f9dc9ae1bab41b305}{D.\+T\+\_\+event}}\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+get\+\_\+action\+\_\+space\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__spddl__domain_1_1_skd_s_p_d_d_l_domain_a184e27777f80b7a3f2827eac14ffb2a9}{toolkit.\+skd\+\_\+domains.\+skd\+\_\+spddl\+\_\+domain.\+Skd\+SPDDLDomain}}.
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00208}{208}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_addb7925183fa42034f2072a21c664009}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_get\_applicable\_actions\_from@{\_get\_applicable\_actions\_from}}
+\index{\_get\_applicable\_actions\_from@{\_get\_applicable\_actions\_from}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_get\_applicable\_actions\_from()}{\_get\_applicable\_actions\_from()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_addb7925183fa42034f2072a21c664009} 
+ Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a5193f60e76aa6c9f9dc9ae1bab41b305}{D.\+T\+\_\+event}}\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+get\+\_\+applicable\+\_\+actions\+\_\+from (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}}}]{memory}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00199}{199}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a015be374c16483c4c2a8c0a9725e0a0a}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_get\_cost\_from\_state@{\_get\_cost\_from\_state}}
+\index{\_get\_cost\_from\_state@{\_get\_cost\_from\_state}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_get\_cost\_from\_state()}{\_get\_cost\_from\_state()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a015be374c16483c4c2a8c0a9725e0a0a} 
+ int toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+get\+\_\+cost\+\_\+from\+\_\+state (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{Plado\+State}]{state}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00161}{161}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3bcf48842d3537c97a631ae4a375c1e2}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_get\_goals\_@{\_get\_goals\_}}
+\index{\_get\_goals\_@{\_get\_goals\_}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_get\_goals\_()}{\_get\_goals\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3bcf48842d3537c97a631ae4a375c1e2} 
+ Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a316824b07fc6dacf8063f6edaff8108c}{D.\+T\+\_\+observation}}\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+get\+\_\+goals\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00193}{193}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ad6fd632829c1d57217fef34ec45cfe60}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_get\_initial\_state\_@{\_get\_initial\_state\_}}
+\index{\_get\_initial\_state\_@{\_get\_initial\_state\_}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_get\_initial\_state\_()}{\_get\_initial\_state\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ad6fd632829c1d57217fef34ec45cfe60} 
+ \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+get\+\_\+initial\+\_\+state\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00196}{196}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a8705341995951f40a4609bfa336fb684}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_get\_observation\_space\_@{\_get\_observation\_space\_}}
+\index{\_get\_observation\_space\_@{\_get\_observation\_space\_}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_get\_observation\_space\_()}{\_get\_observation\_space\_()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a8705341995951f40a4609bfa336fb684} 
+ Space\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a316824b07fc6dacf8063f6edaff8108c}{D.\+T\+\_\+observation}}\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+get\+\_\+observation\+\_\+space\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__spddl__domain_1_1_skd_s_p_d_d_l_domain_a2329cdc6dafa4af005b01a60a7d4ace1}{toolkit.\+skd\+\_\+domains.\+skd\+\_\+spddl\+\_\+domain.\+Skd\+SPDDLDomain}}.
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00211}{211}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afd1be6a75976577714a7cc50328daed4}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_get\_transition\_value@{\_get\_transition\_value}}
+\index{\_get\_transition\_value@{\_get\_transition\_value}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_get\_transition\_value()}{\_get\_transition\_value()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afd1be6a75976577714a7cc50328daed4} 
+ Value\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a6e62246424fa2076bc8320809f581bbb}{D.\+T\+\_\+value}}\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+get\+\_\+transition\+\_\+value (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}}}]{memory}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a5193f60e76aa6c9f9dc9ae1bab41b305}{D.\+T\+\_\+event}}}]{action}{, }\item[{Optional\mbox{[}\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}}\mbox{]} }]{next\+\_\+state}{ = {\ttfamily None}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00185}{185}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_abc9d4d4a3aba03d6fe6d2c10c37d2c88}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_init\_deserializer@{\_init\_deserializer}}
+\index{\_init\_deserializer@{\_init\_deserializer}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_init\_deserializer()}{\_init\_deserializer()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_abc9d4d4a3aba03d6fe6d2c10c37d2c88} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+init\+\_\+deserializer (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00214}{214}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a6b1c8790134a1071ecc404def6aa40ab}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_is\_terminal@{\_is\_terminal}}
+\index{\_is\_terminal@{\_is\_terminal}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_is\_terminal()}{\_is\_terminal()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a6b1c8790134a1071ecc404def6aa40ab} 
+ \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_ae4a3cd761ca7ccc7541068f60b1fbb80}{D.\+T\+\_\+predicate}} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+is\+\_\+terminal (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_d_a10f7f9abed20fb1324e29d00b48b7332}{D.\+T\+\_\+state}}}]{state}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00182}{182}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a942a9abf5ed495e1e90ed6b00b9e0b28}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_translate\_state@{\_translate\_state}}
+\index{\_translate\_state@{\_translate\_state}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_translate\_state()}{\_translate\_state()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a942a9abf5ed495e1e90ed6b00b9e0b28} 
+ \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_state}{State}} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+translate\+\_\+state (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{Plado\+State}]{state}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00158}{158}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaf063d8996fdb9b3f6b4c98790a05ff6}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!cleanup@{cleanup}}
+\index{cleanup@{cleanup}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{cleanup()}{cleanup()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaf063d8996fdb9b3f6b4c98790a05ff6} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+cleanup (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Erases the temporary directory containing PDDL files (if any)\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00153}{153}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3173e84b091338e2e58f9a9cc00c489b}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!deserialize\_action@{deserialize\_action}}
+\index{deserialize\_action@{deserialize\_action}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{deserialize\_action()}{deserialize\_action()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a3173e84b091338e2e58f9a9cc00c489b} 
+ \mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_action}{Action}} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+deserialize\+\_\+action (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{tuple\mbox{[}str\mbox{]}}]{action}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00270}{270}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a6bd426bf08d7df32753c3d1aed98ff9a}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!deserialize\_state@{deserialize\_state}}
+\index{deserialize\_state@{deserialize\_state}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{deserialize\_state()}{deserialize\_state()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a6bd426bf08d7df32753c3d1aed98ff9a} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+deserialize\+\_\+state (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{Iterable\mbox{[}tuple\mbox{[}str\mbox{]}\mbox{]}}]{atoms}{, }\item[{Iterable\mbox{[}tuple\mbox{[}tuple\mbox{[}str\mbox{]}, int\mbox{]}\mbox{]}     }]{fluents}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00256}{256}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a2856c608df109f3d481bf9ffd48a7761}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!get\_pddl\_domain@{get\_pddl\_domain}}
+\index{get\_pddl\_domain@{get\_pddl\_domain}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{get\_pddl\_domain()}{get\_pddl\_domain()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a2856c608df109f3d481bf9ffd48a7761} 
+ os.\+Path\+Like toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+get\+\_\+pddl\+\_\+domain (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get the path to the PDDL domain file
+
+Returns:
+    os.PathLike: Path to the PDDL domain file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00166}{166}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a1f32fd66b68ad12162ca09f51efd1182}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!get\_pddl\_problem@{get\_pddl\_problem}}
+\index{get\_pddl\_problem@{get\_pddl\_problem}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{get\_pddl\_problem()}{get\_pddl\_problem()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a1f32fd66b68ad12162ca09f51efd1182} 
+ os.\+Path\+Like toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+get\+\_\+pddl\+\_\+problem (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get the path to the PDDL problem file
+
+Returns:
+    os.PathLike: Path to the PDDL problem file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00174}{174}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ac7806fe4d870e83bac44607d3538cdae}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!serialize\_action@{serialize\_action}}
+\index{serialize\_action@{serialize\_action}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{serialize\_action()}{serialize\_action()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_ac7806fe4d870e83bac44607d3538cdae} 
+ tuple\mbox{[}str\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+serialize\+\_\+action (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_action}{Action}}}]{action}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00295}{295}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a902c9ce22bff5bb0a4676f61f551150d}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!serialize\_state@{serialize\_state}}
+\index{serialize\_state@{serialize\_state}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{serialize\_state()}{serialize\_state()}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a902c9ce22bff5bb0a4676f61f551150d} 
+ tuple\mbox{[}tuple\mbox{[}str\mbox{]}, tuple\mbox{[}tuple\mbox{[}str\mbox{]}, int\mbox{]}\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+serialize\+\_\+state (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\mbox{\hyperlink{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_state}{State}}     }]{state}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00278}{278}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a94ea4ac20301c9b0b4966e12b74ffffb}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_action\_idx@{\_action\_idx}}
+\index{\_action\_idx@{\_action\_idx}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_action\_idx}{\_action\_idx}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a94ea4ac20301c9b0b4966e12b74ffffb} 
+dict toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+action\+\_\+idx = \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00215}{215}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a70cd5f7d7b3f33979bbe248cd076e320}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_function\_idx@{\_function\_idx}}
+\index{\_function\_idx@{\_function\_idx}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_function\_idx}{\_function\_idx}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a70cd5f7d7b3f33979bbe248cd076e320} 
+dict toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+function\+\_\+idx = \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00221}{221}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a767b133d002854e51ac585ce651ed465}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_object\_idx@{\_object\_idx}}
+\index{\_object\_idx@{\_object\_idx}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_object\_idx}{\_object\_idx}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a767b133d002854e51ac585ce651ed465} 
+dict toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+object\+\_\+idx = \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00224}{224}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aa59df53849bb6a42886f765858bcbfb2}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!\_predicate\_idx@{\_predicate\_idx}}
+\index{\_predicate\_idx@{\_predicate\_idx}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{\_predicate\_idx}{\_predicate\_idx}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aa59df53849bb6a42886f765858bcbfb2} 
+dict toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+\_\+predicate\+\_\+idx = \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00218}{218}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaceac54ccdda73d0cc8dc6548565c31c}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!action\_space@{action\_space}}
+\index{action\_space@{action\_space}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{action\_space}{action\_space}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaceac54ccdda73d0cc8dc6548565c31c} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+action\+\_\+space}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ ActionSpace(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ (a.parameters\ \textcolor{keywordflow}{for}\ a\ \textcolor{keywordflow}{in}\ self.task.actions),\ len(self.task.objects)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ )}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00350}{350}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a9b6f2356844999da7e1ea0b49a3b599d}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!aops\_gen@{aops\_gen}}
+\index{aops\_gen@{aops\_gen}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{aops\_gen}{aops\_gen}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a9b6f2356844999da7e1ea0b49a3b599d} 
+Applicable\+Actions\+Generator toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+aops\+\_\+gen}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ ApplicableActionsGenerator(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ self.task}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ )}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00327}{327}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a40678c1eed4102427fa83c87138cc187}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!check\_goal@{check\_goal}}
+\index{check\_goal@{check\_goal}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{check\_goal}{check\_goal}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a40678c1eed4102427fa83c87138cc187} 
+Goal\+Checker toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+check\+\_\+goal = Goal\+Checker(self.\+task)}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00326}{326}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a133ac611dd796eb6f1a8bd609a71ca7d}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!cost\_functions@{cost\_functions}}
+\index{cost\_functions@{cost\_functions}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{cost\_functions}{cost\_functions}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a133ac611dd796eb6f1a8bd609a71ca7d} 
+set\mbox{[}int\mbox{]} toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+cost\+\_\+functions}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00159}{159}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaca9d19f3e4b953efa74c77e3befa0a5}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!domain\_path@{domain\_path}}
+\index{domain\_path@{domain\_path}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{domain\_path}{domain\_path}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_aaca9d19f3e4b953efa74c77e3befa0a5} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+domain\+\_\+path = os.\+path.\+join(instance\+\_\+dir, domain\+\_\+filename)}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00316}{316}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a5abde9a0ddf1f0a243cc4701d819c932}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!domain\_str@{domain\_str}}
+\index{domain\_str@{domain\_str}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{domain\_str}{domain\_str}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a5abde9a0ddf1f0a243cc4701d819c932} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+domain\+\_\+str = domain\+\_\+encoding.\+domain.\+to\+\_\+pddl("{}beluga"{})}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00365}{365}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a92f6e9101eac414412087a85321f1f13}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!observation\_space@{observation\_space}}
+\index{observation\_space@{observation\_space}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{observation\_space}{observation\_space}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a92f6e9101eac414412087a85321f1f13} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+observation\+\_\+space}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ ObservationSpace(}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ (}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ len(self.task.predicates[p].parameters)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ p\ \textcolor{keywordflow}{in}\ range(self.task.num\_fluent\_predicates)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ (len(f.parameters)\ \textcolor{keywordflow}{for}\ f\ \textcolor{keywordflow}{in}\ self.task.functions),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ len(self.task.objects),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ )}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00341}{341}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afecbfdd1e5babb03777d69fe3637fdfc}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!problem\_path@{problem\_path}}
+\index{problem\_path@{problem\_path}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{problem\_path}{problem\_path}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afecbfdd1e5babb03777d69fe3637fdfc} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+problem\+\_\+path = os.\+path.\+join(instance\+\_\+dir, problem\+\_\+filename)}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00320}{320}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a76817368c2c3b76915412ce979bc3553}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!succ\_gen@{succ\_gen}}
+\index{succ\_gen@{succ\_gen}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{succ\_gen}{succ\_gen}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a76817368c2c3b76915412ce979bc3553} 
+Successor\+Generator toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+succ\+\_\+gen = Successor\+Generator(self.\+task)}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00330}{330}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a363c3ba0194de8fe791346439480b8a1}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!task@{task}}
+\index{task@{task}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{task}{task}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a363c3ba0194de8fe791346439480b8a1} 
+Task toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+task = Task(domain, problem)}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00325}{325}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a59362fde0b695214961d0aea26cf360f}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!temp\_pddl\_directory@{temp\_pddl\_directory}}
+\index{temp\_pddl\_directory@{temp\_pddl\_directory}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{temp\_pddl\_directory}{temp\_pddl\_directory}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a59362fde0b695214961d0aea26cf360f} 
+toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+temp\+\_\+pddl\+\_\+directory = Temporary\+Directory()}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00311}{311}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a09c4ef8b2fb00356fe7f40fac386c67a}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!total\_cost@{total\_cost}}
+\index{total\_cost@{total\_cost}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{total\_cost}{total\_cost}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_a09c4ef8b2fb00356fe7f40fac386c67a} 
+int \texorpdfstring{$\vert$}{|} None toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+total\+\_\+cost = None}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00331}{331}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+\Hypertarget{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afb7f4ae21ac9d95e311389c498274d38}\index{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}!transition\_cost@{transition\_cost}}
+\index{transition\_cost@{transition\_cost}!toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain@{toolkit.skd\_domains.skd\_base\_domain.SkdBaseDomain}}
+\doxysubsubsection{\texorpdfstring{transition\_cost}{transition\_cost}}
+{\footnotesize\ttfamily \label{classtoolkit_1_1skd__domains_1_1skd__base__domain_1_1_skd_base_domain_afb7f4ae21ac9d95e311389c498274d38} 
+dict toolkit.\+skd\+\_\+domains.\+skd\+\_\+base\+\_\+domain.\+Skd\+Base\+Domain.\+transition\+\_\+cost = \{\}}
+
+
+
+Definition at line \mbox{\hyperlink{skd__base__domain_8py_source_l00339}{339}} of file \mbox{\hyperlink{skd__base__domain_8py_source}{skd\+\_\+base\+\_\+domain.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+toolkit/skd\+\_\+domains/\mbox{\hyperlink{skd__base__domain_8py}{skd\+\_\+base\+\_\+domain.\+py}}\end{DoxyCompactItemize}
