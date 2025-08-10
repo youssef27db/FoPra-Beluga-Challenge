@@ -1,0 +1,145 @@
+\chapter{🚀 Beluga Challenge -\/ Installation Setup}
+\hypertarget{md_setup_2_r_e_a_d_m_e}{}\label{md_setup_2_r_e_a_d_m_e}\index{🚀 Beluga Challenge -\/ Installation Setup@{🚀 Beluga Challenge -\/ Installation Setup}}
+\label{md_setup_2_r_e_a_d_m_e_autotoc_md7}%
+\Hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md7}%
+
+
+Dieses Verzeichnis enthält alle notwendigen Dateien zur Installation der Abhängigkeiten für das Beluga Challenge Projekt.\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md8}{}\doxysection{\texorpdfstring{📁 Dateien}{📁 Dateien}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md8}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{📋 Requirements Dateien}{📋 Requirements Dateien}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md9}
+
+\begin{DoxyItemize}
+\item {\bfseries{{\ttfamily requirements.\+txt}}} -\/ Vollständige Liste aller Abhängigkeiten mit detaillierten Kommentaren
+\item {\bfseries{{\ttfamily requirements\+\_\+simple.\+txt}}} -\/ Einfache Liste ohne Kommentare für automatisierte Installation
+\end{DoxyItemize}\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md10}{}\doxysubsection{\texorpdfstring{🖥️ Installationsskripte}{🖥️ Installationsskripte}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md10}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md11}{}\doxysubsubsection{\texorpdfstring{Windows}{Windows}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md11}
+
+\begin{DoxyItemize}
+\item {\bfseries{{\ttfamily install\+\_\+dependencies.\+bat}}} -\/ Windows Batch-\/\+Skript für automatische Installation
+\item {\bfseries{{\ttfamily setup\+\_\+dependencies.\+py}}} -\/ Plattformunabhängiges Python-\/\+Skript mit detailliertem Feedback
+\end{DoxyItemize}\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md12}{}\doxysubsubsection{\texorpdfstring{Linux/\+Ubuntu}{Linux/\+Ubuntu}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md12}
+
+\begin{DoxyItemize}
+\item {\bfseries{{\ttfamily install\+\_\+dependencies.\+sh}}} -\/ Shell-\/\+Skript für Ubuntu/\+Linux mit Virtual Environment Support
+\end{DoxyItemize}\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md13}{}\doxysection{\texorpdfstring{🛠️ Installation}{🛠️ Installation}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md13}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md14}{}\doxysubsection{\texorpdfstring{Option 1\+: Automatische Installation (Windows)}{Option 1\+: Automatische Installation (Windows)}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md14}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Einfach\ das\ Batch-\/Skript\ ausführen}
+\DoxyCodeLine{install\_dependencies.bat}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md15}{}\doxysubsection{\texorpdfstring{Option 2\+: Automatische Installation (Ubuntu/\+Linux)}{Option 2\+: Automatische Installation (Ubuntu/\+Linux)}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md15}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Ausführungsrechte\ setzen\ und\ Skript\ ausführen}
+\DoxyCodeLine{chmod\ +x\ install\_dependencies.sh}
+\DoxyCodeLine{./install\_dependencies.sh}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md16}{}\doxysubsection{\texorpdfstring{Option 3\+: Python Setup-\/\+Skript (Plattformunabhängig)}{Option 3\+: Python Setup-\/\+Skript (Plattformunabhängig)}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md16}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ setup\_dependencies.py}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md17}{}\doxysubsection{\texorpdfstring{Option 4\+: Manuelle Installation}{Option 4\+: Manuelle Installation}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md17}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Einfache\ Installation}
+\DoxyCodeLine{pip\ install\ -\/r\ requirements\_simple.txt}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Oder\ mit\ detaillierter\ Ausgabe}
+\DoxyCodeLine{pip\ install\ -\/r\ requirements.txt}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md18}{}\doxysection{\texorpdfstring{📋 Hauptabhängigkeiten}{📋 Hauptabhängigkeiten}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md18}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bibliothek   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Version   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Zweck    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Bibliothek   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Version   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Zweck    }\\\cline{1-3}
+\endhead
+Py\+Torch   &≥2.0.\+0   &Neuronale Netzwerke (PPO Agent)    \\\cline{1-3}
+Num\+Py   &≥1.21.\+0   &Numerische Berechnungen    \\\cline{1-3}
+Matplotlib   &≥3.5.\+0   &Visualisierung    \\\cline{1-3}
+Gymnasium   &≥0.29.\+0   &RL Environment API   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md19}{}\doxysection{\texorpdfstring{🐍 Python Virtual Environment (Empfohlen)}{🐍 Python Virtual Environment (Empfohlen)}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md19}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md20}{}\doxysubsection{\texorpdfstring{Windows}{Windows}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md20}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ -\/m\ venv\ beluga\_env}
+\DoxyCodeLine{beluga\_env\(\backslash\)Scripts\(\backslash\)activate}
+\DoxyCodeLine{pip\ install\ -\/r\ requirements\_simple.txt}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md21}{}\doxysubsection{\texorpdfstring{Linux/\+Ubuntu}{Linux/\+Ubuntu}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md21}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python3\ -\/m\ venv\ beluga\_env}
+\DoxyCodeLine{source\ beluga\_env/bin/activate}
+\DoxyCodeLine{pip\ install\ -\/r\ requirements\_simple.txt}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md22}{}\doxysection{\texorpdfstring{🚀 Nach der Installation}{🚀 Nach der Installation}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md22}
+Nach erfolgreicher Installation können Sie das Projekt verwenden\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Hilfe\ anzeigen}
+\DoxyCodeLine{python\ -\/m\ rl.main\ -\/-\/help}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Training\ starten}
+\DoxyCodeLine{python\ -\/m\ rl.main\ -\/-\/mode\ train}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Problem\ evaluieren}
+\DoxyCodeLine{python\ -\/m\ rl.main\ -\/-\/mode\ problem\ -\/-\/problem\_path\ problems/problem\_7\_s49\_j5\_r2\_oc85\_f6.json}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Problem\ evaluieren\ mit\ Ausgabe\ in\ Datei}
+\DoxyCodeLine{python\ -\/m\ rl.main\ -\/-\/mode\ problem\ -\/-\/problem\_path\ problems/problem\_7\_s49\_j5\_r2\_oc85\_f6.json\ -\/-\/save\_to\_file}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md23}{}\doxysection{\texorpdfstring{🔧 Fehlerbehebung}{🔧 Fehlerbehebung}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md23}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md24}{}\doxysubsection{\texorpdfstring{Häufige Probleme}{Häufige Probleme}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md24}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Py\+Torch Installation schlägt fehl}}
+\begin{DoxyItemize}
+\item Überprüfen Sie Ihre Python-\/\+Version (≥3.8 erforderlich)
+\item Bei GPU-\/\+Unterstützung\+: Besuchen Sie \href{https://pytorch.org/get-started/locally/}{\texttt{ https\+://pytorch.\+org/get-\/started/locally/}}
+\end{DoxyItemize}
+\item {\bfseries{Gymnasium Installation Probleme}}
+\begin{DoxyItemize}
+\item Versuchen Sie\+: {\ttfamily pip install -\/-\/upgrade setuptools wheel}
+\item Dann\+: {\ttfamily pip install gymnasium}
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md25}{}\doxysubsection{\texorpdfstring{System-\/spezifische Anforderungen}{System-\/spezifische Anforderungen}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md25}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md26}{}\doxysubsubsection{\texorpdfstring{Ubuntu/\+Linux}{Ubuntu/\+Linux}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md26}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt\ update}
+\DoxyCodeLine{sudo\ apt\ install\ python3-\/dev\ build-\/essential\ libssl-\/dev\ libffi-\/dev}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md27}{}\doxysubsubsection{\texorpdfstring{Windows}{Windows}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md27}
+
+\begin{DoxyItemize}
+\item Microsoft Visual C++ 14.\+0 oder höher (für einige Pakete)
+\item Download\+: \href{https://visualstudio.microsoft.com/visual-cpp-build-tools/}{\texttt{ https\+://visualstudio.\+microsoft.\+com/visual-\/cpp-\/build-\/tools/}}
+\end{DoxyItemize}\hypertarget{md_setup_2_r_e_a_d_m_e_autotoc_md28}{}\doxysection{\texorpdfstring{📞 Support}{📞 Support}}\label{md_setup_2_r_e_a_d_m_e_autotoc_md28}
+Bei Problemen mit der Installation\+:
+\begin{DoxyEnumerate}
+\item Überprüfen Sie die Python-\/\+Version\+: {\ttfamily python -\/-\/version}
+\item Aktualisieren Sie pip\+: {\ttfamily pip install -\/-\/upgrade pip}
+\item Verwenden Sie ein Virtual Environment
+\item Konsultieren Sie die offizielle Dokumentation der jeweiligen Bibliothek
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+
+
+{\itshape Erstellt für das Beluga Challenge Projekt -\/ Fortgeschrittenen\+Praktikum} 

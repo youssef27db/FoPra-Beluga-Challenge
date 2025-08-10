@@ -1,0 +1,917 @@
+\doxysection{rl.\+env.\+state.\+Problem\+State Class Reference}
+\hypertarget{classrl_1_1env_1_1state_1_1_problem_state}{}\label{classrl_1_1env_1_1state_1_1_problem_state}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+
+
+Complete state representation for the \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} Challenge.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_aebae2c2cc498c481a8b00113d2f1aa5e}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig}{Jig}}\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_ae69ebea50bb1cc9db3db8da1f048822e}{jigs}}, list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}}\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_af7a668fd5d7311137fe84d611a92de66}{belugas}}, list\mbox{[}int\texorpdfstring{$\vert$}{|}None\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a634c438942449d0a8d5d3259bceed2d2}{trailers\+\_\+beluga}}, list\mbox{[}int\texorpdfstring{$\vert$}{|}None\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a388549e61b047cdb88493a251d17c8f8}{trailers\+\_\+factory}}, list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_rack}{Rack}}\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a1ec78c677f24987ac0778d8cab4398c5}{racks}}, list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_production_line}{Production\+Line}}\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a54d9d168c4472bd0f33fecb22a3890c7}{production\+\_\+lines}}, list\mbox{[}int\texorpdfstring{$\vert$}{|}None\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a30bbf7cf17dd79bf56b6fd36c0db3730}{hangars}})
+\begin{DoxyCompactList}\small\item\em Initialize the complete problem state. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a96fd5143efc1fa40fc4db6d0e1e4c4f1}{copy}} (self)
+\begin{DoxyCompactList}\small\item\em Create a deep copy of the entire problem state. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a0f51abba50e7cc4f1ce5e97fc9e75cca}{clone}} (self)
+\begin{DoxyCompactList}\small\item\em Create a clone of the current state (alias for copy) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_add065d858f33330a7ee988f1b9588b45}{is\+\_\+terminal}} (self)
+\begin{DoxyCompactList}\small\item\em Check if this state represents a terminal (goal) state. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_ade20072cf57dca3e7af934d8d25e6cd5}{evaluate}} (self, int depth, mu=0.\+05)
+\begin{DoxyCompactList}\small\item\em Evaluate the current state for MCTS scoring. \end{DoxyCompactList}\item 
+dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a248905a75635c70e345f5cac6fe6c31b}{get\+\_\+subgoals}} (self)
+\begin{DoxyCompactList}\small\item\em Calculate subgoal achievements for evaluation. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a4874c206fbb857b3fa22a3c221187024}{apply\+\_\+action}} (self, action\+\_\+name, params)
+\begin{DoxyCompactList}\small\item\em Apply an action to this state. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_aec482adbc4eb870b4c325133c1c0665f}{check\+\_\+action\+\_\+valid}} (self, str action\+\_\+name, params=None)
+\begin{DoxyCompactList}\small\item\em Check if an action with given parameters is valid. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_ac9617c0750c3a8fa486490bdf4a3e3de}{enumerate\+\_\+valid\+\_\+params}} (self, action)
+\begin{DoxyCompactList}\small\item\em Enumerate all valid parameter combinations for a given action. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_adbbdae73abac5758cb3e1020b3f4a32d}{get\+\_\+possible\+\_\+actions}} (self)
+\begin{DoxyCompactList}\small\item\em Get list of all possible actions in the current state. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a5a7ef19dd7f6f6eb5aaf9b4ff4c6d33e}{beluga\+\_\+complete}} (self)
+\begin{DoxyCompactList}\small\item\em Mark current beluga as complete and remove it. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a597034095b700127eede12ed3005028d}{get\+\_\+observation\+\_\+high\+\_\+level}} (self)
+\begin{DoxyCompactList}\small\item\em Get high-\/level observation array for RL agents. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a1505865dde8a334a8d8fcf4cdaaa559c}{\+\_\+\+\_\+str\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a00b1848b6cc7b58fc564bc9f7b1f62b4}{\+\_\+\+\_\+repr\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_ae15279b8b693b83991ce1cf8c7314cd8}{\+\_\+\+\_\+hash\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a6fa84f10aa492d75ff732322e284cad4}{\+\_\+\+\_\+eq\+\_\+\+\_\+}} (self, other)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_ae69ebea50bb1cc9db3db8da1f048822e}{jigs}} = jigs
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_af7a668fd5d7311137fe84d611a92de66}{belugas}} = belugas
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a634c438942449d0a8d5d3259bceed2d2}{trailers\+\_\+beluga}} = trailers\+\_\+beluga
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a388549e61b047cdb88493a251d17c8f8}{trailers\+\_\+factory}} = trailers\+\_\+factory
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a1ec78c677f24987ac0778d8cab4398c5}{racks}} = racks
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a54d9d168c4472bd0f33fecb22a3890c7}{production\+\_\+lines}} = production\+\_\+lines
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a30bbf7cf17dd79bf56b6fd36c0db3730}{hangars}} = hangars
+\item 
+int \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a2c2ebd2dee9819c34dc89d9a07176b40}{belugas\+\_\+unloaded}} = 0
+\item 
+int \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_af088447f7a3f7640f6c50734be85f617}{belugas\+\_\+finished}} = 0
+\item 
+int \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a3fa9e9374aa07623ea037c27195d26fe}{production\+\_\+lines\+\_\+finished}} = 0
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a0572124eeab50ea62588152aa334baa3}{total\+\_\+lines}} = len(self.\+production\+\_\+lines)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a8757d2f3438dafcc6c03fb96116dc3db}{total\+\_\+belugas}} = len(self.\+belugas)
+\item 
+bool \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a2e8b188e6ab9501da8478eebbc783ebe}{problem\+\_\+solved}} = False
+\item 
+str \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_abb1a7fbfd269edf4d6730575fcf18c0a}{jigs}} = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(jig) + "{}\textbackslash{}n"{}
+\item 
+str \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a97e0309301cb8d87c5ce79fe2ee673dc}{belugas}} = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(beluga) + "{}\textbackslash{}n"{}
+\item 
+str \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_a8de93be5fff89ce4f9065d9e9c2f9250}{racks}} = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(rack) + "{}\textbackslash{}n"{}
+\item 
+str \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_problem_state_addfa05213af62b0e1ed667f436508e8e}{production\+\_\+lines}} = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(production\+\_\+line) + "{}\textbackslash{}n"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Complete state representation for the \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} Challenge. 
+
+Contains all components of the problem\+: jigs, ships, storage, and facilities. Provides the main API for MCTS and RL algorithms including state transitions, validation, and evaluation functions. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_aebae2c2cc498c481a8b00113d2f1aa5e}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_aebae2c2cc498c481a8b00113d2f1aa5e} 
+rl.\+env.\+state.\+Problem\+State.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig}{Jig}}\mbox{]}}]{jigs}{, }\item[{list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}}\mbox{]}}]{belugas}{, }\item[{list\mbox{[}int \texorpdfstring{$\vert$}{|} None\mbox{]}}]{trailers\+\_\+beluga}{, }\item[{list\mbox{[}int \texorpdfstring{$\vert$}{|} None\mbox{]}}]{trailers\+\_\+factory}{, }\item[{list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_rack}{Rack}}\mbox{]}}]{racks}{, }\item[{list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_production_line}{Production\+Line}}\mbox{]}}]{production\+\_\+lines}{, }\item[{list\mbox{[}int \texorpdfstring{$\vert$}{|} None\mbox{]}}]{hangars}{}\end{DoxyParamCaption})}
+
+
+
+Initialize the complete problem state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em jigs} & List of all jigs in the problem \\
+\hline
+{\em belugas} & List of \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} ships \\
+\hline
+{\em trailers\+\_\+beluga} & List of \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} trailer slots (jig IDs or None) \\
+\hline
+{\em trailers\+\_\+factory} & List of factory trailer slots (jig IDs or None) \\
+\hline
+{\em racks} & List of storage racks \\
+\hline
+{\em production\+\_\+lines} & List of production lines \\
+\hline
+{\em hangars} & List of hangar slots (jig IDs or None) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keyword}{def\ }\_\_init\_\_(self,\ jigs\ :\ list[Jig],\ belugas:\ list[Beluga],\ trailers\_beluga:\ list[int\ |\ \textcolor{keywordtype}{None}],\ trailers\_factory:\ list[int\ |\ \textcolor{keywordtype}{None}],\ racks:\ list[Rack],\ production\_lines:\ list[ProductionLine],\ hangars:\ list[int\ |\ \textcolor{keywordtype}{None}]): }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00195\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ complete\ problem\ state }}
+\DoxyCodeLine{00196\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ jigs\ List\ of\ all\ jigs\ in\ the\ problem }}
+\DoxyCodeLine{00197\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ belugas\ List\ of\ Beluga\ ships }}
+\DoxyCodeLine{00198\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ trailers\_beluga\ List\ of\ Beluga\ trailer\ slots\ (jig\ IDs\ or\ None) }}
+\DoxyCodeLine{00199\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ trailers\_factory\ List\ of\ factory\ trailer\ slots\ (jig\ IDs\ or\ None) }}
+\DoxyCodeLine{00200\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ racks\ List\ of\ storage\ racks }}
+\DoxyCodeLine{00201\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ production\_lines\ List\ of\ production\ lines }}
+\DoxyCodeLine{00202\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ hangars\ List\ of\ hangar\ slots\ (jig\ IDs\ or\ None) }}
+\DoxyCodeLine{00203\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ self.jigs\ =\ jigs }
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ self.belugas\ =\ belugas }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ self.trailers\_beluga\ =\ trailers\_beluga }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ self.trailers\_factory\ =\ trailers\_factory }
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ self.racks\ =\ racks }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ self.production\_lines\ =\ production\_lines }
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ self.hangars\ =\ hangars }
+\DoxyCodeLine{00211\  }
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Subgoals }}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ for\ reward\ (High-\/Level)\ and\ evaluation\ (Low-\/Level-\/MCTS)\  }}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ self.belugas\_unloaded\ =\ 0\ \textcolor{comment}{\#counter }}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ self.belugas\_finished\ =\ 0\ \textcolor{comment}{\#counter }}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ self.production\_lines\_finished\ =\ 0\ \textcolor{comment}{\#counter }}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ self.total\_lines\ =\ len(self.production\_lines)\ \textcolor{comment}{\#\ total\ production\ lines,\ for\ evaluation }}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ self.total\_belugas\ =\ len(self.belugas)\ \textcolor{comment}{\#\ total\ belugas,\ for\ evaluation }}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ self.problem\_solved\ =\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00221\  }
+\DoxyCodeLine{00222\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a6fa84f10aa492d75ff732322e284cad4}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!\_\_eq\_\_@{\_\_eq\_\_}}
+\index{\_\_eq\_\_@{\_\_eq\_\_}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{\_\_eq\_\_()}{\_\_eq\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a6fa84f10aa492d75ff732322e284cad4} 
+rl.\+env.\+state.\+Problem\+State.\+\_\+\+\_\+eq\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{other}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00633\ \ \ \ \ \textcolor{keyword}{def\ }\_\_eq\_\_(self,\ other):\ \ \ \  }
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str(self)\ ==\ str(other) }
+\DoxyCodeLine{00635\ \ \ \ \  }
+\DoxyCodeLine{00636\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_ae15279b8b693b83991ce1cf8c7314cd8}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!\_\_hash\_\_@{\_\_hash\_\_}}
+\index{\_\_hash\_\_@{\_\_hash\_\_}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{\_\_hash\_\_()}{\_\_hash\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_ae15279b8b693b83991ce1cf8c7314cd8} 
+rl.\+env.\+state.\+Problem\+State.\+\_\+\+\_\+hash\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00630\ \ \ \ \ \textcolor{keyword}{def\ }\_\_hash\_\_(self): }
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ hash(str(self))\  }
+\DoxyCodeLine{00632\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a00b1848b6cc7b58fc564bc9f7b1f62b4}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!\_\_repr\_\_@{\_\_repr\_\_}}
+\index{\_\_repr\_\_@{\_\_repr\_\_}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{\_\_repr\_\_()}{\_\_repr\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a00b1848b6cc7b58fc564bc9f7b1f62b4} 
+rl.\+env.\+state.\+Problem\+State.\+\_\+\+\_\+repr\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00627\ \ \ \ \ \textcolor{keyword}{def\ }\_\_repr\_\_(self): }
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\_\_str\_\_() }
+\DoxyCodeLine{00629\ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a1505865dde8a334a8d8fcf4cdaaa559c}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!\_\_str\_\_@{\_\_str\_\_}}
+\index{\_\_str\_\_@{\_\_str\_\_}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{\_\_str\_\_()}{\_\_str\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a1505865dde8a334a8d8fcf4cdaaa559c} 
+rl.\+env.\+state.\+Problem\+State.\+\_\+\+\_\+str\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00601\ \ \ \ \ \textcolor{keyword}{def\ }\_\_str\_\_(self): }
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ count\ =\ 0 }
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ out\ =\ \textcolor{stringliteral}{"{}jigs:\(\backslash\)n"{}} }
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ self.jigs: }
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(jig)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}} }
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1 }
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}belugas:\(\backslash\)n"{}} }
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ count\ =\ 0 }
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ beluga\ \textcolor{keywordflow}{in}\ self.belugas: }
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(beluga)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}} }
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1 }
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}trailers\_beluga:\ "{}}\ +\ str(self.trailers\_beluga)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}} }
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}trailers\_factory:\ "{}}\ +\ str(self.trailers\_factory)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}} }
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}racks:\(\backslash\)n"{}} }
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ count\ =\ 0 }
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ self.racks: }
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(rack)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}} }
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1 }
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}production\_lines:\(\backslash\)n"{}} }
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ count\ =\ 0 }
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ production\_line\ \textcolor{keywordflow}{in}\ self.production\_lines: }
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)t"{}}\ +\ str(count)\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ str(production\_line)\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}} }
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ 1 }
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ out\ +=\ \textcolor{stringliteral}{"{}hangars:\ "{}}\ +\ str(self.hangars) }
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out }
+\DoxyCodeLine{00626\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a4874c206fbb857b3fa22a3c221187024}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!apply\_action@{apply\_action}}
+\index{apply\_action@{apply\_action}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{apply\_action()}{apply\_action()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a4874c206fbb857b3fa22a3c221187024} 
+rl.\+env.\+state.\+Problem\+State.\+apply\+\_\+action (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{action\+\_\+name}{, }\item[{}]{params}{}\end{DoxyParamCaption})}
+
+
+
+Apply an action to this state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action\+\_\+name} & Name of the action to execute \\
+\hline
+{\em params} & Parameters for the action (dict or list) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if action was successfully applied, False otherwise 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keyword}{def\ }apply\_action(self,\ action\_name,\ params): }
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00305\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Apply\ an\ action\ to\ this\ state }}
+\DoxyCodeLine{00306\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ to\ execute }}
+\DoxyCodeLine{00307\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ params\ Parameters\ for\ the\ action\ (dict\ or\ list) }}
+\DoxyCodeLine{00308\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ action\ was\ successfully\ applied,\ False\ otherwise }}
+\DoxyCodeLine{00309\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ params\ =\ list(params.values())\ \textcolor{keywordflow}{if}\ isinstance(params,\ dict)\ \textcolor{keywordflow}{else}\ list(params)\ \ \textcolor{comment}{\#\ ensure\ params\ is\ a\ list }}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#action\_name,\ params\ =\ candidate }}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}: }
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ left\_stack\_rack(self,\ *params) }
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}: }
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ right\_stack\_rack(self,\ *params) }
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}: }
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ left\_unstack\_rack(self,\ *params) }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}: }
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ right\_unstack\_rack(self,\ *params) }
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}load\_beluga"{}}: }
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ load\_beluga(self,\ *params) }
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}unload\_beluga"{}}: }
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ unload\_beluga(self) }
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}: }
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ get\_from\_hangar(self,\ *params) }
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}: }
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ deliver\_to\_hangar(self,\ *params) }
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ NotImplementedError(f\textcolor{stringliteral}{"{}Action\ name\ not\ known:\ \{action\_name\}"{}}) }
+\DoxyCodeLine{00330\ \ \ \ \ \ \  }
+\DoxyCodeLine{00331\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a5a7ef19dd7f6f6eb5aaf9b4ff4c6d33e}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!beluga\_complete@{beluga\_complete}}
+\index{beluga\_complete@{beluga\_complete}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{beluga\_complete()}{beluga\_complete()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a5a7ef19dd7f6f6eb5aaf9b4ff4c6d33e} 
+ bool rl.\+env.\+state.\+Problem\+State.\+beluga\+\_\+complete (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Mark current beluga as complete and remove it. 
+
+\begin{DoxyReturn}{Returns}
+True if beluga was successfully marked complete, False otherwise 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00472\ \ \ \ \ \textcolor{keyword}{def\ }beluga\_complete(self)\ -\/>\ bool: }
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00474\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Mark\ current\ beluga\ as\ complete\ and\ remove\ it }}
+\DoxyCodeLine{00475\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ beluga\ was\ successfully\ marked\ complete,\ False\ otherwise }}
+\DoxyCodeLine{00476\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.belugas: }
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ beluga\ =\ self.belugas[0] }
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ beluga.outgoing\ \textcolor{keywordflow}{or}\ beluga.current\_jigs: }
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Effects }}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ self.belugas.pop(0) }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}\  }
+\DoxyCodeLine{00487\ \ \ \ \  }
+\DoxyCodeLine{00488\  }
+\DoxyCodeLine{00489\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_aec482adbc4eb870b4c325133c1c0665f}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!check\_action\_valid@{check\_action\_valid}}
+\index{check\_action\_valid@{check\_action\_valid}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{check\_action\_valid()}{check\_action\_valid()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_aec482adbc4eb870b4c325133c1c0665f} 
+ bool rl.\+env.\+state.\+Problem\+State.\+check\+\_\+action\+\_\+valid (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{str}]{action\+\_\+name}{, }\item[{}]{params}{ = {\ttfamily None}}\end{DoxyParamCaption})}
+
+
+
+Check if an action with given parameters is valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action\+\_\+name} & Name of the action to validate \\
+\hline
+{\em params} & Parameters for the action (optional) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if action is valid, False otherwise
+\end{DoxyReturn}
+This function validates an action without modifying the current state. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keyword}{def\ }check\_action\_valid(self,\ action\_name:\ str,\ params=\textcolor{keywordtype}{None})\ -\/>\ bool: }
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00334\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ if\ an\ action\ with\ given\ parameters\ is\ valid }}
+\DoxyCodeLine{00335\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_name\ Name\ of\ the\ action\ to\ validate }}
+\DoxyCodeLine{00336\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ params\ Parameters\ for\ the\ action\ (optional) }}
+\DoxyCodeLine{00337\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ action\ is\ valid,\ False\ otherwise }}
+\DoxyCodeLine{00338\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \  }}
+\DoxyCodeLine{00339\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ This\ function\ validates\ an\ action\ without\ modifying\ the\ current\ state. }}
+\DoxyCodeLine{00340\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ state\_copy\ =\ self.copy() }
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}: }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}: }
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ left\_stack\_rack(state\_copy,\ *params) }
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}: }
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ right\_stack\_rack(state\_copy,\ *params) }
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}: }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ left\_unstack\_rack(state\_copy,\ *params) }
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}: }
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ right\_unstack\_rack(state\_copy,\ *params) }
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}load\_beluga"{}}: }
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ load\_beluga(state\_copy,\ *params) }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}unload\_beluga"{}}: }
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ unload\_beluga(state\_copy) }
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}: }
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ get\_from\_hangar(state\_copy,\ *params) }
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}: }
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ deliver\_to\_hangar(state\_copy,\ *params) }
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e: }
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Error\ in\ action\ \{action\_name\}\ with\ params\ \{params\}:\ \{e\}"{}}) }
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00365\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a0f51abba50e7cc4f1ce5e97fc9e75cca}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!clone@{clone}}
+\index{clone@{clone}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a0f51abba50e7cc4f1ce5e97fc9e75cca} 
+rl.\+env.\+state.\+Problem\+State.\+clone (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Create a clone of the current state (alias for copy) 
+
+\begin{DoxyReturn}{Returns}
+Deep copy of this \doxylink{classrl_1_1env_1_1state_1_1_problem_state}{Problem\+State} 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keyword}{def\ }clone(self): }
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00258\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Create\ a\ clone\ of\ the\ current\ state\ (alias\ for\ copy) }}
+\DoxyCodeLine{00259\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Deep\ copy\ of\ this\ ProblemState }}
+\DoxyCodeLine{00260\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.copy() }
+\DoxyCodeLine{00262\ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a96fd5143efc1fa40fc4db6d0e1e4c4f1}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!copy@{copy}}
+\index{copy@{copy}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a96fd5143efc1fa40fc4db6d0e1e4c4f1} 
+rl.\+env.\+state.\+Problem\+State.\+copy (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Create a deep copy of the entire problem state. 
+
+\begin{DoxyReturn}{Returns}
+New \doxylink{classrl_1_1env_1_1state_1_1_problem_state}{Problem\+State} instance with all components copied 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keyword}{def\ }copy(self): }
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00225\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Create\ a\ deep\ copy\ of\ the\ entire\ problem\ state }}
+\DoxyCodeLine{00226\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ New\ ProblemState\ instance\ with\ all\ components\ copied }}
+\DoxyCodeLine{00227\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ new\_state\ =\ ProblemState( }
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ jigs=[jig.copy()\ \textcolor{keywordflow}{for}\ jig\ \textcolor{keywordflow}{in}\ self.jigs], }
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ belugas=[beluga.copy()\ \textcolor{keywordflow}{for}\ beluga\ \textcolor{keywordflow}{in}\ self.belugas], }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ trailers\_beluga=self.trailers\_beluga[:], }
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ trailers\_factory=self.trailers\_factory[:], }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ racks=[rack.copy()\ \textcolor{keywordflow}{for}\ rack\ \textcolor{keywordflow}{in}\ self.racks], }
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ production\_lines=[pl.copy()\ \textcolor{keywordflow}{for}\ pl\ \textcolor{keywordflow}{in}\ self.production\_lines], }
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ hangars=self.hangars[:]\ \ \textcolor{comment}{\#\ List\ of\ ints\ or\ None }}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ ) }
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ new\_state.belugas\_unloaded\ =\ self.belugas\_unloaded }
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ new\_state.belugas\_finished\ =\ self.belugas\_finished }
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ new\_state.production\_lines\_finished\ =\ self.production\_lines\_finished }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ new\_state.total\_lines\ =\ self.total\_lines }
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ new\_state.total\_belugas\ =\ self.total\_belugas\  }
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ new\_state.problem\_solved\ =\ self.problem\_solved }
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ new\_state }
+\DoxyCodeLine{00244\ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_ac9617c0750c3a8fa486490bdf4a3e3de}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!enumerate\_valid\_params@{enumerate\_valid\_params}}
+\index{enumerate\_valid\_params@{enumerate\_valid\_params}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{enumerate\_valid\_params()}{enumerate\_valid\_params()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_ac9617c0750c3a8fa486490bdf4a3e3de} 
+rl.\+env.\+state.\+Problem\+State.\+enumerate\+\_\+valid\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{action}{}\end{DoxyParamCaption})}
+
+
+
+Enumerate all valid parameter combinations for a given action. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & Name of the action to enumerate parameters for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+List of valid parameter tuples for the action 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00366\ \ \ \ \ \textcolor{keyword}{def\ }enumerate\_valid\_params(self,\ action): }
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00368\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Enumerate\ all\ valid\ parameter\ combinations\ for\ a\ given\ action }}
+\DoxyCodeLine{00369\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\ Name\ of\ the\ action\ to\ enumerate\ parameters\ for }}
+\DoxyCodeLine{00370\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ List\ of\ valid\ parameter\ tuples\ for\ the\ action }}
+\DoxyCodeLine{00371\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ action\_name\ =\ action }
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ params\ =\ [] }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}: }
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ all\_param\ =\ [(rack\_id,\ trailer\_id)\  }
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_id\ \textcolor{keywordflow}{in}\ range(len(self.racks))\  }
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_id\ \textcolor{keywordflow}{in}\ range(len(self.trailers\_beluga))] }
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ all\_param: }
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(action\_name,\ t): }
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params.append(t) }
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}: }
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ all\_param\ =\ [(rack\_id,\ trailer\_id)\  }
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_id\ \textcolor{keywordflow}{in}\ range(len(self.racks))\  }
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_id\ \textcolor{keywordflow}{in}\ range(len(self.trailers\_factory))] }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ all\_param: }
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(action\_name,\ t): }
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params.append(t) }
+\DoxyCodeLine{00392\  }
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}: }
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ all\_param\ =\ [(rack\_id,\ trailer\_id)\  }
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_id\ \textcolor{keywordflow}{in}\ range(len(self.racks))\  }
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_id\ \textcolor{keywordflow}{in}\ range(len(self.trailers\_beluga))] }
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ all\_param: }
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(action\_name,\ t): }
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params.append(t) }
+\DoxyCodeLine{00401\  }
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}: }
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ all\_param\ =\ [(rack\_id,\ trailer\_id)\  }
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rack\_id\ \textcolor{keywordflow}{in}\ range(len(self.racks))\  }
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_id\ \textcolor{keywordflow}{in}\ range(len(self.trailers\_factory))] }
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ all\_param: }
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(action\_name,\ t): }
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params.append(t) }
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}load\_beluga"{}}: }
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ all\_param\ =\ [trailer\_id\ \textcolor{keywordflow}{for}\ trailer\_id\ \textcolor{keywordflow}{in}\ range(len(self.trailers\_beluga))] }
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ all\_param: }
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(action\_name,\ (t,\ \textcolor{keywordtype}{None})): }
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params.append((t,\ \textcolor{keywordtype}{None})) }
+\DoxyCodeLine{00416\  }
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}: }
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ all\_param\ =\ [(hangar\_id,\ trailer\_id)\  }
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ hangar\_id\ \textcolor{keywordflow}{in}\ range(len(self.hangars))\  }
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_id\ \textcolor{keywordflow}{in}\ range(len(self.trailers\_factory))] }
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ all\_param: }
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(action\_name,\ t): }
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params.append(t) }
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\_name\ ==\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}: }
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ all\_param\ =\ [(hangar\_id,\ trailer\_id)\  }
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ hangar\_id\ \textcolor{keywordflow}{in}\ range(len(self.hangars))\  }
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ trailer\_id\ \textcolor{keywordflow}{in}\ range(len(self.trailers\_factory))] }
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ t\ \textcolor{keywordflow}{in}\ all\_param: }
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(action\_name,\ t): }
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params.append(t) }
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ params }
+\DoxyCodeLine{00436\  }
+\DoxyCodeLine{00437\  }
+\DoxyCodeLine{00438\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_ade20072cf57dca3e7af934d8d25e6cd5}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_ade20072cf57dca3e7af934d8d25e6cd5} 
+ float rl.\+env.\+state.\+Problem\+State.\+evaluate (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{int}]{depth}{, }\item[{}]{mu}{ = {\ttfamily 0.05}}\end{DoxyParamCaption})}
+
+
+
+Evaluate the current state for MCTS scoring. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em depth} & Current depth in the search tree \\
+\hline
+{\em mu} & Penalty factor for depth (default 0.\+05) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Floating point score for this state 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keyword}{def\ }evaluate(self,\ depth:\ int,\ mu\ =\ 0.05)\ -\/>\ float: }
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00272\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Evaluate\ the\ current\ state\ for\ MCTS\ scoring }}
+\DoxyCodeLine{00273\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ depth\ Current\ depth\ in\ the\ search\ tree }}
+\DoxyCodeLine{00274\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ mu\ Penalty\ factor\ for\ depth\ (default\ 0.05) }}
+\DoxyCodeLine{00275\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Floating\ point\ score\ for\ this\ state }}
+\DoxyCodeLine{00276\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ score\ =\ 0.0 }
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ subgoals\ =\ self.get\_subgoals() }
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ score\ +=\ sum(subgoals.values()) }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Penalty\ based\ on\ path\ depth }}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ score\ -\/=\ mu\ *\ depth }
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ score }
+\DoxyCodeLine{00283\ \ \ \ \  }
+\DoxyCodeLine{00284\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a597034095b700127eede12ed3005028d}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!get\_observation\_high\_level@{get\_observation\_high\_level}}
+\index{get\_observation\_high\_level@{get\_observation\_high\_level}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{get\_observation\_high\_level()}{get\_observation\_high\_level()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a597034095b700127eede12ed3005028d} 
+rl.\+env.\+state.\+Problem\+State.\+get\+\_\+observation\+\_\+high\+\_\+level (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Get high-\/level observation array for RL agents. 
+
+\begin{DoxyReturn}{Returns}
+Num\+Py array representing the current state for high-\/level agents
+\end{DoxyReturn}
+The observation includes information about belugas, trailers, hangars, and racks. High-\/level agents convert this array into tensors for neural network processing. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00490\ \ \ \ \ \textcolor{keyword}{def\ }get\_observation\_high\_level(self): }
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00492\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ high-\/level\ observation\ array\ for\ RL\ agents }}
+\DoxyCodeLine{00493\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ NumPy\ array\ representing\ the\ current\ state\ for\ high-\/level\ agents }}
+\DoxyCodeLine{00494\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \  }}
+\DoxyCodeLine{00495\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ The\ observation\ includes\ information\ about\ belugas,\ trailers,\ hangars,\ and\ racks. }}
+\DoxyCodeLine{00496\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ High-\/level\ agents\ convert\ this\ array\ into\ tensors\ for\ neural\ network\ processing. }}
+\DoxyCodeLine{00497\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ the\ current\ state\ of\ the\ environment\ for\ a\ high-\/level\ agent\ as\ array }}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ High-\/Level-\/Agents\ converts\ array\ into\ tensor }}
+\DoxyCodeLine{00500\  }
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ n\_racks\ =\ 10 }
+\DoxyCodeLine{00503\  }
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ out\ =\ np.zeros(10\ +\ 3*n\_racks) }
+\DoxyCodeLine{00505\  }
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ needed\_outgoing\_types\ =\ [] }
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ needed\_in\_production\_lines\ =\ [] }
+\DoxyCodeLine{00508\  }
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pl\ \textcolor{keywordflow}{in}\ self.production\_lines: }
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(pl.scheduled\_jigs)\ >\ 0: }
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ needed\_in\_production\_lines.append(pl.scheduled\_jigs[0]) }
+\DoxyCodeLine{00512\  }
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ First\ slot\ 0\ beluga }}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.belugas)\ >\ 0: }
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ out[0]\ =\ max(0,\ min(len(self.belugas[0].current\_jigs),\ 1)) }
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ out[0]\ ==\ 0: }
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ needed\_outgoing\_types\ =\ self.belugas[0].outgoing }
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ out[0]\ =\ -\/1 }
+\DoxyCodeLine{00520\  }
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Slot\ 1-\/3\ Beluga\ Trailer }}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ slot\ =\ 1 }
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3): }
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ <\ len(self.trailers\_beluga): }
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.trailers\_beluga[i]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}: }
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 0.5 }
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.jigs[self.trailers\_beluga[i]].empty\ \textcolor{keywordflow}{and}\ out[0]\ ==\ 0: }
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ needed\_outgoing\_types.\_\_contains\_\_( }
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.jigs[self.trailers\_beluga[i]].jig\_type): }
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 0 }
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 0.25 }
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 1 }
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ -\/1 }
+\DoxyCodeLine{00538\  }
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Slot\ 4-\/6\ Factory\ Trailer }}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ slot\ =\ 4 }
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3): }
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ <\ len(self.trailers\_factory): }
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.trailers\_factory[i]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}: }
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 0.5 }
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.jigs[self.trailers\_factory[i]].empty: }
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ needed\_in\_production\_lines.\_\_contains\_\_(self.trailers\_factory[i]): }
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 1 }
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 0.75 }
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 0 }
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ -\/1 }
+\DoxyCodeLine{00555\  }
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Slot\ 7-\/9\ Hangars }}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ slot\ =\ 7 }
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(3): }
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ <\ len(self.hangars): }
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.hangars[i]\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}: }
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 0 }
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ 1 }
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i]\ =\ -\/1 }
+\DoxyCodeLine{00566\  }
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Slot\ 10-\/39\ Racks }}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ slot\ =\ 10 }
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(n\_racks): }
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ <\ len(self.racks): }
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rack\ =\ self.racks[i] }
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ items\ =\ len(rack.current\_jigs) }
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ items\ ==\ 0: }
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3]\ =\ 0 }
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3\ +\ 1]\ =\ 0 }
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3\ +\ 2]\ =\ 0 }
+\DoxyCodeLine{00577\  }
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3]\ =\ 0 }
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3\ +\ 1]\ =\ 0 }
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3\ +\ 2]\ =\ rack.get\_free\_space(self.jigs)/rack.size }
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ range(items): }
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ jig\ =\ self.jigs[rack.current\_jigs[k]] }
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ jig.empty\ \textcolor{keywordflow}{and}\ needed\_outgoing\_types.\_\_contains\_\_(jig.jig\_type): }
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3]\ =\ (items\ -\/\ k)\ /\ items }
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue} }
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ k\ \textcolor{keywordflow}{in}\ range(items): }
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ needed\_in\_production\_lines.\_\_contains\_\_(rack.current\_jigs[k]): }
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3\ +\ 1]\ =\ (k\ +\ 1)\ /\ items }
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue} }
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3]\ =\ -\/1 }
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3\ +\ 1]\ =\ -\/1 }
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out[slot\ +\ i\ *\ 3\ +\ 2]\ =\ -\/1 }
+\DoxyCodeLine{00595\  }
+\DoxyCodeLine{00596\  }
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ out }
+\DoxyCodeLine{00598\  }
+\DoxyCodeLine{00599\  }
+\DoxyCodeLine{00600\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_adbbdae73abac5758cb3e1020b3f4a32d}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!get\_possible\_actions@{get\_possible\_actions}}
+\index{get\_possible\_actions@{get\_possible\_actions}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{get\_possible\_actions()}{get\_possible\_actions()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_adbbdae73abac5758cb3e1020b3f4a32d} 
+rl.\+env.\+state.\+Problem\+State.\+get\+\_\+possible\+\_\+actions (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Get list of all possible actions in the current state. 
+
+\begin{DoxyReturn}{Returns}
+List of (action\+\_\+name, parameters) tuples for all valid actions
+\end{DoxyReturn}
+An action is considered possible if at least one valid parameter combination exists. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keyword}{def\ }get\_possible\_actions(self): }
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00441\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Get\ list\ of\ all\ possible\ actions\ in\ the\ current\ state }}
+\DoxyCodeLine{00442\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ List\ of\ (action\_name,\ parameters)\ tuples\ for\ all\ valid\ actions }}
+\DoxyCodeLine{00443\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \  }}
+\DoxyCodeLine{00444\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ An\ action\ is\ considered\ possible\ if\ at\ least\ one\ valid\ parameter\ combination\ exists. }}
+\DoxyCodeLine{00445\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ action\ =\ ("{}action\_name"{},\ "{}params"{}) }}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ possible\_actions\ =\ [] }
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ unload\_beluga\ (no\ parameters) }}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.check\_action\_valid(\textcolor{stringliteral}{"{}unload\_beluga"{}}): }
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ possible\_actions.append((\textcolor{stringliteral}{"{}unload\_beluga"{}},\ \{\})) }
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ actions\ with\ parameters }}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ param\_actions\ =\ [ }
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}, }
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}, }
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}, }
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}, }
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}load\_beluga"{}}, }
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}, }
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}} }
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ ] }
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ action\ \textcolor{keywordflow}{in}\ param\_actions: }
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ all\ actions\ with\ parameters,\ if\ there\ are\ no\ params,\ no\ legal\ actions }}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ params\ =\ self.enumerate\_valid\_params(action) }
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ possible\_actions.extend([(action,\ param)\ \textcolor{keywordflow}{for}\ param\ \textcolor{keywordflow}{in}\ params]) }
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ possible\_actions }
+\DoxyCodeLine{00470\  }
+\DoxyCodeLine{00471\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a248905a75635c70e345f5cac6fe6c31b}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!get\_subgoals@{get\_subgoals}}
+\index{get\_subgoals@{get\_subgoals}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{get\_subgoals()}{get\_subgoals()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a248905a75635c70e345f5cac6fe6c31b} 
+ dict\mbox{[}str, float\mbox{]} rl.\+env.\+state.\+Problem\+State.\+get\+\_\+subgoals (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Calculate subgoal achievements for evaluation. 
+
+\begin{DoxyReturn}{Returns}
+Dictionary mapping subgoal names to their scores 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keyword}{def\ }get\_subgoals(self)\ -\/>\ dict[str,\ float]: }
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00287\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Calculate\ subgoal\ achievements\ for\ evaluation }}
+\DoxyCodeLine{00288\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Dictionary\ mapping\ subgoal\ names\ to\ their\ scores }}
+\DoxyCodeLine{00289\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ self.belugas\_finished\ =\ self.total\_belugas\ -\/\ len(self.belugas) }
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ self.production\_lines\_finished\ =\ self.total\_lines\ -\/\ len(self.production\_lines) }
+\DoxyCodeLine{00292\  }
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.belugas)\ ==\ 0\ \textcolor{keywordflow}{and}\ len(self.production\_lines)\ ==\ 0: }
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ self.problem\_solved\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{ }
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}subgoal\_1"{}}:\ self.belugas\_unloaded\ *\ 15, }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}subgoal\_2"{}}:\ self.belugas\_finished\ *\ 60, }
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}subgoal\_3"{}}:\ self.production\_lines\_finished\ *\ 100, }
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}goal"{}}:\ self.problem\_solved\ *\ 1000\ \ \ \  }
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \} }
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_add065d858f33330a7ee988f1b9588b45}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!is\_terminal@{is\_terminal}}
+\index{is\_terminal@{is\_terminal}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{is\_terminal()}{is\_terminal()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_add065d858f33330a7ee988f1b9588b45} 
+rl.\+env.\+state.\+Problem\+State.\+is\+\_\+terminal (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Check if this state represents a terminal (goal) state. 
+
+\begin{DoxyReturn}{Returns}
+True if all belugas and production lines are finished 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keyword}{def\ }is\_terminal(self): }
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00265\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ if\ this\ state\ represents\ a\ terminal\ (goal)\ state }}
+\DoxyCodeLine{00266\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ True\ if\ all\ belugas\ and\ production\ lines\ are\ finished }}
+\DoxyCodeLine{00267\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ len(self.belugas)\ ==\ 0\ \textcolor{keywordflow}{and}\ len(self.production\_lines)\ ==\ 0 }
+\DoxyCodeLine{00269\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_af7a668fd5d7311137fe84d611a92de66}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!belugas@{belugas}}
+\index{belugas@{belugas}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{belugas}{belugas}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_af7a668fd5d7311137fe84d611a92de66} 
+rl.\+env.\+state.\+Problem\+State.\+belugas = belugas}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a97e0309301cb8d87c5ce79fe2ee673dc}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!belugas@{belugas}}
+\index{belugas@{belugas}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{belugas}{belugas}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a97e0309301cb8d87c5ce79fe2ee673dc} 
+str rl.\+env.\+state.\+Problem\+State.\+belugas = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(beluga) + "{}\textbackslash{}n"{}}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_af088447f7a3f7640f6c50734be85f617}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!belugas\_finished@{belugas\_finished}}
+\index{belugas\_finished@{belugas\_finished}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{belugas\_finished}{belugas\_finished}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_af088447f7a3f7640f6c50734be85f617} 
+int rl.\+env.\+state.\+Problem\+State.\+belugas\+\_\+finished = 0}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a2c2ebd2dee9819c34dc89d9a07176b40}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!belugas\_unloaded@{belugas\_unloaded}}
+\index{belugas\_unloaded@{belugas\_unloaded}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{belugas\_unloaded}{belugas\_unloaded}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a2c2ebd2dee9819c34dc89d9a07176b40} 
+int rl.\+env.\+state.\+Problem\+State.\+belugas\+\_\+unloaded = 0}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a30bbf7cf17dd79bf56b6fd36c0db3730}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!hangars@{hangars}}
+\index{hangars@{hangars}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{hangars}{hangars}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a30bbf7cf17dd79bf56b6fd36c0db3730} 
+rl.\+env.\+state.\+Problem\+State.\+hangars = hangars}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_ae69ebea50bb1cc9db3db8da1f048822e}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!jigs@{jigs}}
+\index{jigs@{jigs}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{jigs}{jigs}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_ae69ebea50bb1cc9db3db8da1f048822e} 
+rl.\+env.\+state.\+Problem\+State.\+jigs = jigs}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_abb1a7fbfd269edf4d6730575fcf18c0a}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!jigs@{jigs}}
+\index{jigs@{jigs}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{jigs}{jigs}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_abb1a7fbfd269edf4d6730575fcf18c0a} 
+str rl.\+env.\+state.\+Problem\+State.\+jigs = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(jig) + "{}\textbackslash{}n"{}}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a2e8b188e6ab9501da8478eebbc783ebe}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!problem\_solved@{problem\_solved}}
+\index{problem\_solved@{problem\_solved}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{problem\_solved}{problem\_solved}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a2e8b188e6ab9501da8478eebbc783ebe} 
+bool rl.\+env.\+state.\+Problem\+State.\+problem\+\_\+solved = False}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a54d9d168c4472bd0f33fecb22a3890c7}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!production\_lines@{production\_lines}}
+\index{production\_lines@{production\_lines}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{production\_lines}{production\_lines}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a54d9d168c4472bd0f33fecb22a3890c7} 
+rl.\+env.\+state.\+Problem\+State.\+production\+\_\+lines = production\+\_\+lines}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_addfa05213af62b0e1ed667f436508e8e}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!production\_lines@{production\_lines}}
+\index{production\_lines@{production\_lines}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{production\_lines}{production\_lines}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_addfa05213af62b0e1ed667f436508e8e} 
+str rl.\+env.\+state.\+Problem\+State.\+production\+\_\+lines = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(production\+\_\+line) + "{}\textbackslash{}n"{}}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a3fa9e9374aa07623ea037c27195d26fe}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!production\_lines\_finished@{production\_lines\_finished}}
+\index{production\_lines\_finished@{production\_lines\_finished}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{production\_lines\_finished}{production\_lines\_finished}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a3fa9e9374aa07623ea037c27195d26fe} 
+int rl.\+env.\+state.\+Problem\+State.\+production\+\_\+lines\+\_\+finished = 0}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a1ec78c677f24987ac0778d8cab4398c5}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!racks@{racks}}
+\index{racks@{racks}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{racks}{racks}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a1ec78c677f24987ac0778d8cab4398c5} 
+rl.\+env.\+state.\+Problem\+State.\+racks = racks}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a8de93be5fff89ce4f9065d9e9c2f9250}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!racks@{racks}}
+\index{racks@{racks}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{racks}{racks}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a8de93be5fff89ce4f9065d9e9c2f9250} 
+str rl.\+env.\+state.\+Problem\+State.\+racks = "{}\textbackslash{}t"{} + str(count) + "{}\+: "{} + str(rack) + "{}\textbackslash{}n"{}}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a8757d2f3438dafcc6c03fb96116dc3db}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!total\_belugas@{total\_belugas}}
+\index{total\_belugas@{total\_belugas}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{total\_belugas}{total\_belugas}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a8757d2f3438dafcc6c03fb96116dc3db} 
+rl.\+env.\+state.\+Problem\+State.\+total\+\_\+belugas = len(self.\+belugas)}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a0572124eeab50ea62588152aa334baa3}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!total\_lines@{total\_lines}}
+\index{total\_lines@{total\_lines}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{total\_lines}{total\_lines}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a0572124eeab50ea62588152aa334baa3} 
+rl.\+env.\+state.\+Problem\+State.\+total\+\_\+lines = len(self.\+production\+\_\+lines)}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a634c438942449d0a8d5d3259bceed2d2}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!trailers\_beluga@{trailers\_beluga}}
+\index{trailers\_beluga@{trailers\_beluga}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{trailers\_beluga}{trailers\_beluga}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a634c438942449d0a8d5d3259bceed2d2} 
+rl.\+env.\+state.\+Problem\+State.\+trailers\+\_\+beluga = trailers\+\_\+beluga}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_problem_state_a388549e61b047cdb88493a251d17c8f8}\index{rl.env.state.ProblemState@{rl.env.state.ProblemState}!trailers\_factory@{trailers\_factory}}
+\index{trailers\_factory@{trailers\_factory}!rl.env.state.ProblemState@{rl.env.state.ProblemState}}
+\doxysubsubsection{\texorpdfstring{trailers\_factory}{trailers\_factory}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_problem_state_a388549e61b047cdb88493a251d17c8f8} 
+rl.\+env.\+state.\+Problem\+State.\+trailers\+\_\+factory = trailers\+\_\+factory}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+rl/env/state.\+py\end{DoxyCompactItemize}

@@ -1,0 +1,123 @@
+\doxysection{rl.\+env.\+state.\+Beluga Class Reference}
+\hypertarget{classrl_1_1env_1_1state_1_1_beluga}{}\label{classrl_1_1env_1_1state_1_1_beluga}\index{rl.env.state.Beluga@{rl.env.state.Beluga}}
+
+
+Container ship (\doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}) with current and outgoing jigs.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga_a38e4a1823d3f0f25d780298ccd564bbf}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, list\mbox{[}int\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga_affbcc110536b510976bceb58d53ead5a}{current\+\_\+jigs}}, list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type}}\mbox{]} \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga_a227851252319a4e980f875f6b1eb50b5}{outgoing}})
+\begin{DoxyCompactList}\small\item\em Initialize a \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} ship. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga_addfdf6c700e3f977f7cf5357eca6400c}{\+\_\+\+\_\+str\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga_ac89daee8285bc6788a695482a45a0376}{copy}} (self)
+\begin{DoxyCompactList}\small\item\em Create a deep copy of this \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga_affbcc110536b510976bceb58d53ead5a}{current\+\_\+jigs}} = current\+\_\+jigs
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_beluga_a227851252319a4e980f875f6b1eb50b5}{outgoing}} = outgoing
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Container ship (\doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}) with current and outgoing jigs. 
+
+Represents a ship that can carry jigs. Has current jigs aboard and a list of outgoing jig types that need to be loaded. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_beluga_a38e4a1823d3f0f25d780298ccd564bbf}\index{rl.env.state.Beluga@{rl.env.state.Beluga}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!rl.env.state.Beluga@{rl.env.state.Beluga}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_beluga_a38e4a1823d3f0f25d780298ccd564bbf} 
+rl.\+env.\+state.\+Beluga.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{list\mbox{[}int\mbox{]}}]{current\+\_\+jigs}{, }\item[{list\mbox{[}\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type}{Jig\+Type}}\mbox{]}}]{outgoing}{}\end{DoxyParamCaption})}
+
+
+
+Initialize a \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} ship. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+\_\+jigs} & List of jig IDs currently on the ship \\
+\hline
+{\em outgoing} & List of jig types that need to be loaded onto this ship \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{def\ }\_\_init\_\_(self,\ current\_jigs:\ list[int],\ outgoing:\ list[JigType]): }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00098\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ a\ Beluga\ ship }}
+\DoxyCodeLine{00099\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ current\_jigs\ List\ of\ jig\ IDs\ currently\ on\ the\ ship }}
+\DoxyCodeLine{00100\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ outgoing\ List\ of\ jig\ types\ that\ need\ to\ be\ loaded\ onto\ this\ ship }}
+\DoxyCodeLine{00101\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ self.current\_jigs\ =\ current\_jigs }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ self.outgoing\ =\ outgoing }
+\DoxyCodeLine{00104\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_beluga_addfdf6c700e3f977f7cf5357eca6400c}\index{rl.env.state.Beluga@{rl.env.state.Beluga}!\_\_str\_\_@{\_\_str\_\_}}
+\index{\_\_str\_\_@{\_\_str\_\_}!rl.env.state.Beluga@{rl.env.state.Beluga}}
+\doxysubsubsection{\texorpdfstring{\_\_str\_\_()}{\_\_str\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_beluga_addfdf6c700e3f977f7cf5357eca6400c} 
+rl.\+env.\+state.\+Beluga.\+\_\+\+\_\+str\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{def\ }\_\_str\_\_(self): }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}current\_jigs\ =\ "{}}\ +\ str(self.current\_jigs)\ +\ \textcolor{stringliteral}{"{}\ |\ outgoing\ =\ "{}}\ +\ str(self.outgoing) }
+\DoxyCodeLine{00107\ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_beluga_ac89daee8285bc6788a695482a45a0376}\index{rl.env.state.Beluga@{rl.env.state.Beluga}!copy@{copy}}
+\index{copy@{copy}!rl.env.state.Beluga@{rl.env.state.Beluga}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_beluga_ac89daee8285bc6788a695482a45a0376} 
+rl.\+env.\+state.\+Beluga.\+copy (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Create a deep copy of this \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga}. 
+
+\begin{DoxyReturn}{Returns}
+New \doxylink{classrl_1_1env_1_1state_1_1_beluga}{Beluga} instance with same properties 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{def\ }copy(self): }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00110\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Create\ a\ deep\ copy\ of\ this\ Beluga }}
+\DoxyCodeLine{00111\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ New\ Beluga\ instance\ with\ same\ properties }}
+\DoxyCodeLine{00112\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ current\_jigs\ and\ outgoing\ are\ lists\ of\ ints/objects\ →\ shallow\ copy\ suffices }}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Beluga(self.current\_jigs[:],\ self.outgoing[:]) }
+\DoxyCodeLine{00115\  }
+\DoxyCodeLine{00116\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_beluga_affbcc110536b510976bceb58d53ead5a}\index{rl.env.state.Beluga@{rl.env.state.Beluga}!current\_jigs@{current\_jigs}}
+\index{current\_jigs@{current\_jigs}!rl.env.state.Beluga@{rl.env.state.Beluga}}
+\doxysubsubsection{\texorpdfstring{current\_jigs}{current\_jigs}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_beluga_affbcc110536b510976bceb58d53ead5a} 
+rl.\+env.\+state.\+Beluga.\+current\+\_\+jigs = current\+\_\+jigs}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_beluga_a227851252319a4e980f875f6b1eb50b5}\index{rl.env.state.Beluga@{rl.env.state.Beluga}!outgoing@{outgoing}}
+\index{outgoing@{outgoing}!rl.env.state.Beluga@{rl.env.state.Beluga}}
+\doxysubsubsection{\texorpdfstring{outgoing}{outgoing}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_beluga_a227851252319a4e980f875f6b1eb50b5} 
+rl.\+env.\+state.\+Beluga.\+outgoing = outgoing}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+rl/env/state.\+py\end{DoxyCompactItemize}

@@ -13,7 +13,7 @@ Der Ansatz trennt strategische Entscheidungen (High-Level) von der konkreten Aus
 
 Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
 
-![Agent Architecture](https://github.com/user-attachments/assets/ac2d5b83-8f99-4fbd-b97b-1441114ee30b)
+![Agent Architecture](docs/architektur.jpg)
 
 - **High-Level Agent**  
   - Wählt eine von acht möglichen Aktionen (z. B. *Load Jig*, *Swap*, *Dispatch*)  
@@ -31,6 +31,6 @@ Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
 
 ## 📄 Projektdokumentation
 Die vollständige generierte HTML-Dokumentation findest du hier:  
-[📖 Projekt-Dokumentation anzeigen](https://youssef27db.github.io/FoPra-Beluga-Challenge/docs/index.html)
+[📖 Projekt-Dokumentation anzeigen](https://youssef27db.github.io/FoPra-Beluga-Challenge)
 
 

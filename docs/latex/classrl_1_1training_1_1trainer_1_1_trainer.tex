@@ -1,0 +1,1172 @@
+\doxysection{rl.\+training.\+trainer.\+Trainer Class Reference}
+\hypertarget{classrl_1_1training_1_1trainer_1_1_trainer}{}\label{classrl_1_1training_1_1trainer_1_1_trainer}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+
+
+Main training orchestrator for the Beluga Challenge.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a53164e49695cab34143f081c642c9f36}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env}{Env}} \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a7eca82735158f766fee6550d4086ddc6}{env}}, \mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent}{PPOAgent}} \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_aaeda707242f803f4a3d92aa58183d78b}{ppo\+\_\+agent}}, mcts\+\_\+params=None, \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a458358bedca5762d1d0413497d29c8e5}{debug}}=False)
+\begin{DoxyCompactList}\small\item\em Initialize the trainer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a81d6d4c1b2cf92250f4de9720ae25abd}{get\+\_\+valid\+\_\+actions}} (self, obs)
+\begin{DoxyCompactList}\small\item\em Check which actions are valid in the current state. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a51c6a0a6b518965bcf38c8078fa1925b}{train}} (self, n\+\_\+episodes=2000, N=5, max\+\_\+steps\+\_\+per\+\_\+episode=200, train\+\_\+on\+\_\+old\+\_\+models=False, start\+\_\+learn\+\_\+after=500, use\+\_\+permutation=False)
+\begin{DoxyCompactList}\small\item\em Train the agent over a specified number of episodes. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a73254bb990d9ccc068ee1175f875ea88}{evaluate\+Model}} (self, n\+\_\+eval\+\_\+episodes=10, max\+\_\+steps\+\_\+per\+\_\+episode=200, plot=False)
+\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_ab7a33635ce96b4de6cc804426901cb1e}{evaluate\+Problem}} (self, problem, max\+\_\+steps=2000, loop\+\_\+detection=True, exploration\+\_\+rate=0.\+1, save\+\_\+to\+\_\+file=False)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a7eca82735158f766fee6550d4086ddc6}{env}} = env
+\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent}{PPOAgent}} \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_aaeda707242f803f4a3d92aa58183d78b}{ppo\+\_\+agent}} = ppo\+\_\+agent
+\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a426f32a6b93f28582fb77d54af312a16}{mcts}} = None
+\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a458358bedca5762d1d0413497d29c8e5}{debug}} = debug
+\item 
+list \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_aaebca8d0c1d7f5e7c02bb68a4a5105c0}{episode\+\_\+rewards}} = \mbox{[}$\,$\mbox{]}
+\item 
+list \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a1ec86533932a55f2d8aa0f088b11dad8}{avg\+\_\+rewards}} = \mbox{[}$\,$\mbox{]}
+\item 
+list \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a3497eb76c0856c13f5ffb747a6435968}{steps\+\_\+per\+\_\+episode}} = \mbox{[}$\,$\mbox{]}
+\item 
+int \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_af53b12fdc00175204aa94499c5001b81}{best\+\_\+score}} = -\/90000
+\item 
+list \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a1b0e2b1ca4666b1edd6707c7916f15fd}{score\+\_\+history}} = \mbox{[}$\,$\mbox{]}
+\item 
+int \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_adc3380c8b2203c1873fb8e5de511c095}{learn\+\_\+iters}} = 0
+\item 
+dict \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_abaf51c0b6caf143683b15263adf6f76c}{invalid\+\_\+action\+\_\+counts}} = \{i\+: 0 for i in range(8)\}
+\item 
+float \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a2f807ad2ea6c9325d2e51553bfbe7275}{epsilon\+\_\+start}} = 0.\+9
+\item 
+float \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a83ce46e90e7197ace0a2448eedabb0ef}{epsilon\+\_\+end}} = 0.\+2
+\item 
+float \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_ae8cb00e5c5eeb0624259f76b10dd8b3a}{epsilon\+\_\+decay}} = 0.\+00001
+\item 
+int \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a911fdcd8b62556fea6eeb7ec90785dc4}{total\+\_\+steps}} = 0
+\item 
+dict \mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_adb48f26c55ad6a951e8d18e9d5a0a123}{action\+\_\+mapping}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a697ee4825311a40a0766cd7180dbf070}{\+\_\+save\+\_\+results\+\_\+to\+\_\+file}} (self, problem, steps, max\+\_\+steps, is\+\_\+terminal, action\+\_\+trace, action\+\_\+counts, optimized\+\_\+steps, original\+\_\+steps, execution\+\_\+time, formatted\+\_\+time)
+\item 
+\mbox{\hyperlink{classrl_1_1training_1_1trainer_1_1_trainer_a4350ef15383974ba4a2232acf721d002}{\+\_\+format\+\_\+parameters}} (self, action, params)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main training orchestrator for the Beluga Challenge. 
+
+This class manages the training process, coordinating between the RL agent, MCTS, and environment components. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a53164e49695cab34143f081c642c9f36}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a53164e49695cab34143f081c642c9f36} 
+rl.\+training.\+trainer.\+Trainer.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{\mbox{\hyperlink{classrl_1_1env_1_1environment_1_1_env}{Env}}}]{env}{, }\item[{\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent}{PPOAgent}}}]{ppo\+\_\+agent}{, }\item[{}]{mcts\+\_\+params}{ = {\ttfamily None}, }\item[{}]{debug}{ = {\ttfamily False}}\end{DoxyParamCaption})}
+
+
+
+Initialize the trainer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em env} & Environment instance \\
+\hline
+{\em ppo\+\_\+agent} & PPO agent for high-\/level decisions \\
+\hline
+{\em mcts\+\_\+params} & Parameters for MCTS (optional) \\
+\hline
+{\em debug} & Enable debug output \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{def\ }\_\_init\_\_(self,\ env:\ Env,\ ppo\_agent:\ PPOAgent,\ mcts\_params=\textcolor{keywordtype}{None},\ debug=\textcolor{keyword}{False}): }
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ trainer }}
+\DoxyCodeLine{00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ env\ Environment\ instance }}
+\DoxyCodeLine{00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ ppo\_agent\ PPO\ agent\ for\ high-\/level\ decisions }}
+\DoxyCodeLine{00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ mcts\_params\ Parameters\ for\ MCTS\ (optional) }}
+\DoxyCodeLine{00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ debug\ Enable\ debug\ output }}
+\DoxyCodeLine{00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ self.env\ =\ env }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ self.ppo\_agent:\ PPOAgent\ =\ ppo\_agent\ \ \textcolor{comment}{\#\ High-\/Level-\/Agent }}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ self.mcts\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ self.debug\ =\ debug\ \ \textcolor{comment}{\#\ Debug\ mode\ for\ additional\ output }}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Tracking\ metrics }}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ self.episode\_rewards\ =\ [] }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ self.avg\_rewards\ =\ [] }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ self.steps\_per\_episode\ =\ [] }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ self.best\_score\ =\ -\/90000 }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ self.score\_history\ =\ [] }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ self.learn\_iters\ =\ 0 }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ self.invalid\_action\_counts\ =\ \{i:\ 0\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(8)\}\ \ \textcolor{comment}{\#\ Counter\ for\ invalid\ actions\ by\ type }}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Exploration\ parameters }}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ self.epsilon\_start\ =\ 0.9\ \ \textcolor{comment}{\#\ Initial\ value\ for\ epsilon\ (exploration\ probability) }}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ self.epsilon\_end\ =\ 0.2\ \ \ \textcolor{comment}{\#\ Final\ value\ for\ epsilon }}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ self.epsilon\_decay\ =\ 0.00001\ \ \textcolor{comment}{\#\ Rate\ at\ which\ epsilon\ is\ reduced }}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ self.total\_steps\ =\ 0\ \ \ \ \ \ \textcolor{comment}{\#\ Total\ number\ of\ steps\ taken }}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Number\ to\ Action\ Mapping }}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ self.action\_mapping\ =\ \{ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ 0\ :\ \textcolor{stringliteral}{"{}load\_beluga"{}}, }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ 1\ :\ \textcolor{stringliteral}{"{}unload\_beluga"{}}, }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ 2\ :\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}}, }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ 3\ :\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}, }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ 4\ :\ \textcolor{stringliteral}{"{}left\_stack\_rack"{}}, }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ 5\ :\ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}, }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ 6\ :\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}, }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ 7\ :\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}} }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \} }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a4350ef15383974ba4a2232acf721d002}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!\_format\_parameters@{\_format\_parameters}}
+\index{\_format\_parameters@{\_format\_parameters}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{\_format\_parameters()}{\_format\_parameters()}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a4350ef15383974ba4a2232acf721d002} 
+rl.\+training.\+trainer.\+Trainer.\+\_\+format\+\_\+parameters (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{action}{, }\item[{}]{params}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}@brief Formats parameters for better readability in output
+@param action The action name
+@param params The parameters to format
+@return Dictionary with formatted parameters
+
+Converts tuples and lists into meaningful dictionary formats.
+Filters out None values and 'none' keys.
+\end{DoxyVerb}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00799\ \ \ \ \ \textcolor{keyword}{def\ }\_format\_parameters(self,\ action,\ params): }
+\DoxyCodeLine{00800\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{} }}
+\DoxyCodeLine{00801\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Formats\ parameters\ for\ better\ readability\ in\ output }}
+\DoxyCodeLine{00802\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\ The\ action\ name }}
+\DoxyCodeLine{00803\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ params\ The\ parameters\ to\ format }}
+\DoxyCodeLine{00804\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Dictionary\ with\ formatted\ parameters }}
+\DoxyCodeLine{00805\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \  }}
+\DoxyCodeLine{00806\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Converts\ tuples\ and\ lists\ into\ meaningful\ dictionary\ formats. }}
+\DoxyCodeLine{00807\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Filters\ out\ None\ values\ and\ 'none'\ keys. }}
+\DoxyCodeLine{00808\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00809\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ params\ is\ already\ a\ dictionary,\ filter\ out\ None\ values\ and\ 'none'\ keys }}
+\DoxyCodeLine{00810\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(params,\ dict): }
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ None\ values\ and\ 'none'\ keys }}
+\DoxyCodeLine{00812\ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_params\ =\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ params.items()\  }
+\DoxyCodeLine{00813\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ v\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{and}\ k.lower()\ !=\ \textcolor{stringliteral}{'none'}\} }
+\DoxyCodeLine{00814\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filtered\_params }
+\DoxyCodeLine{00815\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00816\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ params\ is\ a\ list\ or\ tuple,\ convert\ depending\ on\ action }}
+\DoxyCodeLine{00817\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(params,\ (list,\ tuple)): }
+\DoxyCodeLine{00818\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(params)\ ==\ 0: }
+\DoxyCodeLine{00819\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\} }
+\DoxyCodeLine{00820\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}left\_stack\_rack"{}},\ \textcolor{stringliteral}{"{}right\_stack\_rack"{}}]: }
+\DoxyCodeLine{00821\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(params)\ >=\ 2: }
+\DoxyCodeLine{00822\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\textcolor{stringliteral}{"{}rack"{}}:\ params[0],\ \textcolor{stringliteral}{"{}trailer"{}}:\ params[1]\} }
+\DoxyCodeLine{00823\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00824\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\textcolor{stringliteral}{"{}rack"{}}:\ params[0]\ \textcolor{keywordflow}{if}\ len(params)\ >\ 0\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}\} }
+\DoxyCodeLine{00825\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ None\ values }}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ result.items()\ \textcolor{keywordflow}{if}\ v\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\} }
+\DoxyCodeLine{00827\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}left\_unstack\_rack"{}},\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}]: }
+\DoxyCodeLine{00828\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(params)\ >=\ 2: }
+\DoxyCodeLine{00829\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\textcolor{stringliteral}{"{}rack"{}}:\ params[0],\ \textcolor{stringliteral}{"{}trailer"{}}:\ params[1]\} }
+\DoxyCodeLine{00830\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00831\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\textcolor{stringliteral}{"{}rack"{}}:\ params[0]\ \textcolor{keywordflow}{if}\ len(params)\ >\ 0\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}\} }
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ None\ values }}
+\DoxyCodeLine{00833\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ result.items()\ \textcolor{keywordflow}{if}\ v\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\} }
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\ ==\ \textcolor{stringliteral}{"{}load\_beluga"{}}: }
+\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(params)\ >=\ 1: }
+\DoxyCodeLine{00836\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\textcolor{stringliteral}{"{}trailer"{}}:\ params[0]\} }
+\DoxyCodeLine{00837\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00838\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\} }
+\DoxyCodeLine{00839\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ None\ values }}
+\DoxyCodeLine{00840\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ result.items()\ \textcolor{keywordflow}{if}\ v\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\} }
+\DoxyCodeLine{00841\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\ ==\ \textcolor{stringliteral}{"{}unload\_beluga"{}}: }
+\DoxyCodeLine{00842\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\} }
+\DoxyCodeLine{00843\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ action\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}get\_from\_hangar"{}},\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}]: }
+\DoxyCodeLine{00844\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(params)\ >=\ 2: }
+\DoxyCodeLine{00845\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\textcolor{stringliteral}{"{}hangar"{}}:\ params[0],\ \textcolor{stringliteral}{"{}trailer"{}}:\ params[1]\} }
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{\textcolor{stringliteral}{"{}hangar"{}}:\ params[0]\ \textcolor{keywordflow}{if}\ len(params)\ >\ 0\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}\} }
+\DoxyCodeLine{00848\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ None\ values }}
+\DoxyCodeLine{00849\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{k:\ v\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ result.items()\ \textcolor{keywordflow}{if}\ v\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}\} }
+\DoxyCodeLine{00850\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00851\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ for\ unknown\ actions }}
+\DoxyCodeLine{00852\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}params"{}}:\ params\} }
+\DoxyCodeLine{00853\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00854\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ for\ other\ types }}
+\DoxyCodeLine{00855\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ params}
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a697ee4825311a40a0766cd7180dbf070}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!\_save\_results\_to\_file@{\_save\_results\_to\_file}}
+\index{\_save\_results\_to\_file@{\_save\_results\_to\_file}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{\_save\_results\_to\_file()}{\_save\_results\_to\_file()}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a697ee4825311a40a0766cd7180dbf070} 
+rl.\+training.\+trainer.\+Trainer.\+\_\+save\+\_\+results\+\_\+to\+\_\+file (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{problem}{, }\item[{}]{steps}{, }\item[{}]{max\+\_\+steps}{, }\item[{}]{is\+\_\+terminal}{, }\item[{}]{action\+\_\+trace}{, }\item[{}]{action\+\_\+counts}{, }\item[{}]{optimized\+\_\+steps}{, }\item[{}]{original\+\_\+steps}{, }\item[{}]{execution\+\_\+time}{, }\item[{}]{formatted\+\_\+time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}@brief Saves the results of problem solving to a formatted TXT file
+@param problem Path to the problem JSON file
+@param steps Number of steps performed
+@param max_steps Maximum number of steps
+@param is_terminal Whether the problem was successfully solved
+@param action_trace List of performed actions with parameters
+@param action_counts Dictionary with action counts (after optimization)
+@param optimized_steps Number of steps after optimization
+@param original_steps Original number of steps
+@param execution_time Required time in seconds
+@param formatted_time Formatted time as string
+\end{DoxyVerb}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00719\ \ \ \ \ \textcolor{keyword}{def\ }\_save\_results\_to\_file(self,\ problem,\ steps,\ max\_steps,\ is\_terminal,\ action\_trace,\ action\_counts,\ optimized\_steps,\ original\_steps,\ execution\_time,\ formatted\_time): }
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{} }}
+\DoxyCodeLine{00721\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Saves\ the\ results\ of\ problem\ solving\ to\ a\ formatted\ TXT\ file }}
+\DoxyCodeLine{00722\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ problem\ Path\ to\ the\ problem\ JSON\ file }}
+\DoxyCodeLine{00723\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ steps\ Number\ of\ steps\ performed }}
+\DoxyCodeLine{00724\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ max\_steps\ Maximum\ number\ of\ steps }}
+\DoxyCodeLine{00725\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ is\_terminal\ Whether\ the\ problem\ was\ successfully\ solved }}
+\DoxyCodeLine{00726\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_trace\ List\ of\ performed\ actions\ with\ parameters }}
+\DoxyCodeLine{00727\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ action\_counts\ Dictionary\ with\ action\ counts\ (after\ optimization) }}
+\DoxyCodeLine{00728\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ optimized\_steps\ Number\ of\ steps\ after\ optimization }}
+\DoxyCodeLine{00729\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ original\_steps\ Original\ number\ of\ steps }}
+\DoxyCodeLine{00730\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ execution\_time\ Required\ time\ in\ seconds }}
+\DoxyCodeLine{00731\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ formatted\_time\ Formatted\ time\ as\ string }}
+\DoxyCodeLine{00732\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ os }
+\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ datetime\ \textcolor{keyword}{import}\ datetime }
+\DoxyCodeLine{00735\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ output\ directory\ if\ it\ doesn't\ exist }}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ output\_dir\ =\ \textcolor{stringliteral}{"{}results"{}} }
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ os.path.exists(output\_dir): }
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ \ \ \ \ os.makedirs(output\_dir) }
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ problem\ name\ for\ filename }}
+\DoxyCodeLine{00742\ \ \ \ \ \ \ \ \ problem\_name\ =\ os.path.basename(problem).replace(\textcolor{stringliteral}{'.json'},\ \textcolor{stringliteral}{''}) }
+\DoxyCodeLine{00743\ \ \ \ \ \ \ \ \ timestamp\ =\ datetime.now().strftime(\textcolor{stringliteral}{"{}\%Y\%m\%d\_\%H\%M\%S"{}}) }
+\DoxyCodeLine{00744\ \ \ \ \ \ \ \ \ filename\ =\ f\textcolor{stringliteral}{"{}\{output\_dir\}/solution\_\{problem\_name\}\_\{timestamp\}.txt"{}} }
+\DoxyCodeLine{00745\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00746\ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(filename,\ \textcolor{stringliteral}{'w'},\ encoding=\textcolor{stringliteral}{'utf-\/8'})\ \textcolor{keyword}{as}\ f: }
+\DoxyCodeLine{00747\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Header }}
+\DoxyCodeLine{00748\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}="{}}*70\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}BELUGA\ CHALLENGE\ -\/\ LÖSUNGSPROTOKOLL\(\backslash\)n"{}}) }
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}="{}}*70\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}}) }
+\DoxyCodeLine{00751\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00752\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Problem\ information }}
+\DoxyCodeLine{00753\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Problem:\ \{problem\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Lösungsdatum:\ \{datetime.now().strftime('\%d.\%m.\%Y\ \%H:\%M:\%S')\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Anzahl\ Schritte:\ \{steps\}/\{max\_steps\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Erfolgreicher\ Abschluss:\ \{'Ja'\ if\ is\_terminal\ else\ 'Nein\ -\/\ Maximale\ Schritte\ erreicht'\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Benötigte\ Zeit:\ \{formatted\_time\}\(\backslash\)n\(\backslash\)n"{}}) }
+\DoxyCodeLine{00758\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00759\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Action\ statistics\ (after\ optimization) }}
+\DoxyCodeLine{00760\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}="{}}*70\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}AKTIONSSTATISTIK\ (NACH\ OPTIMIERUNG)\(\backslash\)n"{}}) }
+\DoxyCodeLine{00762\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}="{}}*70\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}}) }
+\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ action,\ count\ \textcolor{keywordflow}{in}\ action\_counts.items(): }
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ percentage\ =\ count/len(action\_trace)*100\ \textcolor{keywordflow}{if}\ len(action\_trace)\ >\ 0\ \textcolor{keywordflow}{else}\ 0 }
+\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}\{action:<25\}:\ \{count:>4\}\ (\{percentage:>5.1f\}\%)\(\backslash\)n"{}}) }
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Optimization }}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}\(\backslash\)n\{'='*70\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}OPTIMIERUNG\(\backslash\)n"{}}) }
+\DoxyCodeLine{00771\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}\{'='*70\}\(\backslash\)n\(\backslash\)n"{}}) }
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Ursprüngliche\ Anzahl\ Schritte:\ \{original\_steps\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Optimierte\ Anzahl\ Schritte:\ \{optimized\_steps\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00774\ \ \ \ \ \ \ \ \ \ \ \ \ optimization\_percentage\ =\ (1\ -\/\ optimized\_steps/original\_steps)\ *\ 100\ \textcolor{keywordflow}{if}\ original\_steps\ >\ 0\ \textcolor{keywordflow}{else}\ 0 }
+\DoxyCodeLine{00775\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}Optimierung/Reduktion:\ \{optimization\_percentage:.2f\}\%\(\backslash\)n\(\backslash\)n"{}}) }
+\DoxyCodeLine{00776\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00777\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Optimized\ action\ sequence }}
+\DoxyCodeLine{00778\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}="{}}*70\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00779\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}OPTIMIERTE\ AKTIONSSEQUENZ\(\backslash\)n"{}}) }
+\DoxyCodeLine{00780\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}="{}}*70\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n\(\backslash\)n"{}}) }
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00782\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ (action,\ params)\ \textcolor{keywordflow}{in}\ enumerate(action\_trace,\ 1): }
+\DoxyCodeLine{00783\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Format\ parameters\ for\ better\ readability }}
+\DoxyCodeLine{00784\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ formatted\_params\ =\ self.\_format\_parameters(action,\ params) }
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Format\ output }}
+\DoxyCodeLine{00787\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ formatted\_params: }
+\DoxyCodeLine{00788\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params\_str\ =\ \textcolor{stringliteral}{"{},\ "{}}.join([f\textcolor{stringliteral}{"{}\{k\}=\{v\}"{}}\ \textcolor{keywordflow}{for}\ k,\ v\ \textcolor{keywordflow}{in}\ formatted\_params.items()]) }
+\DoxyCodeLine{00789\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}\{i:>3\}:\ \{action:<25\}\ |\ Parameter:\ \{params\_str\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00790\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00791\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}\{i:>3\}:\ \{action:<25\}\ |\ Parameter:\ -\/\(\backslash\)n"{}}) }
+\DoxyCodeLine{00792\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00793\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}\(\backslash\)n\{'='*70\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00794\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(\textcolor{stringliteral}{"{}ENDE\ DES\ PROTOKOLLS\(\backslash\)n"{}}) }
+\DoxyCodeLine{00795\ \ \ \ \ \ \ \ \ \ \ \ \ f.write(f\textcolor{stringliteral}{"{}\{'='*70\}\(\backslash\)n"{}}) }
+\DoxyCodeLine{00796\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00797\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)nErgebnisse\ wurden\ gespeichert\ in:\ \{filename\}"{}}) }
+\DoxyCodeLine{00798\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a73254bb990d9ccc068ee1175f875ea88}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!evaluateModel@{evaluateModel}}
+\index{evaluateModel@{evaluateModel}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{evaluateModel()}{evaluateModel()}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a73254bb990d9ccc068ee1175f875ea88} 
+rl.\+training.\+trainer.\+Trainer.\+evaluate\+Model (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{n\+\_\+eval\+\_\+episodes}{ = {\ttfamily 10}, }\item[{}]{max\+\_\+steps\+\_\+per\+\_\+episode}{ = {\ttfamily 200}, }\item[{}]{plot}{ = {\ttfamily False}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Evaluates the model over a specific number of episodes
+@param n_eval_episodes Number of episodes for evaluation (default: 10)
+@param max_steps_per_episode Maximum steps per episode (default: 200)
+@param plot Whether to plot results (default: False)
+@return tuple containing average reward, standard deviation, and steps data
+\end{DoxyVerb}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00327\ \ \ \ \ \textcolor{keyword}{def\ }evaluateModel(self,\ n\_eval\_episodes=10,\ max\_steps\_per\_episode=200,\ plot\ =\ False): }
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{} }}
+\DoxyCodeLine{00329\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Evaluates\ the\ model\ over\ a\ specific\ number\ of\ episodes }}
+\DoxyCodeLine{00330\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ n\_eval\_episodes\ Number\ of\ episodes\ for\ evaluation\ (default:\ 10) }}
+\DoxyCodeLine{00331\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ max\_steps\_per\_episode\ Maximum\ steps\ per\ episode\ (default:\ 200) }}
+\DoxyCodeLine{00332\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ plot\ Whether\ to\ plot\ results\ (default:\ False) }}
+\DoxyCodeLine{00333\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ tuple\ containing\ average\ reward,\ standard\ deviation,\ and\ steps\ data }}
+\DoxyCodeLine{00334\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ self.ppo\_agent.load\_models() }
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ total\_rewards\ =\ [] }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ steps\_list\ =\ [] }
+\DoxyCodeLine{00338\  }
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ ep\ \textcolor{keywordflow}{in}\ range(n\_eval\_episodes): }
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ obs\ =\ self.env.reset() }
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ total\_reward\ =\ 0 }
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ steps\ =\ 0 }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ last\_trailer\_id\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ last\_rack\_id\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ last\_action\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00347\  }
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ isTerminal\ \textcolor{keywordflow}{and}\ steps\ <\ max\_steps\_per\_episode: }
+\DoxyCodeLine{00349\  }
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Choose\ action\ without\ learning }}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_,\ \_,\ \_,\ dist\ =\ self.ppo\_agent.choose\_action(obs) }
+\DoxyCodeLine{00352\  }
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ probs\ =\ dist.probs.detach().cpu().numpy()\  }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.argmax(probs) }
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00356\  }
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ which\ actions\ are\ valid }}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_actions\ =\ self.get\_valid\_actions(obs) }
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ no\ valid\ actions\ exist,\ end\ episode }}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ valid\_actions: }
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}[Eval]\ Keine\ gültigen\ Aktionen\ für\ diesen\ Zustand.\ Problem:\ \{self.env.problem\_name\}"{}}) }
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00365\  }
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Try\ at\ most\ all\ actions }}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tried\_actions\ =\ set() }
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ self.env.check\_action\_execution(high\_level\_action\_str,\ obs): }
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tried\_actions.add(high\_level\_action) }
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(tried\_actions)\ >=\ len(self.action\_mapping): }
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}[Eval]\ Alle\ Aktionen\ probiert,\ keine\ ist\ gültig.\ Problem:\ \{self.env.problem\_name\}"{}}) }
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00375\  }
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Set\ probability\ of\ current\ action\ to\ 0 }}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ probs[high\_level\_action]\ =\ 0.0 }
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ all\ remaining\ probabilities\ are\ 0 }}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.all(probs\ ==\ 0): }
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Choose\ randomly\ from\ actions\ not\ yet\ tried }}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ untried\_actions\ =\ [i\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(self.action\_mapping))\ \textcolor{keywordflow}{if}\ i\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ tried\_actions] }
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ untried\_actions: }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(untried\_actions) }
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Choose\ action\ with\ highest\ probability }}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.argmax(probs) }
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00393\  }
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isTerminal: }
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00396\  }
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Low-\/Level\ Agent }}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\_name,\ params\ =\ decide\_parameters(obs,\ high\_level\_action\_str) }
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}None"{}}: }
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ root\ =\ MCTSNode(state=self.env.state,\ action=(high\_level\_action\_str,\ \textcolor{keywordtype}{None})) }
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mcts\ =\ MCTS(root,\ depth=3,\ n\_simulations=3)\ \ \textcolor{comment}{\#\ Reduced\ parameters\ for\ faster\ execution }}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_node\ =\ mcts.search() }
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ best\_node: }
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params\ =\ best\_node.action[1] }
+\DoxyCodeLine{00405\  }
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Loop\ prevention }}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params\_check\ =\ list(params.values())\ \textcolor{keywordflow}{if}\ isinstance(params,\ dict)\ \textcolor{keywordflow}{else}\ list(params) }
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ params\_check\ !=\ []: }
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (high\_level\_action\ ==\ 4\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 6)\ \textcolor{keywordflow}{or}\ (high\_level\_action\ ==\ 5\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 7)\ \(\backslash\) }
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{or}\ (high\_level\_action\ ==\ 6\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 4)\ \textcolor{keywordflow}{or}\ (high\_level\_action\ ==\ 7\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 5): }
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ last\_trailer\_id\ ==\ params\_check[1]\ \textcolor{keywordflow}{and}\ last\_rack\_id\ ==\ params\_check[0]: }
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_reward\ -\/=\ 1000.0 }
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_action\ =\ high\_level\_action }
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ last\_action\ \textcolor{keywordflow}{in}\ [4,\ 5,\ 6,\ 7]: }
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_trailer\_id\ =\ params\_check[1] }
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_rack\_id\ =\ params\_check[0] }
+\DoxyCodeLine{00417\  }
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obs,\ reward,\ isTerminal\ =\ self.env.step(high\_level\_action\_str,\ params) }
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_reward\ +=\ reward }
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ steps\ +=\ 1 }
+\DoxyCodeLine{00421\  }
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ total\_rewards.append(total\_reward) }
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ steps\_list.append(steps) }
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}[Eval]\ Episode\ \{ep+1\}:\ Reward\ =\ \{total\_reward:.2f\},\ Steps\ =\ \{steps\}"{}}) }
+\DoxyCodeLine{00425\  }
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ avg\_reward\ =\ np.mean(total\_rewards) }
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ std\_reward\ =\ np.std(total\_rewards)\ \textcolor{comment}{\#\ Standard\ deviation\ of\ rewards }}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ avg\_steps\ =\ np.mean(steps\_list) }
+\DoxyCodeLine{00429\  }
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)n⮞\ Durchschnittlicher\ Reward:\ \{avg\_reward:.2f\}\ ±\ \{std\_reward:.2f\}"{}}) }
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}⮞\ Durchschnittliche\ Schritte:\ \{avg\_steps:.2f\}"{}}) }
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ plot: }
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ plt.figure(figsize=(10,\ 5)) }
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ plt.subplot(2,\ 1,\ 1) }
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ plt.plot(total\_rewards,\ \textcolor{stringliteral}{'r-\/o'},\ label=\textcolor{stringliteral}{'Episode\ Reward'}) }
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ plt.fill\_between( }
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ range(len(total\_rewards)), }
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ np.array(total\_rewards)\ -\/\ np.std(std\_reward), }
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ np.array(total\_rewards)\ +\ np.std(std\_reward), }
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ color=\textcolor{stringliteral}{'red'},\ alpha=0.1 }
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ ) }
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ plt.title(\textcolor{stringliteral}{'Model\ Evaluation\ Results'}) }
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ plt.ylabel(\textcolor{stringliteral}{'Total\ Reward'}) }
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ plt.legend() }
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ plt.grid(\textcolor{keyword}{True},\ linestyle=\textcolor{stringliteral}{'-\/-\/'},\ alpha=0.5) }
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ plt.subplot(2,\ 1,\ 2) }
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ plt.bar(range(len(steps\_list)),\ steps\_list,\ color=\textcolor{stringliteral}{'blue'},\ alpha=0.6) }
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ plt.xlabel(\textcolor{stringliteral}{'Episode'}) }
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ plt.ylabel(\textcolor{stringliteral}{'Steps'}) }
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ plt.grid(\textcolor{keyword}{True},\ linestyle=\textcolor{stringliteral}{'-\/-\/'},\ alpha=0.3) }
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ plt.tight\_layout() }
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ plt.show() }
+\DoxyCodeLine{00454\  }
+\DoxyCodeLine{00455\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_ab7a33635ce96b4de6cc804426901cb1e}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!evaluateProblem@{evaluateProblem}}
+\index{evaluateProblem@{evaluateProblem}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{evaluateProblem()}{evaluateProblem()}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_ab7a33635ce96b4de6cc804426901cb1e} 
+rl.\+training.\+trainer.\+Trainer.\+evaluate\+Problem (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{problem}{, }\item[{}]{max\+\_\+steps}{ = {\ttfamily 2000}, }\item[{}]{loop\+\_\+detection}{ = {\ttfamily True}, }\item[{}]{exploration\+\_\+rate}{ = {\ttfamily 0.1}, }\item[{}]{save\+\_\+to\+\_\+file}{ = {\ttfamily False}}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Solves a specific problem with the trained model
+@param problem Path to the problem JSON file
+@param max_steps Maximum number of steps to avoid infinite loops (default: 2000)
+@param loop_detection Enables detection and avoidance of action loops (default: True)
+@param exploration_rate Probability of choosing a random action to break out of loops (default: 0.1)
+@param save_to_file Saves results to TXT file (default: False)
+@return tuple containing action sequence, parameters, and execution info
+\end{DoxyVerb}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00456\ \ \ \ \ \textcolor{keyword}{def\ }evaluateProblem(self,\ problem,\ max\_steps=2000,\ loop\_detection=True,\ exploration\_rate=0.1,\ save\_to\_file=False): }
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{} }}
+\DoxyCodeLine{00458\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Solves\ a\ specific\ problem\ with\ the\ trained\ model }}
+\DoxyCodeLine{00459\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ problem\ Path\ to\ the\ problem\ JSON\ file }}
+\DoxyCodeLine{00460\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ max\_steps\ Maximum\ number\ of\ steps\ to\ avoid\ infinite\ loops\ (default:\ 2000) }}
+\DoxyCodeLine{00461\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ loop\_detection\ Enables\ detection\ and\ avoidance\ of\ action\ loops\ (default:\ True) }}
+\DoxyCodeLine{00462\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ exploration\_rate\ Probability\ of\ choosing\ a\ random\ action\ to\ break\ out\ of\ loops\ (default:\ 0.1) }}
+\DoxyCodeLine{00463\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ save\_to\_file\ Saves\ results\ to\ TXT\ file\ (default:\ False) }}
+\DoxyCodeLine{00464\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ tuple\ containing\ action\ sequence,\ parameters,\ and\ execution\ info }}
+\DoxyCodeLine{00465\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ time }
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Start\ time\ measurement }}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ start\_time\ =\ time.time() }
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ obs\ =\ self.env.reset\_specific\_problem(problem) }
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ self.ppo\_agent.load\_models() }
+\DoxyCodeLine{00473\  }
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ action\_trace\ =\ [] }
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ steps\ =\ 0 }
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ List\ to\ capture\ hash\ values\ of\ all\ visited\ states }}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ visited\_states\ =\ [] }
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Store\ hash\ value\ of\ environment\ state\ instead\ of\ observation }}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ visited\_states.append(hash(str(self.env.state))) }
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ For\ loop\ detection }}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ action\_history\ =\ [] }
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ repetition\_count\ =\ \{\} }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ last\_action\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Temperature\ for\ Boltzmann\ exploration\ (increases\ with\ repeated\ actions) }}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ temperature\ =\ 1.0 }
+\DoxyCodeLine{00490\  }
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Problem\ wird\ gelöst:\ "{}}\ +\ problem) }
+\DoxyCodeLine{00492\  }
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ isTerminal\ \textcolor{keywordflow}{and}\ steps\ <\ max\_steps: }
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ steps\ +=\ 1 }
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ action\ probabilities\ from\ agent }}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \_,\ \_,\ \_,\ dist\ =\ self.ppo\_agent.choose\_action(obs) }
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ probs\ =\ dist.probs.detach().cpu().numpy() }
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Loop\ detection:\ Check\ if\ we're\ stuck\ in\ an\ action\ loop }}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ loop\_detection\ \textcolor{keywordflow}{and}\ len(action\_history)\ >=\ 6: }
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ last\ 6\ actions\ for\ repeated\ patterns }}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_6\_actions\ =\ \textcolor{stringliteral}{''}.join([str(a)\ \textcolor{keywordflow}{for}\ a\ \textcolor{keywordflow}{in}\ action\_history[-\/6:]]) }
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pattern\_length\ \textcolor{keywordflow}{in}\ [2,\ 3]:\ \ \textcolor{comment}{\#\ Search\ for\ 2-\/\ or\ 3-\/patterns }}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(last\_6\_actions)\ >=\ pattern\_length*2: }
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pattern\ =\ last\_6\_actions[-\/pattern\_length*2:-\/pattern\_length] }
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pattern\ ==\ last\_6\_actions[-\/pattern\_length:]: }
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}[LOOP\ DETECTED]\ Muster:\ \{pattern\}"{}) }}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Increase\ temperature\ to\ break\ out\ of\ loop }}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ temperature\ =\ min(10.0,\ temperature\ *\ 1.5)\ \ \textcolor{comment}{\#\ Increase\ temperature,\ but\ not\ above\ 10 }}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}Temperatur\ auf\ \{temperature:.2f\}\ erhöht"{}) }}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Decide\ whether\ to\ explore\ (random\ action)\ or\ exploit\ (best\ action) }}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.random.random()\ <\ exploration\_rate\ \textcolor{keywordflow}{or}\ temperature\ >\ 1.5:\ \ \textcolor{comment}{\#\ Increased\ exploration\ at\ high\ temperature }}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Exploration:\ Choose\ action\ based\ on\ Boltzmann\ distribution\ or\ randomly }}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_actions\ =\ self.get\_valid\_actions(obs) }
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ valid\_actions: }
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ temperature\ >\ 1.2: }
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Boltzmann\ exploration\ with\ current\ temperature }}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ probabilities\ and\ apply\ temperature }}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_probs\ =\ np.array([probs[a]\ \textcolor{keywordflow}{for}\ a\ \textcolor{keywordflow}{in}\ valid\_actions]) }
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.sum(valid\_probs)\ >\ 0: }
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scaled\_probs\ =\ np.exp(np.log(valid\_probs\ +\ 1e-\/10)\ /\ temperature) }
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scaled\_probs\ =\ scaled\_probs\ /\ np.sum(scaled\_probs) }
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(valid\_actions,\ p=scaled\_probs) }
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}[BOLTZMANN\ EXPLORATION]\ Temp=\{temperature:.2f\}"{}) }}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(valid\_actions) }
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Simple\ random\ exploration }}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(valid\_actions) }
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}[EXPLORATION]\ Wähle:\ \{high\_level\_action\_str\}"{}) }}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ No\ valid\ actions\ available }}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Keine\ gültigen\ Aktionen\ für\ diesen\ Zustand\ möglich.\ Problem:\ \{problem\}"{}}) }
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return} }
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Exploitation:\ Normal\ process\ with\ best\ action }}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Probabilities\ were\ already\ retrieved\ above }}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ which\ actions\ are\ valid }}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_actions\ =\ self.get\_valid\_actions(obs) }
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ no\ valid\ actions\ exist,\ end\ episode }}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ valid\_actions: }
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Keine\ gültigen\ Aktionen\ für\ diesen\ Zustand\ möglich.\ Problem:\ \{problem\}"{}}) }
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return} }
+\DoxyCodeLine{00549\ \ \ \ \  }
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Choose\ best\ valid\ action\ from\ available\ ones }}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ mask\ for\ valid\ actions }}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_mask\ =\ np.zeros\_like(probs) }
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ valid\_action\ \textcolor{keywordflow}{in}\ valid\_actions: }
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_mask[valid\_action]\ =\ 1 }
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Multiply\ probabilities\ with\ mask\ and\ choose\ best }}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ masked\_probs\ =\ probs\ *\ valid\_mask }
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.sum(masked\_probs)\ >\ 0: }
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.argmax(masked\_probs) }
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback:\ Choose\ randomly\ from\ valid\ actions }}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(valid\_actions) }
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00565\  }
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Try\ at\ most\ all\ actions }}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ tried\_actions\ =\ set() }
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ self.env.check\_action\_execution(high\_level\_action\_str,\ obs): }
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tried\_actions.add(high\_level\_action) }
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(tried\_actions)\ >=\ len(self.action\_mapping): }
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Alle\ Aktionen\ probiert,\ keine\ ist\ gültig.\ Problem:\ \{problem\}"{}}) }
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return} }
+\DoxyCodeLine{00574\  }
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Set\ probability\ of\ current\ action\ to\ 0 }}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ probs[high\_level\_action]\ =\ 0.0 }
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ all\ remaining\ probabilities\ are\ 0 }}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.all(probs\ ==\ 0): }
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Choose\ randomly\ from\ actions\ not\ yet\ tried }}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ untried\_actions\ =\ [i\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(self.action\_mapping))\ \textcolor{keywordflow}{if}\ i\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ tried\_actions] }
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ untried\_actions: }
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(untried\_actions) }
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Keine\ gültige\ Aktion\ verfügbar.\ PROBLEM\ STUCK!"{}}) }
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return} }
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Choose\ action\ with\ highest\ probability }}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.argmax(probs) }
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00592\  }
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Heuristic\ parameter\ decision }}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ action\_name,\ params\ =\ decide\_parameters(obs,\ high\_level\_action\_str) }
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}None"{}}: }
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ root\ =\ MCTSNode(state=self.env.state,\ action=(high\_level\_action\_str,\ \textcolor{keywordtype}{None})) }
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mcts\ =\ MCTS(root,\ depth=3,\ n\_simulations=3)\ \ \textcolor{comment}{\#\ Reduced\ parameters\ for\ faster\ execution }}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_node\ =\ mcts.search() }
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ best\_node: }
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params\ =\ best\_node.action[1] }
+\DoxyCodeLine{00601\  }
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Execute\ action }}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ obs,\ reward,\ isTerminal\ =\ self.env.step(high\_level\_action\_str,\ params) }
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ current\ state\ as\ hash\ to\ list }}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \ \ visited\_states.append(hash(str(self.env.state))) }
+\DoxyCodeLine{00607\  }
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Store\ action\ and\ parameters }}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \ \ \ \ action\_trace.append((high\_level\_action\_str,\ params)) }
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ For\ loop\ detection:\ Store\ action\ in\ history }}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ action\_history.append(high\_level\_action) }
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Detect\ special\ patterns\ (e.g.,\ alternating\ stack/unstack) }}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ last\_action\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}: }
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\_pair\ =\ (last\_action,\ high\_level\_action) }
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_pair\ \textcolor{keywordflow}{in}\ repetition\_count: }
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repetition\_count[action\_pair]\ +=\ 1 }
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ pattern\ is\ repeated\ too\ often,\ increase\ temperature }}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ repetition\_count[action\_pair]\ >\ 3:\ \ \textcolor{comment}{\#\ After\ 3\ repetitions }}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ temperature\ =\ min(5.0,\ temperature\ +\ 0.5) }
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}[PATTERN\ DETECTED]\ \{self.action\_mapping[action\_pair[0]]\}\ -\/>\ \{self.action\_mapping[action\_pair[1]]\}"{}) }}
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(f"{}Temperatur\ auf\ \{temperature:.2f\}\ erhöht"{}) }}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repetition\_count[action\_pair]\ =\ 1 }
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Store\ current\ action\ for\ next\ iteration }}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \ \ \ \ last\_action\ =\ high\_level\_action }
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Cool\ down\ temperature\ over\ time\ if\ no\ patterns\ are\ detected }}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ temperature\ >\ 1.0: }
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ temperature\ =\ max(1.0,\ temperature\ -\/\ 0.1) }
+\DoxyCodeLine{00633\  }
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Output\ results }}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ +\ \textcolor{stringliteral}{"{}="{}}*50) }
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}ERGEBNIS\ FÜR\ PROBLEM:\ \{problem\}"{}}) }
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Anzahl\ Schritte:\ \{steps\}/\{max\_steps\}"{}}) }
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Erfolgreicher\ Abschluss:\ \{'Ja'\ if\ isTerminal\ else\ 'Nein\ -\/\ Maximale\ Schritte\ erreicht'\}"{}}) }
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}="{}}*50) }
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Statistics\ of\ actions }}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ action\_counts\ =\ \{\} }
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ action,\ \_\ \textcolor{keywordflow}{in}\ action\_trace: }
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\ \textcolor{keywordflow}{in}\ action\_counts: }
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\_counts[action]\ +=\ 1 }
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\_counts[action]\ =\ 1 }
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}\(\backslash\)nAktionsstatistik:"{}}) }
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ action,\ count\ \textcolor{keywordflow}{in}\ action\_counts.items(): }
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{action\}:\ \{count\}\ (\{count/len(action\_trace)*100:.1f\}\%)"{}}) }
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ initial\_state\_count\ =\ len(visited\_states) }
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Loop-\/Detection\ and\ removal\ of\ unnecessary\ states }}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ loop\_detection: }
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \ \ state\_count\ =\ len(visited\_states) }
+\DoxyCodeLine{00657\  }
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(state\_count): }
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ >=\ state\_count: }
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ -\/1 }
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(1,\ state\_count\ -\/\ i\ -\/1): }
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#print(j+i) }}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ j\ +\ i\ >=\ len(visited\_states): }
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ visited\_states[i]\ ==\ visited\_states[j\ +\ i]: }
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ j\ +\ i }
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ index\ !=\ -\/1: }
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ del\ visited\_states[i\ :\ index] }
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ del\ action\_trace[i\ :\ index] }
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\_count\ -\/=\ (index\ -\/\ i\ -\/\ 1) }
+\DoxyCodeLine{00672\ \ \ \ \  }
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ +\ \textcolor{stringliteral}{"{}="{}}*50) }
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}Anzahl\ der\ Aktionen\ nach\ Post-\/Processing:"{}},\ len(action\_trace),\ \textcolor{stringliteral}{"{}\(\backslash\)nOptimierung/Reduktion:"{}}\ ,\ f\textcolor{stringliteral}{"{}\{(1\ -\/\ len(action\_trace)/steps)\ *\ 100:\ .2f\}"{}},\ \textcolor{stringliteral}{"{}\%"{}}) }
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}="{}}*50)\ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00676\  }
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ End\ time\ measurement }}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ end\_time\ =\ time.time() }
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ execution\_time\ =\ end\_time\ -\/\ start\_time }
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Format\ time\ readably }}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \textcolor{keyword}{def\ }format\_time(seconds): }
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ seconds\ <\ 60: }
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\textcolor{stringliteral}{"{}\{seconds:.2f\}\ Sekunden"{}} }
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ seconds\ <\ 3600: }
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minutes\ =\ int(seconds\ //\ 60) }
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ secs\ =\ seconds\ \%\ 60 }
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\textcolor{stringliteral}{"{}\{minutes\}\ Min\ \{secs:.1f\}\ Sek"{}} }
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hours\ =\ int(seconds\ //\ 3600) }
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minutes\ =\ int((seconds\ \%\ 3600)\ //\ 60) }
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ secs\ =\ seconds\ \%\ 60 }
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ f\textcolor{stringliteral}{"{}\{hours\}\ Std\ \{minutes\}\ Min\ \{secs:.1f\}\ Sek"{}} }
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ formatted\_time\ =\ format\_time(execution\_time) }
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)nBenötigte\ Zeit:\ \{formatted\_time\}"{}}) }
+\DoxyCodeLine{00697\  }
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ optimized\ action\ statistics }}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ optimized\_action\_counts\ =\ \{\} }
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ action,\ \_\ \textcolor{keywordflow}{in}\ action\_trace: }
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\ \textcolor{keywordflow}{in}\ optimized\_action\_counts: }
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ optimized\_action\_counts[action]\ +=\ 1 }
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ optimized\_action\_counts[action]\ =\ 1 }
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}\(\backslash\)nOptimierte\ Aktionsstatistik:"{}}) }
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ action,\ count\ \textcolor{keywordflow}{in}\ optimized\_action\_counts.items(): }
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \ \ \ \ percentage\ =\ count/len(action\_trace)*100\ \textcolor{keywordflow}{if}\ len(action\_trace)\ >\ 0\ \textcolor{keywordflow}{else}\ 0 }
+\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{action\}:\ \{count\}\ (\{percentage:.1f\}\%)"{}}) }
+\DoxyCodeLine{00710\  }
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ results\ to\ file\ if\ desired }}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ save\_to\_file: }
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ \ \ \ \ self.\_save\_results\_to\_file(problem,\ steps,\ max\_steps,\ isTerminal,\ action\_trace,\ optimized\_action\_counts,\ len(action\_trace),\ steps,\ execution\_time,\ formatted\_time) }
+\DoxyCodeLine{00714\  }
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ extended\ with\ visited\_states\ (all\ visited\ states) }}
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ isTerminal,\ len(action\_trace),\ visited\_states }
+\DoxyCodeLine{00717\ \ \ \ \  }
+\DoxyCodeLine{00718\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a81d6d4c1b2cf92250f4de9720ae25abd}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!get\_valid\_actions@{get\_valid\_actions}}
+\index{get\_valid\_actions@{get\_valid\_actions}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{get\_valid\_actions()}{get\_valid\_actions()}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a81d6d4c1b2cf92250f4de9720ae25abd} 
+rl.\+training.\+trainer.\+Trainer.\+get\+\_\+valid\+\_\+actions (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{obs}{}\end{DoxyParamCaption})}
+
+
+
+Check which actions are valid in the current state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obs} & Current observation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+List of valid action indices 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{def\ }get\_valid\_actions(self,\ obs): }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00067\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Check\ which\ actions\ are\ valid\ in\ the\ current\ state }}
+\DoxyCodeLine{00068\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ obs\ Current\ observation }}
+\DoxyCodeLine{00069\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ List\ of\ valid\ action\ indices }}
+\DoxyCodeLine{00070\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ valid\_actions\ =\ [] }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ action\_idx\ \textcolor{keywordflow}{in}\ range(len(self.action\_mapping)): }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.env.check\_action\_execution(self.action\_mapping[action\_idx],\ obs): }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_actions.append(action\_idx) }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ valid\_actions }
+\DoxyCodeLine{00076\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a51c6a0a6b518965bcf38c8078fa1925b}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!train@{train}}
+\index{train@{train}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{train()}{train()}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a51c6a0a6b518965bcf38c8078fa1925b} 
+rl.\+training.\+trainer.\+Trainer.\+train (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{n\+\_\+episodes}{ = {\ttfamily 2000}, }\item[{}]{N}{ = {\ttfamily 5}, }\item[{}]{max\+\_\+steps\+\_\+per\+\_\+episode}{ = {\ttfamily 200}, }\item[{}]{train\+\_\+on\+\_\+old\+\_\+models}{ = {\ttfamily False}, }\item[{}]{start\+\_\+learn\+\_\+after}{ = {\ttfamily 500}, }\item[{}]{use\+\_\+permutation}{ = {\ttfamily False}}\end{DoxyParamCaption})}
+
+
+
+Train the agent over a specified number of episodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n\+\_\+episodes} & Number of training episodes \\
+\hline
+{\em N} & Frequency of learning steps \\
+\hline
+{\em max\+\_\+steps\+\_\+per\+\_\+episode} & Maximum number of steps per episode \\
+\hline
+{\em train\+\_\+on\+\_\+old\+\_\+models} & Whether to load existing models \\
+\hline
+{\em start\+\_\+learn\+\_\+after} & After how many steps learning should begin \\
+\hline
+{\em use\+\_\+permutation} & Whether observations should be permuted (can stabilize training but costs time) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{def\ }train(self,\ n\_episodes=2000,\ N=5,\ max\_steps\_per\_episode\ =\ 200,\ train\_on\_old\_models\ =\ False,\ start\_learn\_after\ =\ 500,\ use\_permutation\ =\ False): }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00079\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Train\ the\ agent\ over\ a\ specified\ number\ of\ episodes }}
+\DoxyCodeLine{00080\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ n\_episodes\ Number\ of\ training\ episodes }}
+\DoxyCodeLine{00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ N\ Frequency\ of\ learning\ steps }}
+\DoxyCodeLine{00082\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ max\_steps\_per\_episode\ Maximum\ number\ of\ steps\ per\ episode }}
+\DoxyCodeLine{00083\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ train\_on\_old\_models\ Whether\ to\ load\ existing\ models }}
+\DoxyCodeLine{00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ start\_learn\_after\ After\ how\ many\ steps\ learning\ should\ begin }}
+\DoxyCodeLine{00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ use\_permutation\ Whether\ observations\ should\ be\ permuted\ (can\ stabilize\ training\ but\ costs\ time) }}
+\DoxyCodeLine{00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ train\_on\_old\_models: }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ self.ppo\_agent.load\_models()\ \ \textcolor{comment}{\#\ Load\ the\ PPO\ agent's\ models }}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ self.total\_steps\ =\ 0 }
+\DoxyCodeLine{00090\  }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ episode\ \textcolor{keywordflow}{in}\ range(n\_episodes): }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ obs\ =\ self.env.reset() }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ total\_reward\ =\ 0 }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ steps\ =\ 0 }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ last\_trailer\_id\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ last\_rack\_id\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ last\_action\ =\ \textcolor{keywordtype}{None} }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ positive\_actions\_reward\ =\ 0 }
+\DoxyCodeLine{00100\  }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ isTerminal: }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bool\_heuristic\ =\ \textcolor{keyword}{False} }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ =\ 0 }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ High-\/Level\ decision\ (PPO) }}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ current\ epsilon\ value\ for\ exploration }}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ epsilon\ =\ self.epsilon\_end\ +\ (self.epsilon\_start\ -\/\ self.epsilon\_end)\ *\ \(\backslash\) }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ np.exp(-\/self.epsilon\_decay\ *\ self.total\_steps) }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Epsilon-\/Greedy\ strategy\ for\ exploration }}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.random.random()\ <\ epsilon: }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Explorative\ action:\ Choose\ a\ random\ valid\ action }}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_actions\ =\ self.get\_valid\_actions(obs) }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ valid\_actions: }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(valid\_actions) }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ To\ maintain\ PPO\ logic,\ we\ need\ the\ distribution }}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ use\_permutation: }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_,\ prob,\ val,\ dist\ =\ self.ppo\_agent.choose\_action(permute\_high\_level\_observation(np.random.permutation(10),\ obs)) }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_,\ prob,\ val,\ dist\ =\ self.ppo\_agent.choose\_action(obs) }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ no\ valid\ actions\ are\ available,\ use\ normal\ strategies }}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ use\_permutation: }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obs\_\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Reset\ observation\ for\ next\ iteration }}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ permutation\ =\ np.random.permutation(10) }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ permuted\_obs\ =\ permute\_high\_level\_observation(permutation,\ obs) }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action,\ prob,\ val,\ dist\ =\ self.ppo\_agent.choose\_action(permuted\_obs) }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action,\ prob,\ val,\ dist\ =\ self.ppo\_agent.choose\_action(obs) }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Exploitative\ action:\ Use\ PPO\ policy }}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ use\_permutation: }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obs\_\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Reset\ observation\ for\ next\ iteration }}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ permutation\ =\ np.random.permutation(10) }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ permuted\_obs\ =\ permute\_high\_level\_observation(permutation,\ obs) }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action,\ prob,\ val,\ dist\ =\ self.ppo\_agent.choose\_action(permuted\_obs) }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action,\ prob,\ val,\ dist\ =\ self.ppo\_agent.choose\_action(obs) }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action]\ \ \textcolor{comment}{\#\ Action\ mapping }}
+\DoxyCodeLine{00142\  }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ probs\ =\ dist.probs.detach().cpu().numpy() }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ which\ actions\ are\ valid }}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_actions\ =\ self.get\_valid\_actions(obs) }
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ no\ valid\ actions\ exist,\ error\ message\ and\ end\ episode }}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ valid\_actions: }
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Keine\ gültigen\ Aktionen\ für\ diesen\ Zustand\ möglich.\ Problem:\ \{self.env.problem\_name\}"{}}) }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ -\/=\ 5000.0\ \ \textcolor{comment}{\#\ Reduced\ penalty\ since\ it's\ really\ impossible }}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Balance\ actions\ -\/\ if\ too\ many\ unstack\ actions\ were\ used, }}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ reduce\ their\ probability\ in\ favor\ of\ other\ actions }}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ episode\ >\ 100\ \textcolor{keywordflow}{and}\ self.total\_steps\ >\ 500:\ \ \textcolor{comment}{\#\ After\ a\ warm-\/up\ phase }}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_invalid\ =\ sum(self.invalid\_action\_counts.values()) }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ total\_invalid\ >\ 0: }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unstack\_percentage\ =\ (self.invalid\_action\_counts[6]\ +\ self.invalid\_action\_counts[7])\ /\ total\_invalid }
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ unstack\_percentage\ >\ 0.4:\ \ \textcolor{comment}{\#\ If\ more\ than\ 40\%\ of\ invalid\ actions\ are\ unstacks }}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reduce\ probability\ for\ unstack\ actions }}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unstack\_idx\ =\ [6,\ 7]\ \ \textcolor{comment}{\#\ left\_unstack\_rack,\ right\_unstack\_rack }}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scale\_factor\ =\ 0.5\ \ \textcolor{comment}{\#\ Scale\ probability\ down }}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ idx\ \textcolor{keywordflow}{in}\ unstack\_idx: }
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ idx\ <\ len(probs): }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ probs[idx]\ *=\ scale\_factor }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ probabilities\ again }}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.sum(probs)\ >\ 0: }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ probs\ =\ probs\ /\ np.sum(probs) }
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Update\ action\ choice }}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.argmax(probs) }
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action] }
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prob\ =\ probs[high\_level\_action] }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Debug\ output\ for\ valid\ actions,\ if\ enabled }}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.debug\ \textcolor{keywordflow}{and}\ steps\ \%\ 10\ ==\ 0:\ \ \textcolor{comment}{\#\ Don't\ output\ too\ often }}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_action\_names\ =\ [self.action\_mapping[idx]\ \textcolor{keywordflow}{for}\ idx\ \textcolor{keywordflow}{in}\ valid\_actions] }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Gültige\ Aktionen:\ \{valid\_action\_names\}"{}}) }
+\DoxyCodeLine{00181\  }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Try\ at\ most\ all\ actions }}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tried\_actions\ =\ set() }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ \textcolor{keywordflow}{not}\ self.env.check\_action\_execution(high\_level\_action\_str,\ obs): }
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Count\ invalid\ actions\ for\ later\ analysis }}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.invalid\_action\_counts[high\_level\_action]\ +=\ 1 }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tried\_actions.add(high\_level\_action) }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(tried\_actions)\ >=\ len(self.action\_mapping): }
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}Alle\ Aktionen\ probiert,\ keine\ ist\ gültig.\ Problem:\ \{self.env.problem\_name\}"{}}) }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ -\/=\ 10000.0 }
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00194\  }
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ probs[high\_level\_action]\ =\ 0.0 }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ all\ remaining\ probabilities\ are\ 0,\ choose\ randomly\ from\ untried\ actions }}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.all(probs\ ==\ 0): }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ untried\_actions\ =\ [i\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(self.action\_mapping))\ \textcolor{keywordflow}{if}\ i\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ tried\_actions] }
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ untried\_actions: }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.random.choice(untried\_actions) }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}No\ valid\ action\ found,\ stopping\ episode."{}}) }
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ -\/=\ 10000.0 }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break} }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\ =\ np.argmax(probs) }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_level\_action\_str\ =\ self.action\_mapping[high\_level\_action]\ \  }
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prob\ =\ probs[high\_level\_action]\  }
+\DoxyCodeLine{00212\  }
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ isTerminal: }
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Low-\/Level-\/Agent:\  }}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Heuristik }}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\_name,\ params\ =\ decide\_parameters(obs,\ high\_level\_action\_str) }
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ no\ heuristic\ found,\ use\ MCTS\  }}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ action\_name\ ==\ \textcolor{stringliteral}{"{}None"{}}: }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ root\ =\ MCTSNode(state=self.env.state,\ action=(high\_level\_action\_str,\ \textcolor{keywordtype}{None})) }
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mcts\ =\ MCTS(root,\ depth=5,\ n\_simulations=60) }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_node\ =\ mcts.search() }
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ best\_node: }
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params\ =\ best\_node.action[1] }
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bool\_heuristic\ =\ \textcolor{keyword}{True} }
+\DoxyCodeLine{00227\  }
+\DoxyCodeLine{00228\  }
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ there\ is\ a\ loop\ in\ the\ actions }}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params\_check\ =\ list(params.values())\ \textcolor{keywordflow}{if}\ isinstance(params,\ dict)\ \textcolor{keywordflow}{else}\ list(params) }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ params\_check\ !=\ []: }
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (high\_level\_action\ ==\ 4\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 6)\ \textcolor{keywordflow}{or}\ (high\_level\_action\ ==\ 5\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 7)\ \(\backslash\) }
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{or}\ (high\_level\_action\ ==\ 6\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 4)\ \textcolor{keywordflow}{or}\ (high\_level\_action\ ==\ 7\ \textcolor{keywordflow}{and}\ last\_action\ ==\ 5): }
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ last\_trailer\_id\ ==\ params\_check[1]\ \textcolor{keywordflow}{and}\ last\_rack\_id\ ==\ params\_check[0]: }
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ -\/=\ 200.0\  }
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_action\ =\ high\_level\_action }
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ last\_action\ \textcolor{keywordflow}{in}\ [4,\ 5,\ 6,\ 7]: }
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_trailer\_id\ =\ params\_check[1] }
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_rack\_id\ =\ params\_check[0]\  }
+\DoxyCodeLine{00240\  }
+\DoxyCodeLine{00241\  }
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Führe\ Aktion\ aus }}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obs\_\ ,\ reward\_main,\ isTerminal\ =\ self.env.step(high\_level\_action\_str,\ params) }
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ +=\ reward\_main }
+\DoxyCodeLine{00245\  }
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Wenn\ besondere\ Heuristik\ verwendet\ wurde,\ dann\ führe\ folge\ von\ Aktionen\ aus:\ left\_unstack\ -\/>\ load\_beluga;\ right\_unstack\ -\/>\ deliver\_to\_hangar }}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ bool\_heuristic: }
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reduziere\ die\ Belohnung\ für\ "{}unstack"{}\ Aktionen,\ wenn\ die\ Folgeaktion\ nicht\ ausgeführt\ werden\ kann }}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ high\_level\_action\_str\ ==\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}: }
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\_name,\ params\ =\ decide\_parameters(obs\_,\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}}) }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ action\_name\ ==\ \textcolor{stringliteral}{"{}None"{}}: }
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obs\_\ ,\ reward\_heuristic,\ isTerminal\ =\ self.env.step(\textcolor{stringliteral}{"{}deliver\_to\_hangar"{}},\ params) }
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ +=\ reward\_heuristic }
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ +=\ 50.0\ \ \textcolor{comment}{\#\ Erhöhte\ Belohnung\ für\ erfolgreiche\ Aktionskette }}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Bestrafe\ das\ Unstacking\ ohne\ Folgeaktion }}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ -\/=\ 20.0 }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ high\_level\_action\_str\ ==\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}}: }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ action\_name,\ params\ =\ decide\_parameters(obs\_,\ \textcolor{stringliteral}{"{}load\_beluga"{}}) }
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ action\_name\ ==\ \textcolor{stringliteral}{"{}None"{}}: }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obs\_\ ,\ reward\_heuristic,\ isTerminal\ =\ self.env.step(\textcolor{stringliteral}{"{}load\_beluga"{}},\ params) }
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ +=\ reward\_heuristic }
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ +=\ 50.0\ \ \textcolor{comment}{\#\ Erhöhte\ Belohnung\ für\ erfolgreiche\ Aktionskette }}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Penalize\ unstacking\ without\ follow-\/up\ action }}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ -\/=\ 20.0 }
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}: }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Other\ heuristics\ receive\ smaller\ rewards }}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reward\ +=\ 5.0 }
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00271\  }
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print\_action\ =\ high\_level\_action\_str\ \ \textcolor{comment}{\#\ Store\ last\ action\ for\ debugging }}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Store\ experience\ for\ PPO }}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.ppo\_agent.remember(obs,\ high\_level\_action,\ prob,\ val,\ reward,\ isTerminal) }
+\DoxyCodeLine{00275\  }
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ reward\ >\ 0:\  }
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ positive\_actions\_reward\ +=\ reward }
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ obs\_\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}: }
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ obs\ =\ obs\_ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_reward\ +=\ reward }
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ steps\ +=\ 1 }
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.total\_steps\ +=\ 1 }
+\DoxyCodeLine{00283\  }
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ PPO\ learning\ step\ at\ end\ of\ episode\ (optimized\ frequency) }}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.total\_steps\ >=\ start\_learn\_after\ \textcolor{keywordflow}{and}\ self.total\_steps\ \%\ (N*2)\ ==\ 0: }
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.ppo\_agent.learn() }
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.learn\_iters\ +=\ 1 }
+\DoxyCodeLine{00288\  }
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ debuglog(steps)\ \#\ Debug\ output\ disabled }}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ steps\ >=\ self.env.get\_max\_steps()\ \textcolor{keywordflow}{or}\ total\_reward\ <=\ -\/10000: }
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isTerminal\ =\ \textcolor{keyword}{True}\ \ \textcolor{comment}{\#\ Adjusted\ termination\ condition\ with\ less\ strict\ reward\ limit }}
+\DoxyCodeLine{00292\ \ \ \ \  }
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ metrics }}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ self.episode\_rewards.append(total\_reward) }
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ avg\_reward\ =\ np.mean(self.episode\_rewards[-\/10:]) }
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ self.avg\_rewards.append(avg\_reward) }
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ self.steps\_per\_episode.append(steps) }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ epsilon\ reset\ is\ needed }}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ the\ last\ 6\ episodes\ all\ have\ very\ bad\ rewards,\ reset\ epsilon }}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.episode\_rewards)\ >=\ 6: }
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recent\_rewards\ =\ self.episode\_rewards[-\/6:] }
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ all(reward\ <=\ -\/10000\ \textcolor{keywordflow}{for}\ reward\ \textcolor{keywordflow}{in}\ recent\_rewards): }
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}\(\backslash\)nSehr\ schlechte\ Performance\ in\ den\ letzten\ 10\ Episoden.\ Setze\ Epsilon\ zurück,\ um\ mehr\ zu\ explorieren."{}}) }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.epsilon\_start\ =\ 0.9\ \ \textcolor{comment}{\#\ Zurücksetzen\ auf\ Anfangswert }}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.epsilon\_decay\ =\ 0.00001\ \ \textcolor{comment}{\#\ Zurücksetzen\ der\ Decay-\/Rate }}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.total\_steps\ =\ 0\ \ \textcolor{comment}{\#\ Zurücksetzen\ der\ Schritte\ für\ die\ Epsilon-\/Berechnung }}
+\DoxyCodeLine{00308\  }
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ model\ if\ average\ reward\ improves }}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ avg\_reward\ >\ self.best\_score: }
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.ppo\_agent.save\_models() }
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.best\_score\ =\ avg\_reward }
+\DoxyCodeLine{00313\  }
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ the\ problem\ is\ solved }}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ solved\ =\ self.env.state.is\_terminal() }
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ status\_symbol\ =\ \textcolor{stringliteral}{"{}✅"{}}\ \textcolor{keywordflow}{if}\ solved\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}\ \ "{}} }
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{'\{status\_symbol\}\ episode\ \{episode\},\ score\ \{total\_reward:.1f\},\ avg\ score\ \{avg\_reward:.1f\},\ Best\ avg\ score\ \{self.best\_score:.1f\}'}, }
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{'time\_steps\ \{steps\}/\{self.env.get\_max\_steps()\},\ learn\_iters\ \{self.learn\_iters\},\ positive\ reward\ \{positive\_actions\_reward:.1f\},\ problem\ \{self.env.problem\_name\},\ \{self.env.base\_index\}'}) }
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  }
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ model\ every\ 100\ episodes }}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ episode\ >\ 0\ \textcolor{keywordflow}{and}\ episode\ \%\ 100\ ==\ 0: }
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.ppo\_agent.save\_models() }
+\DoxyCodeLine{00324\  }
+\DoxyCodeLine{00325\  }
+\DoxyCodeLine{00326\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_adb48f26c55ad6a951e8d18e9d5a0a123}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!action\_mapping@{action\_mapping}}
+\index{action\_mapping@{action\_mapping}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{action\_mapping}{action\_mapping}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_adb48f26c55ad6a951e8d18e9d5a0a123} 
+rl.\+training.\+trainer.\+Trainer.\+action\+\_\+mapping}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 0\ :\ \textcolor{stringliteral}{"{}load\_beluga"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 1\ :\ \textcolor{stringliteral}{"{}unload\_beluga"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 2\ :\ \textcolor{stringliteral}{"{}get\_from\_hangar"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 3\ :\ \textcolor{stringliteral}{"{}deliver\_to\_hangar"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 4\ :\ \textcolor{stringliteral}{"{}left\_stack\_rack"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 5\ :\ \textcolor{stringliteral}{"{}right\_stack\_rack"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 6\ :\ \textcolor{stringliteral}{"{}left\_unstack\_rack"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ 7\ :\ \textcolor{stringliteral}{"{}right\_unstack\_rack"{}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a1ec86533932a55f2d8aa0f088b11dad8}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!avg\_rewards@{avg\_rewards}}
+\index{avg\_rewards@{avg\_rewards}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{avg\_rewards}{avg\_rewards}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a1ec86533932a55f2d8aa0f088b11dad8} 
+list rl.\+training.\+trainer.\+Trainer.\+avg\+\_\+rewards = \mbox{[}$\,$\mbox{]}}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_af53b12fdc00175204aa94499c5001b81}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!best\_score@{best\_score}}
+\index{best\_score@{best\_score}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{best\_score}{best\_score}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_af53b12fdc00175204aa94499c5001b81} 
+rl.\+training.\+trainer.\+Trainer.\+best\+\_\+score = -\/90000}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a458358bedca5762d1d0413497d29c8e5}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!debug@{debug}}
+\index{debug@{debug}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{debug}{debug}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a458358bedca5762d1d0413497d29c8e5} 
+rl.\+training.\+trainer.\+Trainer.\+debug = debug}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a7eca82735158f766fee6550d4086ddc6}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!env@{env}}
+\index{env@{env}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{env}{env}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a7eca82735158f766fee6550d4086ddc6} 
+rl.\+training.\+trainer.\+Trainer.\+env = env}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_aaebca8d0c1d7f5e7c02bb68a4a5105c0}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!episode\_rewards@{episode\_rewards}}
+\index{episode\_rewards@{episode\_rewards}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{episode\_rewards}{episode\_rewards}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_aaebca8d0c1d7f5e7c02bb68a4a5105c0} 
+rl.\+training.\+trainer.\+Trainer.\+episode\+\_\+rewards = \mbox{[}$\,$\mbox{]}}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_ae8cb00e5c5eeb0624259f76b10dd8b3a}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!epsilon\_decay@{epsilon\_decay}}
+\index{epsilon\_decay@{epsilon\_decay}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{epsilon\_decay}{epsilon\_decay}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_ae8cb00e5c5eeb0624259f76b10dd8b3a} 
+float rl.\+training.\+trainer.\+Trainer.\+epsilon\+\_\+decay = 0.\+00001}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a83ce46e90e7197ace0a2448eedabb0ef}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!epsilon\_end@{epsilon\_end}}
+\index{epsilon\_end@{epsilon\_end}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{epsilon\_end}{epsilon\_end}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a83ce46e90e7197ace0a2448eedabb0ef} 
+float rl.\+training.\+trainer.\+Trainer.\+epsilon\+\_\+end = 0.\+2}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a2f807ad2ea6c9325d2e51553bfbe7275}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!epsilon\_start@{epsilon\_start}}
+\index{epsilon\_start@{epsilon\_start}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{epsilon\_start}{epsilon\_start}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a2f807ad2ea6c9325d2e51553bfbe7275} 
+float rl.\+training.\+trainer.\+Trainer.\+epsilon\+\_\+start = 0.\+9}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_abaf51c0b6caf143683b15263adf6f76c}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!invalid\_action\_counts@{invalid\_action\_counts}}
+\index{invalid\_action\_counts@{invalid\_action\_counts}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{invalid\_action\_counts}{invalid\_action\_counts}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_abaf51c0b6caf143683b15263adf6f76c} 
+dict rl.\+training.\+trainer.\+Trainer.\+invalid\+\_\+action\+\_\+counts = \{i\+: 0 for i in range(8)\}}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_adc3380c8b2203c1873fb8e5de511c095}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!learn\_iters@{learn\_iters}}
+\index{learn\_iters@{learn\_iters}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{learn\_iters}{learn\_iters}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_adc3380c8b2203c1873fb8e5de511c095} 
+int rl.\+training.\+trainer.\+Trainer.\+learn\+\_\+iters = 0}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a426f32a6b93f28582fb77d54af312a16}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!mcts@{mcts}}
+\index{mcts@{mcts}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{mcts}{mcts}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a426f32a6b93f28582fb77d54af312a16} 
+rl.\+training.\+trainer.\+Trainer.\+mcts = None}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_aaeda707242f803f4a3d92aa58183d78b}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!ppo\_agent@{ppo\_agent}}
+\index{ppo\_agent@{ppo\_agent}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{ppo\_agent}{ppo\_agent}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_aaeda707242f803f4a3d92aa58183d78b} 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_p_p_o_agent}{PPOAgent}} rl.\+training.\+trainer.\+Trainer.\+ppo\+\_\+agent = ppo\+\_\+agent}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a1b0e2b1ca4666b1edd6707c7916f15fd}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!score\_history@{score\_history}}
+\index{score\_history@{score\_history}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{score\_history}{score\_history}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a1b0e2b1ca4666b1edd6707c7916f15fd} 
+list rl.\+training.\+trainer.\+Trainer.\+score\+\_\+history = \mbox{[}$\,$\mbox{]}}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a3497eb76c0856c13f5ffb747a6435968}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!steps\_per\_episode@{steps\_per\_episode}}
+\index{steps\_per\_episode@{steps\_per\_episode}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{steps\_per\_episode}{steps\_per\_episode}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a3497eb76c0856c13f5ffb747a6435968} 
+list rl.\+training.\+trainer.\+Trainer.\+steps\+\_\+per\+\_\+episode = \mbox{[}$\,$\mbox{]}}
+
+\Hypertarget{classrl_1_1training_1_1trainer_1_1_trainer_a911fdcd8b62556fea6eeb7ec90785dc4}\index{rl.training.trainer.Trainer@{rl.training.trainer.Trainer}!total\_steps@{total\_steps}}
+\index{total\_steps@{total\_steps}!rl.training.trainer.Trainer@{rl.training.trainer.Trainer}}
+\doxysubsubsection{\texorpdfstring{total\_steps}{total\_steps}}
+{\footnotesize\ttfamily \label{classrl_1_1training_1_1trainer_1_1_trainer_a911fdcd8b62556fea6eeb7ec90785dc4} 
+int rl.\+training.\+trainer.\+Trainer.\+total\+\_\+steps = 0}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+rl/training/trainer.\+py\end{DoxyCompactItemize}

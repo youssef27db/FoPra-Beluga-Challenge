@@ -1,0 +1,153 @@
+\doxysection{rl.\+env.\+state.\+Jig\+Type Class Reference}
+\hypertarget{classrl_1_1env_1_1state_1_1_jig_type}{}\label{classrl_1_1env_1_1state_1_1_jig_type}\index{rl.env.state.JigType@{rl.env.state.JigType}}
+
+
+Represents a type of jig with size properties.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a6ac4ff838697be21bc491a866406fecc}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a6dddb07fa670281a85ea3ec67ec8d506}{name}}, int \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a465438b452ca889cc9184c31f979a151}{size\+\_\+empty}}, int \mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_ab0615ed4aeb2b12c12c830f9e22340ce}{size\+\_\+loaded}})
+\begin{DoxyCompactList}\small\item\em Initialize a jig type. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a28a3381ddf613740e3ba5cf7afa90447}{\+\_\+\+\_\+str\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a94125dec20feac579507d289ab629f92}{\+\_\+\+\_\+repr\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a9b64c21b53445426028699aaa1e45cfb}{\+\_\+\+\_\+ne\+\_\+\+\_\+}} (self, other)
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a2f8b30f4a9ad9f7071bbe659ec93a3e8}{\+\_\+\+\_\+eq\+\_\+\+\_\+}} (self, other)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a6dddb07fa670281a85ea3ec67ec8d506}{name}} = name
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_a465438b452ca889cc9184c31f979a151}{size\+\_\+empty}} = size\+\_\+empty
+\item 
+\mbox{\hyperlink{classrl_1_1env_1_1state_1_1_jig_type_ab0615ed4aeb2b12c12c830f9e22340ce}{size\+\_\+loaded}} = size\+\_\+loaded
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents a type of jig with size properties. 
+
+Different jig types have different sizes when empty vs loaded, which affects storage and transportation constraints. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_a6ac4ff838697be21bc491a866406fecc}\index{rl.env.state.JigType@{rl.env.state.JigType}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_a6ac4ff838697be21bc491a866406fecc} 
+rl.\+env.\+state.\+Jig\+Type.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{str}]{name}{, }\item[{int}]{size\+\_\+empty}{, }\item[{int}]{size\+\_\+loaded}{}\end{DoxyParamCaption})}
+
+
+
+Initialize a jig type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & Name identifier for the jig type \\
+\hline
+{\em size\+\_\+empty} & Size when the jig is empty \\
+\hline
+{\em size\+\_\+loaded} & Size when the jig is loaded \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{def\ }\_\_init\_\_(self,\ name:\ str,\ size\_empty:\ int,\ size\_loaded:\ int): }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00038\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ a\ jig\ type }}
+\DoxyCodeLine{00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ name\ Name\ identifier\ for\ the\ jig\ type }}
+\DoxyCodeLine{00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ size\_empty\ Size\ when\ the\ jig\ is\ empty }}
+\DoxyCodeLine{00041\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ size\_loaded\ Size\ when\ the\ jig\ is\ loaded }}
+\DoxyCodeLine{00042\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ self.name\ =\ name }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ self.size\_empty\ =\ size\_empty }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ self.size\_loaded\ =\ size\_loaded }
+\DoxyCodeLine{00046\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_a2f8b30f4a9ad9f7071bbe659ec93a3e8}\index{rl.env.state.JigType@{rl.env.state.JigType}!\_\_eq\_\_@{\_\_eq\_\_}}
+\index{\_\_eq\_\_@{\_\_eq\_\_}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{\_\_eq\_\_()}{\_\_eq\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_a2f8b30f4a9ad9f7071bbe659ec93a3e8} 
+rl.\+env.\+state.\+Jig\+Type.\+\_\+\+\_\+eq\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{other}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{def\ }\_\_eq\_\_(self,\ other): }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.name\ ==\ other.name }
+\DoxyCodeLine{00058\  }
+\DoxyCodeLine{00059\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_a9b64c21b53445426028699aaa1e45cfb}\index{rl.env.state.JigType@{rl.env.state.JigType}!\_\_ne\_\_@{\_\_ne\_\_}}
+\index{\_\_ne\_\_@{\_\_ne\_\_}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{\_\_ne\_\_()}{\_\_ne\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_a9b64c21b53445426028699aaa1e45cfb} 
+rl.\+env.\+state.\+Jig\+Type.\+\_\+\+\_\+ne\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{other}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{def\ }\_\_ne\_\_(self,\ other): }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.name\ !=\ other.name }
+\DoxyCodeLine{00055\ \ \ \ \  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_a94125dec20feac579507d289ab629f92}\index{rl.env.state.JigType@{rl.env.state.JigType}!\_\_repr\_\_@{\_\_repr\_\_}}
+\index{\_\_repr\_\_@{\_\_repr\_\_}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{\_\_repr\_\_()}{\_\_repr\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_a94125dec20feac579507d289ab629f92} 
+rl.\+env.\+state.\+Jig\+Type.\+\_\+\+\_\+repr\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{def\ }\_\_repr\_\_(self): }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.name }
+\DoxyCodeLine{00052\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_a28a3381ddf613740e3ba5cf7afa90447}\index{rl.env.state.JigType@{rl.env.state.JigType}!\_\_str\_\_@{\_\_str\_\_}}
+\index{\_\_str\_\_@{\_\_str\_\_}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{\_\_str\_\_()}{\_\_str\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_a28a3381ddf613740e3ba5cf7afa90447} 
+rl.\+env.\+state.\+Jig\+Type.\+\_\+\+\_\+str\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{def\ }\_\_str\_\_(self): }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.name }
+\DoxyCodeLine{00049\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_a6dddb07fa670281a85ea3ec67ec8d506}\index{rl.env.state.JigType@{rl.env.state.JigType}!name@{name}}
+\index{name@{name}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_a6dddb07fa670281a85ea3ec67ec8d506} 
+rl.\+env.\+state.\+Jig\+Type.\+name = name}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_a465438b452ca889cc9184c31f979a151}\index{rl.env.state.JigType@{rl.env.state.JigType}!size\_empty@{size\_empty}}
+\index{size\_empty@{size\_empty}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{size\_empty}{size\_empty}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_a465438b452ca889cc9184c31f979a151} 
+rl.\+env.\+state.\+Jig\+Type.\+size\+\_\+empty = size\+\_\+empty}
+
+\Hypertarget{classrl_1_1env_1_1state_1_1_jig_type_ab0615ed4aeb2b12c12c830f9e22340ce}\index{rl.env.state.JigType@{rl.env.state.JigType}!size\_loaded@{size\_loaded}}
+\index{size\_loaded@{size\_loaded}!rl.env.state.JigType@{rl.env.state.JigType}}
+\doxysubsubsection{\texorpdfstring{size\_loaded}{size\_loaded}}
+{\footnotesize\ttfamily \label{classrl_1_1env_1_1state_1_1_jig_type_ab0615ed4aeb2b12c12c830f9e22340ce} 
+rl.\+env.\+state.\+Jig\+Type.\+size\+\_\+loaded = size\+\_\+loaded}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+rl/env/state.\+py\end{DoxyCompactItemize}

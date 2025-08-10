@@ -1,0 +1,51 @@
+\chapter{🛠️ Setup Directory -\/ File Permissions}
+\hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s}{}\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s}\index{🛠️ Setup Directory -\/ File Permissions@{🛠️ Setup Directory -\/ File Permissions}}
+\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md0}%
+\Hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md0}%
+\hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md1}{}\doxysection{\texorpdfstring{Making Linux Shell Script Executable}{Making Linux Shell Script Executable}}\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md1}
+If you\textquotesingle{}re using this on Linux/\+Ubuntu, make sure to set execute permissions\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{chmod\ +x\ install\_dependencies.sh}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md2}{}\doxysection{\texorpdfstring{File Overview}{File Overview}}\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md2}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ File   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Platform   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ File   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Platform   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-3}
+\endhead
+{\ttfamily install\+\_\+dependencies.\+bat}   &Windows   &Batch script for automatic installation    \\\cline{1-3}
+{\ttfamily install\+\_\+dependencies.\+sh}   &Linux/\+Ubuntu   &Shell script with virtual environment support    \\\cline{1-3}
+{\ttfamily setup\+\_\+dependencies.\+py}   &Cross-\/platform   &Python script with detailed feedback    \\\cline{1-3}
+{\ttfamily requirements.\+txt}   &All   &Detailed requirements with comments    \\\cline{1-3}
+{\ttfamily requirements\+\_\+simple.\+txt}   &All   &Simple requirements list    \\\cline{1-3}
+{\ttfamily README.\+md}   &All   &Comprehensive installation guide   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md3}{}\doxysection{\texorpdfstring{Quick Commands}{Quick Commands}}\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md3}
+\hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md4}{}\doxysubsection{\texorpdfstring{Windows}{Windows}}\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md4}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{install\_dependencies.bat}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md5}{}\doxysubsection{\texorpdfstring{Linux/\+Ubuntu}{Linux/\+Ubuntu}}\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md5}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{chmod\ +x\ install\_dependencies.sh}
+\DoxyCodeLine{./install\_dependencies.sh}
+
+\end{DoxyCode}
+\hypertarget{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md6}{}\doxysubsection{\texorpdfstring{Python (Cross-\/platform)}{Python (Cross-\/platform)}}\label{md_setup_2_p_e_r_m_i_s_s_i_o_n_s_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ setup\_dependencies.py}
+
+\end{DoxyCode}
+ 

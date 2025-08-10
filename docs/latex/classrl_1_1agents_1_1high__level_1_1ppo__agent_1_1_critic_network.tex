@@ -1,0 +1,211 @@
+\doxysection{rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network Class Reference}
+\hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network}{}\label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+
+
+Critic network for PPO agent.  
+
+
+
+
+Inherits nn.\+Module.
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae3f0e45a7ac28221a69ed2d0a91d5283}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, input\+\_\+dims, alpha, fc1dims=256, fc2dims=256, fc3dims=128, chkpt\+\_\+dir=\textquotesingle{}tmp/ppo\textquotesingle{}, name=\textquotesingle{}ppo\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Initialize the critic network. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae4e70fa5ae609b2ea791905c0c7c37bc}{forward}} (self, state)
+\begin{DoxyCompactList}\small\item\em Forward pass through the critic network. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a56a2a9b7dd1e46f6cca7cd7f3b18e649}{save\+\_\+checkpoint}} (self)
+\begin{DoxyCompactList}\small\item\em Save the current model state to checkpoint file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_acd6e3b7f5abc211d93a99509914e248a}{load\+\_\+checkpoint}} (self)
+\begin{DoxyCompactList}\small\item\em Load model state from checkpoint file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a0f8199be7d8c7e801ff0b88336b96213}{checkpoint\+\_\+file}} = os.\+path.\+join(chkpt\+\_\+dir, \textquotesingle{}critic\+\_\+torch\+\_\+\textquotesingle{} + name)
+\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a824b1eed500fc53536c0f7e01d176988}{critic}}
+\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ad2c14eed568cf52935eda79be9e6916f}{optimizer}} = optim.\+Adam(self.\+parameters(), lr=alpha)
+\item 
+\mbox{\hyperlink{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a83eec626281fcdfb93996bb50aee40a8}{device}} = T.\+device(\textquotesingle{}cuda\textquotesingle{} if T.\+cuda.\+is\+\_\+available() else \textquotesingle{}cpu\textquotesingle{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Critic network for PPO agent. 
+
+Neural network that estimates the value function V(s) for a given state. Used to compute advantages in the PPO algorithm. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae3f0e45a7ac28221a69ed2d0a91d5283}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae3f0e45a7ac28221a69ed2d0a91d5283} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{input\+\_\+dims}{, }\item[{}]{alpha}{, }\item[{}]{fc1dims}{ = {\ttfamily 256}, }\item[{}]{fc2dims}{ = {\ttfamily 256}, }\item[{}]{fc3dims}{ = {\ttfamily 128}, }\item[{}]{chkpt\+\_\+dir}{ = {\ttfamily \textquotesingle{}tmp/ppo\textquotesingle{}}, }\item[{}]{name}{ = {\ttfamily \textquotesingle{}ppo\textquotesingle{}}}\end{DoxyParamCaption})}
+
+
+
+Initialize the critic network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+\_\+dims} & Dimension of input state space \\
+\hline
+{\em alpha} & Learning rate for optimization \\
+\hline
+{\em fc1dims} & Number of neurons in first hidden layer \\
+\hline
+{\em fc2dims} & Number of neurons in second hidden layer \\
+\hline
+{\em fc3dims} & Number of neurons in third hidden layer \\
+\hline
+{\em chkpt\+\_\+dir} & Directory for saving checkpoints \\
+\hline
+{\em name} & Model name for checkpoint files \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keyword}{def\ }\_\_init\_\_(self,\ input\_dims,\ alpha,\ fc1dims=256,\ fc2dims=256,\ fc3dims=128,\ chkpt\_dir='tmp/ppo',\ name\ =\ 'ppo'): }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00141\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Initialize\ the\ critic\ network }}
+\DoxyCodeLine{00142\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ input\_dims\ Dimension\ of\ input\ state\ space }}
+\DoxyCodeLine{00143\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ alpha\ Learning\ rate\ for\ optimization }}
+\DoxyCodeLine{00144\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc1dims\ Number\ of\ neurons\ in\ first\ hidden\ layer }}
+\DoxyCodeLine{00145\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc2dims\ Number\ of\ neurons\ in\ second\ hidden\ layer }}
+\DoxyCodeLine{00146\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ fc3dims\ Number\ of\ neurons\ in\ third\ hidden\ layer }}
+\DoxyCodeLine{00147\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ chkpt\_dir\ Directory\ for\ saving\ checkpoints }}
+\DoxyCodeLine{00148\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ name\ Model\ name\ for\ checkpoint\ files }}
+\DoxyCodeLine{00149\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ super(CriticNetwork,\ self).\_\_init\_\_() }
+\DoxyCodeLine{00151\  }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ self.checkpoint\_file\ =\ os.path.join(chkpt\_dir,\ \textcolor{stringliteral}{'critic\_torch\_'}\ +\ name) }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ self.critic\ =\ nn.Sequential(nn.Linear(input\_dims,\ fc1dims),\ nn.ReLU(), }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc1dims,\ fc2dims),\ nn.ReLU(), }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc2dims,\ fc3dims),\ nn.ReLU(), }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc3dims,\ 1)) }
+\DoxyCodeLine{00157\  }
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ self.optimizer\ =\ optim.Adam(self.parameters(),\ lr=alpha) }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ self.device\ =\ T.device(\textcolor{stringliteral}{'cuda'}\ \textcolor{keywordflow}{if}\ T.cuda.is\_available()\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{'cpu'}) }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ self.to(self.device) }
+\DoxyCodeLine{00161\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae4e70fa5ae609b2ea791905c0c7c37bc}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!forward@{forward}}
+\index{forward@{forward}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{forward()}{forward()}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ae4e70fa5ae609b2ea791905c0c7c37bc} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+forward (\begin{DoxyParamCaption}\item[{}]{self}{, }\item[{}]{state}{}\end{DoxyParamCaption})}
+
+
+
+Forward pass through the critic network. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Input state tensor \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Value estimate for the given state 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{def\ }forward(self,\ state): }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00164\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Forward\ pass\ through\ the\ critic\ network }}
+\DoxyCodeLine{00165\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @param\ state\ Input\ state\ tensor }}
+\DoxyCodeLine{00166\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @return\ Value\ estimate\ for\ the\ given\ state }}
+\DoxyCodeLine{00167\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ value\ =\ self.critic(state) }
+\DoxyCodeLine{00169\  }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ value }
+\DoxyCodeLine{00171\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_acd6e3b7f5abc211d93a99509914e248a}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!load\_checkpoint@{load\_checkpoint}}
+\index{load\_checkpoint@{load\_checkpoint}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{load\_checkpoint()}{load\_checkpoint()}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_acd6e3b7f5abc211d93a99509914e248a} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+load\+\_\+checkpoint (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Load model state from checkpoint file. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keyword}{def\ }load\_checkpoint(self): }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00180\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Load\ model\ state\ from\ checkpoint\ file }}
+\DoxyCodeLine{00181\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ self.load\_state\_dict(T.load(self.checkpoint\_file)) }
+\DoxyCodeLine{00183\  }
+\DoxyCodeLine{00184\  }
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a56a2a9b7dd1e46f6cca7cd7f3b18e649}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!save\_checkpoint@{save\_checkpoint}}
+\index{save\_checkpoint@{save\_checkpoint}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{save\_checkpoint()}{save\_checkpoint()}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a56a2a9b7dd1e46f6cca7cd7f3b18e649} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+save\+\_\+checkpoint (\begin{DoxyParamCaption}\item[{}]{self}{}\end{DoxyParamCaption})}
+
+
+
+Save the current model state to checkpoint file. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keyword}{def\ }save\_checkpoint(self): }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}! }}
+\DoxyCodeLine{00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ @brief\ Save\ the\ current\ model\ state\ to\ checkpoint\ file }}
+\DoxyCodeLine{00175\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}} }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ T.save(self.state\_dict(),\ self.checkpoint\_file) }
+\DoxyCodeLine{00177\  }
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a0f8199be7d8c7e801ff0b88336b96213}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!checkpoint\_file@{checkpoint\_file}}
+\index{checkpoint\_file@{checkpoint\_file}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{checkpoint\_file}{checkpoint\_file}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a0f8199be7d8c7e801ff0b88336b96213} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+checkpoint\+\_\+file = os.\+path.\+join(chkpt\+\_\+dir, \textquotesingle{}critic\+\_\+torch\+\_\+\textquotesingle{} + name)}
+
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a824b1eed500fc53536c0f7e01d176988}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!critic@{critic}}
+\index{critic@{critic}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{critic}{critic}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a824b1eed500fc53536c0f7e01d176988} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+critic}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ nn.Sequential(nn.Linear(input\_dims,\ fc1dims),\ nn.ReLU(),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc1dims,\ fc2dims),\ nn.ReLU(),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc2dims,\ fc3dims),\ nn.ReLU(),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nn.Linear(fc3dims,\ 1))}
+
+\end{DoxyCode}
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a83eec626281fcdfb93996bb50aee40a8}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!device@{device}}
+\index{device@{device}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{device}{device}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_a83eec626281fcdfb93996bb50aee40a8} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+device = T.\+device(\textquotesingle{}cuda\textquotesingle{} if T.\+cuda.\+is\+\_\+available() else \textquotesingle{}cpu\textquotesingle{})}
+
+\Hypertarget{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ad2c14eed568cf52935eda79be9e6916f}\index{rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}!optimizer@{optimizer}}
+\index{optimizer@{optimizer}!rl.agents.high\_level.ppo\_agent.CriticNetwork@{rl.agents.high\_level.ppo\_agent.CriticNetwork}}
+\doxysubsubsection{\texorpdfstring{optimizer}{optimizer}}
+{\footnotesize\ttfamily \label{classrl_1_1agents_1_1high__level_1_1ppo__agent_1_1_critic_network_ad2c14eed568cf52935eda79be9e6916f} 
+rl.\+agents.\+high\+\_\+level.\+ppo\+\_\+agent.\+Critic\+Network.\+optimizer = optim.\+Adam(self.\+parameters(), lr=alpha)}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+rl/agents/high\+\_\+level/ppo\+\_\+agent.\+py\end{DoxyCompactItemize}
