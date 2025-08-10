@@ -20,6 +20,13 @@ Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
   - Trainiert mit **Proximal Policy Optimization (PPO)**  
   - Verantwortlich für die strategische Richtung
 
+- **Low-Level Agent**  
+  - Verfeinert und führt die gewählte High-Level-Aktion aus  
+  - Setzt je nach Komplexität unterschiedliche Mechanismen ein:  
+    - 🔹 **Direkte Ausführung** – deterministische Aktionen ohne Parameter  
+    - 🔹 **Heuristiken** – einfache parametrisierte Aktionen  
+    - 🔹 **Monte Carlo Tree Search (MCTS)** – komplexe, sequenzielle Entscheidungen mit großem Kombinationsraum
+
 ### 🎯 Die 8 verfügbaren Aktionen:
 1. **`load_beluga`** - Beluga mit Jigs vom Trailer beladen
 2. **`unload_beluga`** - Jigs aus dem Beluga entladen  
@@ -29,13 +36,6 @@ Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
 6. **`right_stack_rack`** - Jigs auf dem rechten Rack stapeln
 7. **`left_unstack_rack`** - Jigs vom linken Rack entstapeln
 8. **`right_unstack_rack`** - Jigs vom rechten Rack entstapeln
-
-- **Low-Level Agent**  
-  - Verfeinert und führt die gewählte High-Level-Aktion aus  
-  - Setzt je nach Komplexität unterschiedliche Mechanismen ein:  
-    - 🔹 **Direkte Ausführung** – deterministische Aktionen ohne Parameter  
-    - 🔹 **Heuristiken** – einfache parametrisierte Aktionen  
-    - 🔹 **Monte Carlo Tree Search (MCTS)** – komplexe, sequenzielle Entscheidungen mit großem Kombinationsraum
 
 > 💡 **Vorteil:** Durch diese modulare Trennung können wir die Stärken verschiedener Methoden gezielt nutzen und die Charakteristika einzelner Teilprobleme optimal abdecken.
 
