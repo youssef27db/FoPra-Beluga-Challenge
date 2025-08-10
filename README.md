@@ -16,9 +16,19 @@ Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
 ![Agent Architecture](docs/architektur.jpg)
 
 - **High-Level Agent**  
-  - Wählt eine von acht möglichen Aktionen (z. B. *Load Jig*, *Swap*, *Dispatch*)  
+  - Wählt eine von acht möglichen Aktionen  
   - Trainiert mit **Proximal Policy Optimization (PPO)**  
   - Verantwortlich für die strategische Richtung
+
+### 🎯 Die 8 verfügbaren Aktionen:
+1. **`load_beluga`** - Beluga mit Jigs vom Trailer beladen
+2. **`unload_beluga`** - Jigs aus dem Beluga entladen  
+3. **`get_from_hangar`** - Jigs aus dem Hangar holen
+4. **`deliver_to_hangar`** - Jigs zum Hangar transportieren
+5. **`left_stack_rack`** - Jigs auf dem linken Rack stapeln
+6. **`right_stack_rack`** - Jigs auf dem rechten Rack stapeln
+7. **`left_unstack_rack`** - Jigs vom linken Rack entstapeln
+8. **`right_unstack_rack`** - Jigs vom rechten Rack entstapeln
 
 - **Low-Level Agent**  
   - Verfeinert und führt die gewählte High-Level-Aktion aus  
