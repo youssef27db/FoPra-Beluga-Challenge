@@ -117,7 +117,20 @@ Der PPO Agent wird mit folgenden Standardparametern konfiguriert:
 
 Bei Verwendung von `--save_to_file` werden die Ergebnisse in TXT-Dateien im "results" Verzeichnis gespeichert.
 
-## Analyse
+## Auswertung von Problemen
+
+| Größe (in Jigs) | Zeit | Steps | Steps optimiert | Optimierung |
+|---|---|---|---|---|
+| 10 | 1,63 s | 778 | 286 | 63 % |
+| 20 | 4,33 s | 1289 | 541 | 58 % |
+| 43 | 8,96 s | 1204 | 862 | 28 % |
+| 61 | 15,78 s | 1072 | 900 | 16 % |
+| 78 | 1m 13s | 2958 | 2374 | 19 % |
+| 103 | 2m 56s | 7465 | 6455 | 13,5 % |
+| 132 | 5m 14s | 10561 | 8761 | 17 % |
+| 177 | 17m 34s | 29804 | 24170 | 18,9 % |
+
+## Analyse von Problemen
 
 **Bild 1**: Die Grafik zeigt die Optimierungseffizienz (in %) in Abhängigkeit von der Anzahl der Jigstep-Probleme. Bei wenigen Jigs (10–15) liegt die Effizienz noch sehr hoch bei über 70 %, sinkt jedoch deutlich mit steigender Problemgröße und fällt bei 80 Jigs auf etwa 21 %.
 
