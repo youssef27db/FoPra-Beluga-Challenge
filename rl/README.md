@@ -117,7 +117,7 @@ Der PPO Agent wird mit folgenden Standardparametern konfiguriert:
 
 Bei Verwendung von `--save_to_file` werden die Ergebnisse in TXT-Dateien im "results" Verzeichnis gespeichert.
 
-## Auswertung von Problemen
+## Auswertung von Problemensample 
 
 | Größe (in Jigs) | Zeit | Steps | Steps optimiert | Optimierung | Solution Link |
 |---|---|---|---|---|---|
