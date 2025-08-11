@@ -1,4 +1,0 @@
-var namespacetoolkit_1_1encoder_1_1pddl__encoding_1_1probabilistic__actions =
-[
-    [ "ProceedToNextBeluga", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1probabilistic__actions_1_1_proceed_to_next_beluga.html", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1probabilistic__actions_1_1_proceed_to_next_beluga" ]
-];

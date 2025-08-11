@@ -1,4 +1,0 @@
-var beluga__complete__action_8py =
-[
-    [ "toolkit.encoder.pddl_encoding.beluga_complete_action.BelugaCompleteAction", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__complete__action_1_1_beluga_complete_action.html", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__complete__action_1_1_beluga_complete_action" ]
-];

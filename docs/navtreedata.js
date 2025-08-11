@@ -26,7 +26,6 @@ var NAVTREE =
 [
   [ "FoPra Beluga Challenge - Reinforcement Learning", "index.html", [
     [ "FoPra – Beluga Challenge", "index.html", "index" ],
-    [ "README", "md_rl_2_r_e_a_d_m_e.html", null ],
     [ "🛠️ Setup Directory - File Permissions", "md_setup_2_p_e_r_m_i_s_s_i_o_n_s.html", [
       [ "Making Linux Shell Script Executable", "md_setup_2_p_e_r_m_i_s_s_i_o_n_s.html#autotoc_md1", null ],
       [ "File Overview", "md_setup_2_p_e_r_m_i_s_s_i_o_n_s.html#autotoc_md2", null ],

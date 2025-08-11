@@ -1,4 +1,0 @@
-var namespacetoolkit_1_1beluga__lib_1_1production__line =
-[
-    [ "ProductionLine", "classtoolkit_1_1beluga__lib_1_1production__line_1_1_production_line.html", "classtoolkit_1_1beluga__lib_1_1production__line_1_1_production_line" ]
-];

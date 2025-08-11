@@ -1,4 +1,0 @@
-var namespacetoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__complete__action =
-[
-    [ "BelugaCompleteAction", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__complete__action_1_1_beluga_complete_action.html", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__complete__action_1_1_beluga_complete_action" ]
-];

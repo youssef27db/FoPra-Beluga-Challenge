@@ -1,4 +1,0 @@
-var beluga__pddl__domain__encoding_8py =
-[
-    [ "toolkit.encoder.pddl_encoding.beluga_pddl_domain_encoding.DomainEncoding", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__pddl__domain__encoding_1_1_domain_encoding.html", "classtoolkit_1_1encoder_1_1pddl__encoding_1_1beluga__pddl__domain__encoding_1_1_domain_encoding" ]
-];
