@@ -119,13 +119,16 @@ Bei Verwendung von `--save_to_file` werden die Ergebnisse in TXT-Dateien im "res
 
 ## Analyse
 
-![Bild1](../docs/Bild1.svg)
 **Bild 1**: Die Grafik zeigt die Optimierungseffizienz (in %) in Abhängigkeit von der Anzahl der Jigstep-Probleme. Bei wenigen Jigs (10–15) liegt die Effizienz noch sehr hoch bei über 70 %, sinkt jedoch deutlich mit steigender Problemgröße und fällt bei 80 Jigs auf etwa 21 %.
 
-![Bild2](../docs/Bild2.svg)
+![Bild1](../docs/Bild1.svg)
+
 
 **Bild 2**: Illustriert den 8-dimensionalen Aktionsraum des Agenten und die Zustandsrepräsentation der Beluga Challenge Umgebung. Zeigt die verschiedenen Aktionen wie Beladen/Entladen, Hangar-Operationen und Rack-Manipulationen.
 
-![Bild3](../docs/Bild3.svg)
+![Bild2](../docs/Bild2.svg)
+
 
 **Bild 3**: Diese Grafik stellt die optimierte Lösungs­länge (in Schritten) für verschiedene Jigstep-Problemgrößen dar. Mit zunehmender Anzahl von Jigs steigt die benötigte Schrittzahl nahezu linear an, wobei die blaue Kurve die gemessenen Werte und die rote Linie den linearen Trend darstellt.
+
+![Bild3](../docs/Bild3.svg)
