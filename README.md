@@ -3,7 +3,21 @@
 
 ---
 
-## 📌 Projektbeschreibung
+## � Inhaltsverzeichnis
+
+### 🚀 Erste Schritte
+- [Setup & Installation](setup/README.md) - Einrichtung der Entwicklungsumgebung und Installation aller Abhängigkeiten
+
+### 📖 Dokumentation
+- [HTML-Dokumentation](https://youssef27db.github.io/FoPra-Beluga-Challenge) - Vollständige generierte Code-Dokumentation
+- [Lokale HTML-Dokumentation](docs/index.html) - Offline-Version der Dokumentation
+
+### 🤖 Reinforcement Learning
+- [RL-Agent README](rl/README.md) - Detaillierte Anleitung zum Training und zur Verwendung des RL-Agenten
+
+---
+
+## �📌 Projektbeschreibung
 Dieses Projekt implementiert einen **hierarchischen RL-Agenten** für die *Beluga Challenge*.  
 Der Ansatz trennt strategische Entscheidungen (High-Level) von der konkreten Ausführung (Low-Level), um unterschiedliche Methoden wie **PPO**, **Heuristiken** und **MCTS** gezielt zu kombinieren.
 
@@ -39,10 +53,6 @@ Unsere Architektur folgt einem **hierarchischen Entscheidungsansatz**:
 
 > 💡 **Vorteil:** Durch diese modulare Trennung können wir die Stärken verschiedener Methoden gezielt nutzen und die Charakteristika einzelner Teilprobleme optimal abdecken.
 
-## 📄 Projektdokumentation
-Die vollständige generierte HTML-Dokumentation findest du hier:  
-[📖 Projekt-Dokumentation anzeigen](https://youssef27db.github.io/FoPra-Beluga-Challenge)
-
 ---
 
 ## 📄 Lizenz
@@ -52,7 +62,7 @@ Dieses Projekt ist unter der **MIT-Lizenz** lizenziert.
 ```
 MIT License
 
-Copyright (c) 2025 Youssef Daoudi
+Copyright (c) 2025 Youssef Daoudi, Jan Kirschbaum, Nils Schulze
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
