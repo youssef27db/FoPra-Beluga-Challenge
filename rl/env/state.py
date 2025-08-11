@@ -17,7 +17,6 @@ Classes:
 """
 
 import json
-import copy
 from .action import (
     left_stack_rack, right_stack_rack, left_unstack_rack, right_unstack_rack,
     load_beluga, unload_beluga, get_from_hangar, deliver_to_hangar

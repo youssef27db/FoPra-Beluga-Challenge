@@ -200,7 +200,7 @@ class Trainer:
                         if untried_actions:
                             high_level_action = np.random.choice(untried_actions)
                         else:
-                            print("No valid action found, stopping episode.")
+                            print("Keine gültigen Aktionen gefunden. Episode wird beendet.")
                             isTerminal = True
                             reward -= 10000.0
                             break
@@ -212,7 +212,7 @@ class Trainer:
 
                 if not isTerminal:
                     # Low-Level-Agent: 
-                    # Heuristik
+                    # Heuristics
                     action_name, params = decide_parameters(obs, high_level_action_str)
                     # If no heuristic found, use MCTS 
                     if action_name == "None":
@@ -239,28 +239,27 @@ class Trainer:
                             last_rack_id = params_check[0] 
 
 
-                    # Führe Aktion aus
+                    # Step in the environment
                     obs_ , reward_main, isTerminal = self.env.step(high_level_action_str, params)
                     reward += reward_main
 
-                    # Wenn besondere Heuristik verwendet wurde, dann führe folge von Aktionen aus: left_unstack -> load_beluga; right_unstack -> deliver_to_hangar
+                    # If heuristics were used, apply additional heuristics if possible
                     if bool_heuristic:
-                        # Reduziere die Belohnung für "unstack" Aktionen, wenn die Folgeaktion nicht ausgeführt werden kann
                         if high_level_action_str == "right_unstack_rack":
                             action_name, params = decide_parameters(obs_, "deliver_to_hangar")
                             if not action_name == "None":
                                 obs_ , reward_heuristic, isTerminal = self.env.step("deliver_to_hangar", params)
                                 reward += reward_heuristic
-                                reward += 50.0  # Erhöhte Belohnung für erfolgreiche Aktionskette
+                                reward += 50.0  # Increased reward for successful action chain
                             else:
-                                # Bestrafe das Unstacking ohne Folgeaktion
+                                # Punish unstacking without follow-up action
                                 reward -= 20.0
                         elif high_level_action_str == "left_unstack_rack":
                             action_name, params = decide_parameters(obs_, "load_beluga")
                             if not action_name == "None":
                                 obs_ , reward_heuristic, isTerminal = self.env.step("load_beluga", params)
                                 reward += reward_heuristic
-                                reward += 50.0  # Erhöhte Belohnung für erfolgreiche Aktionskette
+                                reward += 50.0  # Increased reward for successful action chain
                             else:
                                 # Penalize unstacking without follow-up action
                                 reward -= 20.0
@@ -302,9 +301,9 @@ class Trainer:
                 recent_rewards = self.episode_rewards[-6:]
                 if all(reward <= -10000 for reward in recent_rewards):
                     print("\nSehr schlechte Performance in den letzten 10 Episoden. Setze Epsilon zurück, um mehr zu explorieren.")
-                    self.epsilon_start = 0.9  # Zurücksetzen auf Anfangswert
-                    self.epsilon_decay = 0.00001  # Zurücksetzen der Decay-Rate
-                    self.total_steps = 0  # Zurücksetzen der Schritte für die Epsilon-Berechnung
+                    self.epsilon_start = 0.9  # Reset initial epsilon
+                    self.epsilon_decay = 0.00001  # Reset decay rate
+                    self.total_steps = 0  # Reset total steps
 
             # Save model if average reward improves
             if avg_reward > self.best_score:
@@ -650,7 +649,6 @@ class Trainer:
         for action, count in action_counts.items():
             print(f"{action}: {count} ({count/len(action_trace)*100:.1f}%)")
             
-        initial_state_count = len(visited_states)
         # Loop-Detection and removal of unnecessary states
         if loop_detection:
             state_count = len(visited_states)
