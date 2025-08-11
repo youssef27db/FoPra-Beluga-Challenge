@@ -119,16 +119,16 @@ Bei Verwendung von `--save_to_file` werden die Ergebnisse in TXT-Dateien im "res
 
 ## Auswertung von Problemen
 
-| Größe (in Jigs) | Zeit | Steps | Steps optimiert | Optimierung |
-|---|---|---|---|---|
-| 10 | 1,63 s | 778 | 286 | 63 % |
-| 20 | 4,33 s | 1289 | 541 | 58 % |
-| 43 | 8,96 s | 1204 | 862 | 28 % |
-| 61 | 15,78 s | 1072 | 900 | 16 % |
-| 78 | 1m 13s | 2958 | 2374 | 19 % |
-| 103 | 2m 56s | 7465 | 6455 | 13,5 % |
-| 132 | 5m 14s | 10561 | 8761 | 17 % |
-| 177 | 17m 34s | 29804 | 24170 | 18,9 % |
+| Größe (in Jigs) | Zeit | Steps | Steps optimiert | Optimierung | Solution Link |
+|---|---|---|---|---|---|
+| 10 | 1,63s | 778 | 286 | 63 % | [solution_problem_166_j10.txt](../results/solution_problem_166_s209_j10_r2_oc55_f7_20250811_202743.txt) |
+| 20 | 4,33s | 1289 | 541 | 58 % | [solution_problem_49_j20.txt](../results/solution_problem_49_s91_j20_r2_oc90_f11_20250811_202700.txt) |
+| 43 | 8,96s | 1204 | 862 | 28 % | [solution_problem_74_j43.txt](../results/solution_problem_74_s116_j43_r5_oc85_f28_20250811_202625.txt) |
+| 61 | 15,78s | 1072 | 900 | 16 % | [solution_problem_92_j61.txt](../results/solution_problem_92_s134_j61_r9_oc81_f48_20250811_202558.txt) |
+| 78 | 1m 13s | 2958 | 2374 | 19 % | [solution_problem_45_j78.txt](../results/solution_problem_45_s87_j78_r10_oc55_f53_20250811_202925.txt) |
+| 103 | 2m 56s | 7465 | 6455 | 13,5 % | [solution_problem_82_j103.txt](../results/solution_problem_82_s124_j103_r6_oc82_f32_20250811_203346.txt) |
+| 132 | 5m 14s | 10561 | 8761 | 17 % | [solution_problem_90_j137.txt](../results/solution_problem_90_s132_j137_r8_oc81_f43_20250811_200237.txt) |
+| 177 | 17m 34s | 29804 | 24170 | 18,9 % | [solution_problem_39_j177.txt](../results/solution_problem_39_s81_j177_r9_oc30_f47_20250810_181517.txt) |
 
 ## Analyse von Problemen
 
