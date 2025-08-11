@@ -10,7 +10,6 @@
 
 ### 📖 Dokumentation
 - [HTML-Dokumentation](https://youssef27db.github.io/FoPra-Beluga-Challenge) - Vollständige generierte Code-Dokumentation
-- [Lokale HTML-Dokumentation](docs/index.html) - Offline-Version der Dokumentation
 
 ### 🤖 Reinforcement Learning
 - [RL-Agent README](rl/README.md) - Detaillierte Anleitung zum Training und zur Verwendung des RL-Agenten
