@@ -58,12 +58,12 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
         flight["incoming"] = []
         flight["outgoing"] = []
 
-    # Schritt 2: Belugas, Racks und Produktionslinien trimmen
+    # Step 2: Limit the number of belugas, racks, and production lines
     data["flights"] = data["flights"][:max_belugas]
     data["racks"] = data["racks"][:max_racks]
     data["production_lines"] = data["production_lines"][:max_prod_lines]
 
-    # Schritt 3: Wir nehmen ein sample von Jigs und packen es in die Produktionslinien
+    # Step 3: Assign jigs to production lines
     non_empty_jigs = [k for k, v in data["jigs"].items() if not v.get("empty", False)]
     random.shuffle(non_empty_jigs)
 
@@ -72,8 +72,8 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
         if not non_empty_jigs:
             break
 
-        max_count = min(15, len(non_empty_jigs))  # max 15 Jigs pro Linie oder weniger, je nach Verfügbarkeit
-        count = random.randint(1, max_count)     # zufällige Anzahl Jigs (1 bis max_count)
+        max_count = min(15, len(non_empty_jigs))  # Limit to 15 jigs per production line
+        count = random.randint(1, max_count)     # Randomly choose how many jigs to assign
     
         selected = non_empty_jigs[:count]
         pl["schedule"] = selected
@@ -81,10 +81,10 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
         used_jigs.update(selected)
         non_empty_jigs = non_empty_jigs[count:]
 
-    # Schritt 4: Verteile die verwendeten Jigs aus den Produktionslinien
+    # Step 4: Assign remaining jigs to hangars and trailers
     used_jigs = set(jig for pl in data["production_lines"] for jig in pl["schedule"])
 
-    # Liste der verwendbaren Jigs mit Größenangabe
+    # Create a list of jig objects with their sizes
     jig_objects = []
     for jig_id in used_jigs:
         jig = data["jigs"][jig_id]
@@ -93,14 +93,14 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
         size_loaded = type_info["size_loaded"]
         jig_objects.append((jig_id, size_loaded))
 
-    # Zuerst ein paar wenige Jigs für Racks auswählen
-    rack_fraction = max(1, int(0.1 * len(jig_objects)))  # 10% für jigs in Racks
+    # Sort jigs by size (descending)
+    rack_fraction = max(1, int(0.1 * len(jig_objects)))  # At least 1 jig per rack
     random.shuffle(jig_objects)
 
     rack_jigs = []
     beluga_jigs = []
 
-    # Kopie der racks zum Füllen (mit current_size zum Tracken)
+    # Prepare racks with remaining size
     racks_state = []
     for rack in data["racks"]:
         racks_state.append({
@@ -109,12 +109,12 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
             "jigs": []
         })
 
-    # 1. Packe ein paar wenige Jigs in passende Racks
+    # Assign jigs to racks based on their sizes
     for jig_id, jig_size in jig_objects:
         if len(rack_jigs) >= rack_fraction:
             break
 
-        # Suche einen Rack mit genug Platz
+        # Try to place the jig in a rack
         for rack_info in racks_state:
             if jig_size <= rack_info["remaining_size"]:
                 rack_info["jigs"].append(jig_id)
@@ -126,25 +126,25 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
     for rack_info in racks_state:
         rack_info["rack"]["jigs"] = rack_info["jigs"]
 
-    # 2. Der Rest kommt in die Belugas (gleichmäßig verteilen)
+    # Assign remaining jigs to belugas
     beluga_jigs = [jig for jig in used_jigs if jig not in rack_jigs]
     num_belugas = len(data["flights"])
     for i, jig in enumerate(beluga_jigs):
         beluga = data["flights"][i % num_belugas]
         beluga["incoming"].append(jig)
 
-    # Schritt 5: Paar random jigs in racks und belugas verteilen (Jigs die aber davor nicht benutzt worden sind)
-    # Alle Jig-IDs, die bisher noch NICHT verwendet wurden
+    # Step 5: Randomly distribute unused jigs
+    # Collect all used jigs
     all_jig_ids = set(data["jigs"].keys())
     unused_jigs = list(all_jig_ids - used_jigs)
     random.shuffle(unused_jigs)
 
-    # Wie viele zusätzliche Jigs wollen wir zufällig verteilen?
-    random_int = random.randint(3, 10) # (3, 10) für kleine Probleme, mehr für größere
+    # Distribute unused jigs randomly
+    random_int = random.randint(3, 10)
     extra_count = min(random_int, len(unused_jigs)) 
     extra_jigs = unused_jigs[:extra_count]
 
-    # Racks vorbereiten mit verbleibender Größe
+    # Prepare racks state for distribution
     racks_state = []
     for rack in data["racks"]:
         current_jigs = rack.get("jigs", [])
@@ -160,14 +160,14 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
             "jigs": current_jigs
         })
 
-    # Jetzt verteilen wir die zusätzlichen Jigs
+    #  Distribute extra jigs to racks or belugas
     for jig_id in extra_jigs:
         jig = data["jigs"][jig_id]
         jig_type = jig["type"]
         is_empty = jig.get("empty", False)
         size = data["jig_types"][jig_type]["size_empty" if is_empty else "size_loaded"]
 
-        # Zufällig entscheiden: Rack oder Beluga
+        # Randomly choose a target: rack or beluga
         target = random.choice(["rack", "beluga"])
 
         if target == "rack":
@@ -180,16 +180,16 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
                     placed = True
                     break
             if not placed:
-                # Kein Rack mit Platz gefunden → auf Beluga ausweichen
+                # If no rack can accommodate the jig, assign it to a beluga
                 target = "beluga"
 
         if target == "beluga" and not is_empty:
             beluga = random.choice(data["flights"])
             beluga["incoming"].append(jig_id)
 
-    # Schritt 6: Von den ganzen Jigs nemmen wir ein random sample von Jig_Typen und verteile es auf die Outgoing der Belugas
+    # Step 6: Randomly distribute jig types to belugas
 
-    # Alle benutzten Jigs: Belugas und Racks
+    # Collect all used jigs from racks and belugas
     all_used_jigs = set()
 
     for rack in data["racks"]:
@@ -197,11 +197,11 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
     for beluga in data["flights"]:
         all_used_jigs.update(beluga.get("incoming", []))
 
-    # Alle Jig-Typen extrahieren
+    # Get jig types from used jigs
     jig_types_used = [data["jigs"][jig_id]["type"] for jig_id in all_used_jigs]
 
     random.shuffle(jig_types_used)
-    max_types = min(8, len(jig_types_used)) # 8 bei kleinen Problemen, sonst mehr je schweriger das Problem
+    max_types = min(8, len(jig_types_used)) 
     
     if max_types >= 1:
         count_to_use = random.randint(0, max_types)
@@ -210,24 +210,24 @@ def filter_problem(input_file, output_file, max_jigs, max_belugas, max_prod_line
         
     types_to_distribute = jig_types_used[:count_to_use]
 
-    # Verteile die Typen zufällig auf die Belugas
+    # Randomly assign jig types to belugas
     for jig_type in types_to_distribute:
         beluga = random.choice(data["flights"])
         beluga["outgoing"].append(jig_type)
 
-    # Schritt 7: Entferne belugas und produktionslinien, die leer sind
-    # Production lines filtern: nur behalten, wenn schedule nicht leer ist
+    # Step 7: Clean up empty jigs and ensure all racks have at least one jig
+    # Remove empty jigs
     data["production_lines"] = [
         pl for pl in data["production_lines"] if pl.get("schedule")
     ]
 
-    # Belugas filtern: nur behalten, wenn incoming oder outgoing nicht leer sind
+    # Ensure all racks have at least one jig
     data["flights"] = [
         fl for fl in data["flights"]
         if fl.get("incoming") or fl.get("outgoing")
     ]
 
-    # Speichern
+    # Step 8: Save the filtered problem to the output file
     Path(output_file).parent.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w") as f:
         json.dump(data, f, indent=2)
@@ -248,13 +248,13 @@ def generate_problems(
         random_input_file = random.choice(problem_files)
         input_path = os.path.join(input_folder, random_input_file)
 
-        # Zufällige Werte generieren und zwischenspeichern
+        # Randomly select limits for the problem
         max_jigs_val = random.randint(*jig_range)
         max_belugas_val = random.randint(*beluga_range)
         max_prod_lines_val = random.randint(*prod_line_range)
         max_racks_val = random.randint(*rack_range)
 
-        # Temporärer Dateiname
+        # Temporary file to store the filtered problem
         temp_filename = f"problem{i}_tmp.json"
         temp_path = os.path.join(output_folder, temp_filename)
 
@@ -267,21 +267,21 @@ def generate_problems(
             max_racks=max_racks_val
         )
 
-         # JSON wieder einlesen
+         # Load the filtered problem to extract information
         with open(temp_path) as f:
             data = json.load(f)
 
-        # Infos extrahieren
+        # Extract the number of jigs, racks, belugas, and production lines
         num_jigs = len(data.get("jigs", []))
         num_racks = len(data.get("racks", []))
         num_belugas = len(data.get("flights", []))
         num_prod_lines = len(data.get("production_lines", []))
 
-        # Neuer Dateiname
+        # Construct the new filename based on the problem parameters
         new_filename = f"problem{i}_j{num_jigs}_r{num_racks}_b{num_belugas}_pl{num_prod_lines}.json"
         new_path = os.path.join(output_folder, new_filename)
 
-        # Datei umbenennen
+        # Rename the temporary file to the new filename
         os.rename(temp_path, new_path)
 
 if __name__ == "__main__":

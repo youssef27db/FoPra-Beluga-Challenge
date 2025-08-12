@@ -83,12 +83,6 @@ def unload_beluga(state) -> bool:
     # Effects: Unload the last jig from current_jigs into the trailer slot
     state.trailers_beluga[trailer_beluga] = beluga.current_jigs.pop(-1)
 
-    
-
-    # if not beluga.current_jigs and not beluga.outgoing:
-    #     # Effect: Remove beluga from the list if fully processed
-    #     state.belugas.pop(0)
-
     return True
 
 

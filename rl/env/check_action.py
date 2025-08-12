@@ -148,7 +148,6 @@ def check_right_unstack_rack(state, obs) -> bool:
     @return True if unstacking is possible, False otherwise
     """
     # Preconditions
-    # Preconditions
     for trailer_idx in range(3):
         if obs[4 + trailer_idx] == 0.5:
              for rack_idx in range(len(state.racks)):
