@@ -75,6 +75,36 @@ The C++ implementation provides significant speedup:
 - **Lower memory usage** for large state spaces
 - **Better scaling** with increased simulation counts
 
+### Benchmark Results
+
+Comprehensive performance comparison between Python and C++ MCTS implementations:
+
+| Problem | Jigs | Implementation | Zeit | Schritte | Opt. Schritte | Optimierung | Speedup |
+|---------|------|----------------|------|----------|---------------|-------------|---------|
+| problem_166 | 10 | **Python** | 2.31s | 822 | 244 | 70.32% | - |
+| problem_166 | 10 | **C++** | **1.92s** | 1066 | 198 | 81.43% | **1.20x** |
+| problem_49 | 20 | **Python** | 5.29s | 1190 | 486 | 59.16% | - |
+| problem_49 | 20 | **C++** | **3.37s** | 1417 | 561 | 60.41% | **1.57x** |
+| problem_74 | 43 | **Python** | 10.96s | 1187 | 907 | 23.59% | - |
+| problem_74 | 43 | **C++** | **3.63s** | 980 | 690 | 29.59% | **3.02x** |
+| problem_92 | 61 | **Python** | 37.88s | 1820 | 1534 | 15.71% | - |
+| problem_92 | 61 | **C++** | **9.00s** | 1255 | 1010 | 19.52% | **4.21x** |
+| problem_45 | 78 | **Python** | 74.5s | 2740 | 2272 | 17.08% | - |
+| problem_45 | 78 | **C++** | **21.04s** | 2824 | 2260 | 19.97% | **3.54x** |
+| problem_82 | 103 | **Python** | 238.6s | 8317 | 7059 | 15.13% | - |
+| problem_82 | 103 | **C++** | **68.6s** | 9232 | 6926 | 24.98% | **3.48x** |
+| problem_90 | 137 | **Python** | 273.5s | 8483 | 7075 | 16.60% | - |
+| problem_90 | 137 | **C++** | **103.0s** | 11044 | 7159 | 35.18% | **2.66x** |
+
+#### Key Performance Insights:
+
+- **Small problems (10-20 Jigs):** 1.2-1.6x speedup with C++
+- **Medium problems (43-61 Jigs):** 3.0-4.2x speedup with C++  
+- **Large problems (78-137 Jigs):** 2.7-3.5x speedup with C++
+- **Scalability:** C++ maintains consistent performance advantage across all problem sizes
+- **Solution Quality:** Both implementations achieve comparable optimization results
+- **Largest Problem:** For 137 Jigs, C++ saves over 2.5 minutes compared to Python
+
 ## Integration with Trainer
 
 No changes required to existing code. The trainer automatically uses the faster implementation:

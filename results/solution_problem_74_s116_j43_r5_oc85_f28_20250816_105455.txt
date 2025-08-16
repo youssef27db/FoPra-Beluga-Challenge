@@ -1,0 +1,946 @@
+======================================================================
+BELUGA CHALLENGE - LÖSUNGSPROTOKOLL
+======================================================================
+
+Problem: problems/problem_74_s116_j43_r5_oc85_f28.json
+Lösungsdatum: 16.08.2025 10:54:55
+Anzahl Schritte: 1187/20000
+Erfolgreicher Abschluss: Ja
+Benötigte Zeit: 10.96 Sekunden
+
+======================================================================
+AKTIONSSTATISTIK (NACH OPTIMIERUNG)
+======================================================================
+
+left_unstack_rack        :  213 ( 23.5%)
+right_unstack_rack       :  170 ( 18.7%)
+left_stack_rack          :  215 ( 23.7%)
+deliver_to_hangar        :   36 (  4.0%)
+get_from_hangar          :   36 (  4.0%)
+load_beluga              :   34 (  3.7%)
+right_stack_rack         :  167 ( 18.4%)
+unload_beluga            :   36 (  4.0%)
+
+======================================================================
+OPTIMIERUNG
+======================================================================
+
+Ursprüngliche Anzahl Schritte: 1187
+Optimierte Anzahl Schritte: 907
+Optimierung/Reduktion: 23.59%
+
+======================================================================
+OPTIMIERTE AKTIONSSEQUENZ
+======================================================================
+
+  1: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+  2: right_unstack_rack        | Parameter: rack=0, trailer_id=0
+  3: left_stack_rack           | Parameter: rack=2, trailer=0
+  4: right_unstack_rack        | Parameter: rack=3, trailer_id=1
+  5: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+  6: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+  7: right_unstack_rack        | Parameter: rack=4, trailer_id=0
+  8: get_from_hangar           | Parameter: hangar=0, trailer_factory=2
+  9: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+ 10: right_unstack_rack        | Parameter: rack=1, trailer=0
+ 11: load_beluga               | Parameter: trailer_beluga=0
+ 12: left_unstack_rack         | Parameter: rack=1, trailer=0
+ 13: left_stack_rack           | Parameter: rack=0, trailer=0
+ 14: right_stack_rack          | Parameter: rack=3, trailer=2
+ 15: left_unstack_rack         | Parameter: rack=0, trailer=0
+ 16: left_stack_rack           | Parameter: rack=1, trailer=0
+ 17: deliver_to_hangar         | Parameter: hangar=1, trailer_factory=1
+ 18: right_unstack_rack        | Parameter: rack=3, trailer=2
+ 19: get_from_hangar           | Parameter: hangar=0, trailer_factory=1
+ 20: left_unstack_rack         | Parameter: rack=1, trailer=0
+ 21: left_stack_rack           | Parameter: rack=2, trailer=0
+ 22: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+ 23: left_unstack_rack         | Parameter: rack=1, trailer=0
+ 24: left_stack_rack           | Parameter: rack=3, trailer=0
+ 25: right_stack_rack          | Parameter: rack=1, trailer=2
+ 26: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+ 27: get_from_hangar           | Parameter: hangar=1, trailer_factory=2
+ 28: unload_beluga             | Parameter: -
+ 29: right_stack_rack          | Parameter: rack=0, trailer=0
+ 30: left_stack_rack           | Parameter: rack=4, trailer=0
+ 31: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+ 32: right_stack_rack          | Parameter: rack=2, trailer=1
+ 33: load_beluga               | Parameter: trailer_beluga=0
+ 34: left_unstack_rack         | Parameter: rack=0, trailer_id=0
+ 35: right_unstack_rack        | Parameter: rack=4, trailer_id=0
+ 36: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+ 37: right_stack_rack          | Parameter: rack=0, trailer=2
+ 38: right_unstack_rack        | Parameter: rack=3, trailer=1
+ 39: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+ 40: right_unstack_rack        | Parameter: rack=1, trailer=2
+ 41: load_beluga               | Parameter: trailer_beluga=0
+ 42: left_unstack_rack         | Parameter: rack=0, trailer_id=0
+ 43: right_stack_rack          | Parameter: rack=1, trailer=1
+ 44: left_stack_rack           | Parameter: rack=4, trailer=0
+ 45: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+ 46: right_unstack_rack        | Parameter: rack=1, trailer=1
+ 47: right_stack_rack          | Parameter: rack=3, trailer=1
+ 48: right_unstack_rack        | Parameter: rack=4, trailer=1
+ 49: load_beluga               | Parameter: trailer_beluga=0
+ 50: left_unstack_rack         | Parameter: rack=3, trailer=0
+ 51: left_stack_rack           | Parameter: rack=1, trailer=0
+ 52: unload_beluga             | Parameter: -
+ 53: left_stack_rack           | Parameter: rack=3, trailer=0
+ 54: unload_beluga             | Parameter: -
+ 55: right_stack_rack          | Parameter: rack=4, trailer=2
+ 56: right_unstack_rack        | Parameter: rack=3, trailer_id=2
+ 57: left_stack_rack           | Parameter: rack=3, trailer=0
+ 58: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+ 59: right_stack_rack          | Parameter: rack=4, trailer=1
+ 60: right_unstack_rack        | Parameter: rack=3, trailer=1
+ 61: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=2
+ 62: right_stack_rack          | Parameter: rack=2, trailer=1
+ 63: get_from_hangar           | Parameter: hangar=0, trailer_factory=1
+ 64: right_unstack_rack        | Parameter: rack=2, trailer_id=2
+ 65: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=2
+ 66: right_unstack_rack        | Parameter: rack=4, trailer=2
+ 67: load_beluga               | Parameter: trailer_beluga=0
+ 68: left_unstack_rack         | Parameter: rack=1, trailer=0
+ 69: left_stack_rack           | Parameter: rack=0, trailer=0
+ 70: right_stack_rack          | Parameter: rack=2, trailer=2
+ 71: get_from_hangar           | Parameter: hangar=0, trailer_factory=2
+ 72: unload_beluga             | Parameter: -
+ 73: left_stack_rack           | Parameter: rack=3, trailer=0
+ 74: right_stack_rack          | Parameter: rack=4, trailer=1
+ 75: right_stack_rack          | Parameter: rack=4, trailer=2
+ 76: right_unstack_rack        | Parameter: rack=3, trailer=2
+ 77: left_unstack_rack         | Parameter: rack=0, trailer=0
+ 78: left_stack_rack           | Parameter: rack=3, trailer=0
+ 79: left_unstack_rack         | Parameter: rack=4, trailer=0
+ 80: left_stack_rack           | Parameter: rack=0, trailer=0
+ 81: right_stack_rack          | Parameter: rack=2, trailer=2
+ 82: right_stack_rack          | Parameter: rack=1, trailer=0
+ 83: unload_beluga             | Parameter: -
+ 84: left_stack_rack           | Parameter: rack=4, trailer=0
+ 85: unload_beluga             | Parameter: -
+ 86: left_stack_rack           | Parameter: rack=4, trailer=0
+ 87: unload_beluga             | Parameter: -
+ 88: left_stack_rack           | Parameter: rack=0, trailer=0
+ 89: left_unstack_rack         | Parameter: rack=4, trailer=0
+ 90: left_stack_rack           | Parameter: rack=1, trailer=0
+ 91: right_unstack_rack        | Parameter: rack=2, trailer=2
+ 92: right_unstack_rack        | Parameter: rack=2, trailer=1
+ 93: right_unstack_rack        | Parameter: rack=4, trailer=0
+ 94: left_unstack_rack         | Parameter: rack=3, trailer=0
+ 95: left_stack_rack           | Parameter: rack=1, trailer=0
+ 96: unload_beluga             | Parameter: -
+ 97: left_stack_rack           | Parameter: rack=3, trailer=0
+ 98: left_unstack_rack         | Parameter: rack=4, trailer=0
+ 99: left_stack_rack           | Parameter: rack=3, trailer=0
+100: right_stack_rack          | Parameter: rack=0, trailer=0
+101: right_stack_rack          | Parameter: rack=2, trailer=1
+102: right_unstack_rack        | Parameter: rack=1, trailer=0
+103: right_unstack_rack        | Parameter: rack=1, trailer_id=1
+104: left_unstack_rack         | Parameter: rack=1, trailer=0
+105: left_stack_rack           | Parameter: rack=3, trailer=0
+106: unload_beluga             | Parameter: -
+107: left_stack_rack           | Parameter: rack=1, trailer=0
+108: unload_beluga             | Parameter: -
+109: left_stack_rack           | Parameter: rack=2, trailer=0
+110: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=1
+111: get_from_hangar           | Parameter: hangar=0, trailer_factory=1
+112: right_stack_rack          | Parameter: rack=4, trailer=0
+113: right_stack_rack          | Parameter: rack=4, trailer=1
+114: unload_beluga             | Parameter: -
+115: left_stack_rack           | Parameter: rack=2, trailer=0
+116: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+117: load_beluga               | Parameter: trailer_beluga=0
+118: left_unstack_rack         | Parameter: rack=0, trailer=0
+119: right_unstack_rack        | Parameter: rack=1, trailer_id=0
+120: right_unstack_rack        | Parameter: rack=0, trailer=1
+121: left_stack_rack           | Parameter: rack=4, trailer=0
+122: left_unstack_rack         | Parameter: rack=0, trailer_id=0
+123: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+124: right_stack_rack          | Parameter: rack=1, trailer=2
+125: right_unstack_rack        | Parameter: rack=1, trailer_id=0
+126: load_beluga               | Parameter: trailer_beluga=0
+127: deliver_to_hangar         | Parameter: hangar=1, trailer_factory=0
+128: unload_beluga             | Parameter: -
+129: left_stack_rack           | Parameter: rack=4, trailer=0
+130: right_stack_rack          | Parameter: rack=1, trailer=1
+131: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+132: right_stack_rack          | Parameter: rack=4, trailer=0
+133: unload_beluga             | Parameter: -
+134: left_stack_rack           | Parameter: rack=1, trailer=0
+135: unload_beluga             | Parameter: -
+136: get_from_hangar           | Parameter: hangar=1, trailer_factory=0
+137: left_stack_rack           | Parameter: rack=0, trailer=0
+138: left_unstack_rack         | Parameter: rack=1, trailer=0
+139: right_unstack_rack        | Parameter: rack=0, trailer_id=1
+140: right_stack_rack          | Parameter: rack=1, trailer=0
+141: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=1
+142: right_unstack_rack        | Parameter: rack=1, trailer=0
+143: right_unstack_rack        | Parameter: rack=2, trailer=1
+144: right_unstack_rack        | Parameter: rack=2, trailer_id=2
+145: left_stack_rack           | Parameter: rack=0, trailer=0
+146: left_unstack_rack         | Parameter: rack=2, trailer=0
+147: right_stack_rack          | Parameter: rack=0, trailer=0
+148: left_stack_rack           | Parameter: rack=1, trailer=0
+149: left_unstack_rack         | Parameter: rack=0, trailer=0
+150: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+151: left_stack_rack           | Parameter: rack=0, trailer=0
+152: left_unstack_rack         | Parameter: rack=1, trailer=0
+153: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=2
+154: right_stack_rack          | Parameter: rack=2, trailer=1
+155: right_unstack_rack        | Parameter: rack=1, trailer=2
+156: right_stack_rack          | Parameter: rack=0, trailer=0
+157: left_stack_rack           | Parameter: rack=0, trailer=0
+158: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+159: load_beluga               | Parameter: trailer_beluga=0
+160: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+161: right_unstack_rack        | Parameter: rack=4, trailer=1
+162: unload_beluga             | Parameter: -
+163: left_stack_rack           | Parameter: rack=1, trailer=0
+164: right_stack_rack          | Parameter: rack=4, trailer=0
+165: right_stack_rack          | Parameter: rack=1, trailer=2
+166: right_unstack_rack        | Parameter: rack=3, trailer=2
+167: left_unstack_rack         | Parameter: rack=3, trailer=0
+168: left_stack_rack           | Parameter: rack=2, trailer=0
+169: unload_beluga             | Parameter: -
+170: left_stack_rack           | Parameter: rack=3, trailer=0
+171: unload_beluga             | Parameter: -
+172: right_stack_rack          | Parameter: rack=0, trailer=1
+173: right_stack_rack          | Parameter: rack=3, trailer=2
+174: left_stack_rack           | Parameter: rack=3, trailer=0
+175: left_unstack_rack         | Parameter: rack=0, trailer=0
+176: right_unstack_rack        | Parameter: rack=2, trailer=1
+177: right_stack_rack          | Parameter: rack=0, trailer=1
+178: left_stack_rack           | Parameter: rack=2, trailer=0
+179: left_unstack_rack         | Parameter: rack=0, trailer=0
+180: right_unstack_rack        | Parameter: rack=3, trailer=0
+181: left_stack_rack           | Parameter: rack=2, trailer=0
+182: left_unstack_rack         | Parameter: rack=3, trailer=0
+183: right_stack_rack          | Parameter: rack=2, trailer=0
+184: left_stack_rack           | Parameter: rack=3, trailer=0
+185: left_unstack_rack         | Parameter: rack=2, trailer=0
+186: right_unstack_rack        | Parameter: rack=0, trailer=1
+187: right_unstack_rack        | Parameter: rack=3, trailer=0
+188: right_stack_rack          | Parameter: rack=0, trailer=0
+189: left_stack_rack           | Parameter: rack=2, trailer=0
+190: left_unstack_rack         | Parameter: rack=1, trailer=0
+191: right_stack_rack          | Parameter: rack=3, trailer=1
+192: right_unstack_rack        | Parameter: rack=1, trailer=1
+193: right_stack_rack          | Parameter: rack=0, trailer=1
+194: left_stack_rack           | Parameter: rack=1, trailer=0
+195: left_unstack_rack         | Parameter: rack=3, trailer=0
+196: left_stack_rack           | Parameter: rack=1, trailer=0
+197: left_unstack_rack         | Parameter: rack=4, trailer=0
+198: right_unstack_rack        | Parameter: rack=2, trailer=1
+199: left_stack_rack           | Parameter: rack=4, trailer=0
+200: right_unstack_rack        | Parameter: rack=3, trailer=0
+201: left_unstack_rack         | Parameter: rack=4, trailer=0
+202: right_unstack_rack        | Parameter: rack=4, trailer=2
+203: right_stack_rack          | Parameter: rack=4, trailer=1
+204: right_stack_rack          | Parameter: rack=3, trailer=0
+205: right_unstack_rack        | Parameter: rack=4, trailer=0
+206: right_unstack_rack        | Parameter: rack=1, trailer=1
+207: right_stack_rack          | Parameter: rack=4, trailer=2
+208: right_unstack_rack        | Parameter: rack=1, trailer_id=2
+209: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=2
+210: get_from_hangar           | Parameter: hangar=0, trailer_factory=2
+211: left_stack_rack           | Parameter: rack=1, trailer=0
+212: right_stack_rack          | Parameter: rack=4, trailer=1
+213: right_unstack_rack        | Parameter: rack=1, trailer_id=1
+214: left_unstack_rack         | Parameter: rack=4, trailer=0
+215: left_stack_rack           | Parameter: rack=1, trailer=0
+216: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=1
+217: left_unstack_rack         | Parameter: rack=0, trailer=0
+218: right_unstack_rack        | Parameter: rack=1, trailer_id=1
+219: deliver_to_hangar         | Parameter: hangar=1, trailer_factory=1
+220: deliver_to_hangar         | Parameter: hangar=2, trailer_factory=0
+221: load_beluga               | Parameter: trailer_beluga=0
+222: left_unstack_rack         | Parameter: rack=0, trailer=0
+223: left_stack_rack           | Parameter: rack=1, trailer=0
+224: left_unstack_rack         | Parameter: rack=0, trailer_id=0
+225: right_stack_rack          | Parameter: rack=2, trailer=2
+226: right_unstack_rack        | Parameter: rack=3, trailer=2
+227: right_unstack_rack        | Parameter: rack=1, trailer=1
+228: load_beluga               | Parameter: trailer_beluga=0
+229: left_unstack_rack         | Parameter: rack=2, trailer=0
+230: left_stack_rack           | Parameter: rack=3, trailer=0
+231: left_unstack_rack         | Parameter: rack=0, trailer=0
+232: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+233: left_stack_rack           | Parameter: rack=4, trailer=0
+234: left_unstack_rack         | Parameter: rack=3, trailer=0
+235: left_stack_rack           | Parameter: rack=1, trailer=0
+236: left_unstack_rack         | Parameter: rack=0, trailer=0
+237: right_stack_rack          | Parameter: rack=0, trailer=0
+238: get_from_hangar           | Parameter: hangar=1, trailer_factory=0
+239: left_stack_rack           | Parameter: rack=1, trailer=0
+240: left_unstack_rack         | Parameter: rack=4, trailer=0
+241: right_stack_rack          | Parameter: rack=3, trailer=1
+242: get_from_hangar           | Parameter: hangar=2, trailer_factory=1
+243: left_stack_rack           | Parameter: rack=1, trailer=0
+244: left_unstack_rack         | Parameter: rack=2, trailer=0
+245: right_stack_rack          | Parameter: rack=2, trailer=0
+246: right_unstack_rack        | Parameter: rack=1, trailer_id=0
+247: left_stack_rack           | Parameter: rack=1, trailer=0
+248: left_unstack_rack         | Parameter: rack=2, trailer=0
+249: right_stack_rack          | Parameter: rack=4, trailer=1
+250: left_stack_rack           | Parameter: rack=0, trailer=0
+251: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+252: right_unstack_rack        | Parameter: rack=3, trailer=1
+253: right_stack_rack          | Parameter: rack=0, trailer=2
+254: load_beluga               | Parameter: trailer_beluga=0
+255: left_unstack_rack         | Parameter: rack=3, trailer=0
+256: left_stack_rack           | Parameter: rack=2, trailer=0
+257: left_unstack_rack         | Parameter: rack=4, trailer=0
+258: right_unstack_rack        | Parameter: rack=2, trailer=2
+259: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+260: right_stack_rack          | Parameter: rack=2, trailer=1
+261: deliver_to_hangar         | Parameter: hangar=1, trailer_factory=2
+262: right_unstack_rack        | Parameter: rack=4, trailer=0
+263: left_stack_rack           | Parameter: rack=4, trailer=0
+264: right_unstack_rack        | Parameter: rack=4, trailer=2
+265: left_unstack_rack         | Parameter: rack=1, trailer=0
+266: left_stack_rack           | Parameter: rack=4, trailer=0
+267: get_from_hangar           | Parameter: hangar=0, trailer_factory=1
+268: right_stack_rack          | Parameter: rack=1, trailer=0
+269: left_unstack_rack         | Parameter: rack=2, trailer=0
+270: right_stack_rack          | Parameter: rack=2, trailer=2
+271: get_from_hangar           | Parameter: hangar=1, trailer_factory=0
+272: right_unstack_rack        | Parameter: rack=0, trailer=2
+273: right_stack_rack          | Parameter: rack=2, trailer=0
+274: right_stack_rack          | Parameter: rack=3, trailer=2
+275: right_unstack_rack        | Parameter: rack=0, trailer=0
+276: left_stack_rack           | Parameter: rack=4, trailer=0
+277: left_unstack_rack         | Parameter: rack=1, trailer=0
+278: right_stack_rack          | Parameter: rack=2, trailer=0
+279: right_stack_rack          | Parameter: rack=1, trailer=1
+280: right_unstack_rack        | Parameter: rack=3, trailer=2
+281: left_stack_rack           | Parameter: rack=4, trailer=0
+282: left_unstack_rack         | Parameter: rack=2, trailer=0
+283: right_unstack_rack        | Parameter: rack=2, trailer=0
+284: left_stack_rack           | Parameter: rack=2, trailer=0
+285: left_unstack_rack         | Parameter: rack=4, trailer=0
+286: right_unstack_rack        | Parameter: rack=1, trailer=1
+287: right_stack_rack          | Parameter: rack=0, trailer=1
+288: right_unstack_rack        | Parameter: rack=2, trailer=1
+289: left_stack_rack           | Parameter: rack=4, trailer=0
+290: left_unstack_rack         | Parameter: rack=0, trailer=0
+291: right_stack_rack          | Parameter: rack=0, trailer=1
+292: right_stack_rack          | Parameter: rack=2, trailer=2
+293: right_stack_rack          | Parameter: rack=3, trailer=0
+294: right_unstack_rack        | Parameter: rack=0, trailer=1
+295: left_stack_rack           | Parameter: rack=0, trailer=0
+296: left_unstack_rack         | Parameter: rack=4, trailer=0
+297: left_stack_rack           | Parameter: rack=0, trailer=0
+298: left_unstack_rack         | Parameter: rack=3, trailer=0
+299: left_stack_rack           | Parameter: rack=0, trailer=0
+300: left_unstack_rack         | Parameter: rack=4, trailer=0
+301: right_stack_rack          | Parameter: rack=3, trailer=1
+302: right_unstack_rack        | Parameter: rack=4, trailer=0
+303: right_unstack_rack        | Parameter: rack=3, trailer=2
+304: left_stack_rack           | Parameter: rack=3, trailer=0
+305: left_unstack_rack         | Parameter: rack=2, trailer=0
+306: right_unstack_rack        | Parameter: rack=0, trailer=1
+307: right_stack_rack          | Parameter: rack=3, trailer=2
+308: right_unstack_rack        | Parameter: rack=1, trailer=2
+309: right_stack_rack          | Parameter: rack=3, trailer=2
+310: right_unstack_rack        | Parameter: rack=0, trailer=2
+311: left_stack_rack           | Parameter: rack=3, trailer=0
+312: left_unstack_rack         | Parameter: rack=2, trailer=0
+313: right_stack_rack          | Parameter: rack=0, trailer=1
+314: left_stack_rack           | Parameter: rack=2, trailer=0
+315: left_unstack_rack         | Parameter: rack=1, trailer=0
+316: right_unstack_rack        | Parameter: rack=3, trailer=1
+317: left_stack_rack           | Parameter: rack=3, trailer=0
+318: left_unstack_rack         | Parameter: rack=4, trailer=0
+319: right_stack_rack          | Parameter: rack=4, trailer=1
+320: left_stack_rack           | Parameter: rack=4, trailer=0
+321: left_unstack_rack         | Parameter: rack=2, trailer=0
+322: left_stack_rack           | Parameter: rack=4, trailer=0
+323: left_unstack_rack         | Parameter: rack=0, trailer=0
+324: right_unstack_rack        | Parameter: rack=0, trailer=1
+325: right_stack_rack          | Parameter: rack=2, trailer=1
+326: right_stack_rack          | Parameter: rack=1, trailer=0
+327: left_stack_rack           | Parameter: rack=0, trailer=0
+328: left_unstack_rack         | Parameter: rack=1, trailer_id=0
+329: load_beluga               | Parameter: trailer_beluga=0
+330: left_unstack_rack         | Parameter: rack=2, trailer=0
+331: left_stack_rack           | Parameter: rack=1, trailer=0
+332: right_stack_rack          | Parameter: rack=0, trailer=2
+333: left_unstack_rack         | Parameter: rack=0, trailer=0
+334: left_stack_rack           | Parameter: rack=2, trailer=0
+335: left_unstack_rack         | Parameter: rack=0, trailer=0
+336: left_stack_rack           | Parameter: rack=1, trailer=0
+337: left_unstack_rack         | Parameter: rack=2, trailer=0
+338: left_stack_rack           | Parameter: rack=1, trailer=0
+339: left_unstack_rack         | Parameter: rack=4, trailer=0
+340: right_unstack_rack        | Parameter: rack=0, trailer=0
+341: left_stack_rack           | Parameter: rack=2, trailer=0
+342: unload_beluga             | Parameter: -
+343: left_stack_rack           | Parameter: rack=0, trailer=0
+344: right_unstack_rack        | Parameter: rack=0, trailer_id=1
+345: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+346: right_stack_rack          | Parameter: rack=1, trailer=0
+347: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=1
+348: load_beluga               | Parameter: trailer_beluga=0
+349: left_unstack_rack         | Parameter: rack=1, trailer=0
+350: right_unstack_rack        | Parameter: rack=1, trailer=1
+351: right_unstack_rack        | Parameter: rack=3, trailer=2
+352: right_unstack_rack        | Parameter: rack=4, trailer=0
+353: right_stack_rack          | Parameter: rack=0, trailer=2
+354: get_from_hangar           | Parameter: hangar=0, trailer_factory=2
+355: left_stack_rack           | Parameter: rack=0, trailer=0
+356: left_unstack_rack         | Parameter: rack=4, trailer=0
+357: left_stack_rack           | Parameter: rack=1, trailer=0
+358: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+359: load_beluga               | Parameter: trailer_beluga=0
+360: left_unstack_rack         | Parameter: rack=1, trailer=0
+361: right_stack_rack          | Parameter: rack=2, trailer=1
+362: right_stack_rack          | Parameter: rack=0, trailer=0
+363: right_unstack_rack        | Parameter: rack=2, trailer=0
+364: left_stack_rack           | Parameter: rack=0, trailer=0
+365: left_unstack_rack         | Parameter: rack=1, trailer=0
+366: right_unstack_rack        | Parameter: rack=1, trailer=1
+367: right_stack_rack          | Parameter: rack=4, trailer=2
+368: right_stack_rack          | Parameter: rack=4, trailer=0
+369: right_unstack_rack        | Parameter: rack=0, trailer=0
+370: left_stack_rack           | Parameter: rack=1, trailer=0
+371: left_unstack_rack         | Parameter: rack=0, trailer=0
+372: right_stack_rack          | Parameter: rack=1, trailer=1
+373: left_stack_rack           | Parameter: rack=1, trailer=0
+374: left_unstack_rack         | Parameter: rack=0, trailer=0
+375: left_stack_rack           | Parameter: rack=1, trailer=0
+376: left_unstack_rack         | Parameter: rack=0, trailer_id=0
+377: right_stack_rack          | Parameter: rack=2, trailer=0
+378: load_beluga               | Parameter: trailer_beluga=0
+379: left_unstack_rack         | Parameter: rack=4, trailer=0
+380: load_beluga               | Parameter: trailer_beluga=0
+381: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+382: right_unstack_rack        | Parameter: rack=3, trailer=2
+383: load_beluga               | Parameter: trailer_beluga=0
+384: left_unstack_rack         | Parameter: rack=3, trailer_id=0
+385: load_beluga               | Parameter: trailer_beluga=0
+386: right_unstack_rack        | Parameter: rack=1, trailer=1
+387: unload_beluga             | Parameter: -
+388: left_stack_rack           | Parameter: rack=3, trailer=0
+389: left_unstack_rack         | Parameter: rack=1, trailer=0
+390: left_stack_rack           | Parameter: rack=4, trailer=0
+391: unload_beluga             | Parameter: -
+392: right_stack_rack          | Parameter: rack=4, trailer=2
+393: left_stack_rack           | Parameter: rack=1, trailer=0
+394: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+395: right_unstack_rack        | Parameter: rack=1, trailer_id=0
+396: left_stack_rack           | Parameter: rack=4, trailer=0
+397: right_stack_rack          | Parameter: rack=3, trailer=0
+398: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+399: right_stack_rack          | Parameter: rack=1, trailer=1
+400: right_unstack_rack        | Parameter: rack=3, trailer_id=0
+401: right_unstack_rack        | Parameter: rack=4, trailer=1
+402: load_beluga               | Parameter: trailer_beluga=0
+403: left_unstack_rack         | Parameter: rack=1, trailer=0
+404: right_unstack_rack        | Parameter: rack=4, trailer=2
+405: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+406: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+407: right_stack_rack          | Parameter: rack=4, trailer=0
+408: right_stack_rack          | Parameter: rack=0, trailer=2
+409: left_stack_rack           | Parameter: rack=0, trailer=0
+410: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+411: load_beluga               | Parameter: trailer_beluga=0
+412: left_unstack_rack         | Parameter: rack=0, trailer=0
+413: left_stack_rack           | Parameter: rack=4, trailer=0
+414: left_unstack_rack         | Parameter: rack=0, trailer=0
+415: left_stack_rack           | Parameter: rack=4, trailer=0
+416: unload_beluga             | Parameter: -
+417: right_unstack_rack        | Parameter: rack=4, trailer_id=0
+418: left_stack_rack           | Parameter: rack=0, trailer=0
+419: left_unstack_rack         | Parameter: rack=1, trailer=0
+420: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+421: left_stack_rack           | Parameter: rack=2, trailer=0
+422: left_unstack_rack         | Parameter: rack=3, trailer=0
+423: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+424: right_unstack_rack        | Parameter: rack=2, trailer_id=2
+425: left_stack_rack           | Parameter: rack=3, trailer=0
+426: left_unstack_rack         | Parameter: rack=0, trailer=0
+427: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=2
+428: get_from_hangar           | Parameter: hangar=0, trailer_factory=2
+429: left_stack_rack           | Parameter: rack=0, trailer=0
+430: left_unstack_rack         | Parameter: rack=3, trailer=0
+431: right_stack_rack          | Parameter: rack=4, trailer=2
+432: left_stack_rack           | Parameter: rack=1, trailer=0
+433: left_unstack_rack         | Parameter: rack=3, trailer=0
+434: left_stack_rack           | Parameter: rack=0, trailer=0
+435: left_unstack_rack         | Parameter: rack=4, trailer=0
+436: right_stack_rack          | Parameter: rack=4, trailer=0
+437: right_unstack_rack        | Parameter: rack=1, trailer=0
+438: right_unstack_rack        | Parameter: rack=1, trailer_id=2
+439: left_stack_rack           | Parameter: rack=1, trailer=0
+440: left_unstack_rack         | Parameter: rack=4, trailer=0
+441: right_stack_rack          | Parameter: rack=4, trailer=1
+442: right_stack_rack          | Parameter: rack=4, trailer=0
+443: right_stack_rack          | Parameter: rack=3, trailer=2
+444: right_unstack_rack        | Parameter: rack=3, trailer_id=0
+445: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+446: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+447: right_stack_rack          | Parameter: rack=3, trailer=0
+448: right_unstack_rack        | Parameter: rack=0, trailer=2
+449: right_unstack_rack        | Parameter: rack=0, trailer_id=0
+450: left_stack_rack           | Parameter: rack=0, trailer=0
+451: left_unstack_rack         | Parameter: rack=3, trailer_id=0
+452: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+453: deliver_to_hangar         | Parameter: hangar=1, trailer_factory=2
+454: right_unstack_rack        | Parameter: rack=0, trailer=0
+455: right_stack_rack          | Parameter: rack=1, trailer=0
+456: load_beluga               | Parameter: trailer_beluga=0
+457: left_unstack_rack         | Parameter: rack=4, trailer=0
+458: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+459: get_from_hangar           | Parameter: hangar=1, trailer_factory=1
+460: right_stack_rack          | Parameter: rack=3, trailer=1
+461: left_stack_rack           | Parameter: rack=1, trailer=0
+462: left_unstack_rack         | Parameter: rack=4, trailer=0
+463: right_unstack_rack        | Parameter: rack=1, trailer=2
+464: right_unstack_rack        | Parameter: rack=1, trailer=1
+465: left_stack_rack           | Parameter: rack=0, trailer=0
+466: right_stack_rack          | Parameter: rack=0, trailer=2
+467: left_unstack_rack         | Parameter: rack=4, trailer=0
+468: right_stack_rack          | Parameter: rack=3, trailer=0
+469: right_stack_rack          | Parameter: rack=1, trailer=1
+470: right_unstack_rack        | Parameter: rack=0, trailer=0
+471: right_stack_rack          | Parameter: rack=3, trailer=0
+472: right_unstack_rack        | Parameter: rack=3, trailer=2
+473: right_unstack_rack        | Parameter: rack=0, trailer=1
+474: right_unstack_rack        | Parameter: rack=1, trailer=0
+475: right_stack_rack          | Parameter: rack=3, trailer=0
+476: left_stack_rack           | Parameter: rack=4, trailer=0
+477: left_unstack_rack         | Parameter: rack=3, trailer=0
+478: left_stack_rack           | Parameter: rack=0, trailer=0
+479: left_unstack_rack         | Parameter: rack=3, trailer=0
+480: right_unstack_rack        | Parameter: rack=3, trailer=0
+481: left_stack_rack           | Parameter: rack=2, trailer=0
+482: left_unstack_rack         | Parameter: rack=0, trailer=0
+483: right_stack_rack          | Parameter: rack=3, trailer=2
+484: right_unstack_rack        | Parameter: rack=2, trailer=2
+485: left_stack_rack           | Parameter: rack=1, trailer=0
+486: left_unstack_rack         | Parameter: rack=3, trailer_id=0
+487: load_beluga               | Parameter: trailer_beluga=0
+488: right_stack_rack          | Parameter: rack=1, trailer=1
+489: unload_beluga             | Parameter: -
+490: left_stack_rack           | Parameter: rack=3, trailer=0
+491: unload_beluga             | Parameter: -
+492: left_stack_rack           | Parameter: rack=2, trailer=0
+493: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+494: right_unstack_rack        | Parameter: rack=3, trailer_id=1
+495: right_stack_rack          | Parameter: rack=4, trailer=2
+496: load_beluga               | Parameter: trailer_beluga=0
+497: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+498: load_beluga               | Parameter: trailer_beluga=0
+499: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=1
+500: right_unstack_rack        | Parameter: rack=2, trailer_id=1
+501: get_from_hangar           | Parameter: hangar=0, trailer_factory=2
+502: left_unstack_rack         | Parameter: rack=1, trailer=0
+503: left_stack_rack           | Parameter: rack=2, trailer=0
+504: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=1
+505: left_unstack_rack         | Parameter: rack=2, trailer=0
+506: left_stack_rack           | Parameter: rack=4, trailer=0
+507: right_stack_rack          | Parameter: rack=1, trailer=2
+508: right_unstack_rack        | Parameter: rack=1, trailer=1
+509: unload_beluga             | Parameter: -
+510: left_stack_rack           | Parameter: rack=3, trailer=0
+511: left_unstack_rack         | Parameter: rack=4, trailer=0
+512: left_stack_rack           | Parameter: rack=3, trailer=0
+513: left_unstack_rack         | Parameter: rack=1, trailer=0
+514: left_stack_rack           | Parameter: rack=3, trailer=0
+515: unload_beluga             | Parameter: -
+516: right_stack_rack          | Parameter: rack=1, trailer=0
+517: left_stack_rack           | Parameter: rack=2, trailer=0
+518: left_unstack_rack         | Parameter: rack=1, trailer=0
+519: right_stack_rack          | Parameter: rack=0, trailer=1
+520: load_beluga               | Parameter: trailer_beluga=0
+521: left_unstack_rack         | Parameter: rack=0, trailer_id=0
+522: load_beluga               | Parameter: trailer_beluga=0
+523: left_unstack_rack         | Parameter: rack=3, trailer=0
+524: right_unstack_rack        | Parameter: rack=3, trailer_id=0
+525: left_stack_rack           | Parameter: rack=1, trailer=0
+526: left_unstack_rack         | Parameter: rack=3, trailer=0
+527: left_stack_rack           | Parameter: rack=4, trailer=0
+528: left_unstack_rack         | Parameter: rack=2, trailer=0
+529: right_stack_rack          | Parameter: rack=3, trailer=0
+530: left_stack_rack           | Parameter: rack=0, trailer=0
+531: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+532: unload_beluga             | Parameter: -
+533: left_stack_rack           | Parameter: rack=0, trailer=0
+534: right_stack_rack          | Parameter: rack=3, trailer=0
+535: unload_beluga             | Parameter: -
+536: left_stack_rack           | Parameter: rack=3, trailer=0
+537: right_unstack_rack        | Parameter: rack=1, trailer=1
+538: unload_beluga             | Parameter: -
+539: left_stack_rack           | Parameter: rack=4, trailer=0
+540: left_unstack_rack         | Parameter: rack=1, trailer=0
+541: left_stack_rack           | Parameter: rack=4, trailer=0
+542: unload_beluga             | Parameter: -
+543: left_stack_rack           | Parameter: rack=1, trailer=0
+544: left_unstack_rack         | Parameter: rack=0, trailer=0
+545: left_stack_rack           | Parameter: rack=4, trailer=0
+546: unload_beluga             | Parameter: -
+547: left_stack_rack           | Parameter: rack=2, trailer=0
+548: left_unstack_rack         | Parameter: rack=1, trailer=0
+549: left_stack_rack           | Parameter: rack=0, trailer=0
+550: right_unstack_rack        | Parameter: rack=2, trailer_id=0
+551: right_unstack_rack        | Parameter: rack=3, trailer=2
+552: left_unstack_rack         | Parameter: rack=0, trailer=0
+553: left_stack_rack           | Parameter: rack=1, trailer=0
+554: left_unstack_rack         | Parameter: rack=4, trailer=0
+555: left_stack_rack           | Parameter: rack=1, trailer=0
+556: left_unstack_rack         | Parameter: rack=3, trailer=0
+557: right_stack_rack          | Parameter: rack=0, trailer=0
+558: left_stack_rack           | Parameter: rack=1, trailer=0
+559: right_stack_rack          | Parameter: rack=1, trailer=1
+560: left_unstack_rack         | Parameter: rack=0, trailer=0
+561: left_stack_rack           | Parameter: rack=3, trailer=0
+562: right_unstack_rack        | Parameter: rack=0, trailer_id=0
+563: left_unstack_rack         | Parameter: rack=1, trailer=0
+564: left_stack_rack           | Parameter: rack=2, trailer=0
+565: left_unstack_rack         | Parameter: rack=1, trailer=0
+566: right_unstack_rack        | Parameter: rack=3, trailer_id=1
+567: left_stack_rack           | Parameter: rack=0, trailer=0
+568: left_unstack_rack         | Parameter: rack=2, trailer=0
+569: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+570: deliver_to_hangar         | Parameter: hangar=1, trailer_factory=1
+571: right_stack_rack          | Parameter: rack=3, trailer=2
+572: right_unstack_rack        | Parameter: rack=4, trailer=1
+573: left_stack_rack           | Parameter: rack=1, trailer=0
+574: left_unstack_rack         | Parameter: rack=4, trailer=0
+575: right_unstack_rack        | Parameter: rack=1, trailer=0
+576: left_stack_rack           | Parameter: rack=4, trailer=0
+577: left_unstack_rack         | Parameter: rack=1, trailer=0
+578: left_stack_rack           | Parameter: rack=4, trailer=0
+579: left_unstack_rack         | Parameter: rack=0, trailer=0
+580: left_stack_rack           | Parameter: rack=2, trailer=0
+581: get_from_hangar           | Parameter: hangar=0, trailer_factory=2
+582: left_unstack_rack         | Parameter: rack=2, trailer=0
+583: left_stack_rack           | Parameter: rack=0, trailer=0
+584: left_unstack_rack         | Parameter: rack=4, trailer=0
+585: left_stack_rack           | Parameter: rack=2, trailer=0
+586: right_stack_rack          | Parameter: rack=2, trailer=2
+587: left_unstack_rack         | Parameter: rack=1, trailer=0
+588: left_stack_rack           | Parameter: rack=0, trailer=0
+589: unload_beluga             | Parameter: -
+590: left_stack_rack           | Parameter: rack=1, trailer=0
+591: right_unstack_rack        | Parameter: rack=0, trailer=2
+592: unload_beluga             | Parameter: -
+593: right_stack_rack          | Parameter: rack=1, trailer=0
+594: left_stack_rack           | Parameter: rack=1, trailer=0
+595: left_unstack_rack         | Parameter: rack=0, trailer=0
+596: left_stack_rack           | Parameter: rack=2, trailer=0
+597: left_unstack_rack         | Parameter: rack=1, trailer=0
+598: right_unstack_rack        | Parameter: rack=4, trailer=0
+599: right_stack_rack          | Parameter: rack=0, trailer=0
+600: get_from_hangar           | Parameter: hangar=1, trailer_factory=0
+601: left_stack_rack           | Parameter: rack=0, trailer=0
+602: left_unstack_rack         | Parameter: rack=2, trailer=0
+603: left_stack_rack           | Parameter: rack=0, trailer=0
+604: left_unstack_rack         | Parameter: rack=1, trailer=0
+605: right_stack_rack          | Parameter: rack=1, trailer=0
+606: left_stack_rack           | Parameter: rack=2, trailer=0
+607: left_unstack_rack         | Parameter: rack=0, trailer=0
+608: right_unstack_rack        | Parameter: rack=0, trailer=0
+609: right_stack_rack          | Parameter: rack=1, trailer=0
+610: right_unstack_rack        | Parameter: rack=0, trailer=0
+611: left_stack_rack           | Parameter: rack=1, trailer=0
+612: left_unstack_rack         | Parameter: rack=2, trailer=0
+613: left_stack_rack           | Parameter: rack=0, trailer=0
+614: left_unstack_rack         | Parameter: rack=1, trailer=0
+615: left_stack_rack           | Parameter: rack=0, trailer=0
+616: left_unstack_rack         | Parameter: rack=1, trailer=0
+617: left_stack_rack           | Parameter: rack=2, trailer=0
+618: left_unstack_rack         | Parameter: rack=1, trailer_id=0
+619: load_beluga               | Parameter: trailer_beluga=0
+620: left_unstack_rack         | Parameter: rack=1, trailer=0
+621: left_stack_rack           | Parameter: rack=4, trailer=0
+622: unload_beluga             | Parameter: -
+623: right_stack_rack          | Parameter: rack=1, trailer=1
+624: right_unstack_rack        | Parameter: rack=0, trailer=1
+625: right_stack_rack          | Parameter: rack=1, trailer=1
+626: left_stack_rack           | Parameter: rack=1, trailer=0
+627: left_unstack_rack         | Parameter: rack=4, trailer=0
+628: left_stack_rack           | Parameter: rack=1, trailer=0
+629: left_unstack_rack         | Parameter: rack=4, trailer_id=0
+630: load_beluga               | Parameter: trailer_beluga=0
+631: left_unstack_rack         | Parameter: rack=3, trailer=0
+632: left_stack_rack           | Parameter: rack=4, trailer=0
+633: left_unstack_rack         | Parameter: rack=2, trailer=0
+634: left_stack_rack           | Parameter: rack=4, trailer=0
+635: right_stack_rack          | Parameter: rack=3, trailer=0
+636: right_stack_rack          | Parameter: rack=0, trailer=2
+637: left_unstack_rack         | Parameter: rack=0, trailer=0
+638: left_stack_rack           | Parameter: rack=1, trailer=0
+639: left_unstack_rack         | Parameter: rack=3, trailer=0
+640: left_stack_rack           | Parameter: rack=0, trailer=0
+641: unload_beluga             | Parameter: -
+642: left_stack_rack           | Parameter: rack=2, trailer=0
+643: left_unstack_rack         | Parameter: rack=1, trailer=0
+644: left_stack_rack           | Parameter: rack=0, trailer=0
+645: unload_beluga             | Parameter: -
+646: left_stack_rack           | Parameter: rack=3, trailer=0
+647: left_unstack_rack         | Parameter: rack=4, trailer=0
+648: left_stack_rack           | Parameter: rack=1, trailer=0
+649: left_unstack_rack         | Parameter: rack=3, trailer=0
+650: right_unstack_rack        | Parameter: rack=0, trailer=0
+651: left_stack_rack           | Parameter: rack=3, trailer=0
+652: left_unstack_rack         | Parameter: rack=1, trailer=0
+653: right_stack_rack          | Parameter: rack=4, trailer=0
+654: right_unstack_rack        | Parameter: rack=1, trailer=0
+655: right_unstack_rack        | Parameter: rack=1, trailer=2
+656: right_unstack_rack        | Parameter: rack=1, trailer=1
+657: right_stack_rack          | Parameter: rack=0, trailer=0
+658: left_stack_rack           | Parameter: rack=1, trailer=0
+659: left_unstack_rack         | Parameter: rack=3, trailer=0
+660: right_stack_rack          | Parameter: rack=1, trailer=2
+661: left_stack_rack           | Parameter: rack=1, trailer=0
+662: left_unstack_rack         | Parameter: rack=2, trailer=0
+663: right_stack_rack          | Parameter: rack=2, trailer=1
+664: left_stack_rack           | Parameter: rack=2, trailer=0
+665: left_unstack_rack         | Parameter: rack=0, trailer=0
+666: right_unstack_rack        | Parameter: rack=0, trailer=2
+667: left_stack_rack           | Parameter: rack=3, trailer=0
+668: left_unstack_rack         | Parameter: rack=1, trailer=0
+669: right_stack_rack          | Parameter: rack=4, trailer=2
+670: left_stack_rack           | Parameter: rack=0, trailer=0
+671: left_unstack_rack         | Parameter: rack=3, trailer=0
+672: right_unstack_rack        | Parameter: rack=3, trailer=1
+673: right_unstack_rack        | Parameter: rack=1, trailer=2
+674: right_stack_rack          | Parameter: rack=3, trailer=2
+675: right_unstack_rack        | Parameter: rack=0, trailer=2
+676: right_unstack_rack        | Parameter: rack=0, trailer_id=0
+677: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+678: right_unstack_rack        | Parameter: rack=1, trailer=0
+679: left_stack_rack           | Parameter: rack=2, trailer=0
+680: left_unstack_rack         | Parameter: rack=3, trailer=0
+681: right_stack_rack          | Parameter: rack=3, trailer=0
+682: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+683: right_stack_rack          | Parameter: rack=3, trailer=0
+684: left_stack_rack           | Parameter: rack=1, trailer=0
+685: left_unstack_rack         | Parameter: rack=4, trailer=0
+686: right_unstack_rack        | Parameter: rack=4, trailer=0
+687: right_stack_rack          | Parameter: rack=1, trailer=0
+688: left_stack_rack           | Parameter: rack=0, trailer=0
+689: left_unstack_rack         | Parameter: rack=2, trailer=0
+690: right_unstack_rack        | Parameter: rack=2, trailer=0
+691: right_stack_rack          | Parameter: rack=4, trailer=1
+692: right_unstack_rack        | Parameter: rack=2, trailer=1
+693: right_stack_rack          | Parameter: rack=1, trailer=1
+694: right_unstack_rack        | Parameter: rack=3, trailer=1
+695: left_stack_rack           | Parameter: rack=2, trailer=0
+696: left_unstack_rack         | Parameter: rack=4, trailer=0
+697: left_stack_rack           | Parameter: rack=3, trailer=0
+698: left_unstack_rack         | Parameter: rack=2, trailer=0
+699: right_stack_rack          | Parameter: rack=0, trailer=1
+700: right_unstack_rack        | Parameter: rack=1, trailer=1
+701: right_stack_rack          | Parameter: rack=1, trailer=2
+702: left_stack_rack           | Parameter: rack=3, trailer=0
+703: left_unstack_rack         | Parameter: rack=1, trailer=0
+704: right_unstack_rack        | Parameter: rack=2, trailer=2
+705: left_stack_rack           | Parameter: rack=2, trailer=0
+706: left_unstack_rack         | Parameter: rack=3, trailer=0
+707: right_stack_rack          | Parameter: rack=4, trailer=2
+708: right_stack_rack          | Parameter: rack=3, trailer=0
+709: right_stack_rack          | Parameter: rack=4, trailer=1
+710: left_stack_rack           | Parameter: rack=3, trailer=0
+711: left_unstack_rack         | Parameter: rack=0, trailer=0
+712: right_unstack_rack        | Parameter: rack=2, trailer_id=0
+713: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+714: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+715: right_unstack_rack        | Parameter: rack=1, trailer=1
+716: right_unstack_rack        | Parameter: rack=1, trailer=2
+717: right_stack_rack          | Parameter: rack=2, trailer=0
+718: right_stack_rack          | Parameter: rack=2, trailer=2
+719: right_stack_rack          | Parameter: rack=3, trailer=1
+720: left_stack_rack           | Parameter: rack=1, trailer=0
+721: left_unstack_rack         | Parameter: rack=4, trailer=0
+722: right_unstack_rack        | Parameter: rack=1, trailer=1
+723: left_stack_rack           | Parameter: rack=1, trailer=0
+724: left_unstack_rack         | Parameter: rack=0, trailer=0
+725: right_unstack_rack        | Parameter: rack=3, trailer=2
+726: right_unstack_rack        | Parameter: rack=3, trailer=0
+727: right_stack_rack          | Parameter: rack=0, trailer=0
+728: left_stack_rack           | Parameter: rack=0, trailer=0
+729: left_unstack_rack         | Parameter: rack=3, trailer=0
+730: right_stack_rack          | Parameter: rack=4, trailer=1
+731: left_stack_rack           | Parameter: rack=3, trailer=0
+732: left_unstack_rack         | Parameter: rack=1, trailer=0
+733: right_stack_rack          | Parameter: rack=4, trailer=2
+734: left_stack_rack           | Parameter: rack=3, trailer=0
+735: left_unstack_rack         | Parameter: rack=2, trailer=0
+736: right_unstack_rack        | Parameter: rack=4, trailer=0
+737: right_stack_rack          | Parameter: rack=2, trailer=0
+738: right_unstack_rack        | Parameter: rack=4, trailer=1
+739: right_unstack_rack        | Parameter: rack=0, trailer=0
+740: right_stack_rack          | Parameter: rack=0, trailer=1
+741: left_stack_rack           | Parameter: rack=4, trailer=0
+742: right_unstack_rack        | Parameter: rack=4, trailer=1
+743: left_unstack_rack         | Parameter: rack=2, trailer=0
+744: right_unstack_rack        | Parameter: rack=1, trailer=2
+745: left_stack_rack           | Parameter: rack=1, trailer=0
+746: left_unstack_rack         | Parameter: rack=2, trailer=0
+747: left_stack_rack           | Parameter: rack=1, trailer=0
+748: left_unstack_rack         | Parameter: rack=0, trailer=0
+749: right_stack_rack          | Parameter: rack=2, trailer=1
+750: right_stack_rack          | Parameter: rack=1, trailer=2
+751: right_stack_rack          | Parameter: rack=0, trailer=0
+752: right_unstack_rack        | Parameter: rack=3, trailer=0
+753: right_stack_rack          | Parameter: rack=0, trailer=0
+754: right_unstack_rack        | Parameter: rack=0, trailer=1
+755: right_unstack_rack        | Parameter: rack=2, trailer=2
+756: left_stack_rack           | Parameter: rack=0, trailer=0
+757: left_unstack_rack         | Parameter: rack=4, trailer=0
+758: right_stack_rack          | Parameter: rack=3, trailer=1
+759: right_unstack_rack        | Parameter: rack=0, trailer=1
+760: right_stack_rack          | Parameter: rack=2, trailer=2
+761: right_stack_rack          | Parameter: rack=4, trailer=1
+762: right_unstack_rack        | Parameter: rack=4, trailer=2
+763: left_stack_rack           | Parameter: rack=4, trailer=0
+764: left_unstack_rack         | Parameter: rack=3, trailer=0
+765: right_stack_rack          | Parameter: rack=3, trailer=2
+766: right_unstack_rack        | Parameter: rack=2, trailer=2
+767: right_stack_rack          | Parameter: rack=4, trailer=2
+768: left_stack_rack           | Parameter: rack=4, trailer=0
+769: left_unstack_rack         | Parameter: rack=3, trailer=0
+770: left_stack_rack           | Parameter: rack=0, trailer=0
+771: left_unstack_rack         | Parameter: rack=4, trailer=0
+772: right_unstack_rack        | Parameter: rack=3, trailer=2
+773: right_unstack_rack        | Parameter: rack=2, trailer=0
+774: left_stack_rack           | Parameter: rack=2, trailer=0
+775: left_unstack_rack         | Parameter: rack=1, trailer=0
+776: right_unstack_rack        | Parameter: rack=2, trailer_id=1
+777: left_stack_rack           | Parameter: rack=4, trailer=0
+778: left_unstack_rack         | Parameter: rack=1, trailer=0
+779: right_stack_rack          | Parameter: rack=1, trailer=0
+780: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=1
+781: right_stack_rack          | Parameter: rack=2, trailer=2
+782: right_unstack_rack        | Parameter: rack=3, trailer_id=0
+783: right_stack_rack          | Parameter: rack=4, trailer=0
+784: left_stack_rack           | Parameter: rack=2, trailer=0
+785: left_unstack_rack         | Parameter: rack=3, trailer=0
+786: left_stack_rack           | Parameter: rack=2, trailer=0
+787: left_unstack_rack         | Parameter: rack=4, trailer=0
+788: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+789: left_stack_rack           | Parameter: rack=4, trailer=0
+790: left_unstack_rack         | Parameter: rack=1, trailer=0
+791: left_stack_rack           | Parameter: rack=3, trailer=0
+792: left_unstack_rack         | Parameter: rack=1, trailer=0
+793: right_stack_rack          | Parameter: rack=1, trailer=0
+794: left_stack_rack           | Parameter: rack=3, trailer=0
+795: left_unstack_rack         | Parameter: rack=1, trailer_id=0
+796: right_unstack_rack        | Parameter: rack=4, trailer_id=0
+797: load_beluga               | Parameter: trailer_beluga=0
+798: left_unstack_rack         | Parameter: rack=3, trailer_id=0
+799: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+800: load_beluga               | Parameter: trailer_beluga=0
+801: left_unstack_rack         | Parameter: rack=2, trailer=0
+802: right_unstack_rack        | Parameter: rack=3, trailer=2
+803: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+804: right_stack_rack          | Parameter: rack=3, trailer=0
+805: right_unstack_rack        | Parameter: rack=4, trailer=1
+806: right_unstack_rack        | Parameter: rack=3, trailer=0
+807: left_stack_rack           | Parameter: rack=2, trailer=0
+808: left_unstack_rack         | Parameter: rack=4, trailer=0
+809: left_stack_rack           | Parameter: rack=2, trailer=0
+810: left_unstack_rack         | Parameter: rack=4, trailer=0
+811: right_stack_rack          | Parameter: rack=3, trailer=1
+812: right_unstack_rack        | Parameter: rack=0, trailer=1
+813: right_stack_rack          | Parameter: rack=3, trailer=0
+814: right_stack_rack          | Parameter: rack=4, trailer=2
+815: right_stack_rack          | Parameter: rack=0, trailer=1
+816: right_unstack_rack        | Parameter: rack=4, trailer=2
+817: left_stack_rack           | Parameter: rack=1, trailer=0
+818: left_unstack_rack         | Parameter: rack=4, trailer=0
+819: left_stack_rack           | Parameter: rack=1, trailer=0
+820: left_unstack_rack         | Parameter: rack=0, trailer=0
+821: left_stack_rack           | Parameter: rack=4, trailer=0
+822: left_unstack_rack         | Parameter: rack=3, trailer=0
+823: left_stack_rack           | Parameter: rack=4, trailer=0
+824: left_unstack_rack         | Parameter: rack=3, trailer_id=0
+825: load_beluga               | Parameter: trailer_beluga=0
+826: left_unstack_rack         | Parameter: rack=2, trailer=0
+827: right_stack_rack          | Parameter: rack=3, trailer=2
+828: right_unstack_rack        | Parameter: rack=4, trailer_id=0
+829: left_stack_rack           | Parameter: rack=1, trailer=0
+830: left_unstack_rack         | Parameter: rack=3, trailer=0
+831: right_unstack_rack        | Parameter: rack=2, trailer=1
+832: left_stack_rack           | Parameter: rack=3, trailer=0
+833: left_unstack_rack         | Parameter: rack=2, trailer=0
+834: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=0
+835: right_unstack_rack        | Parameter: rack=0, trailer=0
+836: deliver_to_hangar         | Parameter: hangar=1, trailer_factory=1
+837: right_stack_rack          | Parameter: rack=3, trailer=0
+838: get_from_hangar           | Parameter: hangar=0, trailer_factory=0
+839: left_stack_rack           | Parameter: rack=1, trailer=0
+840: left_unstack_rack         | Parameter: rack=0, trailer=0
+841: right_unstack_rack        | Parameter: rack=4, trailer=2
+842: right_stack_rack          | Parameter: rack=0, trailer=0
+843: right_stack_rack          | Parameter: rack=1, trailer=2
+844: right_unstack_rack        | Parameter: rack=2, trailer=0
+845: left_stack_rack           | Parameter: rack=2, trailer=0
+846: left_unstack_rack         | Parameter: rack=0, trailer=0
+847: right_unstack_rack        | Parameter: rack=1, trailer=1
+848: left_stack_rack           | Parameter: rack=2, trailer=0
+849: left_unstack_rack         | Parameter: rack=3, trailer=0
+850: left_stack_rack           | Parameter: rack=0, trailer=0
+851: right_unstack_rack        | Parameter: rack=1, trailer=2
+852: left_unstack_rack         | Parameter: rack=2, trailer=0
+853: right_stack_rack          | Parameter: rack=3, trailer=2
+854: left_stack_rack           | Parameter: rack=0, trailer=0
+855: left_unstack_rack         | Parameter: rack=1, trailer=0
+856: get_from_hangar           | Parameter: hangar=1, trailer_factory=2
+857: right_stack_rack          | Parameter: rack=0, trailer=0
+858: left_stack_rack           | Parameter: rack=3, trailer=0
+859: left_unstack_rack         | Parameter: rack=1, trailer=0
+860: right_unstack_rack        | Parameter: rack=2, trailer=0
+861: left_stack_rack           | Parameter: rack=3, trailer=0
+862: left_unstack_rack         | Parameter: rack=1, trailer=0
+863: left_stack_rack           | Parameter: rack=2, trailer=0
+864: right_stack_rack          | Parameter: rack=2, trailer=2
+865: left_unstack_rack         | Parameter: rack=2, trailer=0
+866: left_stack_rack           | Parameter: rack=1, trailer=0
+867: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+868: load_beluga               | Parameter: trailer_beluga=0
+869: left_unstack_rack         | Parameter: rack=1, trailer=0
+870: left_stack_rack           | Parameter: rack=4, trailer=0
+871: right_unstack_rack        | Parameter: rack=3, trailer=2
+872: unload_beluga             | Parameter: -
+873: left_stack_rack           | Parameter: rack=2, trailer=0
+874: left_unstack_rack         | Parameter: rack=3, trailer=0
+875: right_stack_rack          | Parameter: rack=3, trailer=0
+876: right_stack_rack          | Parameter: rack=2, trailer=1
+877: right_stack_rack          | Parameter: rack=4, trailer=2
+878: right_unstack_rack        | Parameter: rack=0, trailer=2
+879: right_stack_rack          | Parameter: rack=2, trailer=2
+880: right_unstack_rack        | Parameter: rack=0, trailer=1
+881: left_stack_rack           | Parameter: rack=0, trailer=0
+882: left_unstack_rack         | Parameter: rack=2, trailer=0
+883: right_stack_rack          | Parameter: rack=1, trailer=1
+884: right_unstack_rack        | Parameter: rack=3, trailer=1
+885: right_stack_rack          | Parameter: rack=2, trailer=1
+886: right_unstack_rack        | Parameter: rack=1, trailer=1
+887: right_unstack_rack        | Parameter: rack=3, trailer=0
+888: left_stack_rack           | Parameter: rack=1, trailer=0
+889: left_unstack_rack         | Parameter: rack=3, trailer=0
+890: right_stack_rack          | Parameter: rack=4, trailer=0
+891: right_unstack_rack        | Parameter: rack=0, trailer=0
+892: left_stack_rack           | Parameter: rack=1, trailer=0
+893: left_unstack_rack         | Parameter: rack=4, trailer=0
+894: right_unstack_rack        | Parameter: rack=0, trailer_id=2
+895: deliver_to_hangar         | Parameter: hangar=0, trailer_factory=2
+896: right_stack_rack          | Parameter: rack=1, trailer=1
+897: left_stack_rack           | Parameter: rack=0, trailer=0
+898: left_unstack_rack         | Parameter: rack=4, trailer=0
+899: right_unstack_rack        | Parameter: rack=0, trailer=2
+900: left_stack_rack           | Parameter: rack=4, trailer=0
+901: left_unstack_rack         | Parameter: rack=2, trailer=0
+902: left_stack_rack           | Parameter: rack=4, trailer=0
+903: left_unstack_rack         | Parameter: rack=2, trailer=0
+904: load_beluga               | Parameter: trailer_beluga=0
+905: left_unstack_rack         | Parameter: rack=2, trailer_id=0
+906: get_from_hangar           | Parameter: hangar=0, trailer_factory=1
+907: load_beluga               | Parameter: trailer_beluga=0
+
+======================================================================
+ENDE DES PROTOKOLLS
+======================================================================
