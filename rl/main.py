@@ -6,10 +6,8 @@ This module provides a command-line interface for training, evaluating, and test
 the agents on the Beluga Challenge shipping container optimization problem.
 """
 
-from rl.env.environment import * # Environment 
-from rl.agents.high_level.ppo_agent import * # High-Level-Agent
-from rl.training.trainer import * # Trainer
 import argparse
+import os
 
 def main():
     """!
@@ -17,11 +15,44 @@ def main():
     
     Parses command line arguments and executes the appropriate mode:
     - train: Train the PPO agent
-    - eval: Evaluate trained model performance
+    - eval: Evaluate trained model performance  
     - problem: Evaluate agent on specific problem instances
+    
+    MCTS Implementation Control:
+    - Automatic selection: Uses C++ if available, Python as fallback
+    - --use-cpp-mcts: Force C++ implementation (2-10x faster)
+    - --use-python-mcts: Force Python implementation (for debugging/comparison)
+    
+    Examples:
+        python -m rl.main --mode train --use-cpp-mcts
+        python -m rl.main --mode eval --n_eval_episodes 20 --use-python-mcts
+        python -m rl.main --mode problem --problem_path "problems/small.json" --use-cpp-mcts
     """
     # Define command line arguments
-    parser = argparse.ArgumentParser(description='PPO Training and Evaluation for Beluga Challenge')
+    parser = argparse.ArgumentParser(
+        description='PPO Training and Evaluation for Beluga Challenge with C++ and Python MCTS support',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Basic training with automatic MCTS selection
+  python -m rl.main --mode train
+  
+  # Training with C++ MCTS (faster)
+  python -m rl.main --mode train --n_episodes 5000 --use-cpp-mcts
+  
+  # Training with Python MCTS (for comparison)
+  python -m rl.main --mode train --n_episodes 5000 --use-python-mcts
+  
+  # Model evaluation with C++ MCTS
+  python -m rl.main --mode eval --n_eval_episodes 20 --use-cpp-mcts
+  
+  # Problem evaluation with specific MCTS implementation
+  python -m rl.main --mode problem --problem_path "problems/problem_7_s49_j5_r2_oc85_f6.json" --use-cpp-mcts --save_to_file
+  
+  # Large problem with Python MCTS
+  python -m rl.main --mode problem --problem_path "problems/problem_90_s132_j137_r8_oc81_f43.json" --use-python-mcts --max_problem_steps 50000
+        """
+    )
     
     # Main mode
     parser.add_argument('--mode', type=str, choices=['train', 'eval', 'problem'], default='train',
@@ -53,10 +84,36 @@ def main():
     parser.add_argument('--save_to_file', action='store_true', default=False,
                        help='Save results to TXT file (default: False)')
     
+    # MCTS implementation selection
+    parser.add_argument('--use-cpp-mcts', action='store_true', default=None,
+                       help='Force use of C++ MCTS implementation')
+    parser.add_argument('--use-python-mcts', action='store_true', default=None,
+                       help='Force use of Python MCTS implementation')
+    
     args = parser.parse_args()
+    
+    # Set MCTS implementation based on command line flags
+    if args.use_cpp_mcts and args.use_python_mcts:
+        raise ValueError("Cannot use both --use-cpp-mcts and --use-python-mcts flags simultaneously")
+    elif args.use_cpp_mcts:
+        os.environ['USE_CPP_MCTS'] = 'true'
+        print("Forcing C++ MCTS implementation")
+    elif args.use_python_mcts:
+        os.environ['USE_CPP_MCTS'] = 'false'
+        print("Forcing Python MCTS implementation")
+    
+    # Import modules after setting environment variables
+    from rl.env.environment import Env
+    from rl.agents.high_level.ppo_agent import PPOAgent
+    from rl.training.trainer import Trainer
     
     # Initialize environment
     env = Env(path="problems/", base_index=args.base_index)
+    
+    # Check and display which MCTS implementation is being used
+    from rl.mcts import get_mcts_implementation_info
+    mcts_info = get_mcts_implementation_info()
+    print(f"MCTS Implementation: {mcts_info['default_implementation']}")
 
     # Initialize High-Level Agent (PPO)
     n_actions = 8  # Number of actions the agent can take
@@ -94,23 +151,28 @@ if __name__ == '__main__':
 
 Beispiele für Kommandozeilenaufrufe:
 
+# Hilfe anzeigen
 python -m rl.main --help
 
+# Basis-Modi (automatische MCTS-Auswahl)
 python -m rl.main --mode train
-
 python -m rl.main --mode eval
-
 python -m rl.main --mode problem
 
-und die jeweiligen Argumente müssen angepasst werden.
+# Training mit verschiedenen MCTS-Implementierungen
+python -m rl.main --mode train --n_episodes 5000 --base_index 61 --use-cpp-mcts
+python -m rl.main --mode train --n_episodes 5000 --base_index 61 --use-python-mcts --use_permutation
 
-Beispiele: 
+# Evaluierung mit MCTS-Auswahl
+python -m rl.main --mode eval --n_eval_episodes 20 --use-cpp-mcts --plot
+python -m rl.main --mode eval --n_eval_episodes 50 --max_steps 300 --use-python-mcts
 
-python -m rl.main --mode train --n_episodes 5000 --base_index 61 --use_permutation 
+# Problem-spezifische Evaluierung mit MCTS-Kontrolle
+python -m rl.main --mode problem --problem_path "problems/problem_7_s49_j5_r2_oc85_f6.json" --use-cpp-mcts --save_to_file
+python -m rl.main --mode problem --problem_path "problems/problem_90_s132_j137_r8_oc81_f43.json" --use-python-mcts --max_problem_steps 50000 --save_to_file
 
-python -m rl.main --mode problem --problem_path "problems/problem_90_s132_j137_r8_oc81_f43.json"
-
-python -m rl.main --mode problem --problem_path "problems/problem_7_s49_j5_r2_oc85_f6.json" --save_to_file
-
+# Performance-Vergleich zwischen Implementierungen
+python -m rl.main --mode problem --problem_path "problems/problem_74_s116_j43_r5_oc85_f28.json" --use-cpp-mcts --save_to_file
+python -m rl.main --mode problem --problem_path "problems/problem_74_s116_j43_r5_oc85_f28.json" --use-python-mcts --save_to_file
 
 """
