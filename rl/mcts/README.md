@@ -75,6 +75,24 @@ The C++ implementation provides significant speedup:
 - **Lower memory usage** for large state spaces
 - **Better scaling** with increased simulation counts
 
+### Benchmark Visualization
+
+Visual analysis of the performance data is available through the benchmark plotting script:
+
+```bash
+cd rl/mcts
+python benchmark_plots.py
+```
+
+This generates comprehensive charts showing:
+
+- **Solution Quality**: Optimized steps comparison between implementations
+- **Performance**: Calculation time comparison across problem sizes
+- **Speedup Analysis**: C++ performance advantage factors
+- **Scalability**: Linear-scale analysis of time complexity trends
+
+![MCTS Benchmark Comparison](mcts_benchmark_comparison.png)
+
 ### Benchmark Results
 
 Comprehensive performance comparison between Python and C++ MCTS implementations:
@@ -104,24 +122,6 @@ Comprehensive performance comparison between Python and C++ MCTS implementations
 - **Scalability:** C++ maintains consistent performance advantage across all problem sizes
 - **Solution Quality:** Both implementations achieve comparable optimization results
 - **Largest Problem:** For 137 Jigs, C++ saves over 2.5 minutes compared to Python
-
-### Benchmark Visualization
-
-Visual analysis of the performance data is available through the benchmark plotting script:
-
-```bash
-cd rl/mcts
-python benchmark_plots.py
-```
-
-This generates comprehensive charts showing:
-
-- **Solution Quality**: Optimized steps comparison between implementations
-- **Performance**: Calculation time comparison across problem sizes
-- **Speedup Analysis**: C++ performance advantage factors
-- **Scalability**: Linear-scale analysis of time complexity trends
-
-![MCTS Benchmark Comparison](mcts_benchmark_comparison.png)
 
 ## Integration with Trainer
 
