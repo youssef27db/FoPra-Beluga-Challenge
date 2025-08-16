@@ -4,3 +4,6 @@ __pycache__/
 
 .DS_Store
 /rl/agents/high_level/tmp/ppo
+*.o
+/build/
+*.so
