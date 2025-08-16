@@ -13,6 +13,7 @@
 
 ### 🤖 Reinforcement Learning
 - [RL-Agent README](rl/README.md) - Detaillierte Anleitung zum Training und zur Verwendung des RL-Agenten
+- [MCTS Implementation](rl/mcts/README.md) - C++ und Python Implementierung des Monte Carlo Tree Search
 
 ---
 
